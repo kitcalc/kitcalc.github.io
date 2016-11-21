@@ -1,0 +1,115 @@
+title: CD34 SCE
+created: 2016-10-14
+js: js/cd34sce.js
+summary: CD34+ i stamcellsskörd
+---
+
+# Input
+
+<form id="calc" action="javascript:cd34calc()">
+
+    <fieldset>
+        <legend>Patientdata</legend>
+
+        <label for="recipientvikt">Recipientvikt (kg)</label>
+        <input type="number" id="recipient_weight" pattern="\d*"><br>
+
+        <label for="volume">Volym (ml)</label>
+        <input type="number" id="volume" pattern="\d*">
+    </fieldset>
+
+    <fieldset>
+        <legend>Events från analysprotokoll</legend>
+
+        <label for="dilution_factor">Dilution factor</label>
+        <input type="number" id="dilution_factor" pattern="\d*"><br>
+
+        <label for="beads">Beads</label>
+        <input type="number" id="beads" pattern="\d*"><br>
+
+        <label for="all_but_beads">All but beads</label>
+        <input type="number" id="all_but_beads" pattern="\d*"><br>
+
+        <label for="vCD45">vCD45+</label>
+        <input type="number" id="vCD45" pattern="\d*"><br>
+
+        <label for="count_vCD34">Count vCD34+</label>
+        <input type="number" id="count_vCD34" pattern="\d*"><br>
+
+        <label for="vMNC">vMNC</label>
+        <input type="number" id="vMNC" pattern="\d*"><br>
+
+        <label for="CD34_CD45dim">CD34+ CD45dim</label>
+        <input type="number" id="CD34_CD45dim" pattern="\d*"><br>
+
+        <label for="bead_count">Bead count</label>
+        <input type="number" id="bead_count" pattern="\d*"><br>
+
+        <input type="submit" value="Beräkna">
+    </fieldset>
+</form>
+
+# Innehåll
+
+<table>
+    <thead>
+        <tr>
+            <th>Variabel</th>
+            <th>Resultat</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>vCD45<sup>+</sup> (cells/&mu;l)</td>
+            <td id="CD45_cells"></td>
+        </tr>
+        <tr>
+            <td>vCD45 (10<sup>9</sup>)</td>
+            <td id="CD45_tot"></td>
+        </tr>
+        <tr>
+            <td>vCD45 (10<sup>8</sup>/kg)</td>
+            <td id="CD45_kg"></td>
+        </tr>
+        <tr>
+            <td>Viabilitet CD45<sup>+</sup> (%)</td>
+            <td id="CD45_viability"></td>
+        </tr>
+        <tr>
+            <td>vCD34<sup>+</sup> (cells/&mu;l)</td>
+            <td id="CD34_cells"></td>
+        </tr>
+        <tr>
+            <td>vCD34 (10<sup>6</sup>)</td>
+            <td id="CD34_tot"></td>
+        </tr>
+        <tr>
+            <td>vCD34 (%)</td>
+            <td id="CD34_percent"></td>
+        </tr>
+        <tr class="info">
+            <td>vCD34 (10<sup>6</sup>/kg)</td>
+            <td id="CD34_kg"></td>
+        </tr>
+        <tr>
+            <td>Viabilitet CD34<sup>+</sup> (%)</td>
+            <td id="CD34_viability"></td>
+        </tr>
+        <tr>
+            <td>MNC (cells/&mu;l)</td>
+            <td id="MNC_cells"></td>
+        </tr>
+        <tr>
+            <td>MNC (10<sup>9</sup>)</td>
+            <td id="MNC_tot"></td>
+        </tr>
+        <tr>
+            <td>MNC (%)</td>
+            <td id="MNC_percent"></td>
+        </tr>
+        <tr>
+            <td>MNC (10<sup>8</sup>/kg)</td>
+            <td id="MNC_kg"></td>
+        </tr>
+    </tbody>
+</table>

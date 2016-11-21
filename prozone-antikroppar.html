@@ -10,7 +10,8 @@
 
     <link rel="stylesheet" href="css/better.css">
 
-    
+    <script src="js/prozone-antibodies.js"></script>
+
 </head>
 
 <body>
@@ -22,17 +23,31 @@
 
 <main>
 
-<h2><a href="prozone-antikroppar.html">Prozone-antikroppar</a></h2>
-<p>Tolkning av prozone-liknande mönster för HLA-antikroppar <i>(2016-10-23)</i></p>
+<h1>Prozone-antikroppar</h1>
+<p><i>2016-10-23</i></p>
 
-<h2><a href="anvandbara-hla-relaterade-lankar.html">Användbara HLA-relaterade länkar</a></h2>
-<p>Länkar till HLA-resurser <i>(2016-10-18)</i></p>
+<p>Mata in antikroppsspecificiteter ospätt och i spädning</p>
+<form id="calc">
+    <fieldset>
+        <legend>Inmatning</legend>
 
-<h2><a href="cd34-sce.html">CD34 SCE</a></h2>
-<p>CD34+ i stamcellsskörd <i>(2016-10-14)</i></p>
+        <label for="undiluted">Ospätt</label>
+        <textarea rows=4 id="undiluted"></textarea><br>
 
+        <label for="diluted">Spädning</label>
+        <textarea rows=4 id="diluted"></textarea><br>
 
+        <input type="button" value="Jämför" onclick="prozone_ab()">
+        <input type="reset" value="Nollställ">
+    </fieldset>
 
+    <fieldset>
+        <legend>Resultat</legend>
+
+        <label for="results">Specificiteter unika för spädning</label>
+        <textarea id="results" readonly></textarea>
+    </fieldset>
+</form>
 
 </main>
 

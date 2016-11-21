@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>$pagename</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/better.css">
+
+    $js
+</head>
+
+<body>
+
+<header>
+    <h2>$pagename - KIT-resurser</h2>
+    <a href="index.html">Index</a>
+</header>
+
+<main>
+

@@ -1,0 +1,276 @@
+/*
+ *   _          _   _
+ *  | |__   ___| |_| |_ ___ _ __
+ *  | '_ \ / _ \ __| __/ _ \ '__|
+ *  | |_) |  __/ |_| ||  __/ |
+ *  |_.__/ \___|\__|\__\___|_|
+ *
+ *   better styling
+ */
+
+/* main elements; keep it really simple here */
+
+header {
+    text-align: center;
+    margin: 3em 1em;
+}
+
+body {
+    margin: 40px auto;
+    max-width: 650px;
+    line-height: 1.5;
+    font-family: Helvetica, Arial, serif;
+    font-size: 18px;
+    color: #333;
+    padding: 0 10px
+}
+
+footer {
+    text-align: center;
+    margin: 4em 1em;
+}
+
+h1, h2, h3 {
+    line-height: 1.2
+}
+
+a {
+    color: #268bd2; /* the only color, light blue */
+    text-decoration: none;
+}
+
+a:hover,
+a:focus {
+    text-decoration: underline;
+}
+
+/*
+ *                 _ _
+ *    ___ ___   __| (_)_ __   __ _
+ *   / __/ _ \ / _` | | '_ \ / _` |
+ *  | (_| (_) | (_| | | | | | (_| |
+ *   \___\___/ \__,_|_|_| |_|\__, |
+ *                           |___/
+ *
+ *   good to have
+ */
+
+pre, code {
+    background: #eee;
+    font-family: Hack, "DejaVu Sans Mono", Consolas, monospace;
+    font-size: small;
+}
+
+code {
+    padding: .25em .5em;
+    border-radius: 3px;
+}
+
+pre {
+    display: block;
+    margin-top: 0;
+    margin-bottom: 1em;
+    padding: 1em;
+    line-height: 1.5;
+    border-radius: 4px;
+    overflow: auto;
+}
+
+pre code {
+    padding: 0; /* fixes indent on first line for some reason */
+}
+
+/*
+ *   _        _     _
+ *  | |_ __ _| |__ | | ___  ___
+ *  | __/ _` | '_ \| |/ _ \/ __|
+ *  | || (_| | |_) | |  __/\__ \
+ *   \__\__,_|_.__/|_|\___||___/
+ *
+ *   important
+ */
+
+table {
+    border-collapse: collapse;
+    border-spacing: 0;
+    empty-cells: show;
+    border: 1px solid #aaa;
+}
+
+td, th {
+    margin: 0;
+    overflow: visible; /*to make ths where the title is really long work*/
+    padding: 0.5em 1em; /* cell padding */
+    border-left: 1px solid #aaa;
+}
+
+td {
+    background-color: transparent;
+}
+
+thead {
+    background-color: #eee;
+    color: #333;
+    text-align: left;
+    vertical-align: bottom;
+}
+
+/*
+ *    __
+ *   / _| ___  _ __ _ __ ___  ___
+ *  | |_ / _ \| '__| '_ ` _ \/ __|
+ *  |  _| (_) | |  | | | | | \__ \
+ *  |_|  \___/|_|  |_| |_| |_|___/
+ *
+ *   surprisingly tricky
+ */
+
+input, select, textarea, button {
+    padding: 0.5em 0.6em;
+    display: inline-block;
+    border: 1px solid #aaa;
+    box-shadow: inset 0 1px 3px #ddd;
+    border-radius: 4px;
+    vertical-align: middle;
+    box-sizing: border-box;
+    color: inherit;
+    font: inherit;
+    margin: 0 0 0.5em 0;
+    line-height: normal;
+}
+
+textarea {
+    vertical-align: top;
+    width: 60%;
+}
+
+input:focus, select:focus, textarea:focus {
+    outline: 0;
+    border-color: #268bd2;
+}
+
+label {
+    text-align: right;
+    display: inline-block;
+    vertical-align: middle;
+    width: 10em;
+    margin: 0 1em 0.5em 0;
+}
+
+fieldset {
+    margin: 0;
+    padding: 0.35em 0 0.75em;
+    border: 0;
+}
+
+legend {
+    display: block;
+    width: 100%;
+    padding: .3em 0;
+    margin-bottom: .3em;
+    border-bottom: 1px solid #eee;
+}
+
+input[type="button"],
+input[type="reset"],
+input[type="submit"],
+button {
+    padding: 0.5em 1em;
+    background-color: #eee;
+    border: 0;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+/* stack form elements on small screens */
+
+@media only screen and (max-width :480px) {
+    input, label, select, textarea, button {
+        display: block;
+    }
+
+    label {
+        text-align: left;
+        width: 100%;
+    }
+}
+
+/*                                         _
+ *  _ __  _   _  __ _ _ __ ___   ___ _ __ | |_ ___
+ * | '_ \| | | |/ _` | '_ ` _ \ / _ \ '_ \| __/ __|
+ * | |_) | |_| | (_| | | | | | |  __/ | | | |_\__ \
+ * | .__/ \__, |\__, |_| |_| |_|\___|_| |_|\__|___/
+ * |_|    |___/ |___/
+ *
+ *  eyecandy
+ */
+
+/* pygmentize -S default -f html */
+.hll { background-color: #ffffcc }
+ { background: #f8f8f8; }
+.c { color: #408080; font-style: italic } /* Comment */
+.err { border: 1px solid #FF0000 } /* Error */
+.k { color: #008000; font-weight: bold } /* Keyword */
+.o { color: #666666 } /* Operator */
+.ch { color: #408080; font-style: italic } /* Comment.Hashbang */
+.cm { color: #408080; font-style: italic } /* Comment.Multiline */
+.cp { color: #BC7A00 } /* Comment.Preproc */
+.cpf { color: #408080; font-style: italic } /* Comment.PreprocFile */
+.c1 { color: #408080; font-style: italic } /* Comment.Single */
+.cs { color: #408080; font-style: italic } /* Comment.Special */
+.gd { color: #A00000 } /* Generic.Deleted */
+.ge { font-style: italic } /* Generic.Emph */
+.gr { color: #FF0000 } /* Generic.Error */
+.gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.gi { color: #00A000 } /* Generic.Inserted */
+.go { color: #888888 } /* Generic.Output */
+.gp { color: #000080; font-weight: bold } /* Generic.Prompt */
+.gs { font-weight: bold } /* Generic.Strong */
+.gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.gt { color: #0044DD } /* Generic.Traceback */
+.kc { color: #008000; font-weight: bold } /* Keyword.Constant */
+.kd { color: #008000; font-weight: bold } /* Keyword.Declaration */
+.kn { color: #008000; font-weight: bold } /* Keyword.Namespace */
+.kp { color: #008000 } /* Keyword.Pseudo */
+.kr { color: #008000; font-weight: bold } /* Keyword.Reserved */
+.kt { color: #B00040 } /* Keyword.Type */
+.m { color: #666666 } /* Literal.Number */
+.s { color: #BA2121 } /* Literal.String */
+.na { color: #7D9029 } /* Name.Attribute */
+.nb { color: #008000 } /* Name.Builtin */
+.nc { color: #0000FF; font-weight: bold } /* Name.Class */
+.no { color: #880000 } /* Name.Constant */
+.nd { color: #AA22FF } /* Name.Decorator */
+.ni { color: #999999; font-weight: bold } /* Name.Entity */
+.ne { color: #D2413A; font-weight: bold } /* Name.Exception */
+.nf { color: #0000FF } /* Name.Function */
+.nl { color: #A0A000 } /* Name.Label */
+.nn { color: #0000FF; font-weight: bold } /* Name.Namespace */
+.nt { color: #008000; font-weight: bold } /* Name.Tag */
+.nv { color: #19177C } /* Name.Variable */
+.ow { color: #AA22FF; font-weight: bold } /* Operator.Word */
+.w { color: #bbbbbb } /* Text.Whitespace */
+.mb { color: #666666 } /* Literal.Number.Bin */
+.mf { color: #666666 } /* Literal.Number.Float */
+.mh { color: #666666 } /* Literal.Number.Hex */
+.mi { color: #666666 } /* Literal.Number.Integer */
+.mo { color: #666666 } /* Literal.Number.Oct */
+.sb { color: #BA2121 } /* Literal.String.Backtick */
+.sc { color: #BA2121 } /* Literal.String.Char */
+.sd { color: #BA2121; font-style: italic } /* Literal.String.Doc */
+.s2 { color: #BA2121 } /* Literal.String.Double */
+.se { color: #BB6622; font-weight: bold } /* Literal.String.Escape */
+.sh { color: #BA2121 } /* Literal.String.Heredoc */
+.si { color: #BB6688; font-weight: bold } /* Literal.String.Interpol */
+.sx { color: #008000 } /* Literal.String.Other */
+.sr { color: #BB6688 } /* Literal.String.Regex */
+.s1 { color: #BA2121 } /* Literal.String.Single */
+.ss { color: #19177C } /* Literal.String.Symbol */
+.bp { color: #008000 } /* Name.Builtin.Pseudo */
+.vc { color: #19177C } /* Name.Variable.Class */
+.vg { color: #19177C } /* Name.Variable.Global */
+.vi { color: #19177C } /* Name.Variable.Instance */
+.il { color: #666666 } /* Literal.Number.Integer.Long */
