@@ -8,6 +8,11 @@
  *   better styling
  */
 
+/* I hate this, but it was necessary for landscape mode on ios */
+html {
+    -webkit-text-size-adjust:100%;
+}
+
 /* main elements; keep it really simple here */
 
 header {
@@ -17,7 +22,7 @@ header {
 
 body {
     margin: 40px auto;
-    max-width: 650px;
+    max-width: 660px;
     line-height: 1.5;
     font-family: Helvetica, Arial, serif;
     font-size: 18px;
