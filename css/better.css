@@ -191,6 +191,10 @@ button {
     input, label, select, textarea, button {
         display: block;
     }
+    
+    textarea {
+        width: 100%;
+    }
 
     label {
         text-align: left;
