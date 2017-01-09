@@ -3,9 +3,9 @@ prozone_ab = ->
     diluted = document.getElementById('diluted').value.trim().split(/\s+/)
 
     difference = (ag for ag in diluted when ag not in undiluted)
-    output = document.getElementById('results').innerHTML 
+    output = document.getElementById('results')
     if difference.length == 0
-       output = "inga prozone-antikroppar"
+        output.innerHTML = "inga prozone-antikroppar"
     else
-        output = difference.join(" ")
+        output.innerHTML = difference.join(" ")
 
