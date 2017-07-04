@@ -61,7 +61,7 @@ a:focus {
  */
 
 pre, code {
-    background: #eee;
+    background: #f8f8f8;
     font-family: Hack, "DejaVu Sans Mono", Consolas, monospace;
     font-size: small;
 }
@@ -219,7 +219,6 @@ button {
 
 /* pygmentize -S default -f html */
 .hll { background-color: #ffffcc }
- { background: #f8f8f8; }
 .c { color: #408080; font-style: italic } /* Comment */
 .err { border: 1px solid #FF0000 } /* Error */
 .k { color: #008000; font-weight: bold } /* Keyword */
