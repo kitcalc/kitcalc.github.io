@@ -179,6 +179,7 @@ legend {
 input[type="button"],
 input[type="reset"],
 input[type="submit"],
+input[type="file"],
 button {
     padding: 0.5em 1em;
     background-color: #eee;
