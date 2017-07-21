@@ -17,7 +17,7 @@ html {
 
 header {
     text-align: center;
-    margin: 3em 1em;
+    margin: 3rem 1rem;
 }
 
 body {
@@ -35,8 +35,22 @@ footer {
     margin: 4em 1em;
 }
 
+p {
+    margin-top: 0;
+    margin-bottom: 1rem;
+}
+
 h1, h2, h3 {
-    line-height: 1.2
+    line-height: 1.2;
+    margin-bottom: 1rem;
+}
+
+h1, h2 {
+    margin-top: 2.5rem;
+}
+
+h3 {
+    margin-top: 2rem;
 }
 
 a {
@@ -198,7 +212,7 @@ button {
     input, label, select, textarea, button {
         display: block;
     }
-    
+
     textarea {
         width: 100%;
     }
