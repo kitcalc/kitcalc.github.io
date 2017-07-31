@@ -115,6 +115,7 @@ table {
     border-spacing: 0;
     empty-cells: show;
     border: 1px solid #aaa;
+    margin-bottom: 1rem;
 }
 
 td, th {
