@@ -16,8 +16,8 @@
 <body>
 
 <header>
-    <h2>$pagename - KIT-resurser</h2>
-    <a href="index.html">Index</a>
+    <h2>$pagename</h2>
+    <a href="index.html">Index</a> | <a href="posts.html">Sidor</a>
 </header>
 
 <main>

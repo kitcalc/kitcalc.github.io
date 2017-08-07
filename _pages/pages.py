@@ -6,7 +6,7 @@ import pathlib
 import markdown
 
 # Top level constants
-PAGENAME = "kitcalc"
+PAGENAME = "kitcalc &ndash; KIT-resurser"
 TODAY = datetime.date.today().isoformat()
 
 
@@ -44,6 +44,14 @@ class Html:
     def br():
         return "<br />\n"
 
+    @staticmethod
+    def ul(text):
+        return "<ul>\n" + text + "\n</ul>"
+
+    @staticmethod
+    def li():
+        return "<li>"
+
 
 MDEXTENSIONS = {
     "extensions": [
@@ -68,7 +76,7 @@ class Page:
 
         self.md = markdown.Markdown(**MDEXTENSIONS)
 
-        with open(str(filename)) as infile:
+        with filename.open() as infile:
             self.body = self.md.convert(infile.read())
 
         self._get_meta()
@@ -124,7 +132,7 @@ class Page:
             if char in allowed:
                 filename += char.lower()
             else:
-                # suppress some spaces and repeated dashed
+                # suppress some spaces and repeated dashes
                 if len(filename) > 0 and filename[-1] == "-" or not filename:
                     continue
                 elif char in extended:
@@ -159,10 +167,8 @@ class Page:
 
         Returns pathlib.Path object of written file
         """
-        outpath = pathlib.Path(path, self.filename)
+        outpath = pathlib.Path(path) / self.filename
         html = self.html(header, footer)
-        # with outpath.open("w") as outfile:
-        #     outfile.write(html)
         outpath.write_text(html)
         return outpath
 
@@ -172,23 +178,10 @@ class IndexPage:
     """Class for the index (front) page
     """
 
-    def __init__(self, filename, pages):
-
-        # md = markdown.Markdown(**MDEXTENSIONS)
-
-        with open(str(filename)) as infile:
+    def __init__(self, templatename, filename):
+        self.filename = filename
+        with open(templatename) as infile:
             self.body = string.Template(infile.read())
-
-        # convert to markdownself.body)
-        # self.md = md.convert(self.body)
-        # print(self.md)
-
-        self.pages = pages
-
-    @property
-    def filename(self):
-        """Returns a filename for this page, based on title"""
-        return "index.html"
 
     def _format_page_index(self, page):
         """Formats a page so it fits on the index page
@@ -200,13 +193,13 @@ class IndexPage:
         )
         return s
 
-    def html(self, header, footer):
+    def html(self, header, footer, pages):
         """Returns the full web page with header and footer and links to pages,
-        sorted py creation date.
+        sorted by creation date.
         """
 
         pages_string = ""
-        for page in reversed(sorted(self.pages, key=lambda x: x.created)):
+        for page in reversed(sorted(pages, key=lambda x: x.created)):
             pages_string += self._format_page_index(page)
 
         header_str = header.substitute(pagename=PAGENAME, js="")
@@ -215,17 +208,48 @@ class IndexPage:
 
         return header_str + body + footer_str
 
-    def to_htmlfile(self, path, header, footer):
+    def to_htmlfile(self, path, header, footer, pages):
         """Write html to file
 
         Returns pathlib.Path object of written file
         """
         outpath = pathlib.Path(path, self.filename)
-        html = self.html(header, footer)
-        # with outpath.open("w") as outfile:
-        #     outfile.write(html)
+        html = self.html(header, footer, pages)
         outpath.write_text(html)
         return outpath
+
+
+class PostsPage(IndexPage):
+
+    """Class for post listing page"""
+
+    def _format_page_index(self, page):
+        """Formats a page so it fits on the index page
+        """
+        s = Html.p(
+            Html.li() +
+            page.str_created() +
+            " » " +
+            Html.a(href=page.filename, text=page.title) +
+            "\n"
+        )
+        return s
+
+    def html(self, header, footer, pages):
+        """Returns the full web page with header and footer and links to pages,
+        sorted by creation date.
+        """
+
+        pages_string = ""
+        for page in reversed(sorted(pages, key=lambda x: x.created)):
+            pages_string += self._format_page_index(page)
+        pages_string = Html.ul(pages_string)
+
+        header_str = header.substitute(pagename=PAGENAME, js="")
+        body = self.body.substitute(pages=pages_string)
+        footer_str = footer.substitute()
+
+        return header_str + body + footer_str
 
 
 def markdown_to_pages(mddir):
@@ -294,23 +318,26 @@ def main():
 
     file_paths = write_pages(pages, header, footer, args.output_dir)
 
-    index = IndexPage(pathlib.Path(args.static_dir) / "index", pages)
-
-    index_path = index.to_htmlfile(args.output_dir, header, footer)
+    index = IndexPage(pathlib.Path(args.static_dir) / "index", "index.html")
+    index_path = index.to_htmlfile(args.output_dir, header, footer, pages)
     file_paths.append(index_path)
+
+    posts = PostsPage(pathlib.Path(args.static_dir) / "posts", "posts.html")
+    posts_path = posts.to_htmlfile(args.output_dir, header, footer, pages)
+    file_paths.append(posts_path)
 
     html_files = pathlib.Path(args.output_dir).glob("*.html")
     old_files = set(html_files) - set(file_paths)
 
-    if len(old_files) > 0:
+    if old_files:
         print("Found these old files:")
-        for f in old_files:
-            print("    ", f, sep="")
+        for old in old_files:
+            print(f"    {old}")
         reply = input("remove these? (y/N) ")
         if reply.strip()[0].lower() == "y":
-            for f in old_files:
-                print("removing ", f.name, "... ", sep="", end="")
-                f.unlink()
+            for old in old_files:
+                print(f"removing {old.name}...", end="")
+                old.unlink()
                 print("done")
 
 
