@@ -9,63 +9,25 @@ Exempel
 .. code-block:: nim
 
     # definiera månad
-    var november2017 = initErsättning(59100)
+    var nov = initErsättning(10000)
 
     # ny beredskap
-    var nov20 = initBeredskap(15.5 + 20.0/60, 0.0, berA, false)
-    nov20.addArbeteAnnan(0.5)
-    nov20.addArbeteAnnan(1.0)
-    nov20.addArbeteAnnan(0.5)
-    nov20.addArbeteNatt(1.0)
-    nov20.addArbeteNatt(0.5)
+    var nov20 = initBeredskap(15.5, 0.0, berA, false)
     nov20.addArbeteAnnan(0.5)
 
     # lägg till beredskapen till månad
-    november2017.addBeredskap(nov20)
+    nov.addBeredskap(nov20)
 
     # andra beredskap
     var nov28 = initVardagsjour(berA)
     nov28.addArbeteAnnan(0.5)
-    nov28.addArbeteAnnan(0.5)
-    nov28.addArbeteAnnan(0.5)
-    nov28.addArbeteAnnan(0.5)
-    nov28.addArbeteAnnan(5/60)
-    nov28.addArbeteVardagkväll(25/60)
 
     # lägg till beredskapen till månad
-    november2017.addBeredskap(nov28)
+    nov.addBeredskap(nov28)
 
     # skriv ersättningstabell
-    echo november2017
+    echo nov
 
-ger::
-
-    Månadslön:           59100
-    Fördelning tid/peng: 0.7 / 0.3
-
-                               Antal       Apris      Belopp
-    Ber A tid                   2.61
-    Ber A peng                  1.12      431.39      482.07
-    Ber A 1/440                 3.73      134.32      500.34
-
-    Ber B tid                   0.00
-    Ber B peng                  0.00      431.39        0.00
-    Ber B 1/440                 0.00      134.32        0.00
-
-    Arbtid 1.0 tid              3.21
-    Arbtid 1.0 peng             1.38      431.39      593.16
-
-    Arbtid 1.5 tid              0.44
-    Arbtid 1.5 peng             0.19      431.39       80.89
-
-    Arbtid 2.0 tid              2.10
-    Arbtid 2.0 peng             0.90      431.39      388.25
-
-    Arbtid 4.0 tid              0.00
-    Arbtid 4.0 peng             0.00      431.39        0.00
-    -------------------------
-    Summa tid            8.35
-    Summa kronor      2044.70
 ]##
 
 type
@@ -545,79 +507,3 @@ Summa kronor  $#
         summaBelopp.ff
     )
 
-
-when isMainModule:
-    var november2017 = initErsättning(59100)
-
-    var nov20 = initBeredskap(15.5 + 20.0/60, 0.0, berA, false)
-    nov20.addArbeteAnnan(0.5)
-    nov20.addArbeteAnnan(1.0)
-    nov20.addArbeteAnnan(0.5)
-    nov20.addArbeteNatt(1.0)
-    nov20.addArbeteNatt(0.5)
-    nov20.addArbeteAnnan(0.5)
-
-    november2017.addBeredskap(nov20)
-
-    var nov28 = initVardagsjour(berA)
-    nov28.addArbeteAnnan(0.5)
-    nov28.addArbeteAnnan(0.5)
-    nov28.addArbeteAnnan(0.5)
-    nov28.addArbeteAnnan(0.5)
-    nov28.addArbeteAnnan(5/60)
-    nov28.addArbeteVardagkväll(25/60)
-
-    november2017.addBeredskap(nov28)
-
-    # echo november2017
-
-    var december2017 = initErsättning(59100)
-
-    var dec8 = initHelgjour(berA)
-    dec8.addArbeteAnnan(0.5)    # 16:30-17:35
-    dec8.addArbeteHelg(1.0)     # ibd
-
-    #[
-    16:00       17:00       18:00       19:00
-    |--+--+--+--|--+--+--+--|--+--+--+--|           Tid
-
-          ==============                            Störning 1
-                          =    =                    Störning 2
-
-          |----->----->----->-----|                 Ersättning
-
-
-    ]#
-
-    dec8.addArbeteHelg(0.5 + 10.0/60)   # 17:50-17:55
-                                        # 18:10-18:15
-
-    dec8.addArbeteHelg(0.5)     # 10:15-10:25
-    dec8.addArbeteHelg(1.0)     # 11:40-12:25
-    dec8.addArbeteHelg(0.5)     # 14:55-15:00
-    dec8.addArbeteHelg(1.5)     # 16:55-18:05
-
-    dec8.addArbeteHelg(1.0)     # 15:00-15:45
-    dec8.addArbeteHelg(0.5)     # 17:00-17:20
-
-    december2017.addBeredskap(dec8)
-
-    # vardag kort varsel
-    var dec12 = initBeredskap(15.5, 0.0, berA, kortVarsel = true)
-    dec12.addArbeteAnnan(0.5)       # 16:45-16:55
-    dec12.addArbeteVardagkväll(0.5) # 22:20-22:45
-
-    december2017.addBeredskap(dec12)
-
-    var dec13 = initVardagsjour(berB)
-    dec13.addArbeteAnnan(0.5)       # 20:05-20:15
-    dec13.addArbeteVardagkväll(0.5) # 22:20-22:25
-
-    december2017.addBeredskap(dec13)
-
-    var dec21 = initVardagsjour(berA)
-    dec21.addArbeteAnnan(0.5)   # 19:15-19:20
-
-    december2017.addBeredskap(dec21)
-
-    echo december2017
