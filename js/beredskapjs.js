@@ -198,10 +198,10 @@ function cstrToNimstr(c_14803) {
 
 	
 }
-var ConstSet2 = setConstr(46, 44);
 		var ersXC3XA4ttningskvotAnnan__44024 = nimCopy(null, [1.4999999999999999e-01, 1.0000000000000001e-01], NTI44027);
 		var ersXC3XA4ttningKvBer__44036 = nimCopy(null, [2.0000000000000001e-01, 1.4999999999999999e-01], NTI44039);
 		var ersXC3XA4ttningskvotHelg__44030 = nimCopy(null, [2.5000000000000000e-01, 2.0000000000000001e-01], NTI44033);
+var ConstSet2 = setConstr(46, 44);
 
 function toJSStr(s_15003) {
 		    var len = s_15003.length-1;
@@ -307,53 +307,6 @@ function initErsXC3XA4ttning__44322(mXC3XA5nadslXC3XB6n__44324, beredskaper_4434
 
 }
 
-function nsuformatBiggestFloat(f_42210, format_42211, precision_42213, decimalSep_42214) {
-	var result_42215 = null;
-
-		var res_42401 = null;
-		switch (format_42211) {
-		case 0:
-			res_42401 = f_42210.toString();
-			break;
-		case 1:
-			res_42401 = f_42210.toFixed(precision_42213);
-			break;
-		case 2:
-			res_42401 = f_42210.toExponential(precision_42213);
-			break;
-		}
-		result_42215 = nimCopy(null, cstrToNimstr(res_42401), NTI138);
-		L1: do {
-			var i_42411 = 0;
-			var colontmp__42424 = 0;
-			colontmp__42424 = (result_42215 != null ? result_42215.length-1 : 0);
-			var i_42427 = 0;
-			L2: do {
-					L3: while (true) {
-					if (!(i_42427 < colontmp__42424)) break L3;
-						i_42411 = i_42427;
-						if ((ConstSet2[result_42215[i_42411]] != undefined)) {
-						result_42215[i_42411] = decimalSep_42214;
-						}
-						
-						i_42427 += 1;
-					}
-			} while(false);
-		} while(false);
-
-	return result_42215;
-
-}
-
-function nsuformatFloat(f_42431, format_42432, precision_42434, decimalSep_42435) {
-	var result_42436 = null;
-
-		result_42436 = nimCopy(null, nsuformatBiggestFloat(f_42431, format_42432, precision_42434, decimalSep_42435), NTI138);
-
-	return result_42436;
-
-}
-
 function pluseq__42745(x_42750, x_42750_Idx, y_42752) {
 		x_42750[x_42750_Idx] = (x_42750[x_42750_Idx] + y_42752);
 
@@ -427,6 +380,53 @@ function ersBerAtid_44369(ers_44371) {
 		} while(false);
 
 	return result_44372[0];
+
+}
+
+function nsuformatBiggestFloat(f_42210, format_42211, precision_42213, decimalSep_42214) {
+	var result_42215 = null;
+
+		var res_42401 = null;
+		switch (format_42211) {
+		case 0:
+			res_42401 = f_42210.toString();
+			break;
+		case 1:
+			res_42401 = f_42210.toFixed(precision_42213);
+			break;
+		case 2:
+			res_42401 = f_42210.toExponential(precision_42213);
+			break;
+		}
+		result_42215 = nimCopy(null, cstrToNimstr(res_42401), NTI138);
+		L1: do {
+			var i_42411 = 0;
+			var colontmp__42424 = 0;
+			colontmp__42424 = (result_42215 != null ? result_42215.length-1 : 0);
+			var i_42427 = 0;
+			L2: do {
+					L3: while (true) {
+					if (!(i_42427 < colontmp__42424)) break L3;
+						i_42411 = i_42427;
+						if ((ConstSet2[result_42215[i_42411]] != undefined)) {
+						result_42215[i_42411] = decimalSep_42214;
+						}
+						
+						i_42427 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_42215;
+
+}
+
+function nsuformatFloat(f_42431, format_42432, precision_42434, decimalSep_42435) {
+	var result_42436 = null;
+
+		result_42436 = nimCopy(null, nsuformatBiggestFloat(f_42431, format_42432, precision_42434, decimalSep_42435), NTI138);
+
+	return result_42436;
 
 }
 
@@ -1253,12 +1253,14 @@ function createBeredskapTable_46002(ers_46004) {
 						Tmp5 = makeNimstrLit("");
 						}
 						
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <th>").slice(0,-1)).concat(cstrToNimstr(((i_46038 + 1))+"").slice(0,-1),makeNimstrLit(" (").slice(0,-1),Tmp4.slice(0,-1),makeNimstrLit("").slice(0,-1),Tmp5.slice(0,-1),makeNimstrLit(")</th>\x0A"))); } else { result_46005 = (makeNimstrLit("      <th>").slice(0,-1)).concat(cstrToNimstr(((i_46038 + 1))+"").slice(0,-1),makeNimstrLit(" (").slice(0,-1),Tmp4.slice(0,-1),makeNimstrLit("").slice(0,-1),Tmp5.slice(0,-1),makeNimstrLit(")</th>\x0A"));};
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <th>No ").slice(0,-1)).concat(cstrToNimstr(((i_46038 + 1))+"").slice(0,-1),makeNimstrLit(" (").slice(0,-1),Tmp4.slice(0,-1),makeNimstrLit("").slice(0,-1),Tmp5.slice(0,-1),makeNimstrLit(")</th>\x0A"))); } else { result_46005 = (makeNimstrLit("      <th>No ").slice(0,-1)).concat(cstrToNimstr(((i_46038 + 1))+"").slice(0,-1),makeNimstrLit(" (").slice(0,-1),Tmp4.slice(0,-1),makeNimstrLit("").slice(0,-1),Tmp5.slice(0,-1),makeNimstrLit(")</th>\x0A"));};
 						i_46232 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("      <th>Summa</th>\x0A      <th>Apris</th>\x0A      <th>Belopp</th>\x0A    </tr>\x0A  </thead>\x0A  <tbody>\x0A    <tr>\x0A      <td>Ber A tid</td>\x0A")); } else { result_46005 = makeNimstrLit("      <th>Summa</th>\x0A      <th>Apris</th>\x0A      <th>Belopp</th>\x0A    </tr>\x0A  </thead>\x0A  <tbody>\x0A    <tr>\x0A      <td>Ber A tid</td>\x0A");};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("      <th>Summa</th>\x0A      <th>Apris</th>\x0A      <th>Belopp</th>\x0A    </tr>\x0A  </thead>\x0A  <tbody>\x0A")); } else { result_46005 = makeNimstrLit("      <th>Summa</th>\x0A      <th>Apris</th>\x0A      <th>Belopp</th>\x0A    </tr>\x0A  </thead>\x0A  <tbody>\x0A");};
+		if ((0.0 < ersBerAtid_44369(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber A tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber A tid</td>\x0A");};
 		L6: do {
 			var ber_46056 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46234 = null;
@@ -1274,7 +1276,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerAtid_44369(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Ber A peng</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerAtid_44369(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Ber A peng</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerAtid_44369(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerAtid_44369(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersBerApengAntal_44620(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber A peng</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber A peng</td>\x0A");};
 		L9: do {
 			var ber_46065 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46241 = null;
@@ -1290,7 +1296,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerApengAntal_44620(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerApengKronor_44650(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Ber A 1/440</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerApengAntal_44620(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerApengKronor_44650(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Ber A 1/440</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerApengAntal_44620(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerApengKronor_44650(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerApengAntal_44620(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerApengKronor_44650(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersBerA440antal_44654(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber A 1/440</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber A 1/440</td>\x0A");};
 		L12: do {
 			var ber_46074 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46248 = null;
@@ -1306,7 +1316,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerA440antal_44654(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44349(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerA440peng_44684(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Ber B tid</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerA440antal_44654(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44349(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerA440peng_44684(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Ber B tid</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerA440antal_44654(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44349(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerA440peng_44684(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerA440antal_44654(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44349(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerA440peng_44684(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersBerBtid_44688(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber B tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber B tid</td>\x0A");};
 		L15: do {
 			var ber_46083 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46255 = null;
@@ -1322,7 +1336,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBtid_44688(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Ber B peng</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBtid_44688(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Ber B peng</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBtid_44688(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBtid_44688(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersBerBpengAntal_44718(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber B peng</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber B peng</td>\x0A");};
 		L18: do {
 			var ber_46092 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46262 = null;
@@ -1338,7 +1356,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBpengAntal_44718(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerBpengKronor_44748(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Ber B 1/440</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBpengAntal_44718(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerBpengKronor_44748(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Ber B 1/440</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBpengAntal_44718(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerBpengKronor_44748(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBpengAntal_44718(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerBpengKronor_44748(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersBerB440antal_44752(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber B 1/440</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber B 1/440</td>\x0A");};
 		L21: do {
 			var ber_46101 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46269 = null;
@@ -1354,7 +1376,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerB440antal_44752(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44349(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerB440peng_44782(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.0 tid</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerB440antal_44752(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44349(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerB440peng_44782(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.0 tid</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerB440antal_44752(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44349(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerB440peng_44782(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerB440antal_44752(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44349(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerB440peng_44782(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid10tidAntal_44786(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 tid</td>\x0A");};
 		L24: do {
 			var ber_46110 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46276 = null;
@@ -1370,7 +1396,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10tidAntal_44786(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.0 peng</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10tidAntal_44786(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.0 peng</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10tidAntal_44786(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10tidAntal_44786(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid10pengAntal_44816(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 peng</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 peng</td>\x0A");};
 		L27: do {
 			var ber_46119 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46283 = null;
@@ -1386,7 +1416,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10pengAntal_44816(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10pengKronor_44846(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.0 tid kv</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10pengAntal_44816(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10pengKronor_44846(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.0 tid kv</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10pengAntal_44816(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10pengKronor_44846(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10pengAntal_44816(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10pengKronor_44846(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid10KvTidAntal_45042(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 tid kv</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 tid kv</td>\x0A");};
 		L30: do {
 			var ber_46128 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46290 = null;
@@ -1402,7 +1436,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvTidAntal_45042(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.0 peng kv</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvTidAntal_45042(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.0 peng kv</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvTidAntal_45042(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvTidAntal_45042(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid10KvPengAntal_45072(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 peng kv</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 peng kv</td>\x0A");};
 		L33: do {
 			var ber_46137 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46297 = null;
@@ -1418,7 +1456,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvPengAntal_45072(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10KvPengKronor_45102(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.5 tid</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvPengAntal_45072(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10KvPengKronor_45102(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.5 tid</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvPengAntal_45072(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10KvPengKronor_45102(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvPengAntal_45072(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10KvPengKronor_45102(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid15tidAntal_44850(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 tid</td>\x0A");};
 		L36: do {
 			var ber_46146 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46304 = null;
@@ -1434,7 +1476,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15tidAntal_44850(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.5 peng</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15tidAntal_44850(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.5 peng</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15tidAntal_44850(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15tidAntal_44850(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid15pengAntal_44880(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 peng</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 peng</td>\x0A");};
 		L39: do {
 			var ber_46155 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46311 = null;
@@ -1450,7 +1496,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15pengAntal_44880(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15pengKronor_44910(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.5 tid kv</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15pengAntal_44880(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15pengKronor_44910(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.5 tid kv</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15pengAntal_44880(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15pengKronor_44910(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15pengAntal_44880(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15pengKronor_44910(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid15KvTidAntal_45106(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 tid kv</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 tid kv</td>\x0A");};
 		L42: do {
 			var ber_46164 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46318 = null;
@@ -1466,7 +1516,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvTidAntal_45106(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.5 peng kv</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvTidAntal_45106(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 1.5 peng kv</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvTidAntal_45106(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvTidAntal_45106(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid15KvPengAntal_45136(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 peng kv</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 peng kv</td>\x0A");};
 		L45: do {
 			var ber_46173 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46325 = null;
@@ -1482,7 +1536,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvPengAntal_45136(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15KvPengKronor_45166(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 2.0 tid</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvPengAntal_45136(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15KvPengKronor_45166(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 2.0 tid</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvPengAntal_45136(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15KvPengKronor_45166(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvPengAntal_45136(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15KvPengKronor_45166(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid20tidAntal_44914(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 tid</td>\x0A");};
 		L48: do {
 			var ber_46182 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46332 = null;
@@ -1498,7 +1556,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20tidAntal_44914(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 2.0 peng</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20tidAntal_44914(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 2.0 peng</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20tidAntal_44914(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20tidAntal_44914(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid20pengAntal_44944(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 peng</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 peng</td>\x0A");};
 		L51: do {
 			var ber_46191 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46339 = null;
@@ -1514,7 +1576,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20pengAntal_44944(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20pengKronor_44974(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 2.0 tid kv</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20pengAntal_44944(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20pengKronor_44974(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 2.0 tid kv</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20pengAntal_44944(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20pengKronor_44974(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20pengAntal_44944(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20pengKronor_44974(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid20KvTidAntal_45170(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 tid kv</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 tid kv</td>\x0A");};
 		L54: do {
 			var ber_46200 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46346 = null;
@@ -1530,7 +1596,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvTidAntal_45170(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 2.0 peng kv</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvTidAntal_45170(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 2.0 peng kv</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvTidAntal_45170(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvTidAntal_45170(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid20KvPengAntal_45200(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 peng kv</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 peng kv</td>\x0A");};
 		L57: do {
 			var ber_46209 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46353 = null;
@@ -1546,7 +1616,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvPengAntal_45200(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20KvPengKronor_45230(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 4.0 tid</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvPengAntal_45200(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20KvPengKronor_45230(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 4.0 tid</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvPengAntal_45200(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20KvPengKronor_45230(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvPengAntal_45200(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20KvPengKronor_45230(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid40tidAntal_44978(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 4.0 tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 4.0 tid</td>\x0A");};
 		L60: do {
 			var ber_46218 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46360 = null;
@@ -1562,7 +1636,11 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40tidAntal_44978(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 4.0 peng</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40tidAntal_44978(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A    <tr>\x0A      <td>Arbtid 4.0 peng</td>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40tidAntal_44978(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40tidAntal_44978(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		}
+		
+		if ((0.0 < ersArbtid40pengAntal_45008(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 4.0 peng</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 4.0 peng</td>\x0A");};
 		L63: do {
 			var ber_46227 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
 			var colontmp__46367 = null;
@@ -1578,7 +1656,10 @@ function createBeredskapTable_46002(ers_46004) {
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40pengAntal_45008(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid40pengKronor_45038(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A  </body>\x0A</table>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40pengAntal_45008(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid40pengKronor_45038(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A  </body>\x0A</table>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40pengAntal_45008(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid40pengKronor_45038(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40pengAntal_45008(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid40pengKronor_45038(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		}
+		
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("  </tbody>\x0A</table>\x0A\x0A<h2>Summerat</h2>\x0A\x0A<table>\x0A  <tr>\x0A    <td>Summa tid (h)</td>\x0A    <td>").slice(0,-1)).concat(nsuformatFloat(((((((((ersBerAtid_44369(ers_46004) + ersBerBtid_44688(ers_46004)) + ersArbtid10tidAntal_44786(ers_46004)) + ersArbtid15tidAntal_44850(ers_46004)) + ersArbtid20tidAntal_44914(ers_46004)) + ersArbtid40tidAntal_44978(ers_46004)) + ersArbtid10KvTidAntal_45042(ers_46004)) + ersArbtid15KvTidAntal_45106(ers_46004)) + ersArbtid20KvTidAntal_45170(ers_46004)), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A  <tr>\x0A    <td>Summa peng (kr)</td>\x0A    <td>").slice(0,-1),nsuformatFloat(((((((((((ersBerApengKronor_44650(ers_46004) + ersBerA440peng_44684(ers_46004)) + ersBerBpengKronor_44748(ers_46004)) + ersBerB440peng_44782(ers_46004)) + ersArbtid10pengKronor_44846(ers_46004)) + ersArbtid15pengKronor_44910(ers_46004)) + ersArbtid20pengKronor_44974(ers_46004)) + ersArbtid40pengKronor_45038(ers_46004)) + ersArbtid10KvPengKronor_45102(ers_46004)) + ersArbtid15KvPengKronor_45166(ers_46004)) + ersArbtid20KvPengKronor_45230(ers_46004)), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A</table>\x0A\x0A\x0A"))); } else { result_46005 = (makeNimstrLit("  </tbody>\x0A</table>\x0A\x0A<h2>Summerat</h2>\x0A\x0A<table>\x0A  <tr>\x0A    <td>Summa tid (h)</td>\x0A    <td>").slice(0,-1)).concat(nsuformatFloat(((((((((ersBerAtid_44369(ers_46004) + ersBerBtid_44688(ers_46004)) + ersArbtid10tidAntal_44786(ers_46004)) + ersArbtid15tidAntal_44850(ers_46004)) + ersArbtid20tidAntal_44914(ers_46004)) + ersArbtid40tidAntal_44978(ers_46004)) + ersArbtid10KvTidAntal_45042(ers_46004)) + ersArbtid15KvTidAntal_45106(ers_46004)) + ersArbtid20KvTidAntal_45170(ers_46004)), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A  <tr>\x0A    <td>Summa peng (kr)</td>\x0A    <td>").slice(0,-1),nsuformatFloat(((((((((((ersBerApengKronor_44650(ers_46004) + ersBerA440peng_44684(ers_46004)) + ersBerBpengKronor_44748(ers_46004)) + ersBerB440peng_44782(ers_46004)) + ersArbtid10pengKronor_44846(ers_46004)) + ersArbtid15pengKronor_44910(ers_46004)) + ersArbtid20pengKronor_44974(ers_46004)) + ersArbtid40pengKronor_45038(ers_46004)) + ersArbtid10KvPengKronor_45102(ers_46004)) + ersArbtid15KvPengKronor_45166(ers_46004)) + ersArbtid20KvPengKronor_45230(ers_46004)), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A</table>\x0A\x0A\x0A"));};
 
 	return result_46005;
 
