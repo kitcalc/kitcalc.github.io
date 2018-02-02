@@ -2,11 +2,14 @@ import string
 import datetime
 import argparse
 import pathlib
+import json
 
 import markdown
 
 # Top level constants
-PAGENAME = "kitcalc &ndash; KIT-resurser"
+with open("config.json") as jsonfile:
+    CONFIG = json.load(jsonfile)
+PAGENAME = CONFIG["pagename"]
 TODAY = datetime.date.today().isoformat()
 
 
@@ -131,14 +134,16 @@ class Page:
         for char in self.title:
             if char in allowed:
                 filename += char.lower()
+            elif char in extended:
+                filename += extended[char]
             else:
                 # suppress some spaces and repeated dashes
-                if len(filename) > 0 and filename[-1] == "-" or not filename:
+                if not filename or filename[-1] == "-":
                     continue
-                elif char in extended:
-                    filename += extended[char]
                 else:
                     filename += "-"
+        if filename.endswith("-"):
+            filename = filename.strip("-")
 
         return filename + ".html"
 
@@ -229,7 +234,7 @@ class PostsPage(IndexPage):
         s = Html.p(
             Html.li() +
             page.str_created() +
-            " » " +
+            " &raquo; " +
             Html.a(href=page.filename, text=page.title) +
             "\n"
         )
@@ -333,12 +338,12 @@ def main():
         print("Found these old files:")
         for old in old_files:
             print(f"    {old}")
-        reply = input("remove these? (y/N) ")
-        if reply.strip()[0].lower() == "y":
-            for old in old_files:
-                print(f"removing {old.name}...", end="")
-                old.unlink()
-                print("done")
+        # reply = input("remove these? (y/N) ")
+        # if reply.strip()[0].lower() == "y":
+        #     for old in old_files:
+        #         print(f"removing {old.name}...", end="")
+        #         old.unlink()
+        #         print("done")
 
 
 if __name__ == "__main__":
