@@ -25,7 +25,7 @@ body {
     max-width: 660px;
     line-height: 1.5;
     font-family: Helvetica, Arial, serif;
-    font-size: 18px;
+    font-size: 16px;
     color: #333;
     padding: 0 10px
 }
@@ -190,6 +190,7 @@ legend {
     padding: .3em 0;
     margin-bottom: .3em;
     border-bottom: 1px solid #eee;
+    font-weight: bold;
 }
 
 input[type="button"],
