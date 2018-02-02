@@ -10,7 +10,7 @@
     <tr>
       <th></th> <!-- empty first field in header -->
     # for i, ber in ers.beredskaper:
-      <th>No ${i+1} (${if ber.kind == berA: "A" else: "B"}${if ber.kortVarsel: " kv" else: ""})</th>
+      <th>${i+1}. Ber ${if ber.kind == berA: "A" else: "B"}${if ber.kortVarsel: " kv" else: ""}</th>
     # end for
       <th>Summa</th>
       <th>Apris</th>
@@ -245,12 +245,29 @@
 
 <table>
   <tr>
+    <td>Summa beredskap A (h)</td>
+    # let summaberedskapA = ers.beredskapsTidA
+    <td>${summaberedskapA.formatFloat(ffDecimal, 2)}</td>
+  </tr>
+  <tr>
+    <td>Summa beredskap B (h)</td>
+    # let summaberedskapB = ers.beredskapsTidB
+    <td>${summaberedskapB.formatFloat(ffDecimal, 2)}</td>
+  </tr>
+  <tr>
+    <td>Summa arbetad tid (h)</td>
+    # let summaarbete = ers.arbetadTid
+    <td>${summaarbete.formatFloat(ffDecimal, 2)}</td>
+  </tr>
+  <tr>
     <td>Summa tid (h)</td>
-    <td>${(ers.ersBerAtid + ers.ersBerBtid + ers.ersArbtid10tidAntal + ers.ersArbtid15tidAntal + ers.ersArbtid20tidAntal + ers.ersArbtid40tidAntal + ers.ersArbtid10KvTidAntal + ers.ersArbtid15KvTidAntal + ers.ersArbtid20KvTidAntal).formatFloat(ffDecimal, 2)}</td>
+    # let summatid = ers.ersBerAtid + ers.ersBerBtid + ers.ersArbtid10tidAntal + ers.ersArbtid15tidAntal + ers.ersArbtid20tidAntal + ers.ersArbtid40tidAntal + ers.ersArbtid10KvTidAntal + ers.ersArbtid15KvTidAntal + ers.ersArbtid20KvTidAntal
+    <td>${summatid.formatFloat(ffDecimal, 2)}</td>
   </tr>
   <tr>
     <td>Summa peng (kr)</td>
-    <td>${(ers.ersBerApengKronor + ers.ersBerA440peng + ers.ersBerBpengKronor + ers.ersBerB440peng + ers.ersArbtid10pengKronor + ers.ersArbtid15pengKronor + ers.ersArbtid20pengKronor + ers.ersArbtid40pengKronor + ers.ersArbtid10KvPengKronor + ers.ersArbtid15KvPengKronor + ers.ersArbtid20KvPengKronor).formatFloat(ffDecimal, 2)}</td>
+    # let summapeng = ers.ersBerApengKronor + ers.ersBerA440peng + ers.ersBerBpengKronor + ers.ersBerB440peng + ers.ersArbtid10pengKronor + ers.ersArbtid15pengKronor + ers.ersArbtid20pengKronor + ers.ersArbtid40pengKronor + ers.ersArbtid10KvPengKronor + ers.ersArbtid15KvPengKronor + ers.ersArbtid20KvPengKronor
+    <td>${summapeng.formatFloat(ffDecimal, 2)}</td>
   </tr>
 </table>
 

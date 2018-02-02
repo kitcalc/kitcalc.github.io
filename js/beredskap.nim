@@ -80,12 +80,19 @@ proc initBeredskap*(beredskapTimmarAnnan, beredskapTimmarHelg: float,
                        kortVarsel: kortVarsel)
 
 template initVardagsjour*(kind: BeredskapsTyp): Beredskap =
-    ## Mall för vanlig bereskap vardag.
+    ## Mall för vanlig beredskap vardag.
     initBeredskap(15.5, 0.0, kind, false)
 
 template initHelgjour*(kind: BeredskapsTyp): Beredskap =
-    ## Mall för vanlig beredskap helg över fredag-måndag..
+    ## Mall för vanlig beredskap helg över fredag-måndag.
     initBeredskap(1.5, 62.0, kind, false)
+
+proc arbetadTid*(ber: Beredskap): float =
+    ## Total arbetad tid för ``ber``
+    result =
+        ber.arbetadeTimmarAnnan + ber.arbetadeTimmarVardagkväll +
+        ber.arbetadeTimmarNatt + ber.arbetadeTimmarHelg +
+        ber.arbetadeTimmarStorhelg
 
 proc addArbeteAnnan*(ber: var Beredskap, timmar: float) =
     ## Lägger till arbetad tid till ``ber`` under annan tid.
@@ -111,6 +118,16 @@ proc addArbeteStorhelg*(ber: var Beredskap, timmar: float) =
     ## Lägger till arbetad tid till ``ber`` under storhelg.
     ber.arbetadeTimmarStorhelg += timmar
     ber.beredskapTimmarHelg -= timmar
+
+proc beredskapsTidA(ber: Beredskap): float =
+    ## Beredskapstid berA totalt, i timmar
+    if ber.kind == berA:
+        result = ber.beredskapTimmarAnnan + ber.beredskapTimmarHelg
+
+proc beredskapsTidB(ber: Beredskap): float =
+    ## Beredskapstid berB totalt, i timmar
+    if ber.kind == berB:
+        result = ber.beredskapTimmarAnnan + ber.beredskapTimmarHelg
 
 proc ersattBeredskapstidAnnan(ber: Beredskap): float =
     ## Ersatt beredskapstid under annan tid, i timmar.
@@ -244,6 +261,21 @@ proc ersArbtid20KvPengAntal*(ber: Beredskap): float =
 proc initErsättning*(månadslön: int, beredskaper: seq[Beredskap] = @[]): Ersättning =
     ## Ny ersättning för en månads jour och beredskap.
     result = Ersättning(månadslön: månadslön, beredskaper: beredskaper)
+
+proc arbetadTid*(ers: Ersättning): float =
+    ## Total arbetstid för ``ers``
+    for ber in ers.beredskaper:
+        result += ber.arbetadTid
+
+proc beredskapsTidA*(ers: Ersättning): float =
+    ## Total beredskapstid berA för ``ers``
+    for ber in ers.beredskaper:
+        result += ber.beredskapsTidA
+
+proc beredskapsTidB*(ers: Ersättning): float =
+    ## Total beredskapstid berB för ``ers``
+    for ber in ers.beredskaper:
+        result += ber.beredskapsTidB
 
 proc månadslön137*(ers: Ersättning): float =
     ## Månadslön 1/137

@@ -3,6 +3,8 @@ import beredskap, beredskaptabell
 
 var beredskaper = newSeq[Beredskap]()
 
+proc clearForm() {.importc.}
+
 template getValue(e: untyped): untyped =
   ## För att kunna modifiera input-element.
   ## Se: https://irclogs.nim-lang.org/18-03-2017.html#20:40:38
@@ -17,18 +19,20 @@ proc fillBeredskapTable*() {.exportc.} =
 
 proc addBeredskap*() {.exportc.} =
   ## Lägg till en ny beredskap
-  let beredskapTimmarAnnan = document.getElementById("beredskapTimmarAnnan").getValue.parseFloat
-  let beredskapTimmarHelg = document.getElementById("beredskapTimmarHelg").getValue.parseFloat
-  let kind = if document.getElementById("beredskapsTypA").checked: berA else: berB
-  let kortVarsel = document.getElementById("kortVarsel").checked
+  let
+    beredskapTimmarAnnan = document.getElementById("beredskapTimmarAnnan").getValue.parseFloat
+    beredskapTimmarHelg = document.getElementById("beredskapTimmarHelg").getValue.parseFloat
+    kind = if document.getElementById("beredskapsTypA").checked: berA else: berB
+    kortVarsel = document.getElementById("kortVarsel").checked
   var b = initBeredskap(beredskapTimmarAnnan, beredskapTimmarHelg, kind, kortVarsel)
 
-  b.addArbeteAnnan document.getElementById("arbetadeTimmarAnnan").getValue.parseFloat
-  b.addArbeteVardagkväll document.getElementById("arbetadeTimmarVardagkvall").getValue.parseFloat
-  b.addArbeteNatt document.getElementById("arbetadeTimmarNatt").getValue.parseFloat
-  b.addArbeteHelg document.getElementById("arbetadeTimmarHelg").getValue.parseFloat
-  b.addArbeteStorhelg document.getElementById("arbetadeTimmarStorhelg").getValue.parseFloat
+  b.addArbeteAnnan document.getElementById("arbetadeMinAnnan").getValue.parseFloat / 60.0
+  b.addArbeteVardagkväll document.getElementById("arbetadeMinVardagkvall").getValue.parseFloat / 60.0
+  b.addArbeteNatt document.getElementById("arbetadeMinNatt").getValue.parseFloat / 60.0
+  b.addArbeteHelg document.getElementById("arbetadeMinHelg").getValue.parseFloat / 60.0
+  b.addArbeteStorhelg document.getElementById("arbetadeMinStorhelg").getValue.parseFloat / 60.0
 
   beredskaper.add b
 
   fillBeredskapTable()
+  clearForm()

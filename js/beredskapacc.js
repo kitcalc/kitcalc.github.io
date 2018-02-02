@@ -13,10 +13,10 @@ var clearForm = function() {
     document.getElementById("beredskapTimmarAnnan").value = "0.0";
     document.getElementById("beredskapTimmarHelg").value = "0.0";
 
-    document.getElementById("arbetadeTimmarAnnan").value = "0.0";
-    document.getElementById("arbetadeTimmarVardagkvall").value = "0.0";
-    document.getElementById("arbetadeTimmarNatt").value = "0.0";
-    document.getElementById("arbetadeTimmarHelg").value = "0.0";
-    document.getElementById("arbetadeTimmarStorhelg").value = "0.0";
+    document.getElementById("arbetadeMinAnnan").value = "0.0";
+    document.getElementById("arbetadeMinVardagkvall").value = "0.0";
+    document.getElementById("arbetadeMinNatt").value = "0.0";
+    document.getElementById("arbetadeMinHelg").value = "0.0";
+    document.getElementById("arbetadeMinStorhelg").value = "0.0";
 }
 

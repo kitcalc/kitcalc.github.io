@@ -22,7 +22,7 @@ var NTI130 = {size: 0,kind: 1,base: null,node: null,finalizer: null};
 var NTI44004 = {size: 0, kind: 14, base: null, node: null, finalizer: null};
 var NTI124 = {size: 0,kind: 36,base: null,node: null,finalizer: null};
 var NTI44006 = {size: 0, kind: 18, base: null, node: null, finalizer: null};
-var NTI44325 = {size: 0,kind: 24,base: null,node: null,finalizer: null};
+var NTI44353 = {size: 0,kind: 24,base: null,node: null,finalizer: null};
 var NTI104 = {size: 0,kind: 31,base: null,node: null,finalizer: null};
 var NTI3404 = {size: 0,kind: 20,base: null,node: null,finalizer: null};
 NTI3404.base = NTI104;
@@ -39,7 +39,7 @@ var NNI44006 = {kind: 2, len: 9, offset: 0, typ: null, name: null, sons: [{kind:
 {kind: 1, offset: "kind", len: 0, typ: NTI44004, name: "kind", sons: null}, 
 {kind: 1, offset: "kortVarsel", len: 0, typ: NTI130, name: "kortVarsel", sons: null}]};
 NTI44006.node = NNI44006;
-NTI44325.base = NTI44006;
+NTI44353.base = NTI44006;
 NTI44008.base = NTI44006;
 var NNI44002 = {kind: 2, len: 2, offset: 0, typ: null, name: null, sons: [{kind: 1, offset: "mXC3XA5nadslXC3XB6n_", len: 0, typ: NTI3404, name: "m\xC3\xA5nadsl\xC3\xB6n", sons: null}, 
 {kind: 1, offset: "beredskaper", len: 0, typ: NTI44008, name: "beredskaper", sons: null}]};
@@ -298,12 +298,12 @@ function nimCopyAux(dest_19822, src_19823, n_19825) {
 	
 }
 
-function initErsXC3XA4ttning__44322(mXC3XA5nadslXC3XB6n__44324, beredskaper_44341) {
-	var result_44342 = {mXC3XA5nadslXC3XB6n_: 0, beredskaper: null};
+function initErsXC3XA4ttning__44350(mXC3XA5nadslXC3XB6n__44352, beredskaper_44369) {
+	var result_44370 = {mXC3XA5nadslXC3XB6n_: 0, beredskaper: null};
 
-		nimCopy(result_44342, {mXC3XA5nadslXC3XB6n_: nimCopy(null, mXC3XA5nadslXC3XB6n__44324, NTI3404), beredskaper: nimCopy(null, beredskaper_44341, NTI44325)}, NTI44002);
+		nimCopy(result_44370, {mXC3XA5nadslXC3XB6n_: nimCopy(null, mXC3XA5nadslXC3XB6n__44352, NTI3404), beredskaper: nimCopy(null, beredskaper_44369, NTI44353)}, NTI44002);
 
-	return result_44342;
+	return result_44370;
 
 }
 
@@ -313,73 +313,73 @@ function pluseq__42745(x_42750, x_42750_Idx, y_42752) {
 	
 }
 
-function ersattBeredskapstidAnnan_44182(ber_44184) {
-	var result_44185 = [0.0];
+function ersattBeredskapstidAnnan_44210(ber_44212) {
+	var result_44213 = [0.0];
 
-		result_44185[0] = (ber_44184.beredskapTimmarAnnan * ersXC3XA4ttningskvotAnnan__44024[ber_44184.kind]);
-		if (ber_44184.kortVarsel) {
-		pluseq__42745(result_44185, 0, (ber_44184.beredskapTimmarAnnan * ersXC3XA4ttningKvBer__44036[ber_44184.kind]));
+		result_44213[0] = (ber_44212.beredskapTimmarAnnan * ersXC3XA4ttningskvotAnnan__44024[ber_44212.kind]);
+		if (ber_44212.kortVarsel) {
+		pluseq__42745(result_44213, 0, (ber_44212.beredskapTimmarAnnan * ersXC3XA4ttningKvBer__44036[ber_44212.kind]));
 		}
 		
 
-	return result_44185[0];
+	return result_44213[0];
 
 }
 
-function ersattBeredskapstidHelg_44196(ber_44198) {
-	var result_44199 = [0.0];
+function ersattBeredskapstidHelg_44224(ber_44226) {
+	var result_44227 = [0.0];
 
-		result_44199[0] = (ber_44198.beredskapTimmarHelg * ersXC3XA4ttningskvotHelg__44030[ber_44198.kind]);
-		if (ber_44198.kortVarsel) {
-		pluseq__42745(result_44199, 0, (ber_44198.beredskapTimmarHelg * ersXC3XA4ttningKvBer__44036[ber_44198.kind]));
+		result_44227[0] = (ber_44226.beredskapTimmarHelg * ersXC3XA4ttningskvotHelg__44030[ber_44226.kind]);
+		if (ber_44226.kortVarsel) {
+		pluseq__42745(result_44227, 0, (ber_44226.beredskapTimmarHelg * ersXC3XA4ttningKvBer__44036[ber_44226.kind]));
 		}
 		
 
-	return result_44199[0];
+	return result_44227[0];
 
 }
 
-function ersattBeredskapstidA_44210(ber_44212) {
-	var result_44213 = 0.0;
+function ersattBeredskapstidA_44238(ber_44240) {
+	var result_44241 = 0.0;
 
-		if ((ber_44212.kind == 0)) {
-		result_44213 = (ersattBeredskapstidAnnan_44182(ber_44212) + ersattBeredskapstidHelg_44196(ber_44212));
+		if ((ber_44240.kind == 0)) {
+		result_44241 = (ersattBeredskapstidAnnan_44210(ber_44240) + ersattBeredskapstidHelg_44224(ber_44240));
 		}
 		
 
-	return result_44213;
+	return result_44241;
 
 }
 
-function ersBerAtid_44234(ber_44236) {
-	var result_44237 = 0.0;
+function ersBerAtid_44262(ber_44264) {
+	var result_44265 = 0.0;
 
-		result_44237 = (ersattBeredskapstidA_44210(ber_44236) * 6.9999999999999996e-01);
+		result_44265 = (ersattBeredskapstidA_44238(ber_44264) * 6.9999999999999996e-01);
 
-	return result_44237;
+	return result_44265;
 
 }
 
-function ersBerAtid_44369(ers_44371) {
-	var result_44372 = [0.0];
+function ersBerAtid_44705(ers_44707) {
+	var result_44708 = [0.0];
 
 		L1: do {
-			var ber_44602 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__44614 = null;
-			colontmp__44614 = ers_44371.beredskaper;
-			var i_44617 = 0;
-			var L_44619 = (colontmp__44614 != null ? colontmp__44614.length : 0);
+			var ber_44717 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__44729 = null;
+			colontmp__44729 = ers_44707.beredskaper;
+			var i_44732 = 0;
+			var L_44734 = (colontmp__44729 != null ? colontmp__44729.length : 0);
 			L2: do {
 					L3: while (true) {
-					if (!(i_44617 < L_44619)) break L3;
-						nimCopy(ber_44602, colontmp__44614[i_44617], NTI44006);
-						pluseq__42745(result_44372, 0, ersBerAtid_44234(ber_44602));
-						i_44617 += 1;
+					if (!(i_44732 < L_44734)) break L3;
+						nimCopy(ber_44717, colontmp__44729[i_44732], NTI44006);
+						pluseq__42745(result_44708, 0, ersBerAtid_44262(ber_44717));
+						i_44732 += 1;
 					}
 			} while(false);
 		} while(false);
 
-	return result_44372[0];
+	return result_44708[0];
 
 }
 
@@ -430,35 +430,35 @@ function nsuformatFloat(f_42431, format_42432, precision_42434, decimalSep_42435
 
 }
 
-function ersBerApengAntal_44238(ber_44240) {
-	var result_44241 = 0.0;
+function ersBerApengAntal_44266(ber_44268) {
+	var result_44269 = 0.0;
 
-		result_44241 = (ersattBeredskapstidA_44210(ber_44240) * 3.0000000000000004e-01);
+		result_44269 = (ersattBeredskapstidA_44238(ber_44268) * 3.0000000000000004e-01);
 
-	return result_44241;
+	return result_44269;
 
 }
 
-function ersBerApengAntal_44620(ers_44622) {
-	var result_44623 = [0.0];
+function ersBerApengAntal_44735(ers_44737) {
+	var result_44738 = [0.0];
 
 		L1: do {
-			var ber_44632 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__44644 = null;
-			colontmp__44644 = ers_44622.beredskaper;
-			var i_44647 = 0;
-			var L_44649 = (colontmp__44644 != null ? colontmp__44644.length : 0);
+			var ber_44747 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__44759 = null;
+			colontmp__44759 = ers_44737.beredskaper;
+			var i_44762 = 0;
+			var L_44764 = (colontmp__44759 != null ? colontmp__44759.length : 0);
 			L2: do {
 					L3: while (true) {
-					if (!(i_44647 < L_44649)) break L3;
-						nimCopy(ber_44632, colontmp__44644[i_44647], NTI44006);
-						pluseq__42745(result_44623, 0, ersBerApengAntal_44238(ber_44632));
-						i_44647 += 1;
+					if (!(i_44762 < L_44764)) break L3;
+						nimCopy(ber_44747, colontmp__44759[i_44762], NTI44006);
+						pluseq__42745(result_44738, 0, ersBerApengAntal_44266(ber_44747));
+						i_44762 += 1;
 					}
 			} while(false);
 		} while(false);
 
-	return result_44623[0];
+	return result_44738[0];
 
 }
 
@@ -471,445 +471,526 @@ function slash__21607(x_21609, y_21610) {
 
 }
 
-function mXC3XA5nadslXC3XB6n137__44344(ers_44346) {
-	var result_44347 = 0.0;
+function mXC3XA5nadslXC3XB6n137__44680(ers_44682) {
+	var result_44683 = 0.0;
 
-		result_44347 = slash__21607(ers_44346.mXC3XA5nadslXC3XB6n_, 137);
+		result_44683 = slash__21607(ers_44682.mXC3XA5nadslXC3XB6n_, 137);
 
-	return result_44347;
-
-}
-
-function ersBerApengKronor_44650(ers_44652) {
-	var result_44653 = 0.0;
-
-		result_44653 = (ersBerApengAntal_44620(ers_44652) * mXC3XA5nadslXC3XB6n137__44344(ers_44652));
-
-	return result_44653;
+	return result_44683;
 
 }
 
-function ersBerA440_44250(ber_44252) {
+function ersBerApengKronor_44765(ers_44767) {
+	var result_44768 = 0.0;
+
+		result_44768 = (ersBerApengAntal_44735(ers_44767) * mXC3XA5nadslXC3XB6n137__44680(ers_44767));
+
+	return result_44768;
+
+}
+
+function ersBerA440_44278(ber_44280) {
+	var result_44281 = 0.0;
+
+		result_44281 = ersattBeredskapstidA_44238(ber_44280);
+
+	return result_44281;
+
+}
+
+function ersBerA440antal_44769(ers_44771) {
+	var result_44772 = [0.0];
+
+		L1: do {
+			var ber_44781 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__44793 = null;
+			colontmp__44793 = ers_44771.beredskaper;
+			var i_44796 = 0;
+			var L_44798 = (colontmp__44793 != null ? colontmp__44793.length : 0);
+			L2: do {
+					L3: while (true) {
+					if (!(i_44796 < L_44798)) break L3;
+						nimCopy(ber_44781, colontmp__44793[i_44796], NTI44006);
+						pluseq__42745(result_44772, 0, ersBerA440_44278(ber_44781));
+						i_44796 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_44772[0];
+
+}
+
+function mXC3XA5nadslXC3XB6n440__44685(ers_44687) {
+	var result_44688 = 0.0;
+
+		result_44688 = slash__21607(ers_44687.mXC3XA5nadslXC3XB6n_, 440);
+
+	return result_44688;
+
+}
+
+function ersBerA440peng_44799(ers_44801) {
+	var result_44802 = 0.0;
+
+		result_44802 = (ersBerA440antal_44769(ers_44801) * mXC3XA5nadslXC3XB6n440__44685(ers_44801));
+
+	return result_44802;
+
+}
+
+function ersattBeredskapstidB_44250(ber_44252) {
 	var result_44253 = 0.0;
 
-		result_44253 = ersattBeredskapstidA_44210(ber_44252);
+		if ((ber_44252.kind == 1)) {
+		result_44253 = (ersattBeredskapstidAnnan_44210(ber_44252) + ersattBeredskapstidHelg_44224(ber_44252));
+		}
+		
 
 	return result_44253;
 
 }
 
-function ersBerA440antal_44654(ers_44656) {
-	var result_44657 = [0.0];
-
-		L1: do {
-			var ber_44666 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__44678 = null;
-			colontmp__44678 = ers_44656.beredskaper;
-			var i_44681 = 0;
-			var L_44683 = (colontmp__44678 != null ? colontmp__44678.length : 0);
-			L2: do {
-					L3: while (true) {
-					if (!(i_44681 < L_44683)) break L3;
-						nimCopy(ber_44666, colontmp__44678[i_44681], NTI44006);
-						pluseq__42745(result_44657, 0, ersBerA440_44250(ber_44666));
-						i_44681 += 1;
-					}
-			} while(false);
-		} while(false);
-
-	return result_44657[0];
-
-}
-
-function mXC3XA5nadslXC3XB6n440__44349(ers_44351) {
-	var result_44352 = 0.0;
-
-		result_44352 = slash__21607(ers_44351.mXC3XA5nadslXC3XB6n_, 440);
-
-	return result_44352;
-
-}
-
-function ersBerA440peng_44684(ers_44686) {
-	var result_44687 = 0.0;
-
-		result_44687 = (ersBerA440antal_44654(ers_44686) * mXC3XA5nadslXC3XB6n440__44349(ers_44686));
-
-	return result_44687;
-
-}
-
-function ersattBeredskapstidB_44222(ber_44224) {
-	var result_44225 = 0.0;
-
-		if ((ber_44224.kind == 1)) {
-		result_44225 = (ersattBeredskapstidAnnan_44182(ber_44224) + ersattBeredskapstidHelg_44196(ber_44224));
-		}
-		
-
-	return result_44225;
-
-}
-
-function ersBerBtid_44242(ber_44244) {
-	var result_44245 = 0.0;
-
-		result_44245 = (ersattBeredskapstidB_44222(ber_44244) * 6.9999999999999996e-01);
-
-	return result_44245;
-
-}
-
-function ersBerBtid_44688(ers_44690) {
-	var result_44691 = [0.0];
-
-		L1: do {
-			var ber_44700 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__44712 = null;
-			colontmp__44712 = ers_44690.beredskaper;
-			var i_44715 = 0;
-			var L_44717 = (colontmp__44712 != null ? colontmp__44712.length : 0);
-			L2: do {
-					L3: while (true) {
-					if (!(i_44715 < L_44717)) break L3;
-						nimCopy(ber_44700, colontmp__44712[i_44715], NTI44006);
-						pluseq__42745(result_44691, 0, ersBerBtid_44242(ber_44700));
-						i_44715 += 1;
-					}
-			} while(false);
-		} while(false);
-
-	return result_44691[0];
-
-}
-
-function ersBerBpengAntal_44246(ber_44248) {
-	var result_44249 = 0.0;
-
-		result_44249 = (ersattBeredskapstidB_44222(ber_44248) * 3.0000000000000004e-01);
-
-	return result_44249;
-
-}
-
-function ersBerBpengAntal_44718(ers_44720) {
-	var result_44721 = [0.0];
-
-		L1: do {
-			var ber_44730 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__44742 = null;
-			colontmp__44742 = ers_44720.beredskaper;
-			var i_44745 = 0;
-			var L_44747 = (colontmp__44742 != null ? colontmp__44742.length : 0);
-			L2: do {
-					L3: while (true) {
-					if (!(i_44745 < L_44747)) break L3;
-						nimCopy(ber_44730, colontmp__44742[i_44745], NTI44006);
-						pluseq__42745(result_44721, 0, ersBerBpengAntal_44246(ber_44730));
-						i_44745 += 1;
-					}
-			} while(false);
-		} while(false);
-
-	return result_44721[0];
-
-}
-
-function ersBerBpengKronor_44748(ers_44750) {
-	var result_44751 = 0.0;
-
-		result_44751 = (ersBerBpengAntal_44718(ers_44750) * mXC3XA5nadslXC3XB6n137__44344(ers_44750));
-
-	return result_44751;
-
-}
-
-function ersBerB440_44254(ber_44256) {
-	var result_44257 = 0.0;
-
-		result_44257 = ersattBeredskapstidB_44222(ber_44256);
-
-	return result_44257;
-
-}
-
-function ersBerB440antal_44752(ers_44754) {
-	var result_44755 = [0.0];
-
-		L1: do {
-			var ber_44764 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__44776 = null;
-			colontmp__44776 = ers_44754.beredskaper;
-			var i_44779 = 0;
-			var L_44781 = (colontmp__44776 != null ? colontmp__44776.length : 0);
-			L2: do {
-					L3: while (true) {
-					if (!(i_44779 < L_44781)) break L3;
-						nimCopy(ber_44764, colontmp__44776[i_44779], NTI44006);
-						pluseq__42745(result_44755, 0, ersBerB440_44254(ber_44764));
-						i_44779 += 1;
-					}
-			} while(false);
-		} while(false);
-
-	return result_44755[0];
-
-}
-
-function ersBerB440peng_44782(ers_44784) {
-	var result_44785 = 0.0;
-
-		result_44785 = (ersBerB440antal_44752(ers_44784) * mXC3XA5nadslXC3XB6n440__44349(ers_44784));
-
-	return result_44785;
-
-}
-
-function ersArbtid10tidAntal_44258(ber_44260) {
-	var result_44261 = 0.0;
-
-		if (!(ber_44260.kortVarsel)) {
-		result_44261 = (ber_44260.arbetadeTimmarAnnan * 6.9999999999999996e-01);
-		}
-		
-
-	return result_44261;
-
-}
-
-function ersArbtid10tidAntal_44786(ers_44788) {
-	var result_44789 = [0.0];
-
-		L1: do {
-			var ber_44798 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__44810 = null;
-			colontmp__44810 = ers_44788.beredskaper;
-			var i_44813 = 0;
-			var L_44815 = (colontmp__44810 != null ? colontmp__44810.length : 0);
-			L2: do {
-					L3: while (true) {
-					if (!(i_44813 < L_44815)) break L3;
-						nimCopy(ber_44798, colontmp__44810[i_44813], NTI44006);
-						pluseq__42745(result_44789, 0, ersArbtid10tidAntal_44258(ber_44798));
-						i_44813 += 1;
-					}
-			} while(false);
-		} while(false);
-
-	return result_44789[0];
-
-}
-
-function ersArbtid10pengAntal_44262(ber_44264) {
-	var result_44265 = 0.0;
-
-		if (!(ber_44264.kortVarsel)) {
-		result_44265 = (ber_44264.arbetadeTimmarAnnan * 3.0000000000000004e-01);
-		}
-		
-
-	return result_44265;
-
-}
-
-function ersArbtid10pengAntal_44816(ers_44818) {
-	var result_44819 = [0.0];
-
-		L1: do {
-			var ber_44828 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__44840 = null;
-			colontmp__44840 = ers_44818.beredskaper;
-			var i_44843 = 0;
-			var L_44845 = (colontmp__44840 != null ? colontmp__44840.length : 0);
-			L2: do {
-					L3: while (true) {
-					if (!(i_44843 < L_44845)) break L3;
-						nimCopy(ber_44828, colontmp__44840[i_44843], NTI44006);
-						pluseq__42745(result_44819, 0, ersArbtid10pengAntal_44262(ber_44828));
-						i_44843 += 1;
-					}
-			} while(false);
-		} while(false);
-
-	return result_44819[0];
-
-}
-
-function ersArbtid10pengKronor_44846(ers_44848) {
-	var result_44849 = 0.0;
-
-		result_44849 = (ersArbtid10pengAntal_44816(ers_44848) * mXC3XA5nadslXC3XB6n137__44344(ers_44848));
-
-	return result_44849;
-
-}
-
-function ersArbtid10KvTidAntal_44292(ber_44294) {
-	var result_44295 = 0.0;
-
-		if (ber_44294.kortVarsel) {
-		var tid_44296 = (ber_44294.arbetadeTimmarVardagkvXC3XA4ll_ * 6.9999999999999996e-01);
-		result_44295 = (tid_44296 + (tid_44296 * 1.5000000000000000e+00));
-		}
-		
-
-	return result_44295;
-
-}
-
-function ersArbtid10KvTidAntal_45042(ers_45044) {
-	var result_45045 = [0.0];
-
-		L1: do {
-			var ber_45054 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__45066 = null;
-			colontmp__45066 = ers_45044.beredskaper;
-			var i_45069 = 0;
-			var L_45071 = (colontmp__45066 != null ? colontmp__45066.length : 0);
-			L2: do {
-					L3: while (true) {
-					if (!(i_45069 < L_45071)) break L3;
-						nimCopy(ber_45054, colontmp__45066[i_45069], NTI44006);
-						pluseq__42745(result_45045, 0, ersArbtid10KvTidAntal_44292(ber_45054));
-						i_45069 += 1;
-					}
-			} while(false);
-		} while(false);
-
-	return result_45045[0];
-
-}
-
-function ersArbtid10KvPengAntal_44297(ber_44299) {
-	var result_44300 = 0.0;
-
-		if (ber_44299.kortVarsel) {
-		var tid_44301 = (ber_44299.arbetadeTimmarAnnan * 3.0000000000000004e-01);
-		result_44300 = (tid_44301 + (tid_44301 * 1.5000000000000000e+00));
-		}
-		
-
-	return result_44300;
-
-}
-
-function ersArbtid10KvPengAntal_45072(ers_45074) {
-	var result_45075 = [0.0];
-
-		L1: do {
-			var ber_45084 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__45096 = null;
-			colontmp__45096 = ers_45074.beredskaper;
-			var i_45099 = 0;
-			var L_45101 = (colontmp__45096 != null ? colontmp__45096.length : 0);
-			L2: do {
-					L3: while (true) {
-					if (!(i_45099 < L_45101)) break L3;
-						nimCopy(ber_45084, colontmp__45096[i_45099], NTI44006);
-						pluseq__42745(result_45075, 0, ersArbtid10KvPengAntal_44297(ber_45084));
-						i_45099 += 1;
-					}
-			} while(false);
-		} while(false);
-
-	return result_45075[0];
-
-}
-
-function ersArbtid10KvPengKronor_45102(ers_45104) {
-	var result_45105 = 0.0;
-
-		result_45105 = (ersArbtid10KvPengAntal_45072(ers_45104) * mXC3XA5nadslXC3XB6n137__44344(ers_45104));
-
-	return result_45105;
-
-}
-
-function ersArbtid15tidAntal_44266(ber_44268) {
-	var result_44269 = 0.0;
-
-		if (!(ber_44268.kortVarsel)) {
-		result_44269 = ((ber_44268.arbetadeTimmarVardagkvXC3XA4ll_ * 6.9999999999999996e-01) * 1.5000000000000000e+00);
-		}
-		
-
-	return result_44269;
-
-}
-
-function ersArbtid15tidAntal_44850(ers_44852) {
-	var result_44853 = [0.0];
-
-		L1: do {
-			var ber_44862 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__44874 = null;
-			colontmp__44874 = ers_44852.beredskaper;
-			var i_44877 = 0;
-			var L_44879 = (colontmp__44874 != null ? colontmp__44874.length : 0);
-			L2: do {
-					L3: while (true) {
-					if (!(i_44877 < L_44879)) break L3;
-						nimCopy(ber_44862, colontmp__44874[i_44877], NTI44006);
-						pluseq__42745(result_44853, 0, ersArbtid15tidAntal_44266(ber_44862));
-						i_44877 += 1;
-					}
-			} while(false);
-		} while(false);
-
-	return result_44853[0];
-
-}
-
-function ersArbtid15pengAntal_44270(ber_44272) {
+function ersBerBtid_44270(ber_44272) {
 	var result_44273 = 0.0;
 
-		if (!(ber_44272.kortVarsel)) {
-		result_44273 = ((ber_44272.arbetadeTimmarVardagkvXC3XA4ll_ * 3.0000000000000004e-01) * 1.5000000000000000e+00);
-		}
-		
+		result_44273 = (ersattBeredskapstidB_44250(ber_44272) * 6.9999999999999996e-01);
 
 	return result_44273;
 
 }
 
-function ersArbtid15pengAntal_44880(ers_44882) {
-	var result_44883 = [0.0];
+function ersBerBtid_44803(ers_44805) {
+	var result_44806 = [0.0];
 
 		L1: do {
-			var ber_44892 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__44904 = null;
-			colontmp__44904 = ers_44882.beredskaper;
-			var i_44907 = 0;
-			var L_44909 = (colontmp__44904 != null ? colontmp__44904.length : 0);
+			var ber_44815 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__44827 = null;
+			colontmp__44827 = ers_44805.beredskaper;
+			var i_44830 = 0;
+			var L_44832 = (colontmp__44827 != null ? colontmp__44827.length : 0);
 			L2: do {
 					L3: while (true) {
-					if (!(i_44907 < L_44909)) break L3;
-						nimCopy(ber_44892, colontmp__44904[i_44907], NTI44006);
-						pluseq__42745(result_44883, 0, ersArbtid15pengAntal_44270(ber_44892));
-						i_44907 += 1;
+					if (!(i_44830 < L_44832)) break L3;
+						nimCopy(ber_44815, colontmp__44827[i_44830], NTI44006);
+						pluseq__42745(result_44806, 0, ersBerBtid_44270(ber_44815));
+						i_44830 += 1;
 					}
 			} while(false);
 		} while(false);
 
-	return result_44883[0];
+	return result_44806[0];
 
 }
 
-function ersArbtid15pengKronor_44910(ers_44912) {
-	var result_44913 = 0.0;
+function ersBerBpengAntal_44274(ber_44276) {
+	var result_44277 = 0.0;
 
-		result_44913 = (ersArbtid15pengAntal_44880(ers_44912) * mXC3XA5nadslXC3XB6n137__44344(ers_44912));
+		result_44277 = (ersattBeredskapstidB_44250(ber_44276) * 3.0000000000000004e-01);
 
-	return result_44913;
+	return result_44277;
 
 }
 
-function ersArbtid15KvTidAntal_44302(ber_44304) {
+function ersBerBpengAntal_44833(ers_44835) {
+	var result_44836 = [0.0];
+
+		L1: do {
+			var ber_44845 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__44857 = null;
+			colontmp__44857 = ers_44835.beredskaper;
+			var i_44860 = 0;
+			var L_44862 = (colontmp__44857 != null ? colontmp__44857.length : 0);
+			L2: do {
+					L3: while (true) {
+					if (!(i_44860 < L_44862)) break L3;
+						nimCopy(ber_44845, colontmp__44857[i_44860], NTI44006);
+						pluseq__42745(result_44836, 0, ersBerBpengAntal_44274(ber_44845));
+						i_44860 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_44836[0];
+
+}
+
+function ersBerBpengKronor_44863(ers_44865) {
+	var result_44866 = 0.0;
+
+		result_44866 = (ersBerBpengAntal_44833(ers_44865) * mXC3XA5nadslXC3XB6n137__44680(ers_44865));
+
+	return result_44866;
+
+}
+
+function ersBerB440_44282(ber_44284) {
+	var result_44285 = 0.0;
+
+		result_44285 = ersattBeredskapstidB_44250(ber_44284);
+
+	return result_44285;
+
+}
+
+function ersBerB440antal_44867(ers_44869) {
+	var result_44870 = [0.0];
+
+		L1: do {
+			var ber_44879 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__44891 = null;
+			colontmp__44891 = ers_44869.beredskaper;
+			var i_44894 = 0;
+			var L_44896 = (colontmp__44891 != null ? colontmp__44891.length : 0);
+			L2: do {
+					L3: while (true) {
+					if (!(i_44894 < L_44896)) break L3;
+						nimCopy(ber_44879, colontmp__44891[i_44894], NTI44006);
+						pluseq__42745(result_44870, 0, ersBerB440_44282(ber_44879));
+						i_44894 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_44870[0];
+
+}
+
+function ersBerB440peng_44897(ers_44899) {
+	var result_44900 = 0.0;
+
+		result_44900 = (ersBerB440antal_44867(ers_44899) * mXC3XA5nadslXC3XB6n440__44685(ers_44899));
+
+	return result_44900;
+
+}
+
+function ersArbtid10tidAntal_44286(ber_44288) {
+	var result_44289 = 0.0;
+
+		if (!(ber_44288.kortVarsel)) {
+		result_44289 = (ber_44288.arbetadeTimmarAnnan * 6.9999999999999996e-01);
+		}
+		
+
+	return result_44289;
+
+}
+
+function ersArbtid10tidAntal_44901(ers_44903) {
+	var result_44904 = [0.0];
+
+		L1: do {
+			var ber_44913 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__44925 = null;
+			colontmp__44925 = ers_44903.beredskaper;
+			var i_44928 = 0;
+			var L_44930 = (colontmp__44925 != null ? colontmp__44925.length : 0);
+			L2: do {
+					L3: while (true) {
+					if (!(i_44928 < L_44930)) break L3;
+						nimCopy(ber_44913, colontmp__44925[i_44928], NTI44006);
+						pluseq__42745(result_44904, 0, ersArbtid10tidAntal_44286(ber_44913));
+						i_44928 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_44904[0];
+
+}
+
+function ersArbtid10pengAntal_44290(ber_44292) {
+	var result_44293 = 0.0;
+
+		if (!(ber_44292.kortVarsel)) {
+		result_44293 = (ber_44292.arbetadeTimmarAnnan * 3.0000000000000004e-01);
+		}
+		
+
+	return result_44293;
+
+}
+
+function ersArbtid10pengAntal_44931(ers_44933) {
+	var result_44934 = [0.0];
+
+		L1: do {
+			var ber_44943 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__44955 = null;
+			colontmp__44955 = ers_44933.beredskaper;
+			var i_44958 = 0;
+			var L_44960 = (colontmp__44955 != null ? colontmp__44955.length : 0);
+			L2: do {
+					L3: while (true) {
+					if (!(i_44958 < L_44960)) break L3;
+						nimCopy(ber_44943, colontmp__44955[i_44958], NTI44006);
+						pluseq__42745(result_44934, 0, ersArbtid10pengAntal_44290(ber_44943));
+						i_44958 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_44934[0];
+
+}
+
+function ersArbtid10pengKronor_44961(ers_44963) {
+	var result_44964 = 0.0;
+
+		result_44964 = (ersArbtid10pengAntal_44931(ers_44963) * mXC3XA5nadslXC3XB6n137__44680(ers_44963));
+
+	return result_44964;
+
+}
+
+function ersArbtid10KvTidAntal_44320(ber_44322) {
+	var result_44323 = 0.0;
+
+		if (ber_44322.kortVarsel) {
+		var tid_44324 = (ber_44322.arbetadeTimmarVardagkvXC3XA4ll_ * 6.9999999999999996e-01);
+		result_44323 = (tid_44324 + (tid_44324 * 1.5000000000000000e+00));
+		}
+		
+
+	return result_44323;
+
+}
+
+function ersArbtid10KvTidAntal_45157(ers_45159) {
+	var result_45160 = [0.0];
+
+		L1: do {
+			var ber_45169 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__45181 = null;
+			colontmp__45181 = ers_45159.beredskaper;
+			var i_45184 = 0;
+			var L_45186 = (colontmp__45181 != null ? colontmp__45181.length : 0);
+			L2: do {
+					L3: while (true) {
+					if (!(i_45184 < L_45186)) break L3;
+						nimCopy(ber_45169, colontmp__45181[i_45184], NTI44006);
+						pluseq__42745(result_45160, 0, ersArbtid10KvTidAntal_44320(ber_45169));
+						i_45184 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_45160[0];
+
+}
+
+function ersArbtid10KvPengAntal_44325(ber_44327) {
+	var result_44328 = 0.0;
+
+		if (ber_44327.kortVarsel) {
+		var tid_44329 = (ber_44327.arbetadeTimmarAnnan * 3.0000000000000004e-01);
+		result_44328 = (tid_44329 + (tid_44329 * 1.5000000000000000e+00));
+		}
+		
+
+	return result_44328;
+
+}
+
+function ersArbtid10KvPengAntal_45187(ers_45189) {
+	var result_45190 = [0.0];
+
+		L1: do {
+			var ber_45199 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__45211 = null;
+			colontmp__45211 = ers_45189.beredskaper;
+			var i_45214 = 0;
+			var L_45216 = (colontmp__45211 != null ? colontmp__45211.length : 0);
+			L2: do {
+					L3: while (true) {
+					if (!(i_45214 < L_45216)) break L3;
+						nimCopy(ber_45199, colontmp__45211[i_45214], NTI44006);
+						pluseq__42745(result_45190, 0, ersArbtid10KvPengAntal_44325(ber_45199));
+						i_45214 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_45190[0];
+
+}
+
+function ersArbtid10KvPengKronor_45217(ers_45219) {
+	var result_45220 = 0.0;
+
+		result_45220 = (ersArbtid10KvPengAntal_45187(ers_45219) * mXC3XA5nadslXC3XB6n137__44680(ers_45219));
+
+	return result_45220;
+
+}
+
+function ersArbtid15tidAntal_44294(ber_44296) {
+	var result_44297 = 0.0;
+
+		if (!(ber_44296.kortVarsel)) {
+		result_44297 = ((ber_44296.arbetadeTimmarVardagkvXC3XA4ll_ * 6.9999999999999996e-01) * 1.5000000000000000e+00);
+		}
+		
+
+	return result_44297;
+
+}
+
+function ersArbtid15tidAntal_44965(ers_44967) {
+	var result_44968 = [0.0];
+
+		L1: do {
+			var ber_44977 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__44989 = null;
+			colontmp__44989 = ers_44967.beredskaper;
+			var i_44992 = 0;
+			var L_44994 = (colontmp__44989 != null ? colontmp__44989.length : 0);
+			L2: do {
+					L3: while (true) {
+					if (!(i_44992 < L_44994)) break L3;
+						nimCopy(ber_44977, colontmp__44989[i_44992], NTI44006);
+						pluseq__42745(result_44968, 0, ersArbtid15tidAntal_44294(ber_44977));
+						i_44992 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_44968[0];
+
+}
+
+function ersArbtid15pengAntal_44298(ber_44300) {
+	var result_44301 = 0.0;
+
+		if (!(ber_44300.kortVarsel)) {
+		result_44301 = ((ber_44300.arbetadeTimmarVardagkvXC3XA4ll_ * 3.0000000000000004e-01) * 1.5000000000000000e+00);
+		}
+		
+
+	return result_44301;
+
+}
+
+function ersArbtid15pengAntal_44995(ers_44997) {
+	var result_44998 = [0.0];
+
+		L1: do {
+			var ber_45007 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__45019 = null;
+			colontmp__45019 = ers_44997.beredskaper;
+			var i_45022 = 0;
+			var L_45024 = (colontmp__45019 != null ? colontmp__45019.length : 0);
+			L2: do {
+					L3: while (true) {
+					if (!(i_45022 < L_45024)) break L3;
+						nimCopy(ber_45007, colontmp__45019[i_45022], NTI44006);
+						pluseq__42745(result_44998, 0, ersArbtid15pengAntal_44298(ber_45007));
+						i_45022 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_44998[0];
+
+}
+
+function ersArbtid15pengKronor_45025(ers_45027) {
+	var result_45028 = 0.0;
+
+		result_45028 = (ersArbtid15pengAntal_44995(ers_45027) * mXC3XA5nadslXC3XB6n137__44680(ers_45027));
+
+	return result_45028;
+
+}
+
+function ersArbtid15KvTidAntal_44330(ber_44332) {
+	var result_44333 = 0.0;
+
+		if (ber_44332.kortVarsel) {
+		var tid_44334 = (ber_44332.arbetadeTimmarVardagkvXC3XA4ll_ * 6.9999999999999996e-01);
+		result_44333 = ((tid_44334 * 1.5000000000000000e+00) + (tid_44334 * 1.5000000000000000e+00));
+		}
+		
+
+	return result_44333;
+
+}
+
+function ersArbtid15KvTidAntal_45221(ers_45223) {
+	var result_45224 = [0.0];
+
+		L1: do {
+			var ber_45233 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__45245 = null;
+			colontmp__45245 = ers_45223.beredskaper;
+			var i_45248 = 0;
+			var L_45250 = (colontmp__45245 != null ? colontmp__45245.length : 0);
+			L2: do {
+					L3: while (true) {
+					if (!(i_45248 < L_45250)) break L3;
+						nimCopy(ber_45233, colontmp__45245[i_45248], NTI44006);
+						pluseq__42745(result_45224, 0, ersArbtid15KvTidAntal_44330(ber_45233));
+						i_45248 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_45224[0];
+
+}
+
+function ersArbtid15KvPengAntal_44335(ber_44337) {
+	var result_44338 = 0.0;
+
+		if (ber_44337.kortVarsel) {
+		var tid_44339 = (ber_44337.arbetadeTimmarVardagkvXC3XA4ll_ * 3.0000000000000004e-01);
+		result_44338 = ((tid_44339 * 1.5000000000000000e+00) + (tid_44339 * 1.5000000000000000e+00));
+		}
+		
+
+	return result_44338;
+
+}
+
+function ersArbtid15KvPengAntal_45251(ers_45253) {
+	var result_45254 = [0.0];
+
+		L1: do {
+			var ber_45263 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__45275 = null;
+			colontmp__45275 = ers_45253.beredskaper;
+			var i_45278 = 0;
+			var L_45280 = (colontmp__45275 != null ? colontmp__45275.length : 0);
+			L2: do {
+					L3: while (true) {
+					if (!(i_45278 < L_45280)) break L3;
+						nimCopy(ber_45263, colontmp__45275[i_45278], NTI44006);
+						pluseq__42745(result_45254, 0, ersArbtid15KvPengAntal_44335(ber_45263));
+						i_45278 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_45254[0];
+
+}
+
+function ersArbtid15KvPengKronor_45281(ers_45283) {
+	var result_45284 = 0.0;
+
+		result_45284 = (ersArbtid15KvPengAntal_45251(ers_45283) * mXC3XA5nadslXC3XB6n137__44680(ers_45283));
+
+	return result_45284;
+
+}
+
+function ersArbtid20tidAntal_44302(ber_44304) {
 	var result_44305 = 0.0;
 
-		if (ber_44304.kortVarsel) {
-		var tid_44306 = (ber_44304.arbetadeTimmarVardagkvXC3XA4ll_ * 6.9999999999999996e-01);
-		result_44305 = ((tid_44306 * 1.5000000000000000e+00) + (tid_44306 * 1.5000000000000000e+00));
+		if (!(ber_44304.kortVarsel)) {
+		var tid_44306 = (ber_44304.arbetadeTimmarNatt + ber_44304.arbetadeTimmarHelg);
+		result_44305 = ((tid_44306 * 6.9999999999999996e-01) * 2.0000000000000000e+00);
 		}
 		
 
@@ -917,35 +998,35 @@ function ersArbtid15KvTidAntal_44302(ber_44304) {
 
 }
 
-function ersArbtid15KvTidAntal_45106(ers_45108) {
-	var result_45109 = [0.0];
+function ersArbtid20tidAntal_45029(ers_45031) {
+	var result_45032 = [0.0];
 
 		L1: do {
-			var ber_45118 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__45130 = null;
-			colontmp__45130 = ers_45108.beredskaper;
-			var i_45133 = 0;
-			var L_45135 = (colontmp__45130 != null ? colontmp__45130.length : 0);
+			var ber_45041 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__45053 = null;
+			colontmp__45053 = ers_45031.beredskaper;
+			var i_45056 = 0;
+			var L_45058 = (colontmp__45053 != null ? colontmp__45053.length : 0);
 			L2: do {
 					L3: while (true) {
-					if (!(i_45133 < L_45135)) break L3;
-						nimCopy(ber_45118, colontmp__45130[i_45133], NTI44006);
-						pluseq__42745(result_45109, 0, ersArbtid15KvTidAntal_44302(ber_45118));
-						i_45133 += 1;
+					if (!(i_45056 < L_45058)) break L3;
+						nimCopy(ber_45041, colontmp__45053[i_45056], NTI44006);
+						pluseq__42745(result_45032, 0, ersArbtid20tidAntal_44302(ber_45041));
+						i_45056 += 1;
 					}
 			} while(false);
 		} while(false);
 
-	return result_45109[0];
+	return result_45032[0];
 
 }
 
-function ersArbtid15KvPengAntal_44307(ber_44309) {
+function ersArbtid20pengAntal_44307(ber_44309) {
 	var result_44310 = 0.0;
 
-		if (ber_44309.kortVarsel) {
-		var tid_44311 = (ber_44309.arbetadeTimmarVardagkvXC3XA4ll_ * 3.0000000000000004e-01);
-		result_44310 = ((tid_44311 * 1.5000000000000000e+00) + (tid_44311 * 1.5000000000000000e+00));
+		if (!(ber_44309.kortVarsel)) {
+		var tid_44311 = (ber_44309.arbetadeTimmarNatt + ber_44309.arbetadeTimmarHelg);
+		result_44310 = ((tid_44311 * 3.0000000000000004e-01) * 2.0000000000000000e+00);
 		}
 		
 
@@ -953,270 +1034,291 @@ function ersArbtid15KvPengAntal_44307(ber_44309) {
 
 }
 
-function ersArbtid15KvPengAntal_45136(ers_45138) {
-	var result_45139 = [0.0];
+function ersArbtid20pengAntal_45059(ers_45061) {
+	var result_45062 = [0.0];
 
 		L1: do {
-			var ber_45148 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__45160 = null;
-			colontmp__45160 = ers_45138.beredskaper;
-			var i_45163 = 0;
-			var L_45165 = (colontmp__45160 != null ? colontmp__45160.length : 0);
+			var ber_45071 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__45083 = null;
+			colontmp__45083 = ers_45061.beredskaper;
+			var i_45086 = 0;
+			var L_45088 = (colontmp__45083 != null ? colontmp__45083.length : 0);
 			L2: do {
 					L3: while (true) {
-					if (!(i_45163 < L_45165)) break L3;
-						nimCopy(ber_45148, colontmp__45160[i_45163], NTI44006);
-						pluseq__42745(result_45139, 0, ersArbtid15KvPengAntal_44307(ber_45148));
-						i_45163 += 1;
+					if (!(i_45086 < L_45088)) break L3;
+						nimCopy(ber_45071, colontmp__45083[i_45086], NTI44006);
+						pluseq__42745(result_45062, 0, ersArbtid20pengAntal_44307(ber_45071));
+						i_45086 += 1;
 					}
 			} while(false);
 		} while(false);
 
-	return result_45139[0];
+	return result_45062[0];
 
 }
 
-function ersArbtid15KvPengKronor_45166(ers_45168) {
-	var result_45169 = 0.0;
+function ersArbtid20pengKronor_45089(ers_45091) {
+	var result_45092 = 0.0;
 
-		result_45169 = (ersArbtid15KvPengAntal_45136(ers_45168) * mXC3XA5nadslXC3XB6n137__44344(ers_45168));
+		result_45092 = (ersArbtid20pengAntal_45059(ers_45091) * mXC3XA5nadslXC3XB6n137__44680(ers_45091));
 
-	return result_45169;
+	return result_45092;
 
 }
 
-function ersArbtid20tidAntal_44274(ber_44276) {
-	var result_44277 = 0.0;
+function ersArbtid20KvTidAntal_44340(ber_44342) {
+	var result_44343 = 0.0;
 
-		if (!(ber_44276.kortVarsel)) {
-		var tid_44278 = (ber_44276.arbetadeTimmarNatt + ber_44276.arbetadeTimmarHelg);
-		result_44277 = ((tid_44278 * 6.9999999999999996e-01) * 2.0000000000000000e+00);
+		if (ber_44342.kortVarsel) {
+		var tid_44344 = ((ber_44342.arbetadeTimmarNatt + ber_44342.arbetadeTimmarHelg) * 6.9999999999999996e-01);
+		result_44343 = ((tid_44344 * 2.0000000000000000e+00) + (tid_44344 * 1.5000000000000000e+00));
 		}
 		
 
-	return result_44277;
+	return result_44343;
 
 }
 
-function ersArbtid20tidAntal_44914(ers_44916) {
-	var result_44917 = [0.0];
+function ersArbtid20KvTidAntal_45285(ers_45287) {
+	var result_45288 = [0.0];
 
 		L1: do {
-			var ber_44926 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__44938 = null;
-			colontmp__44938 = ers_44916.beredskaper;
-			var i_44941 = 0;
-			var L_44943 = (colontmp__44938 != null ? colontmp__44938.length : 0);
+			var ber_45297 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__45309 = null;
+			colontmp__45309 = ers_45287.beredskaper;
+			var i_45312 = 0;
+			var L_45314 = (colontmp__45309 != null ? colontmp__45309.length : 0);
 			L2: do {
 					L3: while (true) {
-					if (!(i_44941 < L_44943)) break L3;
-						nimCopy(ber_44926, colontmp__44938[i_44941], NTI44006);
-						pluseq__42745(result_44917, 0, ersArbtid20tidAntal_44274(ber_44926));
-						i_44941 += 1;
+					if (!(i_45312 < L_45314)) break L3;
+						nimCopy(ber_45297, colontmp__45309[i_45312], NTI44006);
+						pluseq__42745(result_45288, 0, ersArbtid20KvTidAntal_44340(ber_45297));
+						i_45312 += 1;
 					}
 			} while(false);
 		} while(false);
 
-	return result_44917[0];
+	return result_45288[0];
 
 }
 
-function ersArbtid20pengAntal_44279(ber_44281) {
-	var result_44282 = 0.0;
+function ersArbtid20KvPengAntal_44345(ber_44347) {
+	var result_44348 = 0.0;
 
-		if (!(ber_44281.kortVarsel)) {
-		var tid_44283 = (ber_44281.arbetadeTimmarNatt + ber_44281.arbetadeTimmarHelg);
-		result_44282 = ((tid_44283 * 3.0000000000000004e-01) * 2.0000000000000000e+00);
+		if (ber_44347.kortVarsel) {
+		var tid_44349 = ((ber_44347.arbetadeTimmarNatt + ber_44347.arbetadeTimmarHelg) * 3.0000000000000004e-01);
+		result_44348 = ((tid_44349 * 2.0000000000000000e+00) + (tid_44349 * 1.5000000000000000e+00));
 		}
 		
 
-	return result_44282;
+	return result_44348;
 
 }
 
-function ersArbtid20pengAntal_44944(ers_44946) {
-	var result_44947 = [0.0];
+function ersArbtid20KvPengAntal_45315(ers_45317) {
+	var result_45318 = [0.0];
 
 		L1: do {
-			var ber_44956 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__44968 = null;
-			colontmp__44968 = ers_44946.beredskaper;
-			var i_44971 = 0;
-			var L_44973 = (colontmp__44968 != null ? colontmp__44968.length : 0);
+			var ber_45327 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__45339 = null;
+			colontmp__45339 = ers_45317.beredskaper;
+			var i_45342 = 0;
+			var L_45344 = (colontmp__45339 != null ? colontmp__45339.length : 0);
 			L2: do {
 					L3: while (true) {
-					if (!(i_44971 < L_44973)) break L3;
-						nimCopy(ber_44956, colontmp__44968[i_44971], NTI44006);
-						pluseq__42745(result_44947, 0, ersArbtid20pengAntal_44279(ber_44956));
-						i_44971 += 1;
+					if (!(i_45342 < L_45344)) break L3;
+						nimCopy(ber_45327, colontmp__45339[i_45342], NTI44006);
+						pluseq__42745(result_45318, 0, ersArbtid20KvPengAntal_44345(ber_45327));
+						i_45342 += 1;
 					}
 			} while(false);
 		} while(false);
 
-	return result_44947[0];
+	return result_45318[0];
 
 }
 
-function ersArbtid20pengKronor_44974(ers_44976) {
-	var result_44977 = 0.0;
+function ersArbtid20KvPengKronor_45345(ers_45347) {
+	var result_45348 = 0.0;
 
-		result_44977 = (ersArbtid20pengAntal_44944(ers_44976) * mXC3XA5nadslXC3XB6n137__44344(ers_44976));
+		result_45348 = (ersArbtid20KvPengAntal_45315(ers_45347) * mXC3XA5nadslXC3XB6n137__44680(ers_45347));
 
-	return result_44977;
+	return result_45348;
 
 }
 
-function ersArbtid20KvTidAntal_44312(ber_44314) {
+function ersArbtid40tidAntal_44312(ber_44314) {
 	var result_44315 = 0.0;
 
-		if (ber_44314.kortVarsel) {
-		var tid_44316 = ((ber_44314.arbetadeTimmarNatt + ber_44314.arbetadeTimmarHelg) * 6.9999999999999996e-01);
-		result_44315 = ((tid_44316 * 2.0000000000000000e+00) + (tid_44316 * 1.5000000000000000e+00));
-		}
-		
+		result_44315 = ((ber_44314.arbetadeTimmarStorhelg * 6.9999999999999996e-01) * 4.0000000000000000e+00);
 
 	return result_44315;
 
 }
 
-function ersArbtid20KvTidAntal_45170(ers_45172) {
-	var result_45173 = [0.0];
+function ersArbtid40tidAntal_45093(ers_45095) {
+	var result_45096 = [0.0];
 
 		L1: do {
-			var ber_45182 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__45194 = null;
-			colontmp__45194 = ers_45172.beredskaper;
-			var i_45197 = 0;
-			var L_45199 = (colontmp__45194 != null ? colontmp__45194.length : 0);
+			var ber_45105 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__45117 = null;
+			colontmp__45117 = ers_45095.beredskaper;
+			var i_45120 = 0;
+			var L_45122 = (colontmp__45117 != null ? colontmp__45117.length : 0);
 			L2: do {
 					L3: while (true) {
-					if (!(i_45197 < L_45199)) break L3;
-						nimCopy(ber_45182, colontmp__45194[i_45197], NTI44006);
-						pluseq__42745(result_45173, 0, ersArbtid20KvTidAntal_44312(ber_45182));
-						i_45197 += 1;
+					if (!(i_45120 < L_45122)) break L3;
+						nimCopy(ber_45105, colontmp__45117[i_45120], NTI44006);
+						pluseq__42745(result_45096, 0, ersArbtid40tidAntal_44312(ber_45105));
+						i_45120 += 1;
 					}
 			} while(false);
 		} while(false);
 
-	return result_45173[0];
+	return result_45096[0];
 
 }
 
-function ersArbtid20KvPengAntal_44317(ber_44319) {
-	var result_44320 = 0.0;
+function ersArbtid40pengAntal_44316(ber_44318) {
+	var result_44319 = 0.0;
 
-		if (ber_44319.kortVarsel) {
-		var tid_44321 = ((ber_44319.arbetadeTimmarNatt + ber_44319.arbetadeTimmarHelg) * 3.0000000000000004e-01);
-		result_44320 = ((tid_44321 * 2.0000000000000000e+00) + (tid_44321 * 1.5000000000000000e+00));
+		result_44319 = ((ber_44318.arbetadeTimmarStorhelg * 3.0000000000000004e-01) * 4.0000000000000000e+00);
+
+	return result_44319;
+
+}
+
+function ersArbtid40pengAntal_45123(ers_45125) {
+	var result_45126 = [0.0];
+
+		L1: do {
+			var ber_45135 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__45147 = null;
+			colontmp__45147 = ers_45125.beredskaper;
+			var i_45150 = 0;
+			var L_45152 = (colontmp__45147 != null ? colontmp__45147.length : 0);
+			L2: do {
+					L3: while (true) {
+					if (!(i_45150 < L_45152)) break L3;
+						nimCopy(ber_45135, colontmp__45147[i_45150], NTI44006);
+						pluseq__42745(result_45126, 0, ersArbtid40pengAntal_44316(ber_45135));
+						i_45150 += 1;
+					}
+			} while(false);
+		} while(false);
+
+	return result_45126[0];
+
+}
+
+function ersArbtid40pengKronor_45153(ers_45155) {
+	var result_45156 = 0.0;
+
+		result_45156 = (ersArbtid40pengAntal_45123(ers_45155) * mXC3XA5nadslXC3XB6n137__44680(ers_45155));
+
+	return result_45156;
+
+}
+
+function beredskapsTidA_44186(ber_44188) {
+	var result_44189 = 0.0;
+
+		if ((ber_44188.kind == 0)) {
+		result_44189 = (ber_44188.beredskapTimmarAnnan + ber_44188.beredskapTimmarHelg);
 		}
 		
 
-	return result_44320;
+	return result_44189;
 
 }
 
-function ersArbtid20KvPengAntal_45200(ers_45202) {
-	var result_45203 = [0.0];
+function beredskapsTidA_44620(ers_44622) {
+	var result_44623 = [0.0];
 
 		L1: do {
-			var ber_45212 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__45224 = null;
-			colontmp__45224 = ers_45202.beredskaper;
-			var i_45227 = 0;
-			var L_45229 = (colontmp__45224 != null ? colontmp__45224.length : 0);
+			var ber_44632 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__44644 = null;
+			colontmp__44644 = ers_44622.beredskaper;
+			var i_44647 = 0;
+			var L_44649 = (colontmp__44644 != null ? colontmp__44644.length : 0);
 			L2: do {
 					L3: while (true) {
-					if (!(i_45227 < L_45229)) break L3;
-						nimCopy(ber_45212, colontmp__45224[i_45227], NTI44006);
-						pluseq__42745(result_45203, 0, ersArbtid20KvPengAntal_44317(ber_45212));
-						i_45227 += 1;
+					if (!(i_44647 < L_44649)) break L3;
+						nimCopy(ber_44632, colontmp__44644[i_44647], NTI44006);
+						pluseq__42745(result_44623, 0, beredskapsTidA_44186(ber_44632));
+						i_44647 += 1;
 					}
 			} while(false);
 		} while(false);
 
-	return result_45203[0];
+	return result_44623[0];
 
 }
 
-function ersArbtid20KvPengKronor_45230(ers_45232) {
-	var result_45233 = 0.0;
+function beredskapsTidB_44198(ber_44200) {
+	var result_44201 = 0.0;
 
-		result_45233 = (ersArbtid20KvPengAntal_45200(ers_45232) * mXC3XA5nadslXC3XB6n137__44344(ers_45232));
+		if ((ber_44200.kind == 1)) {
+		result_44201 = (ber_44200.beredskapTimmarAnnan + ber_44200.beredskapTimmarHelg);
+		}
+		
 
-	return result_45233;
-
-}
-
-function ersArbtid40tidAntal_44284(ber_44286) {
-	var result_44287 = 0.0;
-
-		result_44287 = ((ber_44286.arbetadeTimmarStorhelg * 6.9999999999999996e-01) * 4.0000000000000000e+00);
-
-	return result_44287;
+	return result_44201;
 
 }
 
-function ersArbtid40tidAntal_44978(ers_44980) {
-	var result_44981 = [0.0];
+function beredskapsTidB_44650(ers_44652) {
+	var result_44653 = [0.0];
 
 		L1: do {
-			var ber_44990 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__45002 = null;
-			colontmp__45002 = ers_44980.beredskaper;
-			var i_45005 = 0;
-			var L_45007 = (colontmp__45002 != null ? colontmp__45002.length : 0);
+			var ber_44662 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__44674 = null;
+			colontmp__44674 = ers_44652.beredskaper;
+			var i_44677 = 0;
+			var L_44679 = (colontmp__44674 != null ? colontmp__44674.length : 0);
 			L2: do {
 					L3: while (true) {
-					if (!(i_45005 < L_45007)) break L3;
-						nimCopy(ber_44990, colontmp__45002[i_45005], NTI44006);
-						pluseq__42745(result_44981, 0, ersArbtid40tidAntal_44284(ber_44990));
-						i_45005 += 1;
+					if (!(i_44677 < L_44679)) break L3;
+						nimCopy(ber_44662, colontmp__44674[i_44677], NTI44006);
+						pluseq__42745(result_44653, 0, beredskapsTidB_44198(ber_44662));
+						i_44677 += 1;
 					}
 			} while(false);
 		} while(false);
 
-	return result_44981[0];
+	return result_44653[0];
 
 }
 
-function ersArbtid40pengAntal_44288(ber_44290) {
-	var result_44291 = 0.0;
+function arbetadTid_44057(ber_44059) {
+	var result_44060 = 0.0;
 
-		result_44291 = ((ber_44290.arbetadeTimmarStorhelg * 3.0000000000000004e-01) * 4.0000000000000000e+00);
+		result_44060 = ((((ber_44059.arbetadeTimmarAnnan + ber_44059.arbetadeTimmarVardagkvXC3XA4ll_) + ber_44059.arbetadeTimmarNatt) + ber_44059.arbetadeTimmarHelg) + ber_44059.arbetadeTimmarStorhelg);
 
-	return result_44291;
+	return result_44060;
 
 }
 
-function ersArbtid40pengAntal_45008(ers_45010) {
-	var result_45011 = [0.0];
+function arbetadTid_44372(ers_44374) {
+	var result_44375 = [0.0];
 
 		L1: do {
-			var ber_45020 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__45032 = null;
-			colontmp__45032 = ers_45010.beredskaper;
-			var i_45035 = 0;
-			var L_45037 = (colontmp__45032 != null ? colontmp__45032.length : 0);
+			var ber_44602 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__44614 = null;
+			colontmp__44614 = ers_44374.beredskaper;
+			var i_44617 = 0;
+			var L_44619 = (colontmp__44614 != null ? colontmp__44614.length : 0);
 			L2: do {
 					L3: while (true) {
-					if (!(i_45035 < L_45037)) break L3;
-						nimCopy(ber_45020, colontmp__45032[i_45035], NTI44006);
-						pluseq__42745(result_45011, 0, ersArbtid40pengAntal_44288(ber_45020));
-						i_45035 += 1;
+					if (!(i_44617 < L_44619)) break L3;
+						nimCopy(ber_44602, colontmp__44614[i_44617], NTI44006);
+						pluseq__42745(result_44375, 0, arbetadTid_44057(ber_44602));
+						i_44617 += 1;
 					}
 			} while(false);
 		} while(false);
 
-	return result_45011[0];
-
-}
-
-function ersArbtid40pengKronor_45038(ers_45040) {
-	var result_45041 = 0.0;
-
-		result_45041 = (ersArbtid40pengAntal_45008(ers_45040) * mXC3XA5nadslXC3XB6n137__44344(ers_45040));
-
-	return result_45041;
+	return result_44375[0];
 
 }
 
@@ -1231,14 +1333,14 @@ function createBeredskapTable_46002(ers_46004) {
 		L1: do {
 			var i_46038 = 0;
 			var ber_46039 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46229 = null;
-			colontmp__46229 = ers_46004.beredskaper;
-			var i_46232 = 0;
+			var colontmp__46234 = null;
+			colontmp__46234 = ers_46004.beredskaper;
+			var i_46237 = 0;
 			L2: do {
 					L3: while (true) {
-					if (!(i_46232 < (colontmp__46229 != null ? colontmp__46229.length : 0))) break L3;
-						i_46038 = i_46232;
-						nimCopy(ber_46039, colontmp__46229[i_46232], NTI44006);
+					if (!(i_46237 < (colontmp__46234 != null ? colontmp__46234.length : 0))) break L3;
+						i_46038 = i_46237;
+						nimCopy(ber_46039, colontmp__46234[i_46237], NTI44006);
 						if ((ber_46039.kind == 0)) {
 						Tmp4 = makeNimstrLit("A");
 						}
@@ -1253,423 +1355,433 @@ function createBeredskapTable_46002(ers_46004) {
 						Tmp5 = makeNimstrLit("");
 						}
 						
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <th>No ").slice(0,-1)).concat(cstrToNimstr(((i_46038 + 1))+"").slice(0,-1),makeNimstrLit(" (").slice(0,-1),Tmp4.slice(0,-1),makeNimstrLit("").slice(0,-1),Tmp5.slice(0,-1),makeNimstrLit(")</th>\x0A"))); } else { result_46005 = (makeNimstrLit("      <th>No ").slice(0,-1)).concat(cstrToNimstr(((i_46038 + 1))+"").slice(0,-1),makeNimstrLit(" (").slice(0,-1),Tmp4.slice(0,-1),makeNimstrLit("").slice(0,-1),Tmp5.slice(0,-1),makeNimstrLit(")</th>\x0A"));};
-						i_46232 += 1;
-					}
-			} while(false);
-		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("      <th>Summa</th>\x0A      <th>Apris</th>\x0A      <th>Belopp</th>\x0A    </tr>\x0A  </thead>\x0A  <tbody>\x0A")); } else { result_46005 = makeNimstrLit("      <th>Summa</th>\x0A      <th>Apris</th>\x0A      <th>Belopp</th>\x0A    </tr>\x0A  </thead>\x0A  <tbody>\x0A");};
-		if ((0.0 < ersBerAtid_44369(ers_46004))) {
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber A tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber A tid</td>\x0A");};
-		L6: do {
-			var ber_46056 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46234 = null;
-			colontmp__46234 = ers_46004.beredskaper;
-			var i_46237 = 0;
-			var L_46239 = (colontmp__46234 != null ? colontmp__46234.length : 0);
-			L7: do {
-					L8: while (true) {
-					if (!(i_46237 < L_46239)) break L8;
-						nimCopy(ber_46056, colontmp__46234[i_46237], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerAtid_44234(ber_46056), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerAtid_44234(ber_46056), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <th>").slice(0,-1)).concat(cstrToNimstr(((i_46038 + 1))+"").slice(0,-1),makeNimstrLit(". Ber ").slice(0,-1),Tmp4.slice(0,-1),makeNimstrLit("").slice(0,-1),Tmp5.slice(0,-1),makeNimstrLit("</th>\x0A"))); } else { result_46005 = (makeNimstrLit("      <th>").slice(0,-1)).concat(cstrToNimstr(((i_46038 + 1))+"").slice(0,-1),makeNimstrLit(". Ber ").slice(0,-1),Tmp4.slice(0,-1),makeNimstrLit("").slice(0,-1),Tmp5.slice(0,-1),makeNimstrLit("</th>\x0A"));};
 						i_46237 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerAtid_44369(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerAtid_44369(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("      <th>Summa</th>\x0A      <th>Apris</th>\x0A      <th>Belopp</th>\x0A    </tr>\x0A  </thead>\x0A  <tbody>\x0A")); } else { result_46005 = makeNimstrLit("      <th>Summa</th>\x0A      <th>Apris</th>\x0A      <th>Belopp</th>\x0A    </tr>\x0A  </thead>\x0A  <tbody>\x0A");};
+		if ((0.0 < ersBerAtid_44705(ers_46004))) {
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber A tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber A tid</td>\x0A");};
+		L6: do {
+			var ber_46056 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
+			var colontmp__46239 = null;
+			colontmp__46239 = ers_46004.beredskaper;
+			var i_46242 = 0;
+			var L_46244 = (colontmp__46239 != null ? colontmp__46239.length : 0);
+			L7: do {
+					L8: while (true) {
+					if (!(i_46242 < L_46244)) break L8;
+						nimCopy(ber_46056, colontmp__46239[i_46242], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerAtid_44262(ber_46056), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerAtid_44262(ber_46056), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46242 += 1;
+					}
+			} while(false);
+		} while(false);
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerAtid_44705(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerAtid_44705(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersBerApengAntal_44620(ers_46004))) {
+		if ((0.0 < ersBerApengAntal_44735(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber A peng</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber A peng</td>\x0A");};
 		L9: do {
 			var ber_46065 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46241 = null;
-			colontmp__46241 = ers_46004.beredskaper;
-			var i_46244 = 0;
-			var L_46246 = (colontmp__46241 != null ? colontmp__46241.length : 0);
+			var colontmp__46246 = null;
+			colontmp__46246 = ers_46004.beredskaper;
+			var i_46249 = 0;
+			var L_46251 = (colontmp__46246 != null ? colontmp__46246.length : 0);
 			L10: do {
 					L11: while (true) {
-					if (!(i_46244 < L_46246)) break L11;
-						nimCopy(ber_46065, colontmp__46241[i_46244], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerApengAntal_44238(ber_46065), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerApengAntal_44238(ber_46065), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46244 += 1;
+					if (!(i_46249 < L_46251)) break L11;
+						nimCopy(ber_46065, colontmp__46246[i_46249], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerApengAntal_44266(ber_46065), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerApengAntal_44266(ber_46065), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46249 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerApengAntal_44620(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerApengKronor_44650(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerApengAntal_44620(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerApengKronor_44650(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerApengAntal_44735(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerApengKronor_44765(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerApengAntal_44735(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerApengKronor_44765(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersBerA440antal_44654(ers_46004))) {
+		if ((0.0 < ersBerA440antal_44769(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber A 1/440</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber A 1/440</td>\x0A");};
 		L12: do {
 			var ber_46074 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46248 = null;
-			colontmp__46248 = ers_46004.beredskaper;
-			var i_46251 = 0;
-			var L_46253 = (colontmp__46248 != null ? colontmp__46248.length : 0);
+			var colontmp__46253 = null;
+			colontmp__46253 = ers_46004.beredskaper;
+			var i_46256 = 0;
+			var L_46258 = (colontmp__46253 != null ? colontmp__46253.length : 0);
 			L13: do {
 					L14: while (true) {
-					if (!(i_46251 < L_46253)) break L14;
-						nimCopy(ber_46074, colontmp__46248[i_46251], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerA440_44250(ber_46074), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerA440_44250(ber_46074), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46251 += 1;
+					if (!(i_46256 < L_46258)) break L14;
+						nimCopy(ber_46074, colontmp__46253[i_46256], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerA440_44278(ber_46074), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerA440_44278(ber_46074), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46256 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerA440antal_44654(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44349(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerA440peng_44684(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerA440antal_44654(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44349(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerA440peng_44684(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerA440antal_44769(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44685(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerA440peng_44799(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerA440antal_44769(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44685(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerA440peng_44799(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersBerBtid_44688(ers_46004))) {
+		if ((0.0 < ersBerBtid_44803(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber B tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber B tid</td>\x0A");};
 		L15: do {
 			var ber_46083 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46255 = null;
-			colontmp__46255 = ers_46004.beredskaper;
-			var i_46258 = 0;
-			var L_46260 = (colontmp__46255 != null ? colontmp__46255.length : 0);
+			var colontmp__46260 = null;
+			colontmp__46260 = ers_46004.beredskaper;
+			var i_46263 = 0;
+			var L_46265 = (colontmp__46260 != null ? colontmp__46260.length : 0);
 			L16: do {
 					L17: while (true) {
-					if (!(i_46258 < L_46260)) break L17;
-						nimCopy(ber_46083, colontmp__46255[i_46258], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBtid_44242(ber_46083), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBtid_44242(ber_46083), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46258 += 1;
+					if (!(i_46263 < L_46265)) break L17;
+						nimCopy(ber_46083, colontmp__46260[i_46263], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBtid_44270(ber_46083), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBtid_44270(ber_46083), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46263 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBtid_44688(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBtid_44688(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBtid_44803(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBtid_44803(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersBerBpengAntal_44718(ers_46004))) {
+		if ((0.0 < ersBerBpengAntal_44833(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber B peng</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber B peng</td>\x0A");};
 		L18: do {
 			var ber_46092 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46262 = null;
-			colontmp__46262 = ers_46004.beredskaper;
-			var i_46265 = 0;
-			var L_46267 = (colontmp__46262 != null ? colontmp__46262.length : 0);
+			var colontmp__46267 = null;
+			colontmp__46267 = ers_46004.beredskaper;
+			var i_46270 = 0;
+			var L_46272 = (colontmp__46267 != null ? colontmp__46267.length : 0);
 			L19: do {
 					L20: while (true) {
-					if (!(i_46265 < L_46267)) break L20;
-						nimCopy(ber_46092, colontmp__46262[i_46265], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBpengAntal_44246(ber_46092), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBpengAntal_44246(ber_46092), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46265 += 1;
+					if (!(i_46270 < L_46272)) break L20;
+						nimCopy(ber_46092, colontmp__46267[i_46270], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBpengAntal_44274(ber_46092), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBpengAntal_44274(ber_46092), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46270 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBpengAntal_44718(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerBpengKronor_44748(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBpengAntal_44718(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerBpengKronor_44748(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBpengAntal_44833(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerBpengKronor_44863(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerBpengAntal_44833(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerBpengKronor_44863(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersBerB440antal_44752(ers_46004))) {
+		if ((0.0 < ersBerB440antal_44867(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Ber B 1/440</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Ber B 1/440</td>\x0A");};
 		L21: do {
 			var ber_46101 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46269 = null;
-			colontmp__46269 = ers_46004.beredskaper;
-			var i_46272 = 0;
-			var L_46274 = (colontmp__46269 != null ? colontmp__46269.length : 0);
+			var colontmp__46274 = null;
+			colontmp__46274 = ers_46004.beredskaper;
+			var i_46277 = 0;
+			var L_46279 = (colontmp__46274 != null ? colontmp__46274.length : 0);
 			L22: do {
 					L23: while (true) {
-					if (!(i_46272 < L_46274)) break L23;
-						nimCopy(ber_46101, colontmp__46269[i_46272], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerB440_44254(ber_46101), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerB440_44254(ber_46101), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46272 += 1;
+					if (!(i_46277 < L_46279)) break L23;
+						nimCopy(ber_46101, colontmp__46274[i_46277], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerB440_44282(ber_46101), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerB440_44282(ber_46101), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46277 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerB440antal_44752(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44349(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerB440peng_44782(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerB440antal_44752(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44349(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerB440peng_44782(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerB440antal_44867(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44685(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerB440peng_44897(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersBerB440antal_44867(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n440__44685(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersBerB440peng_44897(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid10tidAntal_44786(ers_46004))) {
+		if ((0.0 < ersArbtid10tidAntal_44901(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 tid</td>\x0A");};
 		L24: do {
 			var ber_46110 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46276 = null;
-			colontmp__46276 = ers_46004.beredskaper;
-			var i_46279 = 0;
-			var L_46281 = (colontmp__46276 != null ? colontmp__46276.length : 0);
+			var colontmp__46281 = null;
+			colontmp__46281 = ers_46004.beredskaper;
+			var i_46284 = 0;
+			var L_46286 = (colontmp__46281 != null ? colontmp__46281.length : 0);
 			L25: do {
 					L26: while (true) {
-					if (!(i_46279 < L_46281)) break L26;
-						nimCopy(ber_46110, colontmp__46276[i_46279], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10tidAntal_44258(ber_46110), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10tidAntal_44258(ber_46110), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46279 += 1;
+					if (!(i_46284 < L_46286)) break L26;
+						nimCopy(ber_46110, colontmp__46281[i_46284], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10tidAntal_44286(ber_46110), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10tidAntal_44286(ber_46110), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46284 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10tidAntal_44786(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10tidAntal_44786(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10tidAntal_44901(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10tidAntal_44901(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid10pengAntal_44816(ers_46004))) {
+		if ((0.0 < ersArbtid10pengAntal_44931(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 peng</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 peng</td>\x0A");};
 		L27: do {
 			var ber_46119 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46283 = null;
-			colontmp__46283 = ers_46004.beredskaper;
-			var i_46286 = 0;
-			var L_46288 = (colontmp__46283 != null ? colontmp__46283.length : 0);
+			var colontmp__46288 = null;
+			colontmp__46288 = ers_46004.beredskaper;
+			var i_46291 = 0;
+			var L_46293 = (colontmp__46288 != null ? colontmp__46288.length : 0);
 			L28: do {
 					L29: while (true) {
-					if (!(i_46286 < L_46288)) break L29;
-						nimCopy(ber_46119, colontmp__46283[i_46286], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10pengAntal_44262(ber_46119), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10pengAntal_44262(ber_46119), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46286 += 1;
+					if (!(i_46291 < L_46293)) break L29;
+						nimCopy(ber_46119, colontmp__46288[i_46291], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10pengAntal_44290(ber_46119), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10pengAntal_44290(ber_46119), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46291 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10pengAntal_44816(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10pengKronor_44846(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10pengAntal_44816(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10pengKronor_44846(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10pengAntal_44931(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10pengKronor_44961(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10pengAntal_44931(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10pengKronor_44961(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid10KvTidAntal_45042(ers_46004))) {
+		if ((0.0 < ersArbtid10KvTidAntal_45157(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 tid kv</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 tid kv</td>\x0A");};
 		L30: do {
 			var ber_46128 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46290 = null;
-			colontmp__46290 = ers_46004.beredskaper;
-			var i_46293 = 0;
-			var L_46295 = (colontmp__46290 != null ? colontmp__46290.length : 0);
+			var colontmp__46295 = null;
+			colontmp__46295 = ers_46004.beredskaper;
+			var i_46298 = 0;
+			var L_46300 = (colontmp__46295 != null ? colontmp__46295.length : 0);
 			L31: do {
 					L32: while (true) {
-					if (!(i_46293 < L_46295)) break L32;
-						nimCopy(ber_46128, colontmp__46290[i_46293], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvTidAntal_44292(ber_46128), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvTidAntal_44292(ber_46128), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46293 += 1;
+					if (!(i_46298 < L_46300)) break L32;
+						nimCopy(ber_46128, colontmp__46295[i_46298], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvTidAntal_44320(ber_46128), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvTidAntal_44320(ber_46128), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46298 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvTidAntal_45042(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvTidAntal_45042(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvTidAntal_45157(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvTidAntal_45157(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid10KvPengAntal_45072(ers_46004))) {
+		if ((0.0 < ersArbtid10KvPengAntal_45187(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 peng kv</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.0 peng kv</td>\x0A");};
 		L33: do {
 			var ber_46137 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46297 = null;
-			colontmp__46297 = ers_46004.beredskaper;
-			var i_46300 = 0;
-			var L_46302 = (colontmp__46297 != null ? colontmp__46297.length : 0);
+			var colontmp__46302 = null;
+			colontmp__46302 = ers_46004.beredskaper;
+			var i_46305 = 0;
+			var L_46307 = (colontmp__46302 != null ? colontmp__46302.length : 0);
 			L34: do {
 					L35: while (true) {
-					if (!(i_46300 < L_46302)) break L35;
-						nimCopy(ber_46137, colontmp__46297[i_46300], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvPengAntal_44297(ber_46137), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvPengAntal_44297(ber_46137), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46300 += 1;
+					if (!(i_46305 < L_46307)) break L35;
+						nimCopy(ber_46137, colontmp__46302[i_46305], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvPengAntal_44325(ber_46137), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvPengAntal_44325(ber_46137), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46305 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvPengAntal_45072(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10KvPengKronor_45102(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvPengAntal_45072(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10KvPengKronor_45102(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvPengAntal_45187(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10KvPengKronor_45217(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid10KvPengAntal_45187(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid10KvPengKronor_45217(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid15tidAntal_44850(ers_46004))) {
+		if ((0.0 < ersArbtid15tidAntal_44965(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 tid</td>\x0A");};
 		L36: do {
 			var ber_46146 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46304 = null;
-			colontmp__46304 = ers_46004.beredskaper;
-			var i_46307 = 0;
-			var L_46309 = (colontmp__46304 != null ? colontmp__46304.length : 0);
+			var colontmp__46309 = null;
+			colontmp__46309 = ers_46004.beredskaper;
+			var i_46312 = 0;
+			var L_46314 = (colontmp__46309 != null ? colontmp__46309.length : 0);
 			L37: do {
 					L38: while (true) {
-					if (!(i_46307 < L_46309)) break L38;
-						nimCopy(ber_46146, colontmp__46304[i_46307], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15tidAntal_44266(ber_46146), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15tidAntal_44266(ber_46146), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46307 += 1;
+					if (!(i_46312 < L_46314)) break L38;
+						nimCopy(ber_46146, colontmp__46309[i_46312], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15tidAntal_44294(ber_46146), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15tidAntal_44294(ber_46146), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46312 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15tidAntal_44850(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15tidAntal_44850(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15tidAntal_44965(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15tidAntal_44965(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid15pengAntal_44880(ers_46004))) {
+		if ((0.0 < ersArbtid15pengAntal_44995(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 peng</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 peng</td>\x0A");};
 		L39: do {
 			var ber_46155 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46311 = null;
-			colontmp__46311 = ers_46004.beredskaper;
-			var i_46314 = 0;
-			var L_46316 = (colontmp__46311 != null ? colontmp__46311.length : 0);
+			var colontmp__46316 = null;
+			colontmp__46316 = ers_46004.beredskaper;
+			var i_46319 = 0;
+			var L_46321 = (colontmp__46316 != null ? colontmp__46316.length : 0);
 			L40: do {
 					L41: while (true) {
-					if (!(i_46314 < L_46316)) break L41;
-						nimCopy(ber_46155, colontmp__46311[i_46314], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15pengAntal_44270(ber_46155), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15pengAntal_44270(ber_46155), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46314 += 1;
+					if (!(i_46319 < L_46321)) break L41;
+						nimCopy(ber_46155, colontmp__46316[i_46319], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15pengAntal_44298(ber_46155), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15pengAntal_44298(ber_46155), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46319 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15pengAntal_44880(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15pengKronor_44910(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15pengAntal_44880(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15pengKronor_44910(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15pengAntal_44995(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15pengKronor_45025(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15pengAntal_44995(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15pengKronor_45025(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid15KvTidAntal_45106(ers_46004))) {
+		if ((0.0 < ersArbtid15KvTidAntal_45221(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 tid kv</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 tid kv</td>\x0A");};
 		L42: do {
 			var ber_46164 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46318 = null;
-			colontmp__46318 = ers_46004.beredskaper;
-			var i_46321 = 0;
-			var L_46323 = (colontmp__46318 != null ? colontmp__46318.length : 0);
+			var colontmp__46323 = null;
+			colontmp__46323 = ers_46004.beredskaper;
+			var i_46326 = 0;
+			var L_46328 = (colontmp__46323 != null ? colontmp__46323.length : 0);
 			L43: do {
 					L44: while (true) {
-					if (!(i_46321 < L_46323)) break L44;
-						nimCopy(ber_46164, colontmp__46318[i_46321], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvTidAntal_44302(ber_46164), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvTidAntal_44302(ber_46164), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46321 += 1;
+					if (!(i_46326 < L_46328)) break L44;
+						nimCopy(ber_46164, colontmp__46323[i_46326], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvTidAntal_44330(ber_46164), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvTidAntal_44330(ber_46164), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46326 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvTidAntal_45106(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvTidAntal_45106(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvTidAntal_45221(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvTidAntal_45221(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid15KvPengAntal_45136(ers_46004))) {
+		if ((0.0 < ersArbtid15KvPengAntal_45251(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 peng kv</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 1.5 peng kv</td>\x0A");};
 		L45: do {
 			var ber_46173 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46325 = null;
-			colontmp__46325 = ers_46004.beredskaper;
-			var i_46328 = 0;
-			var L_46330 = (colontmp__46325 != null ? colontmp__46325.length : 0);
+			var colontmp__46330 = null;
+			colontmp__46330 = ers_46004.beredskaper;
+			var i_46333 = 0;
+			var L_46335 = (colontmp__46330 != null ? colontmp__46330.length : 0);
 			L46: do {
 					L47: while (true) {
-					if (!(i_46328 < L_46330)) break L47;
-						nimCopy(ber_46173, colontmp__46325[i_46328], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvPengAntal_44307(ber_46173), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvPengAntal_44307(ber_46173), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46328 += 1;
+					if (!(i_46333 < L_46335)) break L47;
+						nimCopy(ber_46173, colontmp__46330[i_46333], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvPengAntal_44335(ber_46173), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvPengAntal_44335(ber_46173), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46333 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvPengAntal_45136(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15KvPengKronor_45166(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvPengAntal_45136(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15KvPengKronor_45166(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvPengAntal_45251(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15KvPengKronor_45281(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid15KvPengAntal_45251(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid15KvPengKronor_45281(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid20tidAntal_44914(ers_46004))) {
+		if ((0.0 < ersArbtid20tidAntal_45029(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 tid</td>\x0A");};
 		L48: do {
 			var ber_46182 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46332 = null;
-			colontmp__46332 = ers_46004.beredskaper;
-			var i_46335 = 0;
-			var L_46337 = (colontmp__46332 != null ? colontmp__46332.length : 0);
+			var colontmp__46337 = null;
+			colontmp__46337 = ers_46004.beredskaper;
+			var i_46340 = 0;
+			var L_46342 = (colontmp__46337 != null ? colontmp__46337.length : 0);
 			L49: do {
 					L50: while (true) {
-					if (!(i_46335 < L_46337)) break L50;
-						nimCopy(ber_46182, colontmp__46332[i_46335], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20tidAntal_44274(ber_46182), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20tidAntal_44274(ber_46182), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46335 += 1;
+					if (!(i_46340 < L_46342)) break L50;
+						nimCopy(ber_46182, colontmp__46337[i_46340], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20tidAntal_44302(ber_46182), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20tidAntal_44302(ber_46182), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46340 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20tidAntal_44914(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20tidAntal_44914(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20tidAntal_45029(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20tidAntal_45029(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid20pengAntal_44944(ers_46004))) {
+		if ((0.0 < ersArbtid20pengAntal_45059(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 peng</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 peng</td>\x0A");};
 		L51: do {
 			var ber_46191 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46339 = null;
-			colontmp__46339 = ers_46004.beredskaper;
-			var i_46342 = 0;
-			var L_46344 = (colontmp__46339 != null ? colontmp__46339.length : 0);
+			var colontmp__46344 = null;
+			colontmp__46344 = ers_46004.beredskaper;
+			var i_46347 = 0;
+			var L_46349 = (colontmp__46344 != null ? colontmp__46344.length : 0);
 			L52: do {
 					L53: while (true) {
-					if (!(i_46342 < L_46344)) break L53;
-						nimCopy(ber_46191, colontmp__46339[i_46342], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20pengAntal_44279(ber_46191), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20pengAntal_44279(ber_46191), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46342 += 1;
+					if (!(i_46347 < L_46349)) break L53;
+						nimCopy(ber_46191, colontmp__46344[i_46347], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20pengAntal_44307(ber_46191), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20pengAntal_44307(ber_46191), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46347 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20pengAntal_44944(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20pengKronor_44974(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20pengAntal_44944(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20pengKronor_44974(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20pengAntal_45059(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20pengKronor_45089(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20pengAntal_45059(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20pengKronor_45089(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid20KvTidAntal_45170(ers_46004))) {
+		if ((0.0 < ersArbtid20KvTidAntal_45285(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 tid kv</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 tid kv</td>\x0A");};
 		L54: do {
 			var ber_46200 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46346 = null;
-			colontmp__46346 = ers_46004.beredskaper;
-			var i_46349 = 0;
-			var L_46351 = (colontmp__46346 != null ? colontmp__46346.length : 0);
+			var colontmp__46351 = null;
+			colontmp__46351 = ers_46004.beredskaper;
+			var i_46354 = 0;
+			var L_46356 = (colontmp__46351 != null ? colontmp__46351.length : 0);
 			L55: do {
 					L56: while (true) {
-					if (!(i_46349 < L_46351)) break L56;
-						nimCopy(ber_46200, colontmp__46346[i_46349], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvTidAntal_44312(ber_46200), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvTidAntal_44312(ber_46200), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46349 += 1;
+					if (!(i_46354 < L_46356)) break L56;
+						nimCopy(ber_46200, colontmp__46351[i_46354], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvTidAntal_44340(ber_46200), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvTidAntal_44340(ber_46200), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46354 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvTidAntal_45170(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvTidAntal_45170(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvTidAntal_45285(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvTidAntal_45285(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid20KvPengAntal_45200(ers_46004))) {
+		if ((0.0 < ersArbtid20KvPengAntal_45315(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 peng kv</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 2.0 peng kv</td>\x0A");};
 		L57: do {
 			var ber_46209 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46353 = null;
-			colontmp__46353 = ers_46004.beredskaper;
-			var i_46356 = 0;
-			var L_46358 = (colontmp__46353 != null ? colontmp__46353.length : 0);
+			var colontmp__46358 = null;
+			colontmp__46358 = ers_46004.beredskaper;
+			var i_46361 = 0;
+			var L_46363 = (colontmp__46358 != null ? colontmp__46358.length : 0);
 			L58: do {
 					L59: while (true) {
-					if (!(i_46356 < L_46358)) break L59;
-						nimCopy(ber_46209, colontmp__46353[i_46356], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvPengAntal_44317(ber_46209), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvPengAntal_44317(ber_46209), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46356 += 1;
+					if (!(i_46361 < L_46363)) break L59;
+						nimCopy(ber_46209, colontmp__46358[i_46361], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvPengAntal_44345(ber_46209), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvPengAntal_44345(ber_46209), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46361 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvPengAntal_45200(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20KvPengKronor_45230(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvPengAntal_45200(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20KvPengKronor_45230(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvPengAntal_45315(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20KvPengKronor_45345(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid20KvPengAntal_45315(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid20KvPengKronor_45345(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid40tidAntal_44978(ers_46004))) {
+		if ((0.0 < ersArbtid40tidAntal_45093(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 4.0 tid</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 4.0 tid</td>\x0A");};
 		L60: do {
 			var ber_46218 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46360 = null;
-			colontmp__46360 = ers_46004.beredskaper;
-			var i_46363 = 0;
-			var L_46365 = (colontmp__46360 != null ? colontmp__46360.length : 0);
+			var colontmp__46365 = null;
+			colontmp__46365 = ers_46004.beredskaper;
+			var i_46368 = 0;
+			var L_46370 = (colontmp__46365 != null ? colontmp__46365.length : 0);
 			L61: do {
 					L62: while (true) {
-					if (!(i_46363 < L_46365)) break L62;
-						nimCopy(ber_46218, colontmp__46360[i_46363], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40tidAntal_44284(ber_46218), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40tidAntal_44284(ber_46218), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46363 += 1;
+					if (!(i_46368 < L_46370)) break L62;
+						nimCopy(ber_46218, colontmp__46365[i_46368], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40tidAntal_44312(ber_46218), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40tidAntal_44312(ber_46218), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46368 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40tidAntal_44978(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40tidAntal_44978(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40tidAntal_45093(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40tidAntal_45093(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td></td>\x0A      <td></td>\x0A    </tr>\x0A"));};
 		}
 		
-		if ((0.0 < ersArbtid40pengAntal_45008(ers_46004))) {
+		if ((0.0 < ersArbtid40pengAntal_45123(ers_46004))) {
 		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("    <tr>\x0A      <td>Arbtid 4.0 peng</td>\x0A")); } else { result_46005 = makeNimstrLit("    <tr>\x0A      <td>Arbtid 4.0 peng</td>\x0A");};
 		L63: do {
 			var ber_46227 = {arbetadeTimmarAnnan: 0.0, arbetadeTimmarVardagkvXC3XA4ll_: 0.0, arbetadeTimmarNatt: 0.0, arbetadeTimmarHelg: 0.0, arbetadeTimmarStorhelg: 0.0, beredskapTimmarAnnan: 0.0, beredskapTimmarHelg: 0.0, kind: 0, kortVarsel: false};
-			var colontmp__46367 = null;
-			colontmp__46367 = ers_46004.beredskaper;
-			var i_46370 = 0;
-			var L_46372 = (colontmp__46367 != null ? colontmp__46367.length : 0);
+			var colontmp__46372 = null;
+			colontmp__46372 = ers_46004.beredskaper;
+			var i_46375 = 0;
+			var L_46377 = (colontmp__46372 != null ? colontmp__46372.length : 0);
 			L64: do {
 					L65: while (true) {
-					if (!(i_46370 < L_46372)) break L65;
-						nimCopy(ber_46227, colontmp__46367[i_46370], NTI44006);
-						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40pengAntal_44288(ber_46227), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40pengAntal_44288(ber_46227), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
-						i_46370 += 1;
+					if (!(i_46375 < L_46377)) break L65;
+						nimCopy(ber_46227, colontmp__46372[i_46375], NTI44006);
+						if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40pengAntal_44316(ber_46227), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40pengAntal_44316(ber_46227), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A"));};
+						i_46375 += 1;
 					}
 			} while(false);
 		} while(false);
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40pengAntal_45008(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid40pengKronor_45038(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40pengAntal_45008(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44344(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid40pengKronor_45038(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40pengAntal_45123(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid40pengKronor_45153(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"))); } else { result_46005 = (makeNimstrLit("      <td>").slice(0,-1)).concat(nsuformatFloat(ersArbtid40pengAntal_45123(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(mXC3XA5nadslXC3XB6n137__44680(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A      <td>").slice(0,-1),nsuformatFloat(ersArbtid40pengKronor_45153(ers_46004), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A    </tr>\x0A"));};
 		}
 		
-		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("  </tbody>\x0A</table>\x0A\x0A<h2>Summerat</h2>\x0A\x0A<table>\x0A  <tr>\x0A    <td>Summa tid (h)</td>\x0A    <td>").slice(0,-1)).concat(nsuformatFloat(((((((((ersBerAtid_44369(ers_46004) + ersBerBtid_44688(ers_46004)) + ersArbtid10tidAntal_44786(ers_46004)) + ersArbtid15tidAntal_44850(ers_46004)) + ersArbtid20tidAntal_44914(ers_46004)) + ersArbtid40tidAntal_44978(ers_46004)) + ersArbtid10KvTidAntal_45042(ers_46004)) + ersArbtid15KvTidAntal_45106(ers_46004)) + ersArbtid20KvTidAntal_45170(ers_46004)), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A  <tr>\x0A    <td>Summa peng (kr)</td>\x0A    <td>").slice(0,-1),nsuformatFloat(((((((((((ersBerApengKronor_44650(ers_46004) + ersBerA440peng_44684(ers_46004)) + ersBerBpengKronor_44748(ers_46004)) + ersBerB440peng_44782(ers_46004)) + ersArbtid10pengKronor_44846(ers_46004)) + ersArbtid15pengKronor_44910(ers_46004)) + ersArbtid20pengKronor_44974(ers_46004)) + ersArbtid40pengKronor_45038(ers_46004)) + ersArbtid10KvPengKronor_45102(ers_46004)) + ersArbtid15KvPengKronor_45166(ers_46004)) + ersArbtid20KvPengKronor_45230(ers_46004)), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A</table>\x0A\x0A\x0A"))); } else { result_46005 = (makeNimstrLit("  </tbody>\x0A</table>\x0A\x0A<h2>Summerat</h2>\x0A\x0A<table>\x0A  <tr>\x0A    <td>Summa tid (h)</td>\x0A    <td>").slice(0,-1)).concat(nsuformatFloat(((((((((ersBerAtid_44369(ers_46004) + ersBerBtid_44688(ers_46004)) + ersArbtid10tidAntal_44786(ers_46004)) + ersArbtid15tidAntal_44850(ers_46004)) + ersArbtid20tidAntal_44914(ers_46004)) + ersArbtid40tidAntal_44978(ers_46004)) + ersArbtid10KvTidAntal_45042(ers_46004)) + ersArbtid15KvTidAntal_45106(ers_46004)) + ersArbtid20KvTidAntal_45170(ers_46004)), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A  <tr>\x0A    <td>Summa peng (kr)</td>\x0A    <td>").slice(0,-1),nsuformatFloat(((((((((((ersBerApengKronor_44650(ers_46004) + ersBerA440peng_44684(ers_46004)) + ersBerBpengKronor_44748(ers_46004)) + ersBerB440peng_44782(ers_46004)) + ersArbtid10pengKronor_44846(ers_46004)) + ersArbtid15pengKronor_44910(ers_46004)) + ersArbtid20pengKronor_44974(ers_46004)) + ersArbtid40pengKronor_45038(ers_46004)) + ersArbtid10KvPengKronor_45102(ers_46004)) + ersArbtid15KvPengKronor_45166(ers_46004)) + ersArbtid20KvPengKronor_45230(ers_46004)), 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A</table>\x0A\x0A\x0A"));};
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat(makeNimstrLit("  </tbody>\x0A</table>\x0A\x0A<h2>Summerat</h2>\x0A\x0A<table>\x0A  <tr>\x0A    <td>Summa beredskap A (h)</td>\x0A")); } else { result_46005 = makeNimstrLit("  </tbody>\x0A</table>\x0A\x0A<h2>Summerat</h2>\x0A\x0A<table>\x0A  <tr>\x0A    <td>Summa beredskap A (h)</td>\x0A");};
+		var summaberedskapA_46228 = beredskapsTidA_44620(ers_46004);
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("    <td>").slice(0,-1)).concat(nsuformatFloat(summaberedskapA_46228, 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A  <tr>\x0A    <td>Summa beredskap B (h)</td>\x0A"))); } else { result_46005 = (makeNimstrLit("    <td>").slice(0,-1)).concat(nsuformatFloat(summaberedskapA_46228, 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A  <tr>\x0A    <td>Summa beredskap B (h)</td>\x0A"));};
+		var summaberedskapB_46229 = beredskapsTidB_44650(ers_46004);
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("    <td>").slice(0,-1)).concat(nsuformatFloat(summaberedskapB_46229, 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A  <tr>\x0A    <td>Summa arbetad tid (h)</td>\x0A"))); } else { result_46005 = (makeNimstrLit("    <td>").slice(0,-1)).concat(nsuformatFloat(summaberedskapB_46229, 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A  <tr>\x0A    <td>Summa arbetad tid (h)</td>\x0A"));};
+		var summaarbete_46230 = arbetadTid_44372(ers_46004);
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("    <td>").slice(0,-1)).concat(nsuformatFloat(summaarbete_46230, 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A  <tr>\x0A    <td>Summa tid (h)</td>\x0A"))); } else { result_46005 = (makeNimstrLit("    <td>").slice(0,-1)).concat(nsuformatFloat(summaarbete_46230, 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A  <tr>\x0A    <td>Summa tid (h)</td>\x0A"));};
+		var summatid_46231 = ((((((((ersBerAtid_44705(ers_46004) + ersBerBtid_44803(ers_46004)) + ersArbtid10tidAntal_44901(ers_46004)) + ersArbtid15tidAntal_44965(ers_46004)) + ersArbtid20tidAntal_45029(ers_46004)) + ersArbtid40tidAntal_45093(ers_46004)) + ersArbtid10KvTidAntal_45157(ers_46004)) + ersArbtid15KvTidAntal_45221(ers_46004)) + ersArbtid20KvTidAntal_45285(ers_46004));
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("    <td>").slice(0,-1)).concat(nsuformatFloat(summatid_46231, 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A  <tr>\x0A    <td>Summa peng (kr)</td>\x0A"))); } else { result_46005 = (makeNimstrLit("    <td>").slice(0,-1)).concat(nsuformatFloat(summatid_46231, 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A  <tr>\x0A    <td>Summa peng (kr)</td>\x0A"));};
+		var summapeng_46232 = ((((((((((ersBerApengKronor_44765(ers_46004) + ersBerA440peng_44799(ers_46004)) + ersBerBpengKronor_44863(ers_46004)) + ersBerB440peng_44897(ers_46004)) + ersArbtid10pengKronor_44961(ers_46004)) + ersArbtid15pengKronor_45025(ers_46004)) + ersArbtid20pengKronor_45089(ers_46004)) + ersArbtid40pengKronor_45153(ers_46004)) + ersArbtid10KvPengKronor_45217(ers_46004)) + ersArbtid15KvPengKronor_45281(ers_46004)) + ersArbtid20KvPengKronor_45345(ers_46004));
+		if (result_46005 != null) { result_46005 = (result_46005.slice(0, -1)).concat((makeNimstrLit("    <td>").slice(0,-1)).concat(nsuformatFloat(summapeng_46232, 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A</table>\x0A\x0A\x0A"))); } else { result_46005 = (makeNimstrLit("    <td>").slice(0,-1)).concat(nsuformatFloat(summapeng_46232, 1, 2, 46).slice(0,-1),makeNimstrLit("</td>\x0A  </tr>\x0A</table>\x0A\x0A\x0A"));};
 
 	return result_46005;
 
 }
 
 function fillBeredskapTable() {
-		var manadslon_47046 = parseInt(document.getElementById("manadslon").value);
-		var ers_47047 = initErsXC3XA4ttning__44322(manadslon_47046, beredskaper_47039[0]);
-		var table_47048 = createBeredskapTable_46002(ers_47047);
-		document.getElementById("tabell").innerHTML = toJSStr(table_47048);
+		var manadslon_47048 = parseInt(document.getElementById("manadslon").value);
+		var ers_47049 = initErsXC3XA4ttning__44350(manadslon_47048, beredskaper_47039[0]);
+		var table_47050 = createBeredskapTable_46002(ers_47049);
+		document.getElementById("tabell").innerHTML = toJSStr(table_47050);
 
 	
 }
@@ -1683,43 +1795,43 @@ function initBeredskap_44043(beredskapTimmarAnnan_44045, beredskapTimmarHelg_440
 
 }
 
-function minuseq__44073(x_44078, x_44078_Idx, y_44080) {
-		x_44078[x_44078_Idx] = (x_44078[x_44078_Idx] - y_44080);
+function minuseq__44077(x_44082, x_44082_Idx, y_44084) {
+		x_44082[x_44082_Idx] = (x_44082[x_44082_Idx] - y_44084);
 
 	
 }
 
-function addArbeteAnnan_44057(ber_44060, timmar_44061) {
-		pluseq__42745(ber_44060, "arbetadeTimmarAnnan", timmar_44061);
-		minuseq__44073(ber_44060, "beredskapTimmarAnnan", timmar_44061);
+function addArbeteAnnan_44061(ber_44064, timmar_44065) {
+		pluseq__42745(ber_44064, "arbetadeTimmarAnnan", timmar_44065);
+		minuseq__44077(ber_44064, "beredskapTimmarAnnan", timmar_44065);
 
 	
 }
 
-function addArbeteVardagkvXC3XA4ll__44082(ber_44085, timmar_44086) {
-		pluseq__42745(ber_44085, "arbetadeTimmarVardagkvXC3XA4ll_", timmar_44086);
-		minuseq__44073(ber_44085, "beredskapTimmarAnnan", timmar_44086);
+function addArbeteVardagkvXC3XA4ll__44086(ber_44089, timmar_44090) {
+		pluseq__42745(ber_44089, "arbetadeTimmarVardagkvXC3XA4ll_", timmar_44090);
+		minuseq__44077(ber_44089, "beredskapTimmarAnnan", timmar_44090);
 
 	
 }
 
-function addArbeteNatt_44107(ber_44110, timmar_44111) {
-		pluseq__42745(ber_44110, "arbetadeTimmarNatt", timmar_44111);
-		minuseq__44073(ber_44110, "beredskapTimmarAnnan", timmar_44111);
+function addArbeteNatt_44111(ber_44114, timmar_44115) {
+		pluseq__42745(ber_44114, "arbetadeTimmarNatt", timmar_44115);
+		minuseq__44077(ber_44114, "beredskapTimmarAnnan", timmar_44115);
 
 	
 }
 
-function addArbeteHelg_44132(ber_44135, timmar_44136) {
-		pluseq__42745(ber_44135, "arbetadeTimmarHelg", timmar_44136);
-		minuseq__44073(ber_44135, "beredskapTimmarHelg", timmar_44136);
+function addArbeteHelg_44136(ber_44139, timmar_44140) {
+		pluseq__42745(ber_44139, "arbetadeTimmarHelg", timmar_44140);
+		minuseq__44077(ber_44139, "beredskapTimmarHelg", timmar_44140);
 
 	
 }
 
-function addArbeteStorhelg_44157(ber_44160, timmar_44161) {
-		pluseq__42745(ber_44160, "arbetadeTimmarStorhelg", timmar_44161);
-		minuseq__44073(ber_44160, "beredskapTimmarHelg", timmar_44161);
+function addArbeteStorhelg_44161(ber_44164, timmar_44165) {
+		pluseq__42745(ber_44164, "arbetadeTimmarStorhelg", timmar_44165);
+		minuseq__44077(ber_44164, "beredskapTimmarHelg", timmar_44165);
 
 	
 }
@@ -1727,8 +1839,8 @@ function addArbeteStorhelg_44157(ber_44160, timmar_44161) {
 function addBeredskap() {
 		var Tmp1;
 
-		var beredskapTimmarAnnan_47052 = parseFloat(document.getElementById("beredskapTimmarAnnan").value);
-		var beredskapTimmarHelg_47053 = parseFloat(document.getElementById("beredskapTimmarHelg").value);
+		var beredskapTimmarAnnan_47054 = parseFloat(document.getElementById("beredskapTimmarAnnan").value);
+		var beredskapTimmarHelg_47055 = parseFloat(document.getElementById("beredskapTimmarHelg").value);
 		if (document.getElementById("beredskapsTypA").checked) {
 		Tmp1 = 0;
 		}
@@ -1736,17 +1848,18 @@ function addBeredskap() {
 		Tmp1 = 1;
 		}
 		
-		var kind_47054 = Tmp1;
-		var kortVarsel_47055 = document.getElementById("kortVarsel").checked;
-		var b_47056 = [initBeredskap_44043(beredskapTimmarAnnan_47052, beredskapTimmarHelg_47053, kind_47054, kortVarsel_47055)];
-		addArbeteAnnan_44057(b_47056[0], parseFloat(document.getElementById("arbetadeTimmarAnnan").value));
-		addArbeteVardagkvXC3XA4ll__44082(b_47056[0], parseFloat(document.getElementById("arbetadeTimmarVardagkvall").value));
-		addArbeteNatt_44107(b_47056[0], parseFloat(document.getElementById("arbetadeTimmarNatt").value));
-		addArbeteHelg_44132(b_47056[0], parseFloat(document.getElementById("arbetadeTimmarHelg").value));
-		addArbeteStorhelg_44157(b_47056[0], parseFloat(document.getElementById("arbetadeTimmarStorhelg").value));
-		var Tmp2 = nimCopy(null, b_47056[0], NTI44006);
+		var kind_47056 = Tmp1;
+		var kortVarsel_47057 = document.getElementById("kortVarsel").checked;
+		var b_47058 = [initBeredskap_44043(beredskapTimmarAnnan_47054, beredskapTimmarHelg_47055, kind_47056, kortVarsel_47057)];
+		addArbeteAnnan_44061(b_47058[0], (parseFloat(document.getElementById("arbetadeMinAnnan").value) / 6.0000000000000000e+01));
+		addArbeteVardagkvXC3XA4ll__44086(b_47058[0], (parseFloat(document.getElementById("arbetadeMinVardagkvall").value) / 6.0000000000000000e+01));
+		addArbeteNatt_44111(b_47058[0], (parseFloat(document.getElementById("arbetadeMinNatt").value) / 6.0000000000000000e+01));
+		addArbeteHelg_44136(b_47058[0], (parseFloat(document.getElementById("arbetadeMinHelg").value) / 6.0000000000000000e+01));
+		addArbeteStorhelg_44161(b_47058[0], (parseFloat(document.getElementById("arbetadeMinStorhelg").value) / 6.0000000000000000e+01));
+		var Tmp2 = nimCopy(null, b_47058[0], NTI44006);
 		if (beredskaper_47039[0] != null) { beredskaper_47039[0].push(Tmp2); } else { beredskaper_47039[0] = [Tmp2]; };
 		fillBeredskapTable();
+		clearForm();
 
 	
 }
