@@ -1,5 +1,6 @@
 title: Användbara HLA-relaterade länkar
 created: 2016-10-18
+updated: 2018-02-06
 summary: Länkar till HLA-resurser
 
 ## Databaser
@@ -16,7 +17,7 @@ summary: Länkar till HLA-resurser
 
 ## Verktyg
 
-- [Alignment](https://www.ncbi.nlm.nih.gov/projects/gv/mhc/align.fcgi?cmd=aligndisplay&user_id=0&probe_id=0&source_id=0&locus_id=0&locus_group=1&proto_id=0&kit_id=0&banner=1)
+- [Alignment](https://www.ebi.ac.uk/ipd/imgt/hla/align.html) &endash; välj feature "Protein - Mature Protein" eller "Nucleotide - Exon 2+3"
 
 - [HLAMatchmaker](http://www.epitopes.net/)
 
