@@ -95,6 +95,13 @@ class Page:
                 map(int, self.md.Meta["created"][0].split("-"))
             )
             self.created = datetime.date(year, month, day)
+            if "updated" in self.md.Meta:
+                year, month, day = list(
+                    map(int, self.md.Meta["updated"][0].split("-"))
+                )
+                self.updated = datetime.date(year, month, day)
+            else:
+                self.updated = None
             self.js = self._format_js(self.md.Meta.get("js", []))
 
         except KeyError:
@@ -152,11 +159,28 @@ class Page:
         """
         return self.created.isoformat()
 
+    def str_updated(self):
+        """Return updated date as a string, or None if empty
+        """
+        if self.updated:
+            return CONFIG["updated"] + " " + self.updated.isoformat()
+
+    @property
+    def latest_date(self):
+        """Returns the latest date this page was updated
+        """
+        if self.updated:
+            return max(self.created, self.updated)
+        return self.created
+
     def page_header(self):
         """Return page header
         """
         page_header = Html.h1(self.title) + "\n"
-        page_header += Html.p(Html.i(self.str_created()))
+        dates = self.str_created()
+        if self.updated:
+            dates += f' ({self.str_updated()})'
+        page_header += Html.p(Html.i(dates))
         return page_header
 
     def html(self, header, footer):
@@ -193,18 +217,24 @@ class IndexPage:
         """
         s = Html.h2(Html.a(href=page.filename, text=page.title))
         s += "\n"
+        
+        dates = "(" + page.str_created()
+        if page.updated:
+            dates += f"; {page.str_updated()}"
+        dates += ")"
+            
         s += Html.p(
-            page.summary + " " + Html.i("(" + page.str_created() + ")")
+            f"{page.summary} {Html.i(dates)}"
         )
         return s
 
     def html(self, header, footer, pages):
         """Returns the full web page with header and footer and links to pages,
-        sorted by creation date.
+        sorted reversed by latest update date.
         """
 
         pages_string = ""
-        for page in reversed(sorted(pages, key=lambda x: x.created)):
+        for page in reversed(sorted(pages, key=lambda x: x.latest_date)):
             pages_string += self._format_page_index(page)
 
         header_str = header.substitute(pagename=PAGENAME, js="")
@@ -229,24 +259,22 @@ class PostsPage(IndexPage):
     """Class for post listing page"""
 
     def _format_page_index(self, page):
-        """Formats a page so it fits on the index page
+        """Formats a page so it fits on the posts page
         """
-        s = Html.p(
-            Html.li() +
-            page.str_created() +
-            " &raquo; " +
-            Html.a(href=page.filename, text=page.title) +
-            "\n"
-        )
-        return s
+        s = (Html.li() + page.str_created() + " &raquo; " +
+             Html.a(href=page.filename, text=page.title))
+        if page.updated:
+            s += Html.i(f' ({page.str_updated()})')
+        s += "\n"
+        return Html.p(s)
 
     def html(self, header, footer, pages):
-        """Returns the full web page with header and footer and links to pages,
-        sorted by creation date.
+        """Returns the full web page with header and footer and links to 
+        pages, sorted by update date.
         """
 
         pages_string = ""
-        for page in reversed(sorted(pages, key=lambda x: x.created)):
+        for page in reversed(sorted(pages, key=lambda x: x.latest_date)):
             pages_string += self._format_page_index(page)
         pages_string = Html.ul(pages_string)
 
