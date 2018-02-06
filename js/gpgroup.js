@@ -1083,25 +1083,25 @@ function nsuToUpperAsciiStr(s_34884) {
 
 }
 
-function hasKey_68591(t_68597, key_68599) {
-	var result_68600 = false;
+function hasKey_68598(t_68604, key_68606) {
+	var result_68607 = false;
 
-		var hc_68601 = [0];
-		result_68600 = (0 <= rawGet_63437(t_68597, key_68599, hc_68601, 0));
+		var hc_68608 = [0];
+		result_68607 = (0 <= rawGet_63437(t_68604, key_68606, hc_68608, 0));
 
-	return result_68600;
+	return result_68607;
 
 }
 
-function contains_68578(t_68584, key_68586) {
-	var result_68587 = false;
+function contains_68585(t_68591, key_68593) {
+	var result_68594 = false;
 
 	BeforeRet: do {
-		result_68587 = hasKey_68591(t_68584, key_68586);
+		result_68594 = hasKey_68598(t_68591, key_68593);
 		break BeforeRet;
 	} while (false);
 
-	return result_68587;
+	return result_68594;
 
 }
 
@@ -1673,6 +1673,8 @@ function nsuStartsWith(s_37510, prefix_37511) {
 }
 
 function lookForAlternateAllele_67672(allele_67674) {
+		var Tmp6;
+
 	BeforeRet: do {
 		clearForm_67665();
 		if (!(contains_39072(allele_67674, 42))) {
@@ -1690,16 +1692,16 @@ function lookForAlternateAllele_67672(allele_67674) {
 		L1: do {
 			var key_68383 = null;
 			L2: do {
-				var h_68414 = 0;
-				var colontmp__68416 = 0;
-				colontmp__68416 = (galleles_59211[0].data != null ? (galleles_59211[0].data.length-1) : -1);
-				var res_68418 = 0;
+				var h_68421 = 0;
+				var colontmp__68423 = 0;
+				colontmp__68423 = (galleles_59211[0].data != null ? (galleles_59211[0].data.length-1) : -1);
+				var res_68425 = 0;
 				L3: do {
 						L4: while (true) {
-						if (!(res_68418 <= colontmp__68416)) break L4;
-							h_68414 = res_68418;
-							if (isFilled_45465(galleles_59211[0].data[h_68414].Field0)) {
-							key_68383 = galleles_59211[0].data[h_68414].Field1;
+						if (!(res_68425 <= colontmp__68423)) break L4;
+							h_68421 = res_68425;
+							if (isFilled_45465(galleles_59211[0].data[h_68421].Field0)) {
+							key_68383 = galleles_59211[0].data[h_68421].Field1;
 							if (nsuStartsWith(key_68383, allele_67674)) {
 							var Tmp5 = nimCopy(null, key_68383, NTI138);
 							if (cand_67922 != null) { cand_67922.push(Tmp5); } else { cand_67922 = [Tmp5]; };
@@ -1711,13 +1713,20 @@ function lookForAlternateAllele_67672(allele_67674) {
 							
 							}
 							
-							res_68418 += 1;
+							res_68425 += 1;
 						}
 				} while(false);
 			} while(false);
 		} while(false);
 		if ((0 < (cand_67922 != null ? cand_67922.length : 0))) {
-		document.getElementById("helptext").innerHTML = toJSStr((makeNimstrLit("<br>\x0A").slice(0,-1)).concat(nsuFormatOpenArray(makeNimstrLit("Mer specifik fr\xC3\xA5ga beh\xC3\xB6vs, ange t.ex. n\xC3\xA5gon av:<br>\x0A$#\x0A<br>..."), [nsuJoinSep(cand_67922, makeNimstrLit("<br>\x0A"))])));
+		if ((10 < (cand_67922 != null ? cand_67922.length : 0))) {
+		Tmp6 = makeNimstrLit("...");
+		}
+		else {
+		Tmp6 = makeNimstrLit("");
+		}
+		
+		document.getElementById("helptext").innerHTML = toJSStr((makeNimstrLit("<br>\x0A").slice(0,-1)).concat(nsuFormatOpenArray(makeNimstrLit("Mer specifik fr\xC3\xA5ga beh\xC3\xB6vs, ange t.ex. n\xC3\xA5gon av:<br>\x0A$#\x0A<br>$#"), [nsuJoinSep(cand_67922, makeNimstrLit("<br>\x0A")), Tmp6])));
 		break BeforeRet;
 		}
 		
@@ -1727,25 +1736,25 @@ function lookForAlternateAllele_67672(allele_67674) {
 	
 }
 
-function X5BX5D__69158(t_69165, key_69167) {
-	var result_69169 = [null, 0];
-	var result_69169_Idx = 0;
+function X5BX5D__69165(t_69172, key_69174) {
+	var result_69176 = [null, 0];
+	var result_69176_Idx = 0;
 
-		var hc_69171 = [0];
-		var index_69185 = rawGet_63437(t_69165, key_69167, hc_69171, 0);
-		if ((0 <= index_69185)) {
-		result_69169 = t_69165.data[index_69185]; result_69169_Idx = "Field2";
+		var hc_69178 = [0];
+		var index_69192 = rawGet_63437(t_69172, key_69174, hc_69178, 0);
+		if ((0 <= index_69192)) {
+		result_69176 = t_69172.data[index_69192]; result_69176_Idx = "Field2";
 		}
 		else {
 			var e_69606 = null;
 			e_69606 = {m_type: NTI3450, parent: null, name: null, message: null, trace: null, up: null};
-			e_69606.message = nimCopy(null, (makeNimstrLit("key not found: ").slice(0,-1)).concat(key_69167), NTI138);
+			e_69606.message = nimCopy(null, (makeNimstrLit("key not found: ").slice(0,-1)).concat(key_69174), NTI138);
 			e_69606.parent = null;
 			raiseException(e_69606, "KeyError");
 		}
 		
 
-	return [result_69169, result_69169_Idx];
+	return [result_69176, result_69176_Idx];
 
 }
 
@@ -1758,18 +1767,18 @@ function lookupAllele() {
 			var Tmp11;
 
 	BeforeRet: do {
-		var allele_68423 = nsuStrip(nsuToUpperAsciiStr(cstrToNimstr(document.getElementById("allele").value)), true, true, ConstSet4);
-		if ((contains_68578(galleles_59211[0], allele_68423) || contains_68578(palleles_59422[0], allele_68423))) {
+		var allele_68430 = nsuStrip(nsuToUpperAsciiStr(cstrToNimstr(document.getElementById("allele").value)), true, true, ConstSet4);
+		if ((contains_68585(galleles_59211[0], allele_68430) || contains_68585(palleles_59422[0], allele_68430))) {
 		clearForm_67665();
-		document.getElementById("alleleinfo").innerHTML = toJSStr((makeNimstrLit("<a href=\"https://www.ebi.ac.uk/cgi-bin/ipd/imgt/hla/get_allele.cgi?").slice(0,-1)).concat(allele_68423.slice(0,-1),makeNimstrLit("\">").slice(0,-1),allele_68423.slice(0,-1),makeNimstrLit("</a>")));
+		document.getElementById("alleleinfo").innerHTML = toJSStr((makeNimstrLit("<a href=\"https://www.ebi.ac.uk/cgi-bin/ipd/imgt/hla/get_allele.cgi?").slice(0,-1)).concat(allele_68430.slice(0,-1),makeNimstrLit("\">").slice(0,-1),allele_68430.slice(0,-1),makeNimstrLit("</a>")));
 		}
 		else {
-			lookForAlternateAllele_67672(allele_68423);
+			lookForAlternateAllele_67672(allele_68430);
 			break BeforeRet;
 		}
 		
-		if (contains_68578(palleles_59422[0], allele_68423)) {
-		var pgroup_69618 = nimCopy(null, (Tmp1 = X5BX5D__69158(palleles_59422[0], allele_68423), Tmp1[0])[Tmp1[1]], NTI138);
+		if (contains_68585(palleles_59422[0], allele_68430)) {
+		var pgroup_69618 = nimCopy(null, (Tmp1 = X5BX5D__69165(palleles_59422[0], allele_68430), Tmp1[0])[Tmp1[1]], NTI138);
 		document.getElementById("pgroup").innerHTML = toJSStr(pgroup_69618);
 		document.getElementById("pgrouplen").innerHTML = toJSStr(cstrToNimstr((((Tmp2 = X5BX5D__67216(pgroups_59435[0], pgroup_69618), Tmp2[0])[Tmp2[1]] != null ? (Tmp2 = X5BX5D__67216(pgroups_59435[0], pgroup_69618), Tmp2[0])[Tmp2[1]].length : 0))+""));
 		var alleleLinks_69879 = newSeq_59480(0);
@@ -1792,8 +1801,8 @@ function lookupAllele() {
 		document.getElementById("pother").innerHTML = toJSStr(nsuJoinSep(alleleLinks_69879, makeNimstrLit(" ")));
 		}
 		
-		if (contains_68578(galleles_59211[0], allele_68423)) {
-		var ggroup_70517 = nimCopy(null, (Tmp8 = X5BX5D__69158(galleles_59211[0], allele_68423), Tmp8[0])[Tmp8[1]], NTI138);
+		if (contains_68585(galleles_59211[0], allele_68430)) {
+		var ggroup_70517 = nimCopy(null, (Tmp8 = X5BX5D__69165(galleles_59211[0], allele_68430), Tmp8[0])[Tmp8[1]], NTI138);
 		document.getElementById("ggroup").innerHTML = toJSStr(ggroup_70517);
 		document.getElementById("ggrouplen").innerHTML = toJSStr(cstrToNimstr((((Tmp9 = X5BX5D__67216(ggroups_59411[0], ggroup_70517), Tmp9[0])[Tmp9[1]] != null ? (Tmp9 = X5BX5D__67216(ggroups_59411[0], ggroup_70517), Tmp9[0])[Tmp9[1]].length : 0))+""));
 		var alleleLinks_70778 = newSeq_59480(0);

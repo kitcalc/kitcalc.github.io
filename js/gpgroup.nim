@@ -106,7 +106,8 @@ proc lookForAlternateAllele(allele: string) =
       if cand.len > maxresults:
         break
   if cand.len > 0:
-    help("Mer specifik fråga behövs, ange t.ex. någon av:<br>\n$#\n<br>..." % [cand.join("<br>\n")])
+    help("Mer specifik fråga behövs, ange t.ex. någon av:<br>\n$#\n<br>$#" % [
+      cand.join("<br>\n"), if cand.len > maxresults: "..." else: ""])
     return
 
   # sista utvägen
