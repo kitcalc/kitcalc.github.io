@@ -127,6 +127,7 @@ td, th {
 
 td {
     background-color: transparent;
+    vertical-align: top;
 }
 
 thead {
