@@ -114,7 +114,7 @@ proc lookForAlternateAllele(allele: string) =
 
 proc lookupAllele() {.exportc.} =
   ## Lookup an allele and put data into HTML elements
-  let allele = valueFromInput("allele").toUpperAscii()
+  let allele = valueFromInput("allele").toUpperAscii.strip
 
   # info
   if allele in galleles or allele in palleles:
@@ -129,14 +129,24 @@ proc lookupAllele() {.exportc.} =
     let pgroup = palleles[allele]
     setInnerHtml("pgroup", pgroup)
     setInnerHtml("pgrouplen", $pgroups[pgroup].len)
-    setInnerHtml("pother", pgroups[pgroup].join(" "))
+
+    # create links to other alleles
+    var alleleLinks = newSeq[string]()
+    for otherAllele in pgroups[pgroup]:
+      alleleLinks.add infoLink(otherAllele)
+    setInnerHtml("pother", alleleLinks.join(" "))
 
   # G-alleles
   if allele in galleles:
     let ggroup = galleles[allele]
     setInnerHtml("ggroup", ggroup)
     setInnerHtml("ggrouplen", $ggroups[ggroup].len)
-    setInnerHtml("gother", ggroups[ggroup].join(" "))
+
+    # create links to other alleles
+    var alleleLinks = newSeq[string]()
+    for otherAllele in ggroups[ggroup]:
+      alleleLinks.add infoLink(otherAllele)
+    setInnerHtml("gother", alleleLinks.join(" "))
 
 
 when false:
