@@ -1752,10 +1752,17 @@ function X5BX5D__69158(t_69165, key_69167) {
 function lookupAllele() {
 		var Tmp1;
 		var Tmp2;
+<<<<<<< HEAD
 			var Tmp4;
 		var Tmp8;
 		var Tmp9;
 			var Tmp11;
+=======
+		var Tmp3;
+		var Tmp4;
+		var Tmp5;
+		var Tmp6;
+>>>>>>> 12ba5854e3520e061756feb3cae45465ad6ab964
 
 	BeforeRet: do {
 		var allele_68423 = nsuStrip(nsuToUpperAsciiStr(cstrToNimstr(document.getElementById("allele").value)), true, true, ConstSet4);
@@ -1772,6 +1779,7 @@ function lookupAllele() {
 		var pgroup_69618 = nimCopy(null, (Tmp1 = X5BX5D__69158(palleles_59422[0], allele_68423), Tmp1[0])[Tmp1[1]], NTI138);
 		document.getElementById("pgroup").innerHTML = toJSStr(pgroup_69618);
 		document.getElementById("pgrouplen").innerHTML = toJSStr(cstrToNimstr((((Tmp2 = X5BX5D__67216(pgroups_59435[0], pgroup_69618), Tmp2[0])[Tmp2[1]] != null ? (Tmp2 = X5BX5D__67216(pgroups_59435[0], pgroup_69618), Tmp2[0])[Tmp2[1]].length : 0))+""));
+<<<<<<< HEAD
 		var alleleLinks_69879 = newSeq_59480(0);
 		L3: do {
 			var otherAllele_70114 = null;
@@ -1814,6 +1822,16 @@ function lookupAllele() {
 			} while(false);
 		} while(false);
 		document.getElementById("gother").innerHTML = toJSStr(nsuJoinSep(alleleLinks_70778, makeNimstrLit(" ")));
+=======
+		document.getElementById("pother").innerHTML = toJSStr(nsuJoinSep((Tmp3 = X5BX5D__67216(pgroups_59435[0], pgroup_69618), Tmp3[0])[Tmp3[1]], makeNimstrLit(" ")));
+		}
+		
+		if (contains_68578(galleles_59211[0], allele_68423)) {
+		var ggroup_70467 = nimCopy(null, (Tmp4 = X5BX5D__69158(galleles_59211[0], allele_68423), Tmp4[0])[Tmp4[1]], NTI138);
+		document.getElementById("ggroup").innerHTML = toJSStr(ggroup_70467);
+		document.getElementById("ggrouplen").innerHTML = toJSStr(cstrToNimstr((((Tmp5 = X5BX5D__67216(ggroups_59411[0], ggroup_70467), Tmp5[0])[Tmp5[1]] != null ? (Tmp5 = X5BX5D__67216(ggroups_59411[0], ggroup_70467), Tmp5[0])[Tmp5[1]].length : 0))+""));
+		document.getElementById("gother").innerHTML = toJSStr(nsuJoinSep((Tmp6 = X5BX5D__67216(ggroups_59411[0], ggroup_70467), Tmp6[0])[Tmp6[1]], makeNimstrLit(" ")));
+>>>>>>> 12ba5854e3520e061756feb3cae45465ad6ab964
 		}
 		
 	} while (false);
