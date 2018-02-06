@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>kitcalc &ndash; KIT-resurser</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/better.css">
+
+    <script src="js/gpgroup.js"></script>
+<script src="js/gpgroupacc.js"></script>
+
+</head>
+
+<body>
+
+<header>
+    <h2>kitcalc &ndash; KIT-resurser</h2>
+    <a href="index.html">Index</a> | <a href="posts.html">Sidor</a>
+</header>
+
+<main>
+
+<h1>P- och G-grupper</h1>
+<p><i>2018-02-06</i></p>
+
+<p>Information om <a href="http://hla.alleles.org/alleles/p_groups.html">P-grupper</a> och
+<a href="http://hla.alleles.org/alleles/g_groups.html">G-grupper</a>.</p>
+<form id="gpgroupform">
+    <fieldset>
+        <legend>Inmatning</legend>
+
+        <label for="allele">Ange allel</label>
+        <input type="text" id="allele">
+        <!-- type="button" is important, or form will reload page on every click -->
+        <button type="button" onclick="javascript:lookupAllele()">Slå upp</button>
+        <!-- For help text output -->
+        <div id="helptext"></div>
+    </fieldset>
+
+    <fieldset>
+        <legend>Allelinfo</legend>
+        <table>
+            <tr>
+                <td>Länk till info</td>
+                <td id="alleleinfo"></td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <fieldset>
+        <legend>P-grupper</legend>
+
+        <table>
+            <tr>
+                <td>P-grupp</td>
+                <td id="pgroup"></td>
+            </tr>
+            <tr>
+                <td>Antal i grupp</td>
+                <td id="pgrouplen"></td>
+            <tr>
+                <td>Allel(er)</td>
+                <td id="pother"></td>
+            </tr>
+        </table>
+    </fieldset>
+
+    <fieldset>
+        <legend>G-grupper</legend>
+
+        <table>
+            <tr>
+                <td>G-grupp</td>
+                <td id="ggroup"></td>
+            </tr>
+            <tr>
+                <td>Antal i grupp</td>
+                <td id="ggrouplen"></td>
+            <tr>
+                <td>Allel(er)</td>
+                <td id="gother"></td>
+            </tr>
+        </table>
+    </fieldset>
+</form>
+
+</main>
+
+<footer>
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a><br />
+    <small>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+    </small>
+
+</footer>
+
+</body>
+
+</html>
