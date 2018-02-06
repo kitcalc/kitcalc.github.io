@@ -114,7 +114,7 @@ proc lookForAlternateAllele(allele: string) =
 
 proc lookupAllele() {.exportc.} =
   ## Lookup an allele and put data into HTML elements
-  let allele = valueFromInput("allele").toUpperAscii()
+  let allele = valueFromInput("allele").toUpperAscii.strip
 
   # info
   if allele in galleles or allele in palleles:

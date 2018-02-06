@@ -280,6 +280,7 @@ function cstrToNimstr(c_14803) {
 	
 }
 var ConstSet3 = setConstr([97, 122]);
+var ConstSet4 = setConstr(32, 9, 11, 13, 10, 12);
 
 function addChar(x_20506, c_20507) {
 		    x_20506[x_20506.length-1] = c_20507; x_20506.push(0);
@@ -287,10 +288,10 @@ function addChar(x_20506, c_20507) {
 
 	
 }
-var ConstSet4 = setConstr([48, 57]);
-var ConstSet5 = setConstr(0, 125);
-var ConstSet6 = setConstr([65, 90]);
-var ConstSet7 = setConstr([97, 122], [65, 90], [48, 57], [128, 255], 95);
+var ConstSet5 = setConstr([48, 57]);
+var ConstSet6 = setConstr(0, 125);
+var ConstSet7 = setConstr([65, 90]);
+var ConstSet8 = setConstr([97, 122], [65, 90], [48, 57], [128, 255], 95);
 var nimvm_6119 = false;
 var nim_program_result = 0;
 var globalRaiseHook_11605 = [null];
@@ -1013,6 +1014,37 @@ function initPgroupData(pdata_67648) {
 	
 }
 
+function nsuStrip(s_35130, leading_35131, trailing_35132, chars_35134) {
+					var Tmp5;
+
+	var result_35135 = null;
+
+		var first_35136 = 0;
+		var last_35137 = ((s_35130 != null ? s_35130.length-1 : 0) - 1);
+		if (leading_35131) {
+		L1: do {
+				L2: while (true) {
+				if (!(chars_35134[s_35130[first_35136]] != undefined)) break L2;
+					first_35136 += 1;
+				}
+		} while(false);
+		}
+		
+		if (trailing_35132) {
+		L3: do {
+				L4: while (true) {
+					if (!(0 <= last_35137)) Tmp5 = false; else {						Tmp5 = (chars_35134[s_35130[last_35137]] != undefined);					}				if (!Tmp5) break L4;
+					last_35137 -= 1;
+				}
+		} while(false);
+		}
+		
+		result_35135 = nimCopy(null, (s_35130.slice(first_35136, (last_35137)+1).concat(0)), NTI138);
+
+	return result_35135;
+
+}
+
 function nsuToUpperAsciiChar(c_34846) {
 	var result_34847 = 0;
 
@@ -1188,7 +1220,7 @@ function invalidFormatString_40795() {
 function nsuToLowerAsciiChar(c_34785) {
 	var result_34786 = 0;
 
-		if ((ConstSet6[c_34785] != undefined)) {
+		if ((ConstSet7[c_34785] != undefined)) {
 		result_34786 = (c_34785 + 32);
 		}
 		else {
@@ -1306,7 +1338,7 @@ function nsuAddf(s_40816, s_40816_Idx, formatstr_40817, a_40819) {
 						
 						L3: do {
 								L4: while (true) {
-								if (!(ConstSet4[formatstr_40817[i_40822]] != undefined)) break L4;
+								if (!(ConstSet5[formatstr_40817[i_40822]] != undefined)) break L4;
 									j_40866 = (((j_40866 * 10) + formatstr_40817[i_40822]) - 48);
 									i_40822 += 1;
 								}
@@ -1329,7 +1361,7 @@ function nsuAddf(s_40816, s_40816_Idx, formatstr_40817, a_40819) {
 						var j_40940 = (i_40822 + 1);
 						L6: do {
 								L7: while (true) {
-								if (!!((ConstSet5[formatstr_40817[j_40940]] != undefined))) break L7;
+								if (!!((ConstSet6[formatstr_40817[j_40940]] != undefined))) break L7;
 									j_40940 += 1;
 								}
 						} while(false);
@@ -1527,7 +1559,7 @@ function nsuAddf(s_40816, s_40816_Idx, formatstr_40817, a_40819) {
 						var j_40968 = (i_40822 + 1);
 						L9: do {
 								L10: while (true) {
-								if (!(ConstSet7[formatstr_40817[j_40968]] != undefined)) break L10;
+								if (!(ConstSet8[formatstr_40817[j_40968]] != undefined)) break L10;
 									j_40968 += 1;
 								}
 						} while(false);
@@ -1726,7 +1758,7 @@ function lookupAllele() {
 		var Tmp6;
 
 	BeforeRet: do {
-		var allele_68423 = nsuToUpperAsciiStr(cstrToNimstr(document.getElementById("allele").value));
+		var allele_68423 = nsuStrip(nsuToUpperAsciiStr(cstrToNimstr(document.getElementById("allele").value)), true, true, ConstSet4);
 		if ((contains_68578(galleles_59211[0], allele_68423) || contains_68578(palleles_59422[0], allele_68423))) {
 		clearForm_67665();
 		document.getElementById("alleleinfo").innerHTML = toJSStr((makeNimstrLit("<a href=\"https://www.ebi.ac.uk/cgi-bin/ipd/imgt/hla/get_allele.cgi?").slice(0,-1)).concat(allele_68423.slice(0,-1),makeNimstrLit("\">").slice(0,-1),allele_68423.slice(0,-1),makeNimstrLit("</a>")));
