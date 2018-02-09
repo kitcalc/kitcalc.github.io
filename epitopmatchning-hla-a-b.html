@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>kitcalc &ndash; KIT-resurser</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/better.css">
+
+    <script src="js/epitopes.js"></script>
+
+</head>
+
+<body>
+
+<header>
+    <h2>kitcalc &ndash; KIT-resurser</h2>
+    <a href="index.html">Index</a> | <a href="posts.html">Sidor</a>
+</header>
+
+<main>
+
+<h1>Epitopmatchning HLA-A,B</h1>
+<p><i>2018-02-09</i></p>
+
+<p>Att minimera antalet allogena HLA-epitoper på transfunderade trombocyter har
+visats förbättra trombocytöverlevnad. Verktyget nedan kan användas för att
+beräkna antalet mismatchade HLA-epitoper (i HvG-riktning som vid transfusion).
+Allel- och epitopdata är extraherade från
+<a href="http://www.epitopes.net/">HLAMatchmaker</a>.</p>
+<p>Overifierade epitoper är epitoper som är teoretiska och som ej visats förekomma
+i humana sera.</p>
+<h2 id="lankar-och-information">Länkar och information</h2>
+<p><a href="http://epregistry.ufpi.br/index/databases/database/ABC/">HLA-Epitope Registry ABC</a></p>
+<p>Artiklar av Rene Duquesnoy om <a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=duquesnoy+platelet">trombocyter och
+epitopmatchning</a>.</p>
+<h2 id="inmatning">Inmatning</h2>
+<form>
+    <fieldset>
+        <legend>Recipient</legend>
+
+        <label for="recA1">HLA-A</label>
+        <select id="recA1"></select>
+        <select id="recA2"></select>
+        <br>
+
+        <label for="recB1">HLA-B</label>
+        <select id="recB1"></select>
+        <select id="recB2"></select>
+        <br>
+    </fieldset>
+
+    <fieldset>
+        <legend>Donator</legend>
+
+        <label for="donA1">HLA-A</label>
+        <select id="donA1"></select>
+        <select id="donA2"></select>
+        <br>
+
+        <label for="donB1">HLA-B</label>
+        <select id="donB1"></select>
+        <select id="donB2"></select>
+        <br>
+    </fieldset>
+
+    <label for="includeOther">Inkludera overifierade eplets</label>
+    <input type="checkbox" id="includeOther" value="checked">
+    <br>
+
+    <button type="button" onclick="javascript:showMismatchedEplets()">Jämför</button>
+    <input type="reset" value="Rensa">
+
+    <fieldset>
+        <legend>Mismatchade eplets (HvG)</legend>
+
+        <table>
+            <tr>
+                <td>Antal HvG-mismatchade eplets</td>
+                <td id="hvgEpletCount"></td>
+            </tr>
+            <tr>
+                <td>HvG-mismatchade eplets</td>
+                <td id="hvgMismatchedEplets"></td>
+            </tr>
+        </table>
+    </fieldset>
+
+</form>
+
+</main>
+
+<footer>
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a><br />
+    <small>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+    </small>
+
+</footer>
+
+</body>
+
+</html>
