@@ -8,7 +8,7 @@ type
     locus*: Locus
 
 proc newAllele(name: string, locus: string): Allele =
-  ## Initialize an eplet
+  ## Initialize an allele
   new(result)
   result.name = name
   result.eplets.init()
