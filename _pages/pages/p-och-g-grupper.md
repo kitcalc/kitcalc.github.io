@@ -8,7 +8,7 @@ summary: Bestämning av P- och G-grupper för HLA-alleler
 Information om [P-grupper](http://hla.alleles.org/alleles/p_groups.html) och
 [G-grupper](http://hla.alleles.org/alleles/g_groups.html).
 
-<form id="gpgroupform">
+<form id="gpgroupform" action="javascript:lookupAllele()">
     <fieldset>
         <legend>Inmatning</legend>
 

@@ -16,9 +16,11 @@ const
 
   recElementsA = ["recA1", "recA2"]
   recElementsB = ["recB1", "recB2"]
+  recElementsC = ["recC1", "recC2"]
 
   donElementsA = ["donA1", "donA2"]
   donElementsB = ["donB1", "donB2"]
+  donElementsC = ["donC1", "donC2"]
 
 proc fillSelect() =
   ## Fill select elements with alleles
@@ -26,17 +28,18 @@ proc fillSelect() =
   var
     alleleA = newSeq[string]()
     alleleB = newSeq[string]()
-    # alleleC = newSeq[string]()
+    alleleC = newSeq[string]()
   for allele in alleleABC.keys:
     case allele[0]
     of 'A': alleleA.add allele
     of 'B': alleleB.add allele
-    of 'C': continue  # we skip C alleles in this application
+    of 'C': alleleC.add allele
     else:
       echo "unknown locus in allele ", allele
 
   alleleA.sort(system.cmp)
   alleleB.sort(system.cmp)
+  alleleC.sort(system.cmp)
 
   var alleleList = ""
 
@@ -58,6 +61,16 @@ proc fillSelect() =
   for element in donElementsB:
     document.getElementById(element).innerHtml = alleleList
 
+  alleleList = ""
+
+  for allele in alleleC:
+    alleleList &= option(value=allele, allele) & "\n"
+
+  for element in recElementsC:
+    document.getElementById(element).innerHtml = alleleList
+  for element in donElementsC:
+    document.getElementById(element).innerHtml = alleleList
+
 
 proc getAlleleABC(data: cstring) =
   ## Parse and initialize eplets table
@@ -73,7 +86,7 @@ proc getEpletABC(data: cstring) =
   makeRequest(alleleABCurl, getAlleleABC)
 
 
-proc getEplets(elementsA, elementsB: array[2, string]): HashSet[Eplet] =
+proc getEplets(elementsA, elementsB, elementsC: array[2, string]): HashSet[Eplet] =
   ## Collect all eplets for donor or recipient
   result = initSet[Eplet]()
   for element in elementsA:
@@ -94,8 +107,8 @@ proc outputMismatchedEplets(eplets: HashSet[Eplet]) =
 
 proc showMismatchedEplets*() {.exportc.} =
   let
-    recEplets = getEplets(recElementsA, recElementsB)
-    donEplets = getEplets(donElementsA, donElementsB)
+    recEplets = getEplets(recElementsA, recElementsB, recElementsC)
+    donEplets = getEplets(donElementsA, donElementsB, donElementsC)
     hvgEplets = donEplets - recEplets
 
   if document.getElementById(includeOtherId).checked:

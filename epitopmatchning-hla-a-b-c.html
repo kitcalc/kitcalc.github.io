@@ -23,8 +23,8 @@
 
 <main>
 
-<h1>Epitopmatchning HLA-A,B</h1>
-<p><i>2018-02-09</i></p>
+<h1>Epitopmatchning HLA-A,B,C</h1>
+<p><i>2018-02-09 (uppdaterad 2018-02-19)</i></p>
 
 <p>Att minimera antalet allogena HLA-epitoper på transfunderade trombocyter har
 visats förbättra trombocytöverlevnad. Verktyget nedan kan användas för att
@@ -38,7 +38,7 @@ i humana sera.</p>
 <p>Artiklar av Rene Duquesnoy om <a href="https://www.ncbi.nlm.nih.gov/pubmed/?term=duquesnoy+platelet">trombocyter och
 epitopmatchning</a>.</p>
 <h2 id="inmatning">Inmatning</h2>
-<form>
+<form action="javascript:showMismatchedEplets()">
     <fieldset>
         <legend>Recipient</legend>
 
@@ -50,6 +50,11 @@ epitopmatchning</a>.</p>
         <label for="recB1">HLA-B</label>
         <select id="recB1"></select>
         <select id="recB2"></select>
+        <br>
+
+        <label for="recC1">HLA-C</label>
+        <select id="recC1"></select>
+        <select id="recC2"></select>
         <br>
     </fieldset>
 
@@ -64,6 +69,11 @@ epitopmatchning</a>.</p>
         <label for="donB1">HLA-B</label>
         <select id="donB1"></select>
         <select id="donB2"></select>
+        <br>
+
+        <label for="donC1">HLA-C</label>
+        <select id="donC1"></select>
+        <select id="donC2"></select>
         <br>
     </fieldset>
 

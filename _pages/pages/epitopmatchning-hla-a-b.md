@@ -1,6 +1,7 @@
-title: Epitopmatchning HLA-A,B
+title: Epitopmatchning HLA-A,B,C
 created: 2018-02-09
-summary: Epitopmatchning för HLA-A,B för t.ex. trombocytrefraktäritet.
+updated: 2018-02-19
+summary: Epitopmatchning HLA-ABC för t.ex. trombocytrefraktäritet.
 js: js/epitopes.js
 ---
 
@@ -24,7 +25,7 @@ epitopmatchning](https://www.ncbi.nlm.nih.gov/pubmed/?term=duquesnoy+platelet).
 
 ## Inmatning
 
-<form>
+<form action="javascript:showMismatchedEplets()">
     <fieldset>
         <legend>Recipient</legend>
 
@@ -36,6 +37,11 @@ epitopmatchning](https://www.ncbi.nlm.nih.gov/pubmed/?term=duquesnoy+platelet).
         <label for="recB1">HLA-B</label>
         <select id="recB1"></select>
         <select id="recB2"></select>
+        <br>
+
+        <label for="recC1">HLA-C</label>
+        <select id="recC1"></select>
+        <select id="recC2"></select>
         <br>
     </fieldset>
 
@@ -50,6 +56,11 @@ epitopmatchning](https://www.ncbi.nlm.nih.gov/pubmed/?term=duquesnoy+platelet).
         <label for="donB1">HLA-B</label>
         <select id="donB1"></select>
         <select id="donB2"></select>
+        <br>
+
+        <label for="donC1">HLA-C</label>
+        <select id="donC1"></select>
+        <select id="donC2"></select>
         <br>
     </fieldset>
 
