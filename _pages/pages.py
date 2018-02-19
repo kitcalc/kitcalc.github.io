@@ -10,6 +10,7 @@ import markdown
 with open("config.json") as jsonfile:
     CONFIG = json.load(jsonfile)
 PAGENAME = CONFIG["pagename"]
+POSTSPAGE = CONFIG.get("postspage", "posts")
 TODAY = datetime.date.today().isoformat()
 
 
@@ -355,7 +356,9 @@ def main():
     index_path = index.to_htmlfile(args.output_dir, header, footer, pages)
     file_paths.append(index_path)
 
-    posts = PostsPage(pathlib.Path(args.static_dir) / "posts", "posts.html")
+    # template is always called "posts", unlike the resulting page
+    posts = PostsPage(pathlib.Path(args.static_dir) / "posts",
+                      f"{POSTSPAGE}.html")
     posts_path = posts.to_htmlfile(args.output_dir, header, footer, pages)
     file_paths.append(posts_path)
 
