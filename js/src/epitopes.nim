@@ -95,6 +95,9 @@ proc getEplets(elementsA, elementsB, elementsC: array[2, string]): HashSet[Eplet
   for element in elementsB:
     let allele = $cast[OptionElement](document.getElementById(element)).value
     result.incl alleleABC[allele].eplets
+  for element in elementsC:
+    let allele = $cast[OptionElement](document.getElementById(element)).value
+    result.incl alleleABC[allele].eplets
 
 proc outputMismatchedEplets(eplets: HashSet[Eplet]) =
   ## Shows the mismatched eplets and the cardinality
