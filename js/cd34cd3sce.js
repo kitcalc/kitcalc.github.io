@@ -1,4 +1,4 @@
-function cd34calc() {
+function cd34cd3calc() {
 
     // convert form input to usable variables
     var weight = parseInt(document.getElementById("recipient_weight").value);
@@ -11,6 +11,7 @@ function cd34calc() {
     var vMNC = parseInt(document.getElementById("vMNC").value);
     var CD34_CD45dim = parseInt(document.getElementById("CD34_CD45dim").value);
 
+    var vCD3 = parseInt(document.getElementById("vCD3").value);
     var bead_count = parseInt(document.getElementById("bead_count").value);
 
     // calculate
@@ -35,6 +36,12 @@ function cd34calc() {
     var MNC_percent = MNC_per_ul / CD45pos_per_ul * 100;
     var MNC_per_kg = MNC_total / weight * 10;
 
+    var CD3_per_bead = vCD3 / beads;
+    var CD3_per_ul = CD3_per_bead * bead_count / dilution_compensation;
+    var CD3_total = CD3_per_ul * volume / 1000000;
+    var CD3_percent = CD3_per_ul / CD45pos_per_ul * 100;
+    var CD3_per_kg = CD3_total / weight * 1000;
+
     // print it
     document.getElementById("CD45_cells").innerHTML = CD45pos_per_ul.toFixed(0);
     document.getElementById("CD45_tot").innerHTML = CD45pos_total.toFixed(1);
@@ -51,4 +58,9 @@ function cd34calc() {
     document.getElementById("MNC_tot").innerHTML = MNC_total.toFixed(1);
     document.getElementById("MNC_percent").innerHTML = MNC_percent.toFixed(1);
     document.getElementById("MNC_kg").innerHTML = MNC_per_kg.toFixed(1);
+
+    document.getElementById("CD3_cells").innerHTML = CD3_per_ul.toFixed(0);
+    document.getElementById("CD3_tot").innerHTML = CD3_total.toFixed(1);
+    document.getElementById("CD3_percent").innerHTML = CD3_percent.toFixed(1);
+    document.getElementById("CD3_kg").innerHTML = CD3_per_kg.toFixed(1);
 }

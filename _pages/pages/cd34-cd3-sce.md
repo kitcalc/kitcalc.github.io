@@ -1,33 +1,13 @@
-<!DOCTYPE html>
+title: CD34 CD3 SCE
+created: 2016-10-14
+updated: 2018-05-23
+js: js/cd34cd3sce.js
+summary: CD34+ och CD3+ i stamcellsskörd
+---
 
-<html>
+# Input
 
-<head>
-    <title>kitcalc &ndash; KIT-resurser</title>
-
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-    <link rel="stylesheet" href="css/better.css">
-
-    <script src="js/cd34sce.js"></script>
-
-</head>
-
-<body>
-
-<header>
-    <h2>kitcalc &ndash; KIT-resurser</h2>
-    <a href="index.html">Index</a> | <a href="sidor.html">Sidor</a>
-</header>
-
-<main>
-
-<h1>CD34 SCE</h1>
-<p><i>2016-10-14</i></p>
-
-<h1 id="input">Input</h1>
-<form id="calc" action="javascript:cd34calc()">
+<form id="calc" action="javascript:cd34cd3calc()">
 
     <fieldset>
         <legend>Patientdata</legend>
@@ -42,7 +22,7 @@
     <fieldset>
         <legend>Events från analysprotokoll</legend>
 
-        <label for="dilution_factor">Dilution factor</label>
+        <label for="dilution_factor">Spädn faktor</label>
         <input type="number" id="dilution_factor" pattern="\d*"><br>
 
         <label for="beads">Beads</label>
@@ -63,6 +43,9 @@
         <label for="CD34_CD45dim">CD34+ CD45dim</label>
         <input type="number" id="CD34_CD45dim" pattern="\d*"><br>
 
+        <label for="vCD3">vCD3+</label>
+        <input type="number" id="vCD3" pattern="\d*"><br>
+
         <label for="bead_count">Bead count</label>
         <input type="number" id="bead_count" pattern="\d*"><br>
 
@@ -70,7 +53,8 @@
     </fieldset>
 </form>
 
-<h1 id="innehall">Innehåll</h1>
+# Innehåll
+
 <table>
     <thead>
         <tr>
@@ -84,11 +68,11 @@
             <td id="CD45_cells"></td>
         </tr>
         <tr>
-            <td>vCD45 (10<sup>9</sup>)</td>
+            <td>vCD45<sup>+</sup> (10<sup>9</sup>)</td>
             <td id="CD45_tot"></td>
         </tr>
         <tr>
-            <td>vCD45 (10<sup>8</sup>/kg)</td>
+            <td>vCD45<sup>+</sup> (10<sup>8</sup>/kg)</td>
             <td id="CD45_kg"></td>
         </tr>
         <tr>
@@ -100,15 +84,15 @@
             <td id="CD34_cells"></td>
         </tr>
         <tr>
-            <td>vCD34 (10<sup>6</sup>)</td>
+            <td>vCD34<sup>+</sup> (10<sup>6</sup>)</td>
             <td id="CD34_tot"></td>
         </tr>
         <tr>
-            <td>vCD34 (%)</td>
+            <td>vCD34<sup>+</sup> (%)</td>
             <td id="CD34_percent"></td>
         </tr>
         <tr class="info">
-            <td>vCD34 (10<sup>6</sup>/kg)</td>
+            <td>vCD34<sup>+</sup> (10<sup>6</sup>/kg)</td>
             <td id="CD34_kg"></td>
         </tr>
         <tr>
@@ -116,36 +100,36 @@
             <td id="CD34_viability"></td>
         </tr>
         <tr>
-            <td>MNC (cells/&mu;l)</td>
+            <td>vMNC (cells/&mu;l)</td>
             <td id="MNC_cells"></td>
         </tr>
         <tr>
-            <td>MNC (10<sup>9</sup>)</td>
+            <td>vMNC (10<sup>9</sup>)</td>
             <td id="MNC_tot"></td>
         </tr>
         <tr>
-            <td>MNC (%)</td>
+            <td>vMNC (%)</td>
             <td id="MNC_percent"></td>
         </tr>
         <tr>
-            <td>MNC (10<sup>8</sup>/kg)</td>
+            <td>vMNC (10<sup>8</sup>/kg)</td>
             <td id="MNC_kg"></td>
+        </tr>
+        <tr>
+            <td>vCD3<sup>+</sup> (cells/&mu;l)</td>
+            <td id="CD3_cells"></td>
+        </tr>
+        <tr>
+            <td>vCD3<sup>+</sup> (10<sup>9</sup>)</td>
+            <td id="CD3_tot"></td>
+        </tr>
+        <tr>
+            <td>vCD3<sup>+</sup> (%)</td>
+            <td id="CD3_percent"></td>
+        </tr>
+        <tr>
+            <td>vCD3<sup>+</sup> (10<sup>6</sup>/kg)</td>
+            <td id="CD3_kg"></td>
         </tr>
     </tbody>
 </table>
-
-</main>
-
-<footer>
-    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
-        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
-    </a><br />
-    <small>
-        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
-    </small>
-
-</footer>
-
-</body>
-
-</html>
