@@ -3,7 +3,6 @@ import ajax
 
 proc makeRequest*(url: cstring, cb: proc (c: cstring)) =
   var xhr = newXMLHttpRequest()
-  xhr.responseType = "text"  # default type is xml, raises error otherwise
 
   if xhr.isNil:
     echo "Cannot create an XMLHTTP instance for url ", url
@@ -16,4 +15,8 @@ proc makeRequest*(url: cstring, cb: proc (c: cstring)) =
         echo "Could not retrieve data from ", url
   xhr.onreadystatechange = alertContents
   xhr.open("GET", url)
+
+  # must be placed after open or ie11 will fail
+  xhr.responseType = "text"  # default type is xml, raises error otherwise
+
   xhr.send()
