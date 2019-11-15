@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>kitcalc &ndash; KIT-resurser</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="css/better.css">
+
+    
+</head>
+
+<body>
+
+<header>
+    <h2>kitcalc &ndash; KIT-resurser</h2>
+    <a href="index.html">Index</a> | <a href="sidor.html">Sidor</a>
+</header>
+
+<main>
+
+<h1>HLA-alignment</h1>
+<p><i>2019-11-15</i></p>
+
+<p>Sedan <a href="https://www.ncbi.nlm.nih.gov/gv/mhc/?cmd=aligndisplay&amp;user_id=0&amp;probe_id=0&amp;source_id=0&amp;locus_id=0&amp;locus_group=1&amp;proto_id=0&amp;kit_id=0&amp;banner=1">dbMHC Sequence Alignment
+Viewer</a>
+lades ned har inget uppenbart online-alternativ för att se alignment mellan
+HLA-alleler funnits. Via IPD-IMGT/HLA finns <a href="https://www.ebi.ac.uk/ipd/imgt/hla/align.html">Sequence Alignment
+Tool</a> som är mer svårarbetat.
+Här följer ett tips på hur ett lokalt program kan användas, tillsammans med
+rådata från IPD-IMGT/HLA.</p>
+<h2 id="jalview">Jalview</h2>
+<p>Vi använder <a href="http://www.jalview.org/">Jalview</a>, ett Java-program för att
+visualiera alignments. Om Java Webstart fungerar kan det räcka med att trycka
+<a href="http://www.jalview.org/old/v2_10_5/jalview.jnlp">på den här länken</a>, annars
+får man installera lokalt.</p>
+<h2 id="alignmentdata">Alignmentdata</h2>
+<p>Följande alignments är relevanta för transplantation. Länkar kan kopieras och
+går till senaste publicerade version i MSF-format. Andra format och loci finns
+<a href="http://hla.alleles.org/alleles/text_index.html">här</a> och via
+<a href="https://github.com/ANHIG/IMGTHLA">github</a>.</p>
+<table>
+<thead>
+<tr>
+<th>Locus</th>
+<th>Genomisk</th>
+<th>cDNA</th>
+<th>Protein</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><em>HLA-A</em></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/A_gen.msf">A_gen.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/A_nuc.msf">A_nuc.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/A_prot.msf">A_prot.msf</a></td>
+</tr>
+<tr>
+<td><em>HLA-B</em></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/B_gen.msf">B_gen.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/B_nuc.msf">B_nuc.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/B_prot.msf">B_prot.msf</a></td>
+</tr>
+<tr>
+<td><em>HLA-C</em></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/C_gen.msf">C_gen.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/C_nuc.msf">C_nuc.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/C_prot.msf">C_prot.msf</a></td>
+</tr>
+<tr>
+<td><em>HLA-DRB1</em></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DRB1_gen.msf">DRB1_gen.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DRB1_nuc.msf">DRB1_nuc.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DRB1_prot.msf">DRB1_prot.msf</a></td>
+</tr>
+<tr>
+<td><em>HLA-DRB3</em></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DRB1_gen.msf">DRB3_gen.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DRB345_nuc.msf">DRB345_nuc.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DRB345_prot.msf">DRB345_prot.msf</a></td>
+</tr>
+<tr>
+<td><em>HLA-DRB4</em></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DRB4_gen.msf">DRB4_gen.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DRB345_nuc.msf">DRB345_nuc.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DRB345_prot.msf">DRB345_prot.msf</a></td>
+</tr>
+<tr>
+<td><em>HLA-DRB5</em></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DRB5_gen.msf">DRB5_gen.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DRB345_nuc.msf">DRB345_nuc.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DRB345_prot.msf">DRB345_prot.msf</a></td>
+</tr>
+<tr>
+<td><em>HLA-DQA1</em></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DQA1_gen.msf">DQA1_gen.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DQA1_nuc.msf">DQA1_nuc.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DQA1_prot.msf">DQA1_prot.msf</a></td>
+</tr>
+<tr>
+<td><em>HLA-DQB1</em></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DQB1_gen.msf">DQB1_gen.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DQB1_nuc.msf">DQB1_nuc.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DQB1_prot.msf">DQB1_prot.msf</a></td>
+</tr>
+<tr>
+<td><em>HLA-DPA1</em></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DPA1_gen.msf">DPA1_gen.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DPA1_nuc.msf">DPA1_nuc.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DPA1_prot.msf">DPA1_prot.msf</a></td>
+</tr>
+<tr>
+<td><em>HLA-DPB1</em></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DPB1_gen.msf">DPB1_gen.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DPB1_nuc.msf">DPB1_nuc.msf</a></td>
+<td><a href="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/DPB1_prot.msf">DPB1_prot.msf</a></td>
+</tr>
+</tbody>
+</table>
+<h2 id="se-alignment">Se alignment</h2>
+<ol>
+<li>Öppna Jalview och stäng alla fönster utom huvudfönstret.</li>
+<li>Kopiera länk till den alignment du vill se från tabellen ovan. </li>
+<li>Välj <em>File</em> – <em>Input alignment</em> – <em>from URL</em> och klistra in länken.</li>
+<li>För att se endast ett urval av alleler, välj de du vill se (Ctrl och
+   musklick) och tryck <em>View</em> – <em>Hide</em> – <em>All but Selected Region
+   (Shift+Ctrl+H)</em></li>
+</ol>
+<p>Färger för aminosyror/nukleotider kan ställas in via menyn <em>Colour</em>. </p>
+
+</main>
+
+<footer>
+    <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">
+        <img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by/4.0/88x31.png" />
+    </a><br />
+    <small>
+        This work is licensed under a <a rel="license" href="http://creativecommons.org/licenses/by/4.0/">Creative Commons Attribution 4.0 International License</a>.
+    </small>
+
+</footer>
+
+</body>
+
+</html>
