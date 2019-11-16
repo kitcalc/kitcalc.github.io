@@ -27,7 +27,7 @@ går till senaste publicerade version i MSF-format. Andra format och loci finns
 [här](http://hla.alleles.org/alleles/text_index.html) och via
 [github](https://github.com/ANHIG/IMGTHLA).
 
-| Locus | Genomisk | cDNA | Protein |
+| Locus | Genomisk | CDS | Protein |
 |-------|----------|------|---------|
 | *HLA-A* | [A_gen.msf](https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/A_gen.msf) | [A_nuc.msf](https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/A_nuc.msf) | [A_prot.msf](https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/A_prot.msf) |
 | *HLA-B* | [B_gen.msf](https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/B_gen.msf) | [B_nuc.msf](https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/B_nuc.msf) | [B_prot.msf](https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/msf/B_prot.msf) |
@@ -45,11 +45,11 @@ går till senaste publicerade version i MSF-format. Andra format och loci finns
 ## Se alignment
 
 1. Öppna Jalview och stäng alla fönster utom huvudfönstret.
-2. Kopiera länk till den alignment du vill se från tabellen ovan. 
+2. Kopiera länk till den alignment du vill se från tabellen ovan.
 3. Välj *File* – *Input alignment* – *from URL* och klistra in länken.
 4. För att se endast ett urval av alleler, välj de du vill se (Ctrl och
    musklick) och tryck *View* – *Hide* – *All but Selected Region
    (Shift+Ctrl+H)*
 
-Färger för aminosyror/nukleotider kan ställas in via menyn *Colour*. 
+Färger för aminosyror/nukleotider kan ställas in via menyn *Colour*.
 
