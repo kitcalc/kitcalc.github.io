@@ -30,6 +30,16 @@ body {
     padding: 0 10px
 }
 
+blockquote {
+    padding: .25rem .5rem;
+    margin: .8rem 0;
+    color: #666;
+    border-left: .25rem solid #e5e5e5;
+}
+blockquote p:last-child {
+    margin-bottom: 0;
+}
+
 footer {
     text-align: center;
     margin: 4em 1em;
@@ -114,15 +124,15 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
     empty-cells: show;
-    border: 1px solid #aaa;
+    border: 1px solid #ddd;
     margin-bottom: 1rem;
+    overflow-x: auto;
 }
 
 td, th {
     margin: 0;
-    overflow: visible; /*to make ths where the title is really long work*/
-    padding: 0.5em 1em; /* cell padding */
-    border-left: 1px solid #aaa;
+    padding: 0.25rem 0.5rem; /* cell padding */
+    border: 1px solid #ddd;
 }
 
 td {
@@ -131,7 +141,7 @@ td {
 }
 
 thead {
-    background-color: #eee;
+    background-color: #f0f0f0;
     color: #333;
     text-align: left;
     vertical-align: bottom;
