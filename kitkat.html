@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+
+<html>
+
+<head>
+    <title>kitkat</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        html {
+            font-size: 8pt;
+            font-family: "Tahoma", sans-serif;
+        }
+        form {
+            margin: 0.25em;
+        }
+        input[type="text"], textarea {
+            /*width: 100%;*/
+            box-sizing: border-box;
+            font-size: inherit;
+            font-family: inherit;
+        }
+        textarea {
+            height: 230px;
+            width: 100%;
+            box-sizing: border-box;
+            font-size: inherit;
+            font-family: inherit;
+        }
+        button {
+            float: right;
+            margin: inherit;
+        }
+        span {
+            display: block;
+            overflow: hidden;
+            margin: inherit;
+        }
+
+    </style>
+    
+    <script src="js/kitkat.js" defer></script>
+    
+</head>
+
+<body>
+
+    <form id="codeForm" autocomplete="off">
+        <span>
+            <input type="text" id="codeInput" autofocus>        
+            <input type="button" id="parseButton" value="Tolka">
+            <input type="button" id="clearButton" value="Rensa">
+            <input type="button" id="codesButton" value="Koder">
+        </span>
+        <span>
+            <textarea id="answerOutput"></textarea>
+        </span>
+    </form>
+
+</body>
+
+</html>
