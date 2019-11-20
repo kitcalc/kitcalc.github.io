@@ -199,7 +199,8 @@ class Page:
         """
         outpath = pathlib.Path(path) / self.filename
         html = self.html(header, footer)
-        outpath.write_text(html)
+        with outpath.open("w", newline="\n") as outfile:
+            outfile.write(html)
         return outpath
 
 
@@ -251,7 +252,8 @@ class IndexPage:
         """
         outpath = pathlib.Path(path, self.filename)
         html = self.html(header, footer, pages)
-        outpath.write_text(html)
+        with outpath.open("w", newline="\n") as outfile:
+            outfile.write(html)
         return outpath
 
 
