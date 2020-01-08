@@ -346,7 +346,7 @@ proc outputWiebeRiskGroup(recEplets: HashSet[Eplet], donAlleles: seq[string]) =
   document.getElementById("wiebeCategory").innerHtml = category
     
   document.getElementById("maxMismatchDRB").innerHtml = $maxDRB
-  document.getElementById("maxMismatchAlleleDQAB").innerHtml = maxDRBallele
+  document.getElementById("maxMismatchAlleleDRB").innerHtml = maxDRBallele
 
   document.getElementById("maxMismatchDQAB").innerHtml = $dqSum
   document.getElementById("maxMismatchAlleleDQAB").innerHtml = dqName

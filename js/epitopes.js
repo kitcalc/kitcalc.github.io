@@ -1643,7 +1643,7 @@ function output_wiebe_risk_group_203063(rec_eplets_203069, don_alleles_203071) {
 		var category_203645 = get_wiebe_category_203044(chckRange(max_drb_203073, 0, 2147483647), chckRange(dq_sum_203643, 0, 2147483647));
 		document.getElementById("wiebeCategory").innerHTML = toJSStr(category_203645);
 		document.getElementById("maxMismatchDRB").innerHTML = toJSStr(cstrToNimstr((max_drb_203073)+""));
-		document.getElementById("maxMismatchAlleleDQAB").innerHTML = toJSStr(max_drballele_203074);
+		document.getElementById("maxMismatchAlleleDRB").innerHTML = toJSStr(max_drballele_203074);
 		document.getElementById("maxMismatchDQAB").innerHTML = toJSStr(cstrToNimstr((dq_sum_203643)+""));
 		document.getElementById("maxMismatchAlleleDQAB").innerHTML = toJSStr(dq_name_203644);
 

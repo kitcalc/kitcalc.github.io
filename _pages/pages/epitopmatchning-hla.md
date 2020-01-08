@@ -156,11 +156,11 @@ För riskgruppering krävs DRB1, DRB3/4/5, DQA1 och DQB1 för recipient och dona
                 <td id="maxMismatchAlleleDRB"></td>
             </tr>
             <tr>
-                <td>Max mismatch DQA1+DQB1</td>
+                <td>Max mismatch DQA1 + DQB1</td>
                 <td id="maxMismatchDQAB"></td>
             </tr>
             <tr>
-                <td>Alleler DQA1+DQB1</td>
+                <td>Alleler DQA1 + DQB1</td>
                 <td id="maxMismatchAlleleDQAB"></td>
             </tr>
         </table>
