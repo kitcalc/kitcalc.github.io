@@ -80,7 +80,7 @@ class Page:
 
         self.md = markdown.Markdown(**MDEXTENSIONS)
 
-        with filename.open() as infile:
+        with open(filename, encoding="utf-8") as infile:
             self.body = self.md.convert(infile.read())
 
         self._get_meta()
@@ -199,7 +199,7 @@ class Page:
         """
         outpath = pathlib.Path(path) / self.filename
         html = self.html(header, footer)
-        with outpath.open("w", newline="\n") as outfile:
+        with outpath.open("w", newline="\n", encoding="utf-8") as outfile:
             outfile.write(html)
         return outpath
 
@@ -219,12 +219,12 @@ class IndexPage:
         """
         s = Html.h2(Html.a(href=page.filename, text=page.title))
         s += "\n"
-        
+
         dates = "(" + page.str_created()
         if page.updated:
             dates += f"; {page.str_updated()}"
         dates += ")"
-            
+
         s += Html.p(
             f"{page.summary} {Html.i(dates)}"
         )
@@ -252,7 +252,7 @@ class IndexPage:
         """
         outpath = pathlib.Path(path, self.filename)
         html = self.html(header, footer, pages)
-        with outpath.open("w", newline="\n") as outfile:
+        with outpath.open("w", newline="\n", encoding="utf-8") as outfile:
             outfile.write(html)
         return outpath
 
@@ -272,7 +272,7 @@ class PostsPage(IndexPage):
         return Html.p(s)
 
     def html(self, header, footer, pages):
-        """Returns the full web page with header and footer and links to 
+        """Returns the full web page with header and footer and links to
         pages, sorted by update date.
         """
 

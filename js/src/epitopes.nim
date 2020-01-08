@@ -32,7 +32,7 @@ const
   recElementsDPA1 = ["recDPA1_1", "recDPA1_2"]
   recElementsDPB1 = ["recDPB1_1", "recDPB1_2"]
 
-  recElements = [
+  recElements = @[
     recElementsA,
     recElementsB,
     recElementsC,
@@ -42,6 +42,13 @@ const
     recElementsDQB1,
     recElementsDPA1,
     recElementsDPB1
+  ]
+
+  recDRDQElements = @[
+    recElementsDRB1,
+    recElementsDRB345,
+    recElementsDQA1,
+    recElementsDQB1
   ]
 
   donElementsA = ["donA1", "donA2"]
@@ -54,7 +61,7 @@ const
   donElementsDPA1 = ["donDPA1_1", "donDPA1_2"]
   donElementsDPB1 = ["donDPB1_1", "donDPB1_2"]
 
-  donElements = [
+  donElements = @[
     donElementsA,
     donElementsB,
     donElementsC,
@@ -64,6 +71,13 @@ const
     donElementsDQB1,
     donElementsDPA1,
     donElementsDPB1
+  ]
+
+  donDRDQElements = @[
+    donElementsDRB1,
+    donElementsDRB345,
+    donElementsDQA1,
+    donElementsDQB1
   ]
 
 proc fillSelect() =
@@ -102,15 +116,15 @@ proc fillSelect() =
     of DPB1:
       alleleDPB1.add allele.name
 
-  alleleA.sort(system.cmp)
-  alleleB.sort(system.cmp)
-  alleleC.sort(system.cmp)
-  alleleDRB1.sort(system.cmp)
-  alleleDRB345.sort(system.cmp)
-  alleleDQA1.sort(system.cmp)
-  alleleDQB1.sort(system.cmp)
-  alleleDPA1.sort(system.cmp)
-  alleleDPB1.sort(system.cmp)
+  alleleA.sort()
+  alleleB.sort()
+  alleleC.sort()
+  alleleDRB1.sort()
+  alleleDRB345.sort()
+  alleleDQA1.sort()
+  alleleDQB1.sort()
+  alleleDPA1.sort()
+  alleleDPB1.sort()
 
   # start with a new line, to have an empty element on top
   var alleleList = option(value="", "")
@@ -250,15 +264,20 @@ proc getEpletABC(data: cstring) =
   makeRequest(alleleABCurl, getAlleleABC)
 
 
-proc getEplets(elements: array[9, array[2, string]]): HashSet[Eplet] =
-  ## Collect all eplets for donor or recipient
-  result = initSet[Eplet]()
+proc getAlleles(elements: seq[array[2, string]]): seq[string] =
+  ## Collect alleles in elements
   for elementGroup in elements:
     for element in elementGroup:
       let allele = $cast[OptionElement](document.getElementById(element)).value
       # skip empty alleles
       if allele != "":
-        result.incl allelesTable[allele].eplets
+        result.add allele
+
+proc getEplets(al: seq[string]): HashSet[Eplet] =
+  ## Get eplets for alleles
+  result = initHashSet[Eplet]()
+  for allele in al:
+    result.incl allelesTable[allele].eplets
 
 proc outputMismatchedEplets(epletsSet: HashSet[Eplet]) =
   ## Shows the mismatched eplets and the cardinality
@@ -269,24 +288,91 @@ proc outputMismatchedEplets(epletsSet: HashSet[Eplet]) =
     for eplet in epletsSet:
       if eplet.locus == locus:
         sortedEplets.add eplet.name
-    sortedEplets.sort(system.cmp)
+    sortedEplets.sort()
     document.getElementById(hvgEpletCountIdTmpl & $locus).innerHtml = $len(sortedEplets)
     document.getElementById(hvgMismatchedEpletsIdTmpl & $locus).innerHtml = sortedEplets.join(", ")
 
+func getWiebeCategory(dr, dq: Natural): string =
+  ## Returns the Wiebe group as a string
+  if dr < 7 and dq < 9:
+    result = "Låg (low; DR <7 och DQ <9)"
+  elif dr >= 7 and dq <= 14:
+    result = "Medel (intermediate; DR ≥7 och DQ ≤14)"
+  elif dr < 7 and dq < 14:
+    result = "Medel (intermediate; DR 0–6 och DQ 9–14)"
+  else:
+    result = "Hög (high; DR 0–22 och DQ 15–31)"
+
+proc outputWiebeRiskGroup(recEplets: HashSet[Eplet], donAlleles: seq[string]) =
+  ## Output the risk group according to Wiebe et al.
+  var
+    maxDRB = 0
+    maxDRBallele = ""
+    maxDQA1 = 0
+    maxDQA1allele = ""
+    maxDQB1 = 0
+    maxDQB1allele = ""
+
+  # look through all alleles, save the allele with the highest number of
+  # mismatching eplets
+  for allele in donAlleles:
+    let
+      alleleData = allelesTable[allele]
+      alleleEplets = alleleData.eplets
+      # mismatched eplet count
+      mmEpletCount = (alleleEplets - recEplets).card
+
+    case alleleData.locus
+    of DRB:
+      if mmEpletCount > maxDRB:
+        maxDRBallele = allele
+        maxDRB = mmEpletCount
+    of DQA1:
+      if mmEpletCount > maxDQA1:
+        maxDQA1allele = allele
+        maxDQA1 = mmEpletCount
+    of DQB1:
+      if mmEpletCount > maxDQB1:
+        maxDQB1allele = allele
+        maxDQB1 = mmEpletCount
+    else: discard
+
+
+  let 
+    dqSum = maxDQA1 + maxDQB1
+    dqName = maxDQA1allele & "+" & maxDQB1allele
+    category = getWiebeCategory(maxDRB, dqSum)
+
+  document.getElementById("wiebeCategory").innerHtml = category
+    
+  document.getElementById("maxMismatchDRB").innerHtml = $maxDRB
+  document.getElementById("maxMismatchAlleleDQAB").innerHtml = maxDRBallele
+
+  document.getElementById("maxMismatchDQAB").innerHtml = $dqSum
+  document.getElementById("maxMismatchAlleleDQAB").innerHtml = dqName
+ 
+
 proc showMismatchedEplets*() {.exportc.} =
   let
-    recEplets = getEplets(recElements)
-    donEplets = getEplets(donElements)
+    recAlleles = getAlleles(recElements)
+    recEplets = getEplets(recAlleles)
+
+    donAlleles = getAlleles(donElements)
+    donEplets = getEplets(donAlleles)
+
     hvgEplets = donEplets - recEplets
 
   if document.getElementById(includeOtherId).checked:
     # include all eplets
     outputMismatchedEplets(hvgEplets)
   else:
-    var otherExcluded = initSet[Eplet]()
+    var otherExcluded = initHashSet[Eplet]()
     for eplet in hvgEplets:
       if eplet.evidence != epOther:
         otherExcluded.incl eplet
     outputMismatchedEplets(otherExcluded)
+
+  # include unverified eplets for Wiebe risk group
+  outputWiebeRiskGroup(recEplets, donAlleles)
 
 makeRequest(epletABCurl, getEpletABC)
