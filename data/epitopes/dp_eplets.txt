@@ -26,12 +26,12 @@ eplet	evidence	locus
 35FV	verified_eplet	DPB1
 35LV	other_eplet	DPB1
 35YA	other_eplet	DPB1
-50QA 	verified_eplet	DPA1
+50QA	verified_eplet	DPA1
 50QT	other_eplet	DPA1
 50RA	verified_eplet	DPA1
 55A	other_eplet	DPB1
 55EA	other_eplet	DPB1
-56A 	verified_eplet	DPB1
+56A	verified_eplet	DPB1
 56E	verified_eplet	DPB1
 56EE	verified_eplet	DPB1
 57D	verified_eplet	DPB1

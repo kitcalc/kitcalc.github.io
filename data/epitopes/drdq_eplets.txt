@@ -20,7 +20,7 @@ eplet	evidence	locus
 133RS	other_eplet	DRB
 135D	other_eplet	DQB1
 135G	other_eplet	DQB1
-13FE 	verified_eplet	DRB
+13FE	verified_eplet	DRB
 13GM	other_eplet	DQB1
 13SE	other_eplet	DRB
 140A	verified_eplet	DQB1
@@ -140,7 +140,7 @@ eplet	evidence	locus
 56PA	other_eplet	DQB1
 56PD	other_eplet	DQB1
 56PS	other_eplet	DQB1
-56PV 	verified_eplet	DQB1
+56PV	verified_eplet	DQB1
 57A	other_eplet	DRB
 57D	other_eplet	DRB
 57DA	other_eplet	DRB
