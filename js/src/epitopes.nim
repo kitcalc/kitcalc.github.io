@@ -328,11 +328,11 @@ proc outputWiebeRiskGroup(recEplets: HashSet[Eplet], donAlleles: seq[string]) =
   ## Output the risk group according to Wiebe et al.
   var
     maxDRB = 0
-    maxDRBallele = "<ingen>"
+    maxDRBallele = "&lt;ingen&gt;"
     maxDQA1 = 0
-    maxDQA1allele = "<ingen>"
+    maxDQA1allele = "&lt;ingen&gt;"
     maxDQB1 = 0
-    maxDQB1allele = "<ingen>"
+    maxDQB1allele = "&lt;ingen&gt;"
 
   # look through all alleles, save the allele with the highest number of
   # mismatching eplets

@@ -1414,11 +1414,11 @@ function output_wiebe_risk_group_203325(rec_eplets_203331, don_alleles_203333) {
 						var Tmp4;
 
 		var max_drb_203335 = 0;
-		var max_drballele_203336 = makeNimstrLit("<ingen>");
+		var max_drballele_203336 = makeNimstrLit("&lt;ingen&gt;");
 		var max_dqa1_203338 = 0;
-		var max_dqa1allele_203339 = makeNimstrLit("<ingen>");
+		var max_dqa1allele_203339 = makeNimstrLit("&lt;ingen&gt;");
 		var max_dqb1_203341 = 0;
-		var max_dqb1allele_203342 = makeNimstrLit("<ingen>");
+		var max_dqb1allele_203342 = makeNimstrLit("&lt;ingen&gt;");
 		L1: do {
 			var allele_203349 = null;
 			var i_204037 = 0;
