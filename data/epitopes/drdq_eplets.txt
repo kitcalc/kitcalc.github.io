@@ -1,5 +1,4 @@
 eplet	evidence	locus
- 	other_eplet	DQB1
 104A	verified_eplet	DRB
 104ART	verified_eplet	DRB
 108T	verified_eplet	DRB
