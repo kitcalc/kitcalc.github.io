@@ -15,12 +15,6 @@ const
   epletDPurl = "data/epitopes/dp_eplets.txt"
   alleleDPurl = "data/epitopes/dp_alleles.txt"
 
-  includeOtherId = "includeOther"
-
-  hvgEpletCountIdTmpl = "hvgEpletCount" # & locus
-  hvgMismatchedEpletsIdTmpl = "hvgMismatchedEplets" # & locus
-
-
   # input element ids
   recElementsA = ["recA1", "recA2"]
   recElementsB = ["recB1", "recB2"]
@@ -44,12 +38,6 @@ const
     recElementsDPB1
   ]
 
-  recDRDQElements = @[
-    recElementsDRB1,
-    recElementsDRB345,
-    recElementsDQA1,
-    recElementsDQB1
-  ]
 
   donElementsA = ["donA1", "donA2"]
   donElementsB = ["donB1", "donB2"]
@@ -73,12 +61,6 @@ const
     donElementsDPB1
   ]
 
-  donDRDQElements = @[
-    donElementsDRB1,
-    donElementsDRB345,
-    donElementsDQA1,
-    donElementsDQB1
-  ]
 
 proc fillSelect() =
   ## Fill select elements with alleles
@@ -279,18 +261,57 @@ proc getEplets(al: seq[string]): HashSet[Eplet] =
   for allele in al:
     result.incl allelesTable[allele].eplets
 
+func getAbverEplets(eplets: HashSet[Eplet]): HashSet[Eplet] =
+    for eplet in eplets:
+      case eplet.evidence
+      of epVerified, epVerifiedPair:
+        result.incl eplet
+      of epOther: discard
+
+
 proc outputMismatchedEplets(epletsSet: HashSet[Eplet]) =
   ## Shows the mismatched eplets and the cardinality
-  document.getElementById(hvgEpletCountIdTmpl & "Total").innerHtml = $epletsSet.card
 
-  for locus in [ABC, DRB, DQA1, DQB1, DPA1, DPB1]:
-    var sortedEplets = newSeq[string]()
+  const
+    # prefixes for output fields
+    mmEpletCountId = "mmEpletCount"  # & locus
+    mmEpletsId = "mmMismatchedEplets"  # & locus
+
+  # subset abver eplets
+  let abverEps = getAbverEplets(epletsSet)
+
+  # output summary
+  let totalPrefix = mmEpletCountId & "Total"
+  document.getElementById(totalPrefix).innerHtml = $epletsSet.card
+  document.getElementById(totalPrefix & "Abver").innerHtml = $abverEps.len
+
+  # seq to store eplets, reused between loci
+  var
+    locusEplets: seq[string]
+    locusEpletsAbver: seq[string]
+
+  # iterate all loci in Locus enum
+  for locus in Locus:
+    locusEplets.setLen 0
+    locusEpletsAbver.setLen 0
+
     for eplet in epletsSet:
       if eplet.locus == locus:
-        sortedEplets.add eplet.name
-    sortedEplets.sort()
-    document.getElementById(hvgEpletCountIdTmpl & $locus).innerHtml = $len(sortedEplets)
-    document.getElementById(hvgMismatchedEpletsIdTmpl & $locus).innerHtml = sortedEplets.join(", ")
+        locusEplets.add eplet.name
+        if eplet in abverEps:
+          locusEpletsAbver.add eplet.name
+
+    # sort both
+    locusEplets.sort()
+    locusEpletsAbver.sort()
+
+    # all eplets first
+    document.getElementById(mmEpletCountId & $locus).innerHtml = $len(locusEplets)
+    document.getElementById(mmEpletsId & $locus).innerHtml = locusEplets.join(", ")
+
+    # abver eplets
+    document.getElementById(mmEpletCountId & $locus & "Abver").innerHtml = $len(locusEpletsAbver)
+    document.getElementById(mmEpletsId & $locus & "Abver").innerHtml = locusEpletsAbver.join(", ")
 
 func getWiebeCategory(dr, dq: Natural): string =
   ## Returns the Wiebe group as a string
@@ -307,11 +328,11 @@ proc outputWiebeRiskGroup(recEplets: HashSet[Eplet], donAlleles: seq[string]) =
   ## Output the risk group according to Wiebe et al.
   var
     maxDRB = 0
-    maxDRBallele = ""
+    maxDRBallele = "<ingen>"
     maxDQA1 = 0
-    maxDQA1allele = ""
+    maxDQA1allele = "<ingen>"
     maxDQB1 = 0
-    maxDQB1allele = ""
+    maxDQB1allele = "<ingen>"
 
   # look through all alleles, save the allele with the highest number of
   # mismatching eplets
@@ -338,19 +359,19 @@ proc outputWiebeRiskGroup(recEplets: HashSet[Eplet], donAlleles: seq[string]) =
     else: discard
 
 
-  let 
+  let
     dqSum = maxDQA1 + maxDQB1
     dqName = maxDQA1allele & "+" & maxDQB1allele
     category = getWiebeCategory(maxDRB, dqSum)
 
   document.getElementById("wiebeCategory").innerHtml = category
-    
+
   document.getElementById("maxMismatchDRB").innerHtml = $maxDRB
   document.getElementById("maxMismatchAlleleDRB").innerHtml = maxDRBallele
 
   document.getElementById("maxMismatchDQAB").innerHtml = $dqSum
   document.getElementById("maxMismatchAlleleDQAB").innerHtml = dqName
- 
+
 
 proc showMismatchedEplets*() {.exportc.} =
   let
@@ -362,15 +383,8 @@ proc showMismatchedEplets*() {.exportc.} =
 
     hvgEplets = donEplets - recEplets
 
-  if document.getElementById(includeOtherId).checked:
-    # include all eplets
-    outputMismatchedEplets(hvgEplets)
-  else:
-    var otherExcluded = initHashSet[Eplet]()
-    for eplet in hvgEplets:
-      if eplet.evidence != epOther:
-        otherExcluded.incl eplet
-    outputMismatchedEplets(otherExcluded)
+  # include all eplets
+  outputMismatchedEplets(hvgEplets)
 
   # include unverified eplets for Wiebe risk group
   outputWiebeRiskGroup(recEplets, donAlleles)

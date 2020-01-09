@@ -6,8 +6,8 @@ js: js/epitopes.js
 ---
 
 Allel- och epitopdata är extraherade från
-[HLAMatchmaker](http://www.epitopes.net/) version 2. Overifierade epitoper är
-epitoper som är teoretiska och som ej visats förekomma i humana sera.
+[HLAMatchmaker](http://www.epitopes.net/) version 2
+(`4ABCEpletMatchingVs02prototype.xlsb` och `5DRDQDPMatchingVs2.2.xlsb`).
 
 
 ## Länkar och information
@@ -29,6 +29,7 @@ Frågor som ej besvaras av artikeln
 
 För riskgruppering krävs DRB1, DRB3/4/5, DQA1 och DQB1 för recipient och donator
 (fält märkta <sup>†</sup>).
+
 
 ## Inmatning
 
@@ -131,107 +132,137 @@ För riskgruppering krävs DRB1, DRB3/4/5, DQA1 och DQB1 för recipient och dona
         <br>
     </fieldset>
 
-    <label for="includeOther">Inkludera overifierade eplets</label>
-    <input type="checkbox" id="includeOther" value="checked">
-    <br>
-
     <button type="button" onclick="javascript:showMismatchedEplets()">Jämför</button>
     <input type="reset" value="Rensa">
-
-    <fieldset>
-        <legend>Riskkategori (Wiebe et al. 2019)</legend>
-
-        <table>
-            <!-- DRB -->
-            <tr>
-                <td>Riskkategori</td>
-                <td id="wiebeCategory"></td>
-            </tr>
-            <tr>
-                <td>Max mismatch DRB1/3/4/5</td>
-                <td id="maxMismatchDRB"></td>
-            </tr>
-            <tr>
-                <td>Allel DRB1/3/4/5</td>
-                <td id="maxMismatchAlleleDRB"></td>
-            </tr>
-            <tr>
-                <td>Max mismatch DQA1 + DQB1</td>
-                <td id="maxMismatchDQAB"></td>
-            </tr>
-            <tr>
-                <td>Alleler DQA1 + DQB1</td>
-                <td id="maxMismatchAlleleDQAB"></td>
-            </tr>
-        </table>
-       
-    </fieldset>
-
-    <fieldset>
-        <legend>Mismatchade eplets (rejektionsriktning)</legend>
-
-        <table>
-            <!-- Sum of mismatches -->
-            <tr>
-                <td>Antal totalt</td>
-                <td id="hvgEpletCountTotal"></td>
-            </tr>
-            <!-- ABC -->
-            <tr>
-                <td>Antal ABC</td>
-                <td id="hvgEpletCountABC"></td>
-            </tr>
-            <tr>
-                <td>Eplets ABC</td>
-                <td id="hvgMismatchedEpletsABC"></td>
-            </tr>
-            <!-- DRB -->
-            <tr>
-                <td>Antal DRB</td>
-                <td id="hvgEpletCountDRB"></td>
-            </tr>
-            <tr>
-                <td>Eplets DRB</td>
-                <td id="hvgMismatchedEpletsDRB"></td>
-            </tr>
-            <!-- DQA1 -->
-            <tr>
-                <td>Antal DQA1</td>
-                <td id="hvgEpletCountDQA1"></td>
-            </tr>
-            <tr>
-                <td>Eplets DQA1</td>
-                <td id="hvgMismatchedEpletsDQA1"></td>
-            </tr>
-            <!-- DQB1 -->
-            <tr>
-                <td>Antal DQB1</td>
-                <td id="hvgEpletCountDQB1"></td>
-            </tr>
-            <tr>
-                <td>Eplets DQB1</td>
-                <td id="hvgMismatchedEpletsDQB1"></td>
-            </tr>
-            <!-- DPA1 -->
-            <tr>
-                <td>Antal DPA1</td>
-                <td id="hvgEpletCountDPA1"></td>
-            </tr>
-            <tr>
-                <td>Eplets DPA1</td>
-                <td id="hvgMismatchedEpletsDPA1"></td>
-            </tr>
-            <!-- DPB1 -->
-            <tr>
-                <td>Antal DPB1</td>
-                <td id="hvgEpletCountDPB1"></td>
-            </tr>
-            <tr>
-                <td>Eplets DPB1</td>
-                <td id="hvgMismatchedEpletsDPB1"></td>
-            </tr>
-        </table>
-    </fieldset>
-
-
 </form>
+
+
+## Riskkategori (Wiebe et al. 2019)
+
+<table>
+    <tbody>
+        <tr>
+            <td>Riskkategori</td>
+            <td id="wiebeCategory"></td>
+        </tr>
+        <tr>
+            <td>Max mismatch DRB1/3/4/5</td>
+            <td id="maxMismatchDRB"></td>
+        </tr>
+        <tr>
+            <td>Allel DRB1/3/4/5</td>
+            <td id="maxMismatchAlleleDRB"></td>
+        </tr>
+        <tr>
+            <td>Max mismatch DQA1 + DQB1</td>
+            <td id="maxMismatchDQAB"></td>
+        </tr>
+        <tr>
+            <td>Alleler DQA1 + DQB1</td>
+            <td id="maxMismatchAlleleDQAB"></td>
+        </tr>
+    </tbody>
+</table>
+
+
+## Mismatchade eplets (rejektionsriktning)
+
+Verifierade epitoper är de som har visats kunna ge upphov till antikropp,
+övriga är teoretiska.
+
+<table>
+    <thead>
+        <tr>
+            <th>Locus</th>
+            <th>Antal</th>
+            <th>Eplets</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Total -->
+        <tr>
+            <td>Totalt</td>
+            <td id="mmEpletCountTotal"></td>
+            <td></td>
+        </tr>
+        <tr>
+            <td>Totalt (verifierade)</td>
+            <td id="mmEpletCountTotalAbver"></td>
+            <td></td>
+        </tr>
+
+        <!-- ABC -->
+        <tr>
+            <td>ABC</td>
+            <td id="mmEpletCountABC"></td>
+            <td id="mmMismatchedEplets"></td>
+        </tr>
+        <tr>
+            <td>ABC (verifierade)</td>
+            <td id="mmEpletCountABCAbver"></td>
+            <td id="mmMismatchedEpletsAbver"></td>
+        </tr>
+
+        <!-- DRB -->
+        <tr>
+            <td>DRB</td>
+            <td id="mmEpletCountDRB"></td>
+            <td id="mmMismatchedEpletsDRB"></td>
+        </tr>
+        <tr>
+            <td>DRB (verifierade)</td>
+            <td id="mmEpletCountDRBAbver"></td>
+            <td id="mmMismatchedEpletsDRBAbver"></td>
+        </tr>
+
+        <!-- DQA1 -->
+        <tr>
+            <td>DQA1</td>
+            <td id="mmEpletCountDQA1"></td>
+            <td id="mmMismatchedEpletsDQA1"></td>
+        </tr>
+        <tr>
+            <td>DQA1 (verifierade)</td>
+            <td id="mmEpletCountDQA1Abver"></td>
+            <td id="mmMismatchedEpletsDQA1Abver"></td>
+        </tr>
+
+        <!-- DQB1 -->
+        <tr>
+            <td>DQB1</td>
+            <td id="mmEpletCountDQB1"></td>
+            <td id="mmMismatchedEpletsDQB1"></td>
+        </tr>
+        <tr>
+            <td>DQB1 (verifierade)</td>
+            <td id="mmEpletCountDQB1Abver"></td>
+            <td id="mmMismatchedEpletsDQB1Abver"></td>
+        </tr>
+
+        <!-- DPA1 -->
+        <tr>
+            <td>DPA1</td>
+            <td id="mmEpletCountDPA1"></td>
+            <td id="mmMismatchedEpletsDPA1"></td>
+        </tr>
+        <tr>
+            <td>DPA1 (verifierade)</td>
+            <td id="mmEpletCountDPA1Abver"></td>
+            <td id="mmMismatchedEpletsDPA1Abver"></td>
+        </tr>
+
+        <!-- DPB1 -->
+        <tr>
+            <td>DPB1</td>
+            <td id="mmEpletCountDPB1"></td>
+            <td id="mmMismatchedEpletsDPB1"></td>
+        </tr>
+        <tr>
+            <td>DPB1 (verifierade)</td>
+            <td id="mmEpletCountDPB1Abver"></td>
+            <td id="mmMismatchedEpletsDPB1Abver"></td>
+        </tr>
+    </tbody>
+</table>
+
+
