@@ -195,12 +195,12 @@ Verifierade epitoper är de som har visats kunna ge upphov till antikropp,
         <tr>
             <td>ABC</td>
             <td id="mmEpletCountABC"></td>
-            <td id="mmMismatchedEplets"></td>
+            <td id="mmMismatchedEpletsABC"></td>
         </tr>
         <tr>
             <td>ABC (verifierade)</td>
             <td id="mmEpletCountABCAbver"></td>
-            <td id="mmMismatchedEpletsAbver"></td>
+            <td id="mmMismatchedEpletsABCAbver"></td>
         </tr>
 
         <!-- DRB -->
