@@ -1,4 +1,4 @@
-import strutils, hashes, tables
+import strutils, hashes, tables, sets
 import locus
 
 type
@@ -24,7 +24,7 @@ proc parseEvidence(evidence: string): Evidence =
   else:
     raise newException(ValueError, "unknown eplet evidence: " & evidence)
 
-proc newEplet(name: string, evidence: string, locus: string): Eplet =
+proc newEplet*(name: string, evidence: string, locus: string): Eplet =
   ## Initialize an eplet
   new(result)
   result.name = name
@@ -43,6 +43,24 @@ proc checkEpletHeader(fields: seq[string]): bool =
   ## Check header format
   const expectedHeader = @["eplet", "evidence", "locus"]
   result = fields == expectedHeader
+
+proc readPossibleEplets*(data: string): HashSet[Eplet] =
+  ## Read the eplets possible in HLAmatchmaker
+  var firstRow = true
+  for line in splitLines(data):
+    let fields = line.split()
+    if firstRow:
+      if not checkEpletHeader(fields):
+        raise newException(ValueError, "unknown file format for eplet data")
+      else:
+        firstRow = false
+        continue
+    elif line.len == 0:
+      continue
+    elif fields.len != 3:
+      raise newException(ValueError, "unknown format of line: '" & line & "'")
+    let ep = newEplet(fields[0], fields[1], fields[2])
+    result.incl ep
 
 proc readEplets*(data: string): Table[Locus, Table[string, Eplet]] =
   ## Read eplets from ``data``

@@ -134,6 +134,11 @@ Frågor som ej besvaras av artikeln, *och som gör resultaten nedan osäkra*:
         <br>
     </fieldset>
 
+    <label for="emulateMatchmaker">Emulera HLAmatchmaker</label>
+    <!-- <input type="checkbox" id="emulateMatchmaker" value="checked" checked> -->
+    <input type="checkbox" id="emulateMatchmaker" value="checked" readonly>
+    <br>
+
     <button type="button" onclick="javascript:showMismatchedEplets()">Jämför</button>
     <input type="reset" value="Rensa">
 </form>

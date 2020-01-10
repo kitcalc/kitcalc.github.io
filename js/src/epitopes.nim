@@ -5,7 +5,7 @@ import remoterequest, alleles, eplets, locus
 var
   epletsTable: Table[Locus, Table[string, Eplet]]
   allelesTable: Table[string, Allele]
-
+  mmPossibleEplets: HashSet[Eplet]
 
 const
   epletABCurl = "https://kitcalc.github.io/data/epitopes/abc_eplets.txt"
@@ -14,6 +14,10 @@ const
   alleleDRDQurl = "https://kitcalc.github.io/data/epitopes/drdq_alleles.txt"
   epletDPurl = "https://kitcalc.github.io/data/epitopes/dp_eplets.txt"
   alleleDPurl = "https://kitcalc.github.io/data/epitopes/dp_alleles.txt"
+  mmPossibleUrl = "https://kitcalc.github.io/data/epitopes/mm_possible_eplets.txt"
+
+  # checkbox whether or not to emulate HLAmatchmaker
+  emulateMatchmakerId = "emulateMatchmaker"
 
   # input element ids
   recElementsA = ["recA1", "recA2"]
@@ -205,7 +209,11 @@ proc mergeTable[A,B](t1: var Table[A, B], t2: Table[A, B]) =
     t1[key] = value
 
 
-# This section is ugly all relies on nested callbacks; read from bottom to top
+# This section is ugly and relies on nested callbacks; read from bottom to top
+proc getPossibleEplets(data: cstring) =
+  ## Parse possible eplets
+  mmPossibleEplets = readPossibleEplets($data)
+  echo "possible eplets loaded from '", mmPossibleUrl, "'"
 
 proc getAlleleDP(data: cstring) =
   ## Parse and initialize allele table
@@ -214,6 +222,7 @@ proc getAlleleDP(data: cstring) =
 
   # finally, fill all select elements
   fillSelect()
+  makeRequest(mmPossibleUrl, getPossibleEplets)
 
 proc getEpletDP(data: cstring) =
   ## Parse and initialize eplets table
@@ -260,6 +269,10 @@ proc getEplets(al: seq[Allele]): HashSet[Eplet] =
   result = initHashSet[Eplet]()
   for allele in al:
     result.incl allele.eplets
+  when false:
+    if document.getElementById(emulateMatchmakerId).checked:
+      # save only the eplets present in Matchmaker algorithm
+      let possible = intersection(result, mmPossibleEplets)
 
 func getAbverEplets(eplets: HashSet[Eplet]): HashSet[Eplet] =
     for eplet in eplets:
@@ -267,7 +280,6 @@ func getAbverEplets(eplets: HashSet[Eplet]): HashSet[Eplet] =
       of epVerified, epVerifiedPair:
         result.incl eplet
       of epOther: discard
-
 
 proc outputMismatchedEplets(epletsSet: HashSet[Eplet]) =
   ## Shows the mismatched eplets and the cardinality
