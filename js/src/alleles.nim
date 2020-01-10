@@ -7,19 +7,19 @@ type
     eplets*: HashSet[Eplet]
     locus*: Locus
 
-proc newAllele(name: string, locus: string): Allele =
+proc newAllele(name: string, locus: Locus): Allele =
   ## Initialize an allele
   new(result)
   result.name = name
   result.eplets.init()
-  result.locus = parseLocus(locus)
+  result.locus = locus
 
 proc checkAlleleHeader(fields: seq[string]): bool =
   ## Check that the header is correct
   const expectedHeader = @["allele", "eplet", "locus"]
   result = fields == expectedHeader
 
-proc readAlleles*(data: string, eplets: Table[string, Eplet]): Table[string, Allele] =
+proc readAlleles*(data: string, eplets: Table[Locus, Table[string, Eplet]]): Table[string, Allele] =
   ## Read alleles from ``data`` and annotates eplets from ``eplets``
   result = initTable[string, Allele]()
   var firstRow = true
@@ -38,8 +38,8 @@ proc readAlleles*(data: string, eplets: Table[string, Eplet]): Table[string, All
     let
       allelename = fields[0]
       epletname = fields[1]
-      locus = fields[2]
+      locus = parseLocus(fields[2])
     if allelename notin result:
       result[allelename] = newAllele(allelename, locus)
-    if epletname in eplets:
-      result[allelename].eplets.incl eplets[epletname]
+    if epletname in eplets[locus]:
+      result[allelename].eplets.incl eplets[locus][epletname]

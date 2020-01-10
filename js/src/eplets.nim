@@ -44,10 +44,10 @@ proc checkEpletHeader(fields: seq[string]): bool =
   const expectedHeader = @["eplet", "evidence", "locus"]
   result = fields == expectedHeader
 
-proc readEplets*(data: string): Table[string, Eplet] =
+proc readEplets*(data: string): Table[Locus, Table[string, Eplet]] =
   ## Read eplets from ``data``
-  ## Save in Table with ``name`` as key, ``Eplet`` as value
-  result = initTable[string, Eplet]()
+  ## Save in Table with Locus as key, Table with eplet name as ket and data
+  ## as value
   var firstRow = true
   for line in splitLines(data):
     let fields = line.split()
@@ -62,4 +62,6 @@ proc readEplets*(data: string): Table[string, Eplet] =
     elif fields.len != 3:
       raise newException(ValueError, "unknown format of line: '" & line & "'")
     let ep = newEplet(fields[0], fields[1], fields[2])
-    result[ep.name] = ep
+    if ep.locus notin result:
+      result[ep.locus] = initTable[string, Eplet]()
+    result[ep.locus][ep.name] = ep

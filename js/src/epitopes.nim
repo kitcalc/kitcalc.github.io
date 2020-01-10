@@ -3,17 +3,17 @@ import remoterequest, alleles, eplets, locus
 
 
 var
-  epletsTable: Table[string, Eplet]
+  epletsTable: Table[Locus, Table[string, Eplet]]
   allelesTable: Table[string, Allele]
 
 
 const
-  epletABCurl = "data/epitopes/abc_eplets.txt"
-  alleleABCurl = "data/epitopes/abc_alleles.txt"
-  epletDRDQurl = "data/epitopes/drdq_eplets.txt"
-  alleleDRDQurl = "data/epitopes/drdq_alleles.txt"
-  epletDPurl = "data/epitopes/dp_eplets.txt"
-  alleleDPurl = "data/epitopes/dp_alleles.txt"
+  epletABCurl = "https://kitcalc.github.io/data/epitopes/abc_eplets.txt"
+  alleleABCurl = "https://kitcalc.github.io/data/epitopes/abc_alleles.txt"
+  epletDRDQurl = "https://kitcalc.github.io/data/epitopes/drdq_eplets.txt"
+  alleleDRDQurl = "https://kitcalc.github.io/data/epitopes/drdq_alleles.txt"
+  epletDPurl = "https://kitcalc.github.io/data/epitopes/dp_eplets.txt"
+  alleleDPurl = "https://kitcalc.github.io/data/epitopes/dp_alleles.txt"
 
   # input element ids
   recElementsA = ["recA1", "recA2"]
@@ -246,20 +246,20 @@ proc getEpletABC(data: cstring) =
   makeRequest(alleleABCurl, getAlleleABC)
 
 
-proc getAlleles(elements: seq[array[2, string]]): seq[string] =
+proc getAlleles(elements: seq[array[2, string]]): seq[Allele] =
   ## Collect alleles in elements
   for elementGroup in elements:
     for element in elementGroup:
-      let allele = $cast[OptionElement](document.getElementById(element)).value
+      let alleleStr = $cast[OptionElement](document.getElementById(element)).value
       # skip empty alleles
-      if allele != "":
-        result.add allele
+      if alleleStr != "":
+        result.add allelesTable[alleleStr]
 
-proc getEplets(al: seq[string]): HashSet[Eplet] =
+proc getEplets(al: seq[Allele]): HashSet[Eplet] =
   ## Get eplets for alleles
   result = initHashSet[Eplet]()
   for allele in al:
-    result.incl allelesTable[allele].eplets
+    result.incl allele.eplets
 
 func getAbverEplets(eplets: HashSet[Eplet]): HashSet[Eplet] =
     for eplet in eplets:
@@ -278,40 +278,51 @@ proc outputMismatchedEplets(epletsSet: HashSet[Eplet]) =
     mmEpletsId = "mmMismatchedEplets"  # & locus
 
   # subset abver eplets
-  let abverEps = getAbverEplets(epletsSet)
+  let
+    abverEps = getAbverEplets(epletsSet)
+    otherEps = epletsSet - abverEps
 
   # output summary
   let totalPrefix = mmEpletCountId & "Total"
   document.getElementById(totalPrefix).innerHtml = $epletsSet.card
   document.getElementById(totalPrefix & "Abver").innerHtml = $abverEps.len
+  document.getElementById(totalPrefix & "Other").innerHtml = $otherEps.len
 
   # seq to store eplets, reused between loci
   var
-    locusEplets: seq[string]
     locusEpletsAbver: seq[string]
+    locusEpletsOther: seq[string]
 
   # iterate all loci in Locus enum
   for locus in Locus:
-    locusEplets.setLen 0
+
+    locusEpletsOther.setLen 0
     locusEpletsAbver.setLen 0
 
     for eplet in epletsSet:
       if eplet.locus == locus:
-        locusEplets.add eplet.name
         if eplet in abverEps:
           locusEpletsAbver.add eplet.name
+        elif eplet in otherEps:
+          # not abVer -> other
+          locusEpletsOther.add eplet.name
+        else: doAssert false
 
-    # sort both
-    locusEplets.sort()
+    # sort both for readability
     locusEpletsAbver.sort()
+    locusEpletsOther.sort()
 
     # all eplets first
-    document.getElementById(mmEpletCountId & $locus).innerHtml = $len(locusEplets)
-    document.getElementById(mmEpletsId & $locus).innerHtml = locusEplets.join(", ")
+    let epletCount = locusEpletsAbver.len + locusEpletsOther.len
+    document.getElementById(mmEpletCountId & $locus).innerHtml = $epletCount
 
     # abver eplets
     document.getElementById(mmEpletCountId & $locus & "Abver").innerHtml = $len(locusEpletsAbver)
     document.getElementById(mmEpletsId & $locus & "Abver").innerHtml = locusEpletsAbver.join(", ")
+
+    # other eplets
+    document.getElementById(mmEpletCountId & $locus & "Other").innerHtml = $len(locusEpletsOther)
+    document.getElementById(mmEpletsId & $locus & "Other").innerHtml = locusEpletsOther.join(", ")
 
 func getWiebeCategory(dr, dq: Natural): string =
   ## Returns the Wiebe group as a string
@@ -324,44 +335,43 @@ func getWiebeCategory(dr, dq: Natural): string =
   else:
     result = "Hög (high; DR 0–22 och DQ 15–31)"
 
-proc outputWiebeRiskGroup(recEplets: HashSet[Eplet], donAlleles: seq[string]) =
+proc outputWiebeRiskGroup(recEplets: HashSet[Eplet], donAlleles: seq[Allele]) =
   ## Output the risk group according to Wiebe et al.
   var
     maxDRB = 0
-    maxDRBallele = "&lt;ingen&gt;"
+    maxDRBallele = "ingen"
     maxDQA1 = 0
-    maxDQA1allele = "&lt;ingen&gt;"
+    maxDQA1allele = "ingen"
     maxDQB1 = 0
-    maxDQB1allele = "&lt;ingen&gt;"
+    maxDQB1allele = "ingen"
 
   # look through all alleles, save the allele with the highest number of
   # mismatching eplets
   for allele in donAlleles:
     let
-      alleleData = allelesTable[allele]
-      alleleEplets = alleleData.eplets
+      alleleEplets = allele.eplets
       # mismatched eplet count
       mmEpletCount = (alleleEplets - recEplets).card
 
-    case alleleData.locus
+    case allele.locus
     of DRB:
       if mmEpletCount > maxDRB:
-        maxDRBallele = allele
+        maxDRBallele = allele.name
         maxDRB = mmEpletCount
     of DQA1:
       if mmEpletCount > maxDQA1:
-        maxDQA1allele = allele
+        maxDQA1allele = allele.name
         maxDQA1 = mmEpletCount
     of DQB1:
       if mmEpletCount > maxDQB1:
-        maxDQB1allele = allele
+        maxDQB1allele = allele.name
         maxDQB1 = mmEpletCount
     else: discard
 
 
   let
     dqSum = maxDQA1 + maxDQB1
-    dqName = maxDQA1allele & "+" & maxDQB1allele
+    dqName = maxDQA1allele & " + " & maxDQB1allele
     category = getWiebeCategory(maxDRB, dqSum)
 
   document.getElementById("wiebeCategory").innerHtml = category

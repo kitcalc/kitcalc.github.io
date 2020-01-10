@@ -24,11 +24,13 @@
 <main>
 
 <h1>Epitopmatchning HLA</h1>
-<p><i>2018-02-09 (uppdaterad 2020-01-08)</i></p>
+<p><i>2018-02-09 (uppdaterad 2020-01-10)</i></p>
 
 <p>Allel- och epitopdata är extraherade från
 <a href="http://www.epitopes.net/">HLAMatchmaker</a> version 2
-(<code>4ABCEpletMatchingVs02prototype.xlsb</code> och <code>5DRDQDPMatchingVs2.2.xlsb</code>).</p>
+(<code>4ABCEpletMatchingVs02prototype.xlsb</code> och <code>5DRDQDPMatchingVs2.2.xlsb</code>).
+Resultaten kan skilja sig från HLAMatchmaker som har en något annorlunda
+implementation.</p>
 <h2 id="lankar-och-information">Länkar och information</h2>
 <ul>
 <li><a href="http://epregistry.ufpi.br/">HLA - Epitope Registry</a></li>
@@ -38,13 +40,13 @@
 <p>Wiebe C, et al. HLA-DR/DQ molecular mismatch: A prognostic biomarker for primary
 alloimmunity. Am J Transplant. 2019 Jun;19(6):1708-1719.
 PMID <a href="https://www.ncbi.nlm.nih.gov/pubmed/30414349">30414349</a>.</p>
-<p>Frågor som ej besvaras av artikeln</p>
+<p>För riskgruppering krävs DRB1, DRB3/4/5, DQA1 och DQB1 för recipient och donator
+(fält märkta <sup>†</sup>).</p>
+<p>Frågor som ej besvaras av artikeln, <em>och som gör resultaten nedan osäkra</em>:</p>
 <ul>
 <li>ska alla fyra kombinationer av DQA1 och DQB1 räknas med?</li>
 <li>ska overifierade eplets räknas med?</li>
 </ul>
-<p>För riskgruppering krävs DRB1, DRB3/4/5, DQA1 och DQB1 för recipient och donator
-(fält märkta <sup>†</sup>).</p>
 <h2 id="inmatning">Inmatning</h2>
 <form action="javascript:showMismatchedEplets()">
     <fieldset>
@@ -198,77 +200,112 @@ PMID <a href="https://www.ncbi.nlm.nih.gov/pubmed/30414349">30414349</a>.</p>
             <td id="mmEpletCountTotalAbver"></td>
             <td></td>
         </tr>
+        <tr>
+            <td>Totalt (övriga)</td>
+            <td id="mmEpletCountTotalOther"></td>
+            <td></td>
+        </tr>
 
         <!-- ABC -->
         <tr>
             <td>ABC</td>
             <td id="mmEpletCountABC"></td>
-            <td id="mmMismatchedEpletsABC"></td>
+            <td></td>
         </tr>
         <tr>
             <td>ABC (verifierade)</td>
             <td id="mmEpletCountABCAbver"></td>
             <td id="mmMismatchedEpletsABCAbver"></td>
         </tr>
+        <tr>
+            <td>ABC (verifierade)</td>
+            <td id="mmEpletCountABCOther"></td>
+            <td id="mmMismatchedEpletsABCOther"></td>
+        </tr>
 
         <!-- DRB -->
         <tr>
             <td>DRB</td>
             <td id="mmEpletCountDRB"></td>
-            <td id="mmMismatchedEpletsDRB"></td>
+            <td></td>
         </tr>
         <tr>
             <td>DRB (verifierade)</td>
             <td id="mmEpletCountDRBAbver"></td>
             <td id="mmMismatchedEpletsDRBAbver"></td>
         </tr>
+        <tr>
+            <td>DRB (övriga)</td>
+            <td id="mmEpletCountDRBOther"></td>
+            <td id="mmMismatchedEpletsDRBOther"></td>
+        </tr>
 
         <!-- DQA1 -->
         <tr>
             <td>DQA1</td>
             <td id="mmEpletCountDQA1"></td>
-            <td id="mmMismatchedEpletsDQA1"></td>
+            <td></td>
         </tr>
         <tr>
             <td>DQA1 (verifierade)</td>
             <td id="mmEpletCountDQA1Abver"></td>
             <td id="mmMismatchedEpletsDQA1Abver"></td>
         </tr>
+        <tr>
+            <td>DQA1 (övriga)</td>
+            <td id="mmEpletCountDQA1Other"></td>
+            <td id="mmMismatchedEpletsDQA1Other"></td>
+        </tr>
 
         <!-- DQB1 -->
         <tr>
             <td>DQB1</td>
             <td id="mmEpletCountDQB1"></td>
-            <td id="mmMismatchedEpletsDQB1"></td>
+            <td></td>
         </tr>
         <tr>
             <td>DQB1 (verifierade)</td>
             <td id="mmEpletCountDQB1Abver"></td>
             <td id="mmMismatchedEpletsDQB1Abver"></td>
         </tr>
+        <tr>
+            <td>DQB1 (övriga)</td>
+            <td id="mmEpletCountDQB1Other"></td>
+            <td id="mmMismatchedEpletsDQB1Other"></td>
+        </tr>
 
         <!-- DPA1 -->
         <tr>
             <td>DPA1</td>
             <td id="mmEpletCountDPA1"></td>
-            <td id="mmMismatchedEpletsDPA1"></td>
+            <td></td>
         </tr>
         <tr>
             <td>DPA1 (verifierade)</td>
             <td id="mmEpletCountDPA1Abver"></td>
             <td id="mmMismatchedEpletsDPA1Abver"></td>
         </tr>
+        <tr>
+            <td>DPA1 (övriga)</td>
+            <td id="mmEpletCountDPA1Other"></td>
+            <td id="mmMismatchedEpletsDPA1Other"></td>
+        </tr>
 
         <!-- DPB1 -->
         <tr>
             <td>DPB1</td>
             <td id="mmEpletCountDPB1"></td>
-            <td id="mmMismatchedEpletsDPB1"></td>
+            <td></td>
         </tr>
         <tr>
             <td>DPB1 (verifierade)</td>
             <td id="mmEpletCountDPB1Abver"></td>
             <td id="mmMismatchedEpletsDPB1Abver"></td>
+        </tr>
+        <tr>
+            <td>DPB1 (övriga)</td>
+            <td id="mmEpletCountDPB1Other"></td>
+            <td id="mmMismatchedEpletsDPB1Other"></td>
         </tr>
     </tbody>
 </table>
