@@ -11,7 +11,6 @@ proc newAllele(name: string, locus: Locus): Allele =
   ## Initialize an allele
   new(result)
   result.name = name
-  result.eplets.init()
   result.locus = locus
 
 proc checkAlleleHeader(fields: seq[string]): bool =
@@ -19,7 +18,7 @@ proc checkAlleleHeader(fields: seq[string]): bool =
   const expectedHeader = @["allele", "eplet", "locus"]
   result = fields == expectedHeader
 
-proc readAlleles*(data: string, eplets: Table[Locus, Table[string, Eplet]]): Table[string, Allele] =
+proc readAlleles*(data: string, eplets: array[Locus, Table[string, Eplet]]): Table[string, Allele] =
   ## Read alleles from ``data`` and annotates eplets from ``eplets``
   result = initTable[string, Allele]()
   var firstRow = true

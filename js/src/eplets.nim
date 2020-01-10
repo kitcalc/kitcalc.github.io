@@ -7,12 +7,18 @@ type
     epVerifiedPair,
     epOther
 
+  Status* = enum
+    stBoth,
+    stAlgorithm,
+    stTable
+
   Eplet* = ref object
     name*: string
     evidence*: Evidence
     locus*: Locus
+    status*: Status
 
-proc parseEvidence(evidence: string): Evidence =
+func parseEvidence(evidence: string): Evidence =
   ## Parse the evidence kind
   case evidence
   of "verified_eplet":
@@ -24,32 +30,47 @@ proc parseEvidence(evidence: string): Evidence =
   else:
     raise newException(ValueError, "unknown eplet evidence: " & evidence)
 
-proc newEplet(name: string, evidence: string, locus: string): Eplet =
+func parseStatus(status: string): Status =
+  ## Parse the status of eplets in tables
+  case status
+  of "both":
+    result = stBoth
+  of "algorithm_only":
+    result = stAlgorithm
+  of "table_only":
+    result = stTable
+  else:
+    raise newException(ValueError, "unknown eplet status: " & status)
+
+func newEplet*(name, evidence, locus, status: string): Eplet =
   ## Initialize an eplet
   new(result)
   result.name = name
   result.evidence = parseEvidence(evidence)
   result.locus = parseLocus(locus)
+  result.status = parseStatus(status)
 
-proc hash*(ep: Eplet): Hash =
+func hash*(ep: Eplet): Hash =
   ## Hash function for eplets
   var h: Hash = 0
   h = h !& hash(ep.name)
   h = h !& hash(ep.evidence)
   h = h !& hash(ep.locus)
+  h = h !& hash(ep.status)
   result = !$h
 
-proc checkEpletHeader(fields: seq[string]): bool =
+func checkEpletHeader(fields: seq[string]): bool =
   ## Check header format
-  const expectedHeader = @["eplet", "evidence", "locus"]
+  const expectedHeader = @["eplet", "evidence", "locus", "status"]
   result = fields == expectedHeader
 
-proc readEplets*(data: string): Table[Locus, Table[string, Eplet]] =
+func readEplets*(data: string): array[Locus, Table[string, Eplet]] =
   ## Read eplets from ``data``
-  ## Save in Table with Locus as key, Table with eplet name as ket and data
-  ## as value
+  ## Save in array indexed by Locus, with Tables with eplet name as key and
+  ## data as value
   var firstRow = true
   for line in splitLines(data):
+    if line.len == 0: continue
     let fields = line.split()
     if firstRow:
       if not checkEpletHeader(fields):
@@ -57,11 +78,18 @@ proc readEplets*(data: string): Table[Locus, Table[string, Eplet]] =
       else:
         firstRow = false
         continue
-    elif line.len == 0:
-      continue
-    elif fields.len != 3:
+    if fields.len != 4:
       raise newException(ValueError, "unknown format of line: '" & line & "'")
-    let ep = newEplet(fields[0], fields[1], fields[2])
-    if ep.locus notin result:
-      result[ep.locus] = initTable[string, Eplet]()
-    result[ep.locus][ep.name] = ep
+
+    let ep = newEplet(fields[0], fields[1], fields[2], fields[4])
+    if ep.name in result[ep.locus]:
+      # prioritize eplets for status - both > algorithm > table
+      case result[ep.locus][ep.name].status
+      of stAlgorithm:
+        if ep.status == stBoth:
+          result[ep.locus][ep.name] = ep
+      of stTable:
+          result[ep.locus][ep.name] = ep
+      of stBoth: discard
+    else:
+      result[ep.locus][ep.name] = ep

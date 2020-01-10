@@ -1,328 +1,137 @@
 import dom, tables, sets, algorithm, htmlgen, strutils
 import remoterequest, alleles, eplets, locus
 
-
 var
-  epletsTable: Table[Locus, Table[string, Eplet]]
+  epletsTable: array[Locus, Table[string, Eplet]]
   allelesTable: Table[string, Allele]
 
-
 const
-  epletABCurl = "https://kitcalc.github.io/data/epitopes/abc_eplets.txt"
-  alleleABCurl = "https://kitcalc.github.io/data/epitopes/abc_alleles.txt"
-  epletDRDQurl = "https://kitcalc.github.io/data/epitopes/drdq_eplets.txt"
-  alleleDRDQurl = "https://kitcalc.github.io/data/epitopes/drdq_alleles.txt"
-  epletDPurl = "https://kitcalc.github.io/data/epitopes/dp_eplets.txt"
-  alleleDPurl = "https://kitcalc.github.io/data/epitopes/dp_alleles.txt"
+  epletUrl = "https://kitcalc.github.io/data/epitopes/eplets.txt"
+  alleleUrl = "https://kitcalc.github.io/data/epitopes/alleles.txt"
 
-  # input element ids
-  recElementsA = ["recA1", "recA2"]
-  recElementsB = ["recB1", "recB2"]
-  recElementsC = ["recC1", "recC2"]
-  recElementsDRB1 = ["recDRB1_1", "recDRB1_2"]
-  recElementsDRB345 = ["recDRB345_1", "recDRB345_2"]
-  recElementsDQA1 = ["recDQA1_1", "recDQA1_2"]
-  recElementsDQB1 = ["recDQB1_1", "recDQB1_2"]
-  recElementsDPA1 = ["recDPA1_1", "recDPA1_2"]
-  recElementsDPB1 = ["recDPB1_1", "recDPB1_2"]
+  # checkbox whether or not to emulate HLAmatchmaker
+  emulateMatchmakerId = "emulateMatchmaker"
 
-  recElements = @[
-    recElementsA,
-    recElementsB,
-    recElementsC,
-    recElementsDRB1,
-    recElementsDRB345,
-    recElementsDQA1,
-    recElementsDQB1,
-    recElementsDPA1,
-    recElementsDPB1
-  ]
+  group = ["rec", "don"]
+  loci = ["A", "B", "C", "DRB1", "DRB345", "DQA1", "DQB1", "DPA1", "DPB1"]
+  fields = ["_1", "_2"]
 
+proc setInner(id, value: string) =
+  # set innerHtml value at id
+  document.getElementById(id).innerHtml = value
 
-  donElementsA = ["donA1", "donA2"]
-  donElementsB = ["donB1", "donB2"]
-  donElementsC = ["donC1", "donC2"]
-  donElementsDRB1 = ["donDRB1_1", "donDRB1_2"]
-  donElementsDRB345 = ["donDRB345_1", "donDRB345_2"]
-  donElementsDQA1 = ["donDQA1_1", "donDQA1_2"]
-  donElementsDQB1 = ["donDQB1_1", "donDQB1_2"]
-  donElementsDPA1 = ["donDPA1_1", "donDPA1_2"]
-  donElementsDPB1 = ["donDPB1_1", "donDPB1_2"]
+proc setInnerOption(id, value, label: string) =
+  # set an option value for id
+  setInner(id, option(value, label) & '\n')
 
-  donElements = @[
-    donElementsA,
-    donElementsB,
-    donElementsC,
-    donElementsDRB1,
-    donElementsDRB345,
-    donElementsDQA1,
-    donElementsDQB1,
-    donElementsDPA1,
-    donElementsDPB1
-  ]
-
+proc setAllFields(loc, name: string) =
+  # Set all options at locus loc to allele name
+  for ind in group:
+    for field in fields:
+      setInnerOption(ind & loc & field, name, name)
 
 proc fillSelect() =
-  ## Fill select elements with alleles
-
-  var
-    alleleA = newSeq[string]()
-    alleleB = newSeq[string]()
-    alleleC = newSeq[string]()
-    alleleDRB1 = newSeq[string]()
-    alleleDRB345 = newSeq[string]()
-    alleleDQA1 = newSeq[string]()
-    alleleDQB1 = newSeq[string]()
-    alleleDPA1 = newSeq[string]()
-    alleleDPB1 = newSeq[string]()
+  ## Fill select elements with alleles, assume they are sorted
+  for loc in loci:
+    # start with a new line, to have an empty element on top
+    setAllFields(loc, "")
 
   for allele in allelesTable.values:
-    case allele.locus
-    of ABC:
-      case allele.name[0]
-      of 'A': alleleA.add allele.name
-      of 'B': alleleB.add allele.name
-      of 'C': alleleC.add allele.name
-      else:
-        echo "unknown locus in allele ", allele.name
-    of DRB:
-      case allele.name[0..<4]
-      of "DRB1": alleleDRB1.add allele.name
-      of "DRB3", "DRB4", "DRB5": alleleDRB345.add allele.name
-    of DQA1:
-      alleleDQA1.add allele.name
-    of DQB1:
-      alleleDQB1.add allele.name
-    of DPA1:
-      alleleDPA1.add allele.name
-    of DPB1:
-      alleleDPB1.add allele.name
+    var loc = allele.name.split('*', maxsplit=1)[0]
+    if allele.locus == DRB:
+      case loc
+      of "DRB3", "DRB4", "DRB5":
+        loc = "DRB345"
+    setAllFields(loc, allele.name)
 
-  alleleA.sort()
-  alleleB.sort()
-  alleleC.sort()
-  alleleDRB1.sort()
-  alleleDRB345.sort()
-  alleleDQA1.sort()
-  alleleDQB1.sort()
-  alleleDPA1.sort()
-  alleleDPB1.sort()
-
-  # start with a new line, to have an empty element on top
-  var alleleList = option(value="", "")
-
-  for allele in alleleA:
-    alleleList &= option(value=allele, allele) & "\n"
-
-  for element in recElementsA:
-    document.getElementById(element).innerHtml = alleleList
-  for element in donElementsA:
-    document.getElementById(element).innerHtml = alleleList
-
-  alleleList = option(value="", "")
-
-  for allele in alleleB:
-    alleleList &= option(value=allele, allele) & "\n"
-
-  for element in recElementsB:
-    document.getElementById(element).innerHtml = alleleList
-  for element in donElementsB:
-    document.getElementById(element).innerHtml = alleleList
-
-  alleleList = option(value="", "")
-
-  for allele in alleleC:
-    alleleList &= option(value=allele, allele) & "\n"
-
-  for element in recElementsC:
-    document.getElementById(element).innerHtml = alleleList
-  for element in donElementsC:
-    document.getElementById(element).innerHtml = alleleList
-
-  alleleList = option(value="", "")
-
-  for allele in alleleDRB1:
-    alleleList &= option(value=allele, allele) & "\n"
-
-  for element in recElementsDRB1:
-    document.getElementById(element).innerHtml = alleleList
-  for element in donElementsDRB1:
-    document.getElementById(element).innerHtml = alleleList
-
-  alleleList = option(value="", "")
-
-  for allele in alleleDRB345:
-    alleleList &= option(value=allele, allele) & "\n"
-
-  for element in recElementsDRB345:
-    document.getElementById(element).innerHtml = alleleList
-  for element in donElementsDRB345:
-    document.getElementById(element).innerHtml = alleleList
-
-  alleleList = option(value="", "")
-
-  for allele in alleleDQA1:
-    alleleList &= option(value=allele, allele) & "\n"
-
-  for element in recElementsDQA1:
-    document.getElementById(element).innerHtml = alleleList
-  for element in donElementsDQA1:
-    document.getElementById(element).innerHtml = alleleList
-
-  alleleList = option(value="", "")
-
-  for allele in alleleDQB1:
-    alleleList &= option(value=allele, allele) & "\n"
-
-  for element in recElementsDQB1:
-    document.getElementById(element).innerHtml = alleleList
-  for element in donElementsDQB1:
-    document.getElementById(element).innerHtml = alleleList
-
-  alleleList = option(value="", "")
-
-  for allele in alleleDPA1:
-    alleleList &= option(value=allele, allele) & "\n"
-
-  for element in recElementsDPA1:
-    document.getElementById(element).innerHtml = alleleList
-  for element in donElementsDPA1:
-    document.getElementById(element).innerHtml = alleleList
-
-  alleleList = option(value="", "")
-
-  for allele in alleleDPB1:
-    alleleList &= option(value=allele, allele) & "\n"
-
-  for element in recElementsDPB1:
-    document.getElementById(element).innerHtml = alleleList
-  for element in donElementsDPB1:
-    document.getElementById(element).innerHtml = alleleList
-
-proc mergeTable[A,B](t1: var Table[A, B], t2: Table[A, B]) =
-  ## Merge ``t2`` into ``t1``.
-  for key, value in t2:
-    t1[key] = value
-
-
-# This section is ugly all relies on nested callbacks; read from bottom to top
-
-proc getAlleleDP(data: cstring) =
-  ## Parse and initialize allele table
-  allelesTable.mergeTable readAlleles($data, epletsTable)
-  echo "alleles loaded from '", alleleDPurl, "'"
-
-  # finally, fill all select elements
-  fillSelect()
-
-proc getEpletDP(data: cstring) =
-  ## Parse and initialize eplets table
-  epletsTable.mergeTable readEplets($data)
-  echo "eplets loaded from '", epletDPurl, "'"
-  makeRequest(alleleDPurl, getAlleleDP)
-
-proc getAlleleDRDQ(data: cstring) =
-  ## Parse and initialize allele table
-  allelesTable.mergeTable readAlleles($data, epletsTable)
-  echo "alleles loaded from '", alleleDRDQurl, "'"
-  makeRequest(epletDPurl, getEpletDP)
-
-proc getEpletDRDQ(data: cstring) =
-  ## Parse and initialize eplets table
-  epletsTable.mergeTable readEplets($data)
-  echo "eplets loaded from '", epletDRDQurl, "'"
-  makeRequest(alleleDRDQurl, getAlleleDRDQ)
-
-proc getAlleleABC(data: cstring) =
+proc getAlleles(data: cstring) =
   ## Parse and initialize allele table
   allelesTable = readAlleles($data, epletsTable)
-  echo "alleles loaded from '", alleleABCurl, "'"
-  makeRequest(epletDRDQurl, getEpletDRDQ)
+  echo "alleles loaded from '", alleleUrl, "'"
+  fillSelect()
 
-proc getEpletABC(data: cstring) =
+proc getEplets(data: cstring) =
   ## Parse and initialize eplets table
   epletsTable = readEplets($data)
-  echo "eplets loaded from '", epletABCurl, "'"
-  makeRequest(alleleABCurl, getAlleleABC)
+  echo "eplets loaded from '", epletUrl, "'"
+  makeRequest(alleleUrl, getAlleles)
 
-
-proc getAlleles(elements: seq[array[2, string]]): seq[Allele] =
+proc getAlleles(ind: string): seq[Allele] =
   ## Collect alleles in elements
-  for elementGroup in elements:
-    for element in elementGroup:
-      let alleleStr = $cast[OptionElement](document.getElementById(element)).value
-      # skip empty alleles
+  for loc in loci:
+    for field in fields:
+      let
+        id = ind & loc & field
+        alleleStr = $cast[OptionElement](document.getElementById(id)).value
       if alleleStr != "":
         result.add allelesTable[alleleStr]
 
 proc getEplets(al: seq[Allele]): HashSet[Eplet] =
   ## Get eplets for alleles
-  result = initHashSet[Eplet]()
+  let emulate = document.getElementById(emulateMatchmakerId).checked
   for allele in al:
-    result.incl allele.eplets
-
-func getAbverEplets(eplets: HashSet[Eplet]): HashSet[Eplet] =
-    for eplet in eplets:
-      case eplet.evidence
-      of epVerified, epVerifiedPair:
-        result.incl eplet
-      of epOther: discard
-
+    if emulate:
+      # save only eplets that are considered in the HLAmm algorithm
+      for ep in allele.eplets:
+        if ep.status == stBoth:
+          result.incl ep
+    else:
+      result.incl allele.eplets
 
 proc outputMismatchedEplets(epletsSet: HashSet[Eplet]) =
   ## Shows the mismatched eplets and the cardinality
-
   const
     # prefixes for output fields
     mmEpletCountId = "mmEpletCount"  # & locus
     mmEpletsId = "mmMismatchedEplets"  # & locus
 
-  # subset abver eplets
-  let
-    abverEps = getAbverEplets(epletsSet)
-    otherEps = epletsSet - abverEps
-
-  # output summary
-  let totalPrefix = mmEpletCountId & "Total"
-  document.getElementById(totalPrefix).innerHtml = $epletsSet.card
-  document.getElementById(totalPrefix & "Abver").innerHtml = $abverEps.len
-  document.getElementById(totalPrefix & "Other").innerHtml = $otherEps.len
-
-  # seq to store eplets, reused between loci
   var
+    # seqs to store eplets, reused between loci
     locusEpletsAbver: seq[string]
     locusEpletsOther: seq[string]
 
-  # iterate all loci in Locus enum
-  for locus in Locus:
+    # total counts
+    abverCount = 0
+    otherCount = 0
 
+  # iterate all loci in Locus enum
+  for loc in Locus:
     locusEpletsOther.setLen 0
     locusEpletsAbver.setLen 0
 
     for eplet in epletsSet:
-      if eplet.locus == locus:
-        if eplet in abverEps:
+      if eplet.locus == loc:
+        case eplet.evidence
+        of epVerified, epVerifiedPair:
           locusEpletsAbver.add eplet.name
-        elif eplet in otherEps:
-          # not abVer -> other
+        of epOther:
           locusEpletsOther.add eplet.name
-        else: doAssert false
 
-    # sort both for readability
+    # sort both for "readability"
     locusEpletsAbver.sort()
     locusEpletsOther.sort()
 
     # all eplets first
     let epletCount = locusEpletsAbver.len + locusEpletsOther.len
-    document.getElementById(mmEpletCountId & $locus).innerHtml = $epletCount
+    setInner(mmEpletCountId & $loc, $epletCount)
 
     # abver eplets
-    document.getElementById(mmEpletCountId & $locus & "Abver").innerHtml = $len(locusEpletsAbver)
-    document.getElementById(mmEpletsId & $locus & "Abver").innerHtml = locusEpletsAbver.join(", ")
+    setInner(mmEpletCountId & $loc & "Abver", $locusEpletsAbver.len)
+    setInner(mmEpletsId & $loc & "Abver", locusEpletsAbver.join(", "))
 
     # other eplets
-    document.getElementById(mmEpletCountId & $locus & "Other").innerHtml = $len(locusEpletsOther)
-    document.getElementById(mmEpletsId & $locus & "Other").innerHtml = locusEpletsOther.join(", ")
+    setInner(mmEpletCountId & $loc & "Other", $locusEpletsOther.len)
+    setInner(mmEpletsId & $loc & "Other", locusEpletsOther.join(", "))
+
+    # update totals
+    inc abverCount, locusEpletsAbver.len
+    inc otherCount, locusEpletsOther.len
+
+  # output summary
+  const totalPrefix = mmEpletCountId & "Total"
+  setInner(totalPrefix, $(abverCount + otherCount))
+  setInner(totalPrefix & "Abver", $abverCount)
+  setInner(totalPrefix & "Other", $otherCount)
 
 func getWiebeCategory(dr, dq: Natural): string =
   ## Returns the Wiebe group as a string
@@ -385,10 +194,10 @@ proc outputWiebeRiskGroup(recEplets: HashSet[Eplet], donAlleles: seq[Allele]) =
 
 proc showMismatchedEplets*() {.exportc.} =
   let
-    recAlleles = getAlleles(recElements)
+    recAlleles = getAlleles("rec")
     recEplets = getEplets(recAlleles)
 
-    donAlleles = getAlleles(donElements)
+    donAlleles = getAlleles("don")
     donEplets = getEplets(donAlleles)
 
     hvgEplets = donEplets - recEplets
@@ -399,4 +208,5 @@ proc showMismatchedEplets*() {.exportc.} =
   # include unverified eplets for Wiebe risk group
   outputWiebeRiskGroup(recEplets, donAlleles)
 
-makeRequest(epletABCurl, getEpletABC)
+# this starts when the page loads
+makeRequest(epletUrl, getEplets)
