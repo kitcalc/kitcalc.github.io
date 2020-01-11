@@ -81,7 +81,7 @@ func readEplets*(data: string): array[Locus, Table[string, Eplet]] =
     if fields.len != 4:
       raise newException(ValueError, "unknown format of line: '" & line & "'")
 
-    let ep = newEplet(fields[0], fields[1], fields[2], fields[4])
+    let ep = newEplet(fields[0], fields[1], fields[2], fields[3])
     if ep.name in result[ep.locus]:
       # prioritize eplets for status - both > algorithm > table
       case result[ep.locus][ep.name].status

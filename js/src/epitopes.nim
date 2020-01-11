@@ -12,37 +12,49 @@ const
   # checkbox whether or not to emulate HLAmatchmaker
   emulateMatchmakerId = "emulateMatchmaker"
 
-  group = ["rec", "don"]
-  loci = ["A", "B", "C", "DRB1", "DRB345", "DQA1", "DQB1", "DPA1", "DPB1"]
-  fields = ["_1", "_2"]
+type
+  Group = enum
+    rec, don
+  FieldLoci = enum
+    flA = "A", flB = "B", flC = "C", flDRB1 = "DRB1", flDRB345 = "DRB345",
+    flDQA1 = "DQA1", flDQB1 = "DQB1", flDPA1 = "DPA1", flDPB1 = "DPB1"
+  Fields = enum
+    first = "_1",
+    second = "_2"
 
 proc setInner(id, value: string) =
   # set innerHtml value at id
   document.getElementById(id).innerHtml = value
 
-proc setInnerOption(id, value, label: string) =
-  # set an option value for id
-  setInner(id, option(value, label) & '\n')
-
-proc setAllFields(loc, name: string) =
-  # Set all options at locus loc to allele name
-  for ind in group:
-    for field in fields:
-      setInnerOption(ind & loc & field, name, name)
-
 proc fillSelect() =
-  ## Fill select elements with alleles, assume they are sorted
-  for loc in loci:
-    # start with a new line, to have an empty element on top
-    setAllFields(loc, "")
+  ## Fill select elements with alleles
 
+  # nested array of strings, to be assigned as options later. Assigning them
+  # one at a time is VERY slow
+  var options: array[FieldLoci, seq[string]]
+
+  # fill lists
   for allele in allelesTable.values:
-    var loc = allele.name.split('*', maxsplit=1)[0]
+    var locStr = allele.name.split('*', maxsplit=1)[0]
     if allele.locus == DRB:
-      case loc
+      case locStr
       of "DRB3", "DRB4", "DRB5":
-        loc = "DRB345"
-    setAllFields(loc, allele.name)
+        locStr = "DRB345"
+
+    let loc = parseEnum[FieldLoci](locStr)
+    options[loc].add option(value=allele.name, allele.name & "\n")
+
+  # sort alleles
+  for opt in mitems(options):
+    opt.sort()
+
+  # output, empty element on top
+  let empty = option(value="", "") & "\n"
+  for loc in FieldLoci:
+    let output = empty & options[loc].join("\n")
+    for g in Group:
+      for f in Fields:
+        setInner($g & $loc & $f, output)
 
 proc getAlleles(data: cstring) =
   ## Parse and initialize allele table
@@ -56,27 +68,31 @@ proc getEplets(data: cstring) =
   echo "eplets loaded from '", epletUrl, "'"
   makeRequest(alleleUrl, getAlleles)
 
-proc getAlleles(ind: string): seq[Allele] =
+proc getAlleles(ind: Group): seq[Allele] =
   ## Collect alleles in elements
-  for loc in loci:
-    for field in fields:
+  for loc in FieldLoci:
+    for field in Fields:
       let
-        id = ind & loc & field
+        id = $ind & $loc & $field
         alleleStr = $cast[OptionElement](document.getElementById(id)).value
       if alleleStr != "":
         result.add allelesTable[alleleStr]
 
+proc getEplets(al: Allele): HashSet[Eplet] =
+  ## Get eplets for allele, take emulation into consideration
+  let emulate = document.getElementById(emulateMatchmakerId).checked
+  if emulate:
+    # save only eplets that are considered in the HLAmm algorithm
+    for ep in al.eplets:
+      if ep.status == stBoth:
+        result.incl ep
+  else:
+    result.incl al.eplets
+
 proc getEplets(al: seq[Allele]): HashSet[Eplet] =
   ## Get eplets for alleles
-  let emulate = document.getElementById(emulateMatchmakerId).checked
   for allele in al:
-    if emulate:
-      # save only eplets that are considered in the HLAmm algorithm
-      for ep in allele.eplets:
-        if ep.status == stBoth:
-          result.incl ep
-    else:
-      result.incl allele.eplets
+    result.incl getEplets(allele)
 
 proc outputMismatchedEplets(epletsSet: HashSet[Eplet]) =
   ## Shows the mismatched eplets and the cardinality
@@ -158,7 +174,7 @@ proc outputWiebeRiskGroup(recEplets: HashSet[Eplet], donAlleles: seq[Allele]) =
   # mismatching eplets
   for allele in donAlleles:
     let
-      alleleEplets = allele.eplets
+      alleleEplets = getEplets(allele)
       # mismatched eplet count
       mmEpletCount = (alleleEplets - recEplets).card
 
@@ -177,7 +193,6 @@ proc outputWiebeRiskGroup(recEplets: HashSet[Eplet], donAlleles: seq[Allele]) =
         maxDQB1 = mmEpletCount
     else: discard
 
-
   let
     dqSum = maxDQA1 + maxDQB1
     dqName = maxDQA1allele & " + " & maxDQB1allele
@@ -194,10 +209,10 @@ proc outputWiebeRiskGroup(recEplets: HashSet[Eplet], donAlleles: seq[Allele]) =
 
 proc showMismatchedEplets*() {.exportc.} =
   let
-    recAlleles = getAlleles("rec")
+    recAlleles = getAlleles(rec)
     recEplets = getEplets(recAlleles)
 
-    donAlleles = getAlleles("don")
+    donAlleles = getAlleles(don)
     donEplets = getEplets(donAlleles)
 
     hvgEplets = donEplets - recEplets
