@@ -23,6 +23,7 @@ proc readAlleles*(data: string, eplets: array[Locus, Table[string, Eplet]]): Tab
   result = initTable[string, Allele]()
   var firstRow = true
   for line in splitLines(data):
+    if line.len == 0: continue
     let fields = line.split()
     if firstRow:
       if not checkAlleleHeader(fields):
@@ -30,8 +31,6 @@ proc readAlleles*(data: string, eplets: array[Locus, Table[string, Eplet]]): Tab
       else:
         firstRow = false
         continue
-    elif line.len == 0:
-      continue
     elif fields.len != 3:
       raise newException(Exception, "unknown format of line: '" & line & "'")
     let
