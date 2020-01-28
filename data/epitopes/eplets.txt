@@ -173,8 +173,7 @@ eplet	evidence	locus	status
 31Q	other_eplet	DPA1	both
 50QA	verified_eplet	DPA1	both
 50QT	other_eplet	DPA1	both
-50RA	verified_eplet	DPA1	both
-50RA	other_eplet	DPA1	algorithm_only
+50RA	verified_eplet	DPA1	table_only
 83A	other_eplet	DPA1	both
 83T	other_eplet	DPA1	both
 11G	other_eplet	DPB1	both
@@ -286,7 +285,7 @@ eplet	evidence	locus	status
 185I	other_eplet	DQB1	both
 185T	other_eplet	DQB1	both
 23L	other_eplet	DQB1	both
-26G	verified_eplet	DQB1	algorithm_only
+26G	verified_eplet	DQB1	both
 26G	other_eplet	DQB1	both
 26L	other_eplet	DQB1	both
 26Y	other_eplet	DQB1	both
@@ -320,7 +319,7 @@ eplet	evidence	locus	status
 66ED	other_eplet	DQB1	algorithm_only
 66EV	other_eplet	DQB1	both
 67VG	other_eplet	DQB1	both
-70ED	verified_eplet	DQB1	algorithm_only
+70ED	verified_eplet	DQB1	both
 70ED	other_eplet	DQB1	both
 70GA	other_eplet	DQB1	algorithm_only
 70GT	other_eplet	DQB1	both
@@ -429,8 +428,8 @@ eplet	evidence	locus	status
 67L	other_eplet	DRB	both
 67LQ	verified_eplet	DRB	both
 6C	other_eplet	DRB	both
-70D	verified_eplet	DRB	both
-70D	other_eplet	DRB	algorithm_only
+70D	verified_eplet	DRB	table_only
+70D	other_eplet	DRB	table_only
 70N	other_eplet	DRB	algorithm_only
 70Q	other_eplet	DRB	both
 70QT	verified_eplet	DRB	both

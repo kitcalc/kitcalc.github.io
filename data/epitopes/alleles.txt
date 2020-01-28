@@ -1,4 +1,4 @@
-allele	eplet	locus
+allele	eplet	evidence	locus
 A*01:01	102DV	ABC
 A*01:01	109F	ABC
 A*01:01	138MI	ABC

@@ -7,6 +7,8 @@ type
     eplets*: HashSet[Eplet]
     locus*: Locus
 
+const expectedHeader = @["allele", "eplet", "evidence", "locus"]
+
 proc newAllele(name: string, locus: Locus): Allele =
   ## Initialize an allele
   new(result)
@@ -15,10 +17,9 @@ proc newAllele(name: string, locus: Locus): Allele =
 
 proc checkAlleleHeader(fields: seq[string]): bool =
   ## Check that the header is correct
-  const expectedHeader = @["allele", "eplet", "locus"]
   result = fields == expectedHeader
 
-proc readAlleles*(data: string, eplets: array[Locus, Table[string, Eplet]]): Table[string, Allele] =
+proc readAlleles*(data: string, eplets: array[Locus, array[Evidence, Table[string, Eplet]]]): Table[string, Allele] =
   ## Read alleles from ``data`` and annotates eplets from ``eplets``
   result = initTable[string, Allele]()
   var firstRow = true
@@ -31,12 +32,13 @@ proc readAlleles*(data: string, eplets: array[Locus, Table[string, Eplet]]): Tab
       else:
         firstRow = false
         continue
-    elif fields.len != 3:
+    elif fields.len != expectedHeader.len:
       raise newException(Exception, "unknown format of line: '" & line & "'")
     let
       allelename = fields[0]
       epletname = fields[1]
-      locus = parseLocus(fields[2])
+      epletEvidence = fields[2]
+      locus = parseLocus(fields[3])
     if allelename notin result:
       result[allelename] = newAllele(allelename, locus)
     if epletname in eplets[locus]:

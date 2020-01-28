@@ -2,7 +2,7 @@ import dom, tables, sets, algorithm, htmlgen, strutils
 import remoterequest, alleles, eplets, locus
 
 var
-  epletsTable: array[Locus, Table[string, Eplet]]
+  epletsTable: array[Locus, array[Evidence ,Table[string, Eplet]]]
   allelesTable: Table[string, Allele]
 
 const
@@ -84,7 +84,7 @@ proc getEplets(al: Allele): HashSet[Eplet] =
   if emulate:
     # save only eplets that are considered in the HLAmm algorithm
     for ep in al.eplets:
-      if ep.status == stBoth:
+      if ep.status == stBoth or ep.status.stBothCountedOnly:
         result.incl ep
   else:
     result.incl al.eplets
@@ -93,6 +93,15 @@ proc getEplets(al: seq[Allele]): HashSet[Eplet] =
   ## Get eplets for alleles
   for allele in al:
     result.incl getEplets(allele)
+
+func getPrintableEplets(eps: seq[Eplet]): seq[Eplet] =
+  ## Returns the printable eplets in eps, taking emulation into consideration
+  let emulate = document.getElementById(emulateMatchmakerId).checked
+  if not emulate:
+    return eps
+  for ep in eps:
+    if ep.status == stBoth:
+      result.add ep
 
 proc outputMismatchedEplets(epletsSet: HashSet[Eplet]) =
   ## Shows the mismatched eplets and the cardinality
@@ -117,10 +126,9 @@ proc outputMismatchedEplets(epletsSet: HashSet[Eplet]) =
 
     for eplet in epletsSet:
       if eplet.locus == loc:
-        case eplet.evidence
-        of epVerified, epVerifiedPair:
+        if eplet.isVerified:
           locusEpletsAbver.add eplet.name
-        of epOther:
+        else:
           locusEpletsOther.add eplet.name
 
     # sort both for "readability"
@@ -131,13 +139,15 @@ proc outputMismatchedEplets(epletsSet: HashSet[Eplet]) =
     let epletCount = locusEpletsAbver.len + locusEpletsOther.len
     setInner(mmEpletCountId & $loc, $epletCount)
 
+    # when we emulate HLAmm, counts and printed eplets don't always match
+
     # abver eplets
     setInner(mmEpletCountId & $loc & "Abver", $locusEpletsAbver.len)
-    setInner(mmEpletsId & $loc & "Abver", locusEpletsAbver.join(", "))
+    setInner(mmEpletsId & $loc & "Abver", getPrintableEplets(locusEpletsAbver).join(", "))
 
     # other eplets
     setInner(mmEpletCountId & $loc & "Other", $locusEpletsOther.len)
-    setInner(mmEpletsId & $loc & "Other", locusEpletsOther.join(", "))
+    setInner(mmEpletsId & $loc & "Other", getPrintableEplets(locusEpletsOther).join(", "))
 
     # update totals
     inc abverCount, locusEpletsAbver.len
