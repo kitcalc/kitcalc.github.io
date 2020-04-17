@@ -97,8 +97,8 @@ HLA klass II: Inga antikroppar påvisade."""],
   ["cybn", "CDC negativ mot B-celler", "Cytotoxisk screen mot B-celler (30 panelceller) är negativ."],
   ["cyt", "CDC positiv för T-celler", "Cytotoxisk screen mot T-celler är positiv mot ## av 30 panelceller."],
   ["cytn", "CDC negativ för T-celler", "Cytotoxisk screen mot T-celler (30 panelceller) är negativ."],
-  ["dtt", "CDC neg efter DTT-behandling", "Omsättning med DTT-behandlat serum mot minipanel av positiva celler (n=###) är negativ, vilket indikerar förekomst av IgM-antikroppar. Dessa saknar sannolikt klinisk signifikans."],
-  ["dttp", "CDC pos efter DTT-behandling", "Omsättning med DTT-behandlat serum mot minipanel av positiva celler (n=###) är positiv, vilket indikerar förekomst av IgG-HLA-antikroppar. Dessa har sannolikt klinisk signifikans."],
+  ["dtt", "CDC neg efter DTT-behandling", "Cytotoxisk screen med DTT-behandlat serum är negativ, vilket indikerar förekomst av IgM-antikroppar. Dessa saknar sannolikt klinisk signifikans."],
+  ["dttp", "CDC pos efter DTT-behandling", "Cytotoxisk screen med DTT-behandlat serum är positiv, vilket indikerar förekomst av IgG-HLA-antikroppar. Dessa har sannolikt klinisk signifikans."],
 
   # HLA
   ["amb", "För info om HLA-kombinationer", "För information om HLA-kombinationer som inte helt kan uteslutas vänligen kontakta laboratoriet."],
