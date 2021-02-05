@@ -7,15 +7,15 @@ summary: Verktyg och tips för hur man kan jämföra HLA-alleler
 Via ett verktyg från [EBI](https://www.ebi.ac.uk/ipd/mhc/alignment/hla/)
 kan man jämföra sekvenser. Ange önskat locus, nukleotid/protein och önskad
 upplösning. Under fliken "Advanced" kan man ange önskade sekvenser som ska
-alignas. Ange alltid alleler med fullt prefix "HLA-", som i 
-"HLA-A*01:01:01". Efter alignment kan man specificera t.ex. vilka 
+alignas. Ange alltid alleler med fullt prefix "HLA-", som i
+"HLA-A*01:01:01". Efter alignment kan man specificera t.ex. vilka
 intron/exon som ska undersökas samt lägga till/ta alleler.
 
 
 # Lokal alignment med Jalview
 
-[Jalview](http://www.jalview.org/) är ett Java-program för att visualisera 
-alignments som körs på den egna datorn. Om Java Webstart fungerar kan det 
+[Jalview](http://www.jalview.org/) är ett Java-program för att visualisera
+alignments som körs på den egna datorn. Om Java Webstart fungerar kan det
 räcka med att trycka
 [på den här länken](http://www.jalview.org/old/v2_10_5/jalview.jnlp), annars
 får man installera lokalt.
