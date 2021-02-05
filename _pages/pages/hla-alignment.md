@@ -1,21 +1,22 @@
 title: HLA-alignment
 created: 2019-11-15
+updated: 2021-02-05
 summary: Verktyg och tips för hur man kan jämföra HLA-alleler
 ---
 
-Sedan [dbMHC Sequence Alignment
-Viewer](https://www.ncbi.nlm.nih.gov/gv/mhc/?cmd=aligndisplay&user_id=0&probe_id=0&source_id=0&locus_id=0&locus_group=1&proto_id=0&kit_id=0&banner=1)
-lades ned har inget uppenbart online-alternativ för att se alignment mellan
-HLA-alleler funnits. Via IPD-IMGT/HLA finns [Sequence Alignment
-Tool](https://www.ebi.ac.uk/ipd/imgt/hla/align.html) som är mer svårarbetat.
-Här följer ett tips på hur ett lokalt program kan användas, tillsammans med
-rådata från IPD-IMGT/HLA.
+Via ett verktyg från [EBI](https://www.ebi.ac.uk/ipd/mhc/alignment/hla/)
+kan man jämföra sekvenser. Ange önskat locus, nukleotid/protein och önskad
+upplösning. Under fliken "Advanced" kan man ange önskade sekvenser som ska
+alignas. Ange alltid alleler med fullt prefix "HLA-", som i 
+"HLA-A*01:01:01". Efter alignment kan man specificera t.ex. vilka 
+intron/exon som ska undersökas samt lägga till/ta alleler.
 
 
-## Jalview
+# Lokal alignment med Jalview
 
-Vi använder [Jalview](http://www.jalview.org/), ett Java-program för att
-visualiera alignments. Om Java Webstart fungerar kan det räcka med att trycka
+[Jalview](http://www.jalview.org/) är ett Java-program för att visualisera 
+alignments som körs på den egna datorn. Om Java Webstart fungerar kan det 
+räcka med att trycka
 [på den här länken](http://www.jalview.org/old/v2_10_5/jalview.jnlp), annars
 får man installera lokalt.
 
