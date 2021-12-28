@@ -14,8 +14,6 @@ var getGgroupData = function() {
   xhttp.open(method, url, true);
   xhttp.send();
 
-  // change id
-  // document.getElementById('output').innerHTML = "Retrieving " + url + "...";
 }
 
 var getPgroupData = function() {
@@ -34,9 +32,27 @@ var getPgroupData = function() {
   xhttp.open(method, url, true);
   xhttp.send();
 
-  // document.getElementById('output').innerHTML = "Retrieving " + url + "...";
+}
+
+var getAlleleIdData = function() {
+
+  var url ="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/Allelelist.txt"
+  var xhttp = new XMLHttpRequest();
+  var method = "GET";
+
+  xhttp.onreadystatechange = function () {
+    if(xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+      initAlleleIdData(xhttp.responseText);
+      document.getElementById("helptext").innerHTML += "Laddade Allelelist<br>"
+    }
+  }
+
+  xhttp.open(method, url, true);
+  xhttp.send();
+
 }
 
 // run scripts
 getGgroupData();
 getPgroupData();
+getAlleleIdData();
