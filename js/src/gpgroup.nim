@@ -1,19 +1,19 @@
 import strutils, tables
 import dom, htmlgen
 
-
 # global tables
 var
   galleles = initTable[string, string]()
   ggroups = initTable[string, seq[string]]()
   palleles = initTable[string, string]()
   pgroups = initTable[string, seq[string]]()
+  alleleIDs = initTable[string, string]()
 
 
 proc outputMeta(line: string) =
-  var
+  let
     fields = line.split(": ", maxsplit=1)
-    key = fields[0][2 ..< fields[0].len]  # remove '# '
+    key = fields[0].removePrefix("# ")
     value = fields[1]
   echo key, spaces(20-key.len), value
 
@@ -59,10 +59,35 @@ proc initPgroupData*(pdata: cstring) {.exportc.} =
   # DRA*01:01:01:01, DRA*01:02:03, DRA*01:02:02, DRA*01:01:01:03,
   # DRA*01:01:01:02, DRA*01:01:02, DRA*01:02:01
 
+proc initAlleleIdData*(alleleData: cstring) {.exportc.} =
+  ## Load data into allele ID table
+  # File format:
+  #
+  #  # author: Steven G. E. Marsh (steven.marsh@ucl.ac.uk)
+  #  AlleleID,Allele
+  #  HLA00001,A*01:01:01:01
+
+  var fields: seq[string]
+  
+  for line in splitLines(alleleData):
+    if line.startsWith("#"):
+      outputMeta(line)
+      continue
+    if line.startsWith("AlleleID"):
+      continue
+    fields = line.split(',')
+    if fields.len != 2:
+      continue
+    # allele as key, allele ID as value
+    alleleIDs[fields[1]] = fields[0]
+    
 
 template infoLink(allele: string): string =
   ## Create a link to the HLA dictionary
-  a(href="https://www.ebi.ac.uk/cgi-bin/ipd/imgt/hla/get_allele.cgi?" & allele, allele)
+  let alleleID = alleleIDs[allele]
+  # use the allele as link text, but link to alleleID
+  a(href="https://www.ebi.ac.uk/ipd/imgt/hla/alleles/allele/?accession=" & alleleID, allele)
+
 
 template valueFromInput(elementId: string): string =
   $cast[OptionElement](document.getElementById(elementId)).value
