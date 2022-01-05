@@ -13,7 +13,7 @@ var
 proc outputMeta(line: string) =
   let
     fields = line.split(": ", maxsplit=1)
-    key = fields[0].removePrefix("# ")
+    key = fields[0][2 ..< fields[0].len]  # remove leading "# "
     value = fields[1]
   echo key, spaces(20-key.len), value
 
@@ -68,8 +68,8 @@ proc initAlleleIdData*(alleleData: cstring) {.exportc.} =
   #  HLA00001,A*01:01:01:01
 
   var fields: seq[string]
-  
-  for line in splitLines(alleleData):
+
+  for line in splitLines($alleleData):
     if line.startsWith("#"):
       outputMeta(line)
       continue
@@ -80,7 +80,7 @@ proc initAlleleIdData*(alleleData: cstring) {.exportc.} =
       continue
     # allele as key, allele ID as value
     alleleIDs[fields[1]] = fields[0]
-    
+
 
 template infoLink(allele: string): string =
   ## Create a link to the HLA dictionary
