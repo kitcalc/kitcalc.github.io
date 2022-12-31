@@ -470,20 +470,21 @@ function cstrToNimstr(c_33556804) {
 }
 var ConstSet3 = setConstr(13, 10);
 var ConstSet4 = setConstr(13, 10);
-var ConstSet5 = setConstr(42);
-var ConstSet6 = setConstr([97, 122]);
-var ConstSet7 = setConstr(32, 9, 11, 13, 10, 12);
+var ConstSet5 = setConstr(32, 9, 11, 13, 10, 12);
+var ConstSet6 = setConstr(42);
+var ConstSet7 = setConstr([97, 122]);
+var ConstSet8 = setConstr(32, 9, 11, 13, 10, 12);
 
 function addChar(x_33557255, c_33557256) {
     x_33557255.push(c_33557256);
 
   
 }
-var ConstSet8 = setConstr([48, 57]);
-var ConstSet9 = setConstr(0, 125);
-var ConstSet10 = setConstr([48, 57]);
-var ConstSet11 = setConstr([65, 90]);
-var ConstSet12 = setConstr([97, 122], [65, 90], [48, 57], [128, 255], 95);
+var ConstSet9 = setConstr([48, 57]);
+var ConstSet10 = setConstr(0, 125);
+var ConstSet11 = setConstr([48, 57]);
+var ConstSet12 = setConstr([65, 90]);
+var ConstSet13 = setConstr([97, 122], [65, 90], [48, 57], [128, 255], 95);
 
 function reprEnum(e_33557385, typ_33557386) {
   var result_33557387 = [];
@@ -1687,16 +1688,16 @@ function parseAntigen_486542350(fields_486542351) {
   var result_486542352 = ({kind: 0, isExpert: false, antigen: [], expertAntigen: []});
 
   BeforeRet: do {
-    var locus_486542353 = nsuStrip(fields_486542351[chckIndx(0, 0, (fields_486542351).length - 1)], false, true, ConstSet5);
+    var locus_486542353 = nsuStrip(fields_486542351[chckIndx(0, 0, (fields_486542351).length - 1)], false, true, ConstSet6);
     var prefix_486542354 = antigenPrefix_486542347(locus_486542353);
     var isExpert_486542355 = !(((fields_486542351[chckIndx(5, 0, (fields_486542351).length - 1)]).length == 0));
     Label1: do {
       var field_486542421 = 0;
-      var i_486543768 = 0;
+      var i_486543770 = 0;
       Label2: do {
           Label3: while (true) {
           if (!true) break Label3;
-            field_486542421 = (Temporary4 = new Int32Array([2, 3, 4]), Temporary4)[chckIndx(i_486543768, 0, (Temporary4).length - 1)];
+            field_486542421 = (Temporary4 = new Int32Array([2, 3, 4]), Temporary4)[chckIndx(i_486543770, 0, (Temporary4).length - 1)];
             if (!(eqStrings(fields_486542351[chckIndx(field_486542421, 0, (fields_486542351).length - 1)], []))) {
             var ag_486542422 = nimCopy(null, fields_486542351[chckIndx(field_486542421, 0, (fields_486542351).length - 1)], NTI33554439);
             switch (toJSStr(ag_486542422)) {
@@ -1719,11 +1720,11 @@ function parseAntigen_486542350(fields_486542351) {
             break BeforeRet;
             }
             
-            if ((2 <= i_486543768)) {
+            if ((2 <= i_486543770)) {
             break Label2;
             }
             
-            i_486543768 = addInt(i_486543768, 1);
+            i_486543770 = addInt(i_486543770, 1);
           }
       } while (false);
     } while (false);
@@ -1887,7 +1888,6 @@ function initSerologicalData(seroData_486542458) {
             var Temporary6;
 
     var fields_486542459 = [];
-    rawEcho(makeNimstrLit("parsing"));
     Label1: do {
       var line_486542460 = [];
       var colontmp__486543760 = [];
@@ -1934,7 +1934,7 @@ function initSerologicalData(seroData_486542458) {
               break Label7;
               }
               
-              fields_486542459 = nimCopy(null, nsuSplitChar(line_486542460, 35, -1), NTI620757319);
+              fields_486542459 = nimCopy(null, nsuSplitChar(nsuStrip(line_486542460, true, true, ConstSet5), 59, -1), NTI620757319);
               if (!(((fields_486542459).length == 6))) {
               break Label7;
               }
@@ -1942,7 +1942,6 @@ function initSerologicalData(seroData_486542458) {
               var antigen_486542464 = parseAntigen_486542350(fields_486542459);
               var allele_486542465 = (fields_486542459[chckIndx(0, 0, (fields_486542459).length - 1)] || []).concat(fields_486542459[chckIndx(1, 0, (fields_486542459).length - 1)] || []);
               HEX5BHEX5DHEX3D_486542506(serological_486539374[0], allele_486542465, antigen_486542464);
-              rawEcho(makeNimstrLit("ok"));
             } while (false);
             if ((eolpos_486543763 == last_486543762)) {
             break Label2;
@@ -1959,7 +1958,7 @@ function initSerologicalData(seroData_486542458) {
 function nsuToUpperAsciiChar(c_620757079) {
   var result_620757080 = 0;
 
-    if ((ConstSet6[c_620757079] != undefined)) {
+    if ((ConstSet7[c_620757079] != undefined)) {
     result_620757080 = (c_620757079 ^ 32);
     }
     else {
@@ -2079,7 +2078,7 @@ function invalidFormatString_620759118() {
 function toLowerAscii_973078529(c_973078530) {
   var result_973078531 = 0;
 
-    if ((ConstSet11[c_973078530] != undefined)) {
+    if ((ConstSet12[c_973078530] != undefined)) {
     result_973078531 = chckRange(addInt(c_973078530, 32), 0, 255);
     }
     else {
@@ -2236,7 +2235,7 @@ function nsuAddf(s_620759121, s_620759121_Idx, formatstr_620759122, a_620759123)
             
             Label3: do {
                 Label4: while (true) {
-                  if (!(i_620759125 < (formatstr_620759122).length)) Temporary5 = false; else {                    Temporary5 = (ConstSet8[formatstr_620759122[chckIndx(i_620759125, 0, (formatstr_620759122).length - 1)]] != undefined);                  }                if (!Temporary5) break Label4;
+                  if (!(i_620759125 < (formatstr_620759122).length)) Temporary5 = false; else {                    Temporary5 = (ConstSet9[formatstr_620759122[chckIndx(i_620759125, 0, (formatstr_620759122).length - 1)]] != undefined);                  }                if (!Temporary5) break Label4;
                   j_620759142 = subInt(addInt(mulInt(j_620759142, 10), formatstr_620759122[chckIndx(i_620759125, 0, (formatstr_620759122).length - 1)]), 48);
                   i_620759125 = addInt(i_620759125, 1);
                 }
@@ -2266,8 +2265,8 @@ function nsuAddf(s_620759121, s_620759121_Idx, formatstr_620759122, a_620759123)
             var isNumber_620759181 = 0;
             Label8: do {
                 Label9: while (true) {
-                if (!((j_620759174 < (formatstr_620759122).length) && !((ConstSet9[formatstr_620759122[chckIndx(j_620759174, 0, (formatstr_620759122).length - 1)]] != undefined)))) break Label9;
-                  if ((ConstSet10[formatstr_620759122[chckIndx(j_620759174, 0, (formatstr_620759122).length - 1)]] != undefined)) {
+                if (!((j_620759174 < (formatstr_620759122).length) && !((ConstSet10[formatstr_620759122[chckIndx(j_620759174, 0, (formatstr_620759122).length - 1)]] != undefined)))) break Label9;
+                  if ((ConstSet11[formatstr_620759122[chckIndx(j_620759174, 0, (formatstr_620759122).length - 1)]] != undefined)) {
                   k_620759175 = subInt(addInt(mulInt(k_620759175, 10), formatstr_620759122[chckIndx(j_620759174, 0, (formatstr_620759122).length - 1)]), 48);
                   if ((isNumber_620759181 == 0)) {
                   isNumber_620759181 = 1;
@@ -2493,7 +2492,7 @@ function nsuAddf(s_620759121, s_620759121_Idx, formatstr_620759122, a_620759123)
             var j_620759211 = addInt(i_620759125, 1);
             Label13: do {
                 Label14: while (true) {
-                  if (!(j_620759211 < (formatstr_620759122).length)) Temporary15 = false; else {                    Temporary15 = (ConstSet12[formatstr_620759122[chckIndx(j_620759211, 0, (formatstr_620759122).length - 1)]] != undefined);                  }                if (!Temporary15) break Label14;
+                  if (!(j_620759211 < (formatstr_620759122).length)) Temporary15 = false; else {                    Temporary15 = (ConstSet13[formatstr_620759122[chckIndx(j_620759211, 0, (formatstr_620759122).length - 1)]] != undefined);                  }                if (!Temporary15) break Label14;
                   j_620759211 = addInt(j_620759211, 1);
                 }
             } while (false);
@@ -2688,7 +2687,7 @@ function lookupAllele() {
             var Temporary16;
 
   BeforeRet: do {
-    var allele_486544064 = nsuStrip(nsuToUpperAsciiStr(cstrToNimstr(document.getElementById("allele").value)), true, true, ConstSet7);
+    var allele_486544064 = nsuStrip(nsuToUpperAsciiStr(cstrToNimstr(document.getElementById("allele").value)), true, true, ConstSet8);
     if ((contains_486544107(galleles_486539307[0], allele_486544064) || contains_486544107(palleles_486539338[0], allele_486544064))) {
     clearForm_486543796();
     var alleleIDHEX60gensym64_486544306 = nimCopy(null, (Temporary1 = HEX5BHEX5D_486544227(alleleIDs_486539348[0], allele_486544064), Temporary1)[0][Temporary1[1]], NTI33554439);
