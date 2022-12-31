@@ -144,6 +144,7 @@ proc initSerologicalData*(seroData: cstring) {.exportc.} =
   # A*;01:01:01:02N;0;;;
   # A*;66:01:01:01;66;;;26/34
   var fields: seq[string]
+  echo "parsing"
   for line in splitLines($serodata):
     if line.startsWith('#'):
       outputMeta(line)
@@ -157,6 +158,7 @@ proc initSerologicalData*(seroData: cstring) {.exportc.} =
       antigen = parseAntigen(fields)
       allele = fields[0] & fields[1]  # "A*" & "43:01"
     serological[allele] = antigen
+    echo "ok"
 
 
 template infoLink(allele: string): string =
@@ -184,7 +186,7 @@ proc clearForm() =
   setInnerHtml("serokind", "")
   setInnerHtml("seroantigen", "")
 
-template help(html: string) =
+proc help(html: string) =
   setInnerHtml("helptext", "<br>\n" & html)
 
 proc lookForAlternateAllele(allele: string) =

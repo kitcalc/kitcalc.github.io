@@ -1887,6 +1887,7 @@ function initSerologicalData(seroData_486542458) {
             var Temporary6;
 
     var fields_486542459 = [];
+    rawEcho(makeNimstrLit("parsing"));
     Label1: do {
       var line_486542460 = [];
       var colontmp__486543760 = [];
@@ -1941,6 +1942,7 @@ function initSerologicalData(seroData_486542458) {
               var antigen_486542464 = parseAntigen_486542350(fields_486542459);
               var allele_486542465 = (fields_486542459[chckIndx(0, 0, (fields_486542459).length - 1)] || []).concat(fields_486542459[chckIndx(1, 0, (fields_486542459).length - 1)] || []);
               HEX5BHEX5DHEX3D_486542506(serological_486539374[0], allele_486542465, antigen_486542464);
+              rawEcho(makeNimstrLit("ok"));
             } while (false);
             if ((eolpos_486543763 == last_486543762)) {
             break Label2;
@@ -2060,6 +2062,12 @@ function len_486543858(t_486543861) {
 
   return result_486543862;
 
+}
+
+function help_486543797(html_486543798) {
+    setInnerHtml_486543784(makeNimstrLit("helptext"), (makeNimstrLit("<br>\x0A") || []).concat(html_486543798 || []));
+
+  
 }
 
 function invalidFormatString_620759118() {
@@ -2619,11 +2627,11 @@ function lookForAlternateAllele_486543799(allele_486543800) {
     Temporary6 = [];
     }
     
-    setInnerHtml_486543784(makeNimstrLit("helptext"), (makeNimstrLit("<br>\x0A") || []).concat(nsuFormatOpenArray(makeNimstrLit("Mer specifik fr\xC3\xA5ga beh\xC3\xB6vs, ange t.ex. n\xC3\xA5gon av:<br>\x0A$#\x0A<br>$#"), [nsuJoinSep(cand_486543809, makeNimstrLit("<br>\x0A")), nimCopy(null, Temporary6, NTI33554439)]) || []));
+    help_486543797(nsuFormatOpenArray(makeNimstrLit("Mer specifik fr\xC3\xA5ga beh\xC3\xB6vs, ange t.ex. n\xC3\xA5gon av:<br>\x0A$#\x0A<br>$#"), [nsuJoinSep(cand_486543809, makeNimstrLit("<br>\x0A")), nimCopy(null, Temporary6, NTI33554439)]));
     break BeforeRet;
     }
     
-    setInnerHtml_486543784(makeNimstrLit("helptext"), makeNimstrLit("<br>\x0AOk\xC3\xA4nd allel, ange alleler som t.ex. A*01:01:01:01"));
+    help_486543797(makeNimstrLit("Ok\xC3\xA4nd allel, ange alleler som t.ex. A*01:01:01:01"));
   } while (false);
 
   
@@ -2683,8 +2691,8 @@ function lookupAllele() {
     var allele_486544064 = nsuStrip(nsuToUpperAsciiStr(cstrToNimstr(document.getElementById("allele").value)), true, true, ConstSet7);
     if ((contains_486544107(galleles_486539307[0], allele_486544064) || contains_486544107(palleles_486539338[0], allele_486544064))) {
     clearForm_486543796();
-    var alleleIDHEX60gensym66_486544306 = nimCopy(null, (Temporary1 = HEX5BHEX5D_486544227(alleleIDs_486539348[0], allele_486544064), Temporary1)[0][Temporary1[1]], NTI33554439);
-    setInnerHtml_486543784(makeNimstrLit("alleleinfo"), (makeNimstrLit("<a href=\"https://www.ebi.ac.uk/ipd/imgt/hla/alleles/allele/?accession=") || []).concat(alleleIDHEX60gensym66_486544306 || [],makeNimstrLit("\">") || [],allele_486544064 || [],makeNimstrLit("</a>") || []));
+    var alleleIDHEX60gensym64_486544306 = nimCopy(null, (Temporary1 = HEX5BHEX5D_486544227(alleleIDs_486539348[0], allele_486544064), Temporary1)[0][Temporary1[1]], NTI33554439);
+    setInnerHtml_486543784(makeNimstrLit("alleleinfo"), (makeNimstrLit("<a href=\"https://www.ebi.ac.uk/ipd/imgt/hla/alleles/allele/?accession=") || []).concat(alleleIDHEX60gensym64_486544306 || [],makeNimstrLit("\">") || [],allele_486544064 || [],makeNimstrLit("</a>") || []));
     }
     else {
       lookForAlternateAllele_486543799(allele_486544064);
@@ -2706,8 +2714,8 @@ function lookupAllele() {
           Label7: while (true) {
           if (!(i_486545164 < L_486545165)) break Label7;
             otherAllele_486544587 = colontmp__486545163[chckIndx(i_486545164, 0, (colontmp__486545163).length - 1)];
-            var alleleIDHEX60gensym68_486544647 = nimCopy(null, (Temporary8 = HEX5BHEX5D_486544227(alleleIDs_486539348[0], otherAllele_486544587), Temporary8)[0][Temporary8[1]], NTI33554439);
-            var Temporary9 = nimCopy(null, (makeNimstrLit("<a href=\"https://www.ebi.ac.uk/ipd/imgt/hla/alleles/allele/?accession=") || []).concat(alleleIDHEX60gensym68_486544647 || [],makeNimstrLit("\">") || [],otherAllele_486544587 || [],makeNimstrLit("</a>") || []), NTI33554439);
+            var alleleIDHEX60gensym66_486544647 = nimCopy(null, (Temporary8 = HEX5BHEX5D_486544227(alleleIDs_486539348[0], otherAllele_486544587), Temporary8)[0][Temporary8[1]], NTI33554439);
+            var Temporary9 = nimCopy(null, (makeNimstrLit("<a href=\"https://www.ebi.ac.uk/ipd/imgt/hla/alleles/allele/?accession=") || []).concat(alleleIDHEX60gensym66_486544647 || [],makeNimstrLit("\">") || [],otherAllele_486544587 || [],makeNimstrLit("</a>") || []), NTI33554439);
             alleleLinks_486544525.push(Temporary9);;
             i_486545164 = addInt(i_486545164, 1);
             if (!(((colontmp__486545163).length == L_486545165))) {
@@ -2735,8 +2743,8 @@ function lookupAllele() {
           Label15: while (true) {
           if (!(i_486545169 < L_486545170)) break Label15;
             otherAllele_486544888 = colontmp__486545168[chckIndx(i_486545169, 0, (colontmp__486545168).length - 1)];
-            var alleleIDHEX60gensym70_486544948 = nimCopy(null, (Temporary16 = HEX5BHEX5D_486544227(alleleIDs_486539348[0], otherAllele_486544888), Temporary16)[0][Temporary16[1]], NTI33554439);
-            var Temporary17 = nimCopy(null, (makeNimstrLit("<a href=\"https://www.ebi.ac.uk/ipd/imgt/hla/alleles/allele/?accession=") || []).concat(alleleIDHEX60gensym70_486544948 || [],makeNimstrLit("\">") || [],otherAllele_486544888 || [],makeNimstrLit("</a>") || []), NTI33554439);
+            var alleleIDHEX60gensym68_486544948 = nimCopy(null, (Temporary16 = HEX5BHEX5D_486544227(alleleIDs_486539348[0], otherAllele_486544888), Temporary16)[0][Temporary16[1]], NTI33554439);
+            var Temporary17 = nimCopy(null, (makeNimstrLit("<a href=\"https://www.ebi.ac.uk/ipd/imgt/hla/alleles/allele/?accession=") || []).concat(alleleIDHEX60gensym68_486544948 || [],makeNimstrLit("\">") || [],otherAllele_486544888 || [],makeNimstrLit("</a>") || []), NTI33554439);
             alleleLinks_486544826.push(Temporary17);;
             i_486545169 = addInt(i_486545169, 1);
             if (!(((colontmp__486545168).length == L_486545170))) {
