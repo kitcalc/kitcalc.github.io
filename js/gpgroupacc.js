@@ -70,8 +70,27 @@ var getSeroData = function() {
 
 }
 
+var getSplitData = function() {
+
+  var url ="https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/wmda/rel_ser_ser.txt"
+  var xhttp = new XMLHttpRequest();
+  var method = "GET";
+
+  xhttp.onreadystatechange = function () {
+    if(xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
+      initSplitData(xhttp.responseText);
+      document.getElementById("helptext").innerHTML += "Laddade splitdata<br>"
+    }
+  }
+
+  xhttp.open(method, url, true);
+  xhttp.send();
+
+}
+
 // run scripts
 getGgroupData();
 getPgroupData();
 getAlleleIdData();
 getSeroData();
+getSplitData();

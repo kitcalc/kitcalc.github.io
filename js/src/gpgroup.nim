@@ -8,11 +8,20 @@ type
     possible = "Possible"
     assumed = "Assumed"
     expert = "Expert assigned"
+
   Antigen = object
     kind: Sero
     isExpert: bool
     antigen: string
     expertAntigen: string
+
+  Relation = enum
+    splitOf = " är en split av "
+    associated = " är associerat med "
+
+  Split = object
+    kind: Relation
+    broad: string
 
 # global tables
 var
@@ -22,6 +31,7 @@ var
   pgroups = initTable[string, seq[string]]()
   alleleIDs = initTable[string, string]()
   serological = initTable[string, Antigen]()
+  splits = initTable[string, Split]()
 
 
 proc outputMeta(line: string) =
@@ -171,6 +181,40 @@ proc initSerologicalData*(seroData: cstring) {.exportc.} =
     serological[allele] = antigen
 
 
+proc parseSplits(fields: seq[string]) =
+  # A;2;;203/210    # relation
+  # A;9;23/24;      # split
+  let
+    locus = fields[0]
+    broad = locus & fields[1]
+  if fields[2] != "":
+    for ag in fields[2].split('/'):
+      splits[locus & ag] = Split(kind: splitOf, broad: broad)
+  if fields[3] != "":
+    for ag in fields[3].split('/'):
+      splits[locus & ag] = Split(kind: associated, broad: broad)
+  echo splits
+
+
+proc initSplitData*(data: cstring) {.exportc.} =
+  ## Load serological relations data
+  # File format
+  # - HLA Locus
+  # - HLA Antigen name
+  # - Split Antigen
+  # - Associated Antigen
+  var fields: seq[string]
+  for line in splitLines($data):
+    if line.startsWith('#'):
+      outputMeta(line)
+      continue
+    fields = line.strip.split(';')
+    if fields.len != 4:
+      # should never happen
+      continue
+    parseSplits(fields)
+
+
 template infoLink(allele: string): string =
   ## Create a link to the HLA dictionary
   let alleleID = alleleIDs[allele]
@@ -257,16 +301,20 @@ proc lookupAllele() {.exportc.} =
 
   if allele in serological:
     let antigen = serological[allele]
+    var splitString = ""
+    if antigen.antigen in splits:
+      let split = splits[antigen.antigen]
+      splitString = br() & antigen.antigen & $split.kind & split.broad
     if antigen.isExpert:
       setInnerHtml("serokind",
         $antigen.kind & " (med \"expert assigned\" tillägg)"
       )
       setInnerHtml("seroantigen",
-        antigen.antigen & " (" & antigen.expertAntigen & ")"
+        antigen.antigen & " (expert " & antigen.expertAntigen & ")" & splitString
       )
     else:
       setInnerHtml("serokind", $antigen.kind)
-      setInnerHtml("seroantigen", antigen.antigen)
+      setInnerHtml("seroantigen", antigen.antigen & splitString)
 
 
 when false:
