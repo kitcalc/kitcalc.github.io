@@ -60,8 +60,8 @@ var getSeroData = function() {
 
   xhttp.onreadystatechange = function () {
     if(xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-      initAlleleIdData(xhttp.responseText);
-      document.getElementById("helptext").innerHTML += "Laddade antigen<br>"
+      initSerologicalData(xhttp.responseText);
+      document.getElementById("helptext").innerHTML += "Laddade antigendata<br>"
     }
   }
 

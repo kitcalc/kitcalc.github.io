@@ -33,7 +33,7 @@ Information om [P-grupper](http://hla.alleles.org/alleles/p_groups.html),
     </fieldset>
 
     <fieldset>
-        <legend>P-grupper</legend>
+        <legend>P-grupp</legend>
 
         <table>
             <tr>
@@ -52,7 +52,7 @@ Information om [P-grupper](http://hla.alleles.org/alleles/p_groups.html),
     </fieldset>
 
     <fieldset>
-        <legend>G-grupper</legend>
+        <legend>G-grupp</legend>
 
         <table>
             <tr>

@@ -3,10 +3,11 @@ import dom, htmlgen
 
 type
   Sero = enum
-    unambiguous = "\"Unambiguous\""
-    possible = "\"Possible\""
-    assumed = "\"Assumed\""
-    expert = "\"Expert assigned\""
+    missing = "saknas"
+    unambiguous = "Unambiguous"
+    possible = "Possible"
+    assumed = "Assumed"
+    expert = "Expert assigned"
   Antigen = object
     kind: Sero
     isExpert: bool
@@ -118,9 +119,20 @@ func parseAntigen(fields: seq[string]): Antigen =
       let compound = case ag
         of "0": "(nullallel)"
         of "0/?": "(nullallel/oklart)"
-        of "?": "ej tilldelat"
-        else: prefix & ag
-      let kind = field.Sero
+        of "?": "oklart"
+        else:
+          if '/' in ag:
+            var ags = ag.split('/')
+            for a in ags.mitems:
+              case a
+              of "0": a = "null"
+              of "?": a = "oklart"
+              else: a = prefix & a
+            ags.join("/")
+          else:
+            prefix & ag
+
+      let kind = Sero(field - 1)  # careful, must sync fields with enum
 
       return Antigen(kind: kind, isExpert: isExpert, antigen: compound,
         expertAntigen: prefix & fields[5])
@@ -194,7 +206,7 @@ proc lookForAlternateAllele(allele: string) =
   # leta kandidater med samma start
   const maxresults = 10
   var cand = newSeq[string]()
-  for key in galleles.keys:
+  for key in alleleIDs.keys:
     if key.startsWith(allele):
       cand.add key
       if cand.len > maxresults:
@@ -212,7 +224,7 @@ proc lookupAllele() {.exportc.} =
   let allele = valueFromInput("allele").toUpperAscii.strip
 
   # info
-  if allele in galleles or allele in palleles:
+  if allele in galleles or allele in palleles or allele in alleleIDs:
     clearForm()
     setInnerHtml("alleleinfo", infoLink(allele))
   else:
@@ -255,9 +267,6 @@ proc lookupAllele() {.exportc.} =
     else:
       setInnerHtml("serokind", $antigen.kind)
       setInnerHtml("seroantigen", antigen.antigen)
-
-  else:
-    setInnerHtml("seroantigen", "(data saknas)")
 
 
 when false:
