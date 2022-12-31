@@ -1,6 +1,18 @@
 import strutils, tables
 import dom, htmlgen
 
+type
+  Sero = enum
+    unambiguous = "\"Unambiguous\""
+    possible = "\"Possible\""
+    assumed = "\"Assumed\""
+    expert = "\"Expert assigned\""
+  Antigen = object
+    kind: Sero
+    isExpert: bool
+    antigen: string
+    expertAntigen: string
+
 # global tables
 var
   galleles = initTable[string, string]()
@@ -8,6 +20,7 @@ var
   palleles = initTable[string, string]()
   pgroups = initTable[string, seq[string]]()
   alleleIDs = initTable[string, string]()
+  serological = initTable[string, Antigen]()
 
 
 proc outputMeta(line: string) =
@@ -70,7 +83,7 @@ proc initAlleleIdData*(alleleData: cstring) {.exportc.} =
   var fields: seq[string]
 
   for line in splitLines($alleleData):
-    if line.startsWith("#"):
+    if line.startsWith('#'):
       outputMeta(line)
       continue
     if line.startsWith("AlleleID"):
@@ -80,6 +93,70 @@ proc initAlleleIdData*(alleleData: cstring) {.exportc.} =
       continue
     # allele as key, allele ID as value
     alleleIDs[fields[1]] = fields[0]
+
+
+func antigenPrefix(locus: string): string =
+  # These are the loci where antigens are available
+  case locus
+  of "A", "B": locus
+  of "C": "Cw"
+  of "DRB1", "DRB3", "DRB4", "DRB5": "DR"
+  of "DQB1": "DQ"
+  else: ""
+
+
+func parseAntigen(fields: seq[string]): Antigen =
+  let
+    locus = fields[0].strip(chars={'*'}, leading=false)  # strip asterisk
+    prefix = antigenPrefix(locus)  # DRB1 to DR etc
+    isExpert = fields[5].len != 0
+
+  # look through available fields
+  for field in [2, 3, 4]:
+    if fields[field] != "":
+      let ag = fields[field]
+      let compound = case ag
+        of "0": "(nullallel)"
+        of "0/?": "(nullallel/oklart)"
+        of "?": "ej tilldelat"
+        else: prefix & ag
+      let kind = field.Sero
+
+      return Antigen(kind: kind, isExpert: isExpert, antigen: compound,
+        expertAntigen: prefix & fields[5])
+
+  assert false, "no antigen found!"
+
+proc initSerologicalData*(seroData: cstring) {.exportc.} =
+  ## Load data into serological data table
+  # This file includes six fields of information, each separated by a
+  # semi-colon (;).
+  #
+  # - HLA Locus
+  # - HLA Allele Name
+  # - Unambiguous Serological Antigen associated with allele
+  # - Possible Serological Antigen associated with allele
+  # - Assumed Serological Antigen associated with allele
+  # - Expert assigned exceptions in search determinants of some registries
+  #
+  # # author: WHO, Steven G. E. Marsh (steven.marsh@ucl.ac.uk)
+  # A*;43:01;43;;;
+  # A*;01:01:01:02N;0;;;
+  # A*;66:01:01:01;66;;;26/34
+  var fields: seq[string]
+  for line in splitLines($serodata):
+    if line.startsWith('#'):
+      outputMeta(line)
+      continue
+    fields = line.split('#')
+    if fields.len != 6:
+      # should never happen
+      continue
+
+    let
+      antigen = parseAntigen(fields)
+      allele = fields[0] & fields[1]  # "A*" & "43:01"
+    serological[allele] = antigen
 
 
 template infoLink(allele: string): string =
@@ -92,8 +169,8 @@ template infoLink(allele: string): string =
 template valueFromInput(elementId: string): string =
   $cast[OptionElement](document.getElementById(elementId)).value
 
-template setInnerHtml(elementId, value: string) =
-  document.getElementById(elementId).innerHtml = value
+proc setInnerHtml(elementId, value: string) =
+  document.getElementById(elementId.cstring).innerHtml = value.cstring
 
 proc clearForm() =
   setInnerHtml("alleleinfo", "")
@@ -104,23 +181,15 @@ proc clearForm() =
   setInnerHtml("ggroup", "")
   setInnerHtml("ggrouplen", "")
   setInnerHtml("gother", "")
+  setInnerHtml("serokind", "")
+  setInnerHtml("seroantigen", "")
 
-template help(html: string) = setInnerHtml("helptext", "<br>\n" & html)
+template help(html: string) =
+  setInnerHtml("helptext", "<br>\n" & html)
 
 proc lookForAlternateAllele(allele: string) =
   # clear before we continue
   clearForm()
-
-  # okända locus
-  const loci = ["A", "B", "C", "DRA1", "DRB1", "DQA1", "DQB1", "DPA1", "DPB1",
-                "DRB3", "DRB4", "DRB5", "E", "F", "G"]
-  if '*' notin allele:
-    help("Ange locus i allelnamn, t.ex. A*01:01:01:01")
-    return
-  let locus = allele.split('*')[0]
-  if locus notin loci:
-    help("Okänt locus '$#', kända loci är:<br>\n$#" % [locus, loci.join(", ")])
-    return
 
   # leta kandidater med samma start
   const maxresults = 10
@@ -173,6 +242,22 @@ proc lookupAllele() {.exportc.} =
     for otherAllele in ggroups[ggroup]:
       alleleLinks.add infoLink(otherAllele)
     setInnerHtml("gother", alleleLinks.join(" "))
+
+  if allele in serological:
+    let antigen = serological[allele]
+    if antigen.isExpert:
+      setInnerHtml("serokind",
+        $antigen.kind & " (med \"expert assigned\" tillägg)"
+      )
+      setInnerHtml("seroantigen",
+        antigen.antigen & " (" & antigen.expertAntigen & ")"
+      )
+    else:
+      setInnerHtml("serokind", $antigen.kind)
+      setInnerHtml("seroantigen", antigen.antigen)
+
+  else:
+    setInnerHtml("seroantigen", "(data saknas)")
 
 
 when false:
