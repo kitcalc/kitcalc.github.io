@@ -4,11 +4,9 @@ var getGgroupData = function() {
   var xhttp = new XMLHttpRequest();
   var method = "GET";
 
-  xhttp.onreadystatechange = function () {
-    if(xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-      initGgroupData(xhttp.responseText);
-      document.getElementById("helptext").innerHTML += "Laddade G-grupper<br>"
-    }
+  xhttp.onload = function () {
+    initGgroupData(xhttp.responseText);
+    document.getElementById("helptext").innerHTML += "Laddade G-grupper<br>"
   }
 
   xhttp.open(method, url, true);
@@ -22,11 +20,9 @@ var getPgroupData = function() {
   var xhttp = new XMLHttpRequest();
   var method = "GET";
 
-  xhttp.onreadystatechange = function () {
-    if(xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-      initPgroupData(xhttp.responseText);
-      document.getElementById("helptext").innerHTML += "Laddade P-grupper<br>"
-    }
+  xhttp.onload = function () {
+    initPgroupData(xhttp.responseText);
+    document.getElementById("helptext").innerHTML += "Laddade P-grupper<br>"
   }
 
   xhttp.open(method, url, true);
@@ -40,11 +36,9 @@ var getAlleleIdData = function() {
   var xhttp = new XMLHttpRequest();
   var method = "GET";
 
-  xhttp.onreadystatechange = function () {
-    if(xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-      initAlleleIdData(xhttp.responseText);
-      document.getElementById("helptext").innerHTML += "Laddade Allelelist<br>"
-    }
+  xhttp.onload = function () {
+    initAlleleIdData(xhttp.responseText);
+    document.getElementById("helptext").innerHTML += "Laddade Allelelist<br>"
   }
 
   xhttp.open(method, url, true);
@@ -58,11 +52,9 @@ var getSeroData = function() {
   var xhttp = new XMLHttpRequest();
   var method = "GET";
 
-  xhttp.onreadystatechange = function () {
-    if(xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-      initSerologicalData(xhttp.responseText);
-      document.getElementById("helptext").innerHTML += "Laddade antigendata<br>"
-    }
+  xhttp.onload = function () {
+    initSerologicalData(xhttp.responseText);
+    document.getElementById("helptext").innerHTML += "Laddade antigendata<br>"
   }
 
   xhttp.open(method, url, true);
@@ -76,11 +68,9 @@ var getSplitData = function() {
   var xhttp = new XMLHttpRequest();
   var method = "GET";
 
-  xhttp.onreadystatechange = function () {
-    if(xhttp.readyState === XMLHttpRequest.DONE && xhttp.status === 200) {
-      initSplitData(xhttp.responseText);
-      document.getElementById("helptext").innerHTML += "Laddade splitdata<br>"
-    }
+  xhttp.onload = function () {
+    initSplitData(xhttp.responseText);
+    document.getElementById("helptext").innerHTML += "Laddade splitdata<br>"
   }
 
   xhttp.open(method, url, true);
