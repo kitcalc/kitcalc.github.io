@@ -361,11 +361,17 @@ proc outputGgroup(allele: cstring) =
       joined.add " "
   setInnerHtml("gother", joined)
 
+func evidAbbr(evidence: cstring): cstring =
+  const
+    front = "<abbr title=\"unambiguous > possible > assumed > expert assigned\">"
+    back = "</abbr>"
+  result = front & evidence & back
+
 proc outputSerological(allele: cstring) =
   let bwlink = a("https://hla.alleles.org/antigens/bw46.html", "källa")
   let antigen = serological[allele]
   var
-    evidenceStr = strSero[antigen.kind]
+    evidenceStr = evidabbr strSero[antigen.kind]
     antigenStr = antigen.antigen
 
   if antigen.isExpert:

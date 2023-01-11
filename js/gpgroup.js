@@ -1038,9 +1038,9 @@ function lookForAlternateAllele_486539800(allele_486539801) {
     var cands_486539803 = [];
     Label1: do {
       var key_486539809 = null;
-      var kkk_486540022 = null;
-      for (kkk_486540022 in alleleIDs_486539326[0]) {
-      key_486539809 = kkk_486540022;
+      var kkk_486540027 = null;
+      for (kkk_486540027 in alleleIDs_486539326[0]) {
+      key_486539809 = kkk_486540027;
       if (key_486539809.startsWith(allele_486539801)) {
       cands_486539803.push(key_486539809);;
       if ((10 < (cands_486539803).length)) {
@@ -1055,15 +1055,15 @@ function lookForAlternateAllele_486539800(allele_486539801) {
     var helpstring_486539820 = "Mer specifik fråga behövs, ange t.ex. någon av:<br>\n";
     Label2: do {
       var cand_486539824 = null;
-      var i_486540024 = 0;
-      var L_486540025 = (cands_486539803).length;
+      var i_486540029 = 0;
+      var L_486540030 = (cands_486539803).length;
       Label3: do {
           Label4: while (true) {
-          if (!(i_486540024 < L_486540025)) break Label4;
-            cand_486539824 = cands_486539803[chckIndx(i_486540024, 0, (cands_486539803).length - 1)];
+          if (!(i_486540029 < L_486540030)) break Label4;
+            cand_486539824 = cands_486539803[chckIndx(i_486540029, 0, (cands_486539803).length - 1)];
             if (null != (Temporary5 = (cand_486539824 + "<br>\n"), Temporary5)) { if (null == helpstring_486539820) helpstring_486539820 = Temporary5; else helpstring_486539820 += Temporary5; };
-            i_486540024 = addInt(i_486540024, 1);
-            if (!(((cands_486539803).length == L_486540025))) {
+            i_486540029 = addInt(i_486540029, 1);
+            if (!(((cands_486539803).length == L_486540030))) {
             failedAssertImpl_218103864(makeNimstrLit("iterators.nim(240, 11) `len(a) == L` the length of the seq changed while iterating over it"));
             }
             
@@ -1091,18 +1091,18 @@ function outputPgroup_486539828(allele_486539829) {
     var alleleLinks_486539844 = [];
     Label1: do {
       var otherAllele_486539853 = null;
-      var colontmp__486540028 = [];
-      colontmp__486540028 = pgroups_486539322[0][pgroup_486539835];
-      var i_486540029 = 0;
-      var L_486540030 = (colontmp__486540028).length;
+      var colontmp__486540033 = [];
+      colontmp__486540033 = pgroups_486539322[0][pgroup_486539835];
+      var i_486540034 = 0;
+      var L_486540035 = (colontmp__486540033).length;
       Label2: do {
           Label3: while (true) {
-          if (!(i_486540029 < L_486540030)) break Label3;
-            otherAllele_486539853 = colontmp__486540028[chckIndx(i_486540029, 0, (colontmp__486540028).length - 1)];
+          if (!(i_486540034 < L_486540035)) break Label3;
+            otherAllele_486539853 = colontmp__486540033[chckIndx(i_486540034, 0, (colontmp__486540033).length - 1)];
             var alleleIDHEX60gensym18_486539860 = alleleIDs_486539326[0][otherAllele_486539853];
             alleleLinks_486539844.push(a_637534286(("https://www.ebi.ac.uk/ipd/imgt/hla/alleles/allele/?accession=" + alleleIDHEX60gensym18_486539860), otherAllele_486539853));;
-            i_486540029 = addInt(i_486540029, 1);
-            if (!(((colontmp__486540028).length == L_486540030))) {
+            i_486540034 = addInt(i_486540034, 1);
+            if (!(((colontmp__486540033).length == L_486540035))) {
             failedAssertImpl_218103864(makeNimstrLit("iterators.nim(240, 11) `len(a) == L` the length of the seq changed while iterating over it"));
             }
             
@@ -1113,20 +1113,20 @@ function outputPgroup_486539828(allele_486539829) {
     Label4: do {
       var i_486539871 = 0;
       var link_486539872 = null;
-      var i_486540033 = 0;
-      var L_486540034 = (alleleLinks_486539844).length;
+      var i_486540038 = 0;
+      var L_486540039 = (alleleLinks_486539844).length;
       Label5: do {
           Label6: while (true) {
-          if (!(i_486540033 < L_486540034)) break Label6;
-            i_486539871 = i_486540033;
-            link_486539872 = alleleLinks_486539844[chckIndx(i_486540033, 0, (alleleLinks_486539844).length - 1)];
+          if (!(i_486540038 < L_486540039)) break Label6;
+            i_486539871 = i_486540038;
+            link_486539872 = alleleLinks_486539844[chckIndx(i_486540038, 0, (alleleLinks_486539844).length - 1)];
             if (null != link_486539872) { if (null == joined_486539865) joined_486539865 = link_486539872; else joined_486539865 += link_486539872; };
             if ((i_486539871 < subInt((alleleLinks_486539844).length, 1))) {
             if (null != " ") { if (null == joined_486539865) joined_486539865 = " "; else joined_486539865 += " "; };
             }
             
-            i_486540033 = addInt(i_486540033, 1);
-            if (!(((alleleLinks_486539844).length == L_486540034))) {
+            i_486540038 = addInt(i_486540038, 1);
+            if (!(((alleleLinks_486539844).length == L_486540039))) {
             failedAssertImpl_218103864(makeNimstrLit("iterators.nim(173, 11) `len(a) == L` the length of the seq changed while iterating over it"));
             }
             
@@ -1145,18 +1145,18 @@ function outputGgroup_486539876(allele_486539877) {
     var alleleLinks_486539892 = [];
     Label1: do {
       var otherAllele_486539901 = null;
-      var colontmp__486540037 = [];
-      colontmp__486540037 = ggroups_486539314[0][ggroup_486539883];
-      var i_486540038 = 0;
-      var L_486540039 = (colontmp__486540037).length;
+      var colontmp__486540042 = [];
+      colontmp__486540042 = ggroups_486539314[0][ggroup_486539883];
+      var i_486540043 = 0;
+      var L_486540044 = (colontmp__486540042).length;
       Label2: do {
           Label3: while (true) {
-          if (!(i_486540038 < L_486540039)) break Label3;
-            otherAllele_486539901 = colontmp__486540037[chckIndx(i_486540038, 0, (colontmp__486540037).length - 1)];
+          if (!(i_486540043 < L_486540044)) break Label3;
+            otherAllele_486539901 = colontmp__486540042[chckIndx(i_486540043, 0, (colontmp__486540042).length - 1)];
             var alleleIDHEX60gensym19_486539908 = alleleIDs_486539326[0][otherAllele_486539901];
             alleleLinks_486539892.push(a_637534286(("https://www.ebi.ac.uk/ipd/imgt/hla/alleles/allele/?accession=" + alleleIDHEX60gensym19_486539908), otherAllele_486539901));;
-            i_486540038 = addInt(i_486540038, 1);
-            if (!(((colontmp__486540037).length == L_486540039))) {
+            i_486540043 = addInt(i_486540043, 1);
+            if (!(((colontmp__486540042).length == L_486540044))) {
             failedAssertImpl_218103864(makeNimstrLit("iterators.nim(240, 11) `len(a) == L` the length of the seq changed while iterating over it"));
             }
             
@@ -1167,20 +1167,20 @@ function outputGgroup_486539876(allele_486539877) {
     Label4: do {
       var i_486539919 = 0;
       var link_486539920 = null;
-      var i_486540042 = 0;
-      var L_486540043 = (alleleLinks_486539892).length;
+      var i_486540047 = 0;
+      var L_486540048 = (alleleLinks_486539892).length;
       Label5: do {
           Label6: while (true) {
-          if (!(i_486540042 < L_486540043)) break Label6;
-            i_486539919 = i_486540042;
-            link_486539920 = alleleLinks_486539892[chckIndx(i_486540042, 0, (alleleLinks_486539892).length - 1)];
+          if (!(i_486540047 < L_486540048)) break Label6;
+            i_486539919 = i_486540047;
+            link_486539920 = alleleLinks_486539892[chckIndx(i_486540047, 0, (alleleLinks_486539892).length - 1)];
             if (null != link_486539920) { if (null == joined_486539913) joined_486539913 = link_486539920; else joined_486539913 += link_486539920; };
             if ((i_486539919 < subInt((alleleLinks_486539892).length, 1))) {
             if (null != " ") { if (null == joined_486539913) joined_486539913 = " "; else joined_486539913 += " "; };
             }
             
-            i_486540042 = addInt(i_486540042, 1);
-            if (!(((alleleLinks_486539892).length == L_486540043))) {
+            i_486540047 = addInt(i_486540047, 1);
+            if (!(((alleleLinks_486539892).length == L_486540048))) {
             failedAssertImpl_218103864(makeNimstrLit("iterators.nim(173, 11) `len(a) == L` the length of the seq changed while iterating over it"));
             }
             
@@ -1192,6 +1192,15 @@ function outputGgroup_486539876(allele_486539877) {
   
 }
 
+function evidAbbr_486539924(evidence_486539925) {
+  var result_486539926 = null;
+
+    result_486539926 = (("<abbr title=\"unambiguous > possible > assumed > expert assigned\">" + evidence_486539925) + "</abbr>");
+
+  return result_486539926;
+
+}
+
 function br_637534290() {
   var result_637534291 = null;
 
@@ -1201,64 +1210,64 @@ function br_637534290() {
 
 }
 
-function outputSerological_486539924(allele_486539925) {
+function outputSerological_486539929(allele_486539930) {
     var Temporary1;
     var Temporary2;
     var Temporary3;
     var Temporary4;
 
-    var bwlink_486539926 = a_637534286("https://hla.alleles.org/antigens/bw46.html", "källa");
-    var antigen_486539932 = serological_486539330[0][allele_486539925];
-    var evidenceStr_486539933 = strSero_486539303[chckIndx(antigen_486539932.kind, 0, (strSero_486539303).length - 1)];
-    var antigenStr_486539934 = antigen_486539932.antigen;
-    if (antigen_486539932.isExpert) {
-    if (null != " (med \"expert assigned\" tillägg)") { if (null == evidenceStr_486539933) evidenceStr_486539933 = " (med \"expert assigned\" tillägg)"; else evidenceStr_486539933 += " (med \"expert assigned\" tillägg)"; };
-    if (null != (Temporary1 = ((" (expert " + antigen_486539932.expertAntigen) + ")"), Temporary1)) { if (null == antigenStr_486539934) antigenStr_486539934 = Temporary1; else antigenStr_486539934 += Temporary1; };
+    var bwlink_486539931 = a_637534286("https://hla.alleles.org/antigens/bw46.html", "källa");
+    var antigen_486539937 = serological_486539330[0][allele_486539930];
+    var evidenceStr_486539938 = evidAbbr_486539924(strSero_486539303[chckIndx(antigen_486539937.kind, 0, (strSero_486539303).length - 1)]);
+    var antigenStr_486539939 = antigen_486539937.antigen;
+    if (antigen_486539937.isExpert) {
+    if (null != " (med \"expert assigned\" tillägg)") { if (null == evidenceStr_486539938) evidenceStr_486539938 = " (med \"expert assigned\" tillägg)"; else evidenceStr_486539938 += " (med \"expert assigned\" tillägg)"; };
+    if (null != (Temporary1 = ((" (expert " + antigen_486539937.expertAntigen) + ")"), Temporary1)) { if (null == antigenStr_486539939) antigenStr_486539939 = Temporary1; else antigenStr_486539939 += Temporary1; };
     }
     
-    if (splits_486539334[0].hasOwnProperty(antigenStr_486539934)) {
-    var split_486539947 = splits_486539334[0][antigenStr_486539934];
-    var relation_486539948 = strRelation_486539304[chckIndx(split_486539947.kind, 0, (strRelation_486539304).length - 1)];
-    if (null != (Temporary2 = (((br_637534290() + antigen_486539932.antigen) + relation_486539948) + split_486539947.broad), Temporary2)) { if (null == antigenStr_486539934) antigenStr_486539934 = Temporary2; else antigenStr_486539934 += Temporary2; };
+    if (splits_486539334[0].hasOwnProperty(antigenStr_486539939)) {
+    var split_486539952 = splits_486539334[0][antigenStr_486539939];
+    var relation_486539953 = strRelation_486539304[chckIndx(split_486539952.kind, 0, (strRelation_486539304).length - 1)];
+    if (null != (Temporary2 = (((br_637534290() + antigen_486539937.antigen) + relation_486539953) + split_486539952.broad), Temporary2)) { if (null == antigenStr_486539939) antigenStr_486539939 = Temporary2; else antigenStr_486539939 += Temporary2; };
     }
     
-    if (contains_486539525(Bw4_486539305, antigen_486539932.antigen)) {
-    if (null != (Temporary3 = ((((br_637534290() + antigen_486539932.antigen) + " bär Bw4 (") + bwlink_486539926) + ")"), Temporary3)) { if (null == antigenStr_486539934) antigenStr_486539934 = Temporary3; else antigenStr_486539934 += Temporary3; };
+    if (contains_486539525(Bw4_486539305, antigen_486539937.antigen)) {
+    if (null != (Temporary3 = ((((br_637534290() + antigen_486539937.antigen) + " bär Bw4 (") + bwlink_486539931) + ")"), Temporary3)) { if (null == antigenStr_486539939) antigenStr_486539939 = Temporary3; else antigenStr_486539939 += Temporary3; };
     }
     else {
-    if (contains_486539525(Bw6_486539306, antigen_486539932.antigen)) {
-    if (null != (Temporary4 = ((((br_637534290() + antigen_486539932.antigen) + " bär Bw6 (") + bwlink_486539926) + ")"), Temporary4)) { if (null == antigenStr_486539934) antigenStr_486539934 = Temporary4; else antigenStr_486539934 += Temporary4; };
+    if (contains_486539525(Bw6_486539306, antigen_486539937.antigen)) {
+    if (null != (Temporary4 = ((((br_637534290() + antigen_486539937.antigen) + " bär Bw6 (") + bwlink_486539931) + ")"), Temporary4)) { if (null == antigenStr_486539939) antigenStr_486539939 = Temporary4; else antigenStr_486539939 += Temporary4; };
     }
     }
-    setInnerHtml_486539785("serokind", evidenceStr_486539933);
-    setInnerHtml_486539785("seroantigen", antigenStr_486539934);
+    setInnerHtml_486539785("serokind", evidenceStr_486539938);
+    setInnerHtml_486539785("seroantigen", antigenStr_486539939);
 
   
 }
 
 function lookupAllele() {
   BeforeRet: do {
-    var allele_486539962 = document.getElementById("allele").value.toUpperCase().trim();
-    if (((galleles_486539310[0].hasOwnProperty(allele_486539962) || palleles_486539318[0].hasOwnProperty(allele_486539962)) || alleleIDs_486539326[0].hasOwnProperty(allele_486539962))) {
+    var allele_486539967 = document.getElementById("allele").value.toUpperCase().trim();
+    if (((galleles_486539310[0].hasOwnProperty(allele_486539967) || palleles_486539318[0].hasOwnProperty(allele_486539967)) || alleleIDs_486539326[0].hasOwnProperty(allele_486539967))) {
     clearForm_486539797();
-    var alleleIDHEX60gensym27_486539990 = alleleIDs_486539326[0][allele_486539962];
-    setInnerHtml_486539785("alleleinfo", a_637534286(("https://www.ebi.ac.uk/ipd/imgt/hla/alleles/allele/?accession=" + alleleIDHEX60gensym27_486539990), allele_486539962));
+    var alleleIDHEX60gensym27_486539995 = alleleIDs_486539326[0][allele_486539967];
+    setInnerHtml_486539785("alleleinfo", a_637534286(("https://www.ebi.ac.uk/ipd/imgt/hla/alleles/allele/?accession=" + alleleIDHEX60gensym27_486539995), allele_486539967));
     }
     else {
-      lookForAlternateAllele_486539800(allele_486539962);
+      lookForAlternateAllele_486539800(allele_486539967);
       break BeforeRet;
     }
     
-    if (palleles_486539318[0].hasOwnProperty(allele_486539962)) {
-    outputPgroup_486539828(allele_486539962);
+    if (palleles_486539318[0].hasOwnProperty(allele_486539967)) {
+    outputPgroup_486539828(allele_486539967);
     }
     
-    if (galleles_486539310[0].hasOwnProperty(allele_486539962)) {
-    outputGgroup_486539876(allele_486539962);
+    if (galleles_486539310[0].hasOwnProperty(allele_486539967)) {
+    outputGgroup_486539876(allele_486539967);
     }
     
-    if (serological_486539330[0].hasOwnProperty(allele_486539962)) {
-    outputSerological_486539924(allele_486539962);
+    if (serological_486539330[0].hasOwnProperty(allele_486539967)) {
+    outputSerological_486539929(allele_486539967);
     }
     
   } while (false);
