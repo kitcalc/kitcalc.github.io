@@ -1,83 +1,127 @@
-import strutils, tables
-import dom, htmlgen
+import dom
+import jsutils
+
+# JsTable _must_ be explicitly initialized before usage (with newJsTable)
+# unlike ordinary Nim tables!
 
 type
   Sero = enum
-    missing = "saknas"
-    unambiguous = "Unambiguous"
-    possible = "Possible"
-    assumed = "Assumed"
-    expert = "Expert assigned"
+    missing
+    unambiguous
+    possible
+    assumed
+    expert
 
   Antigen = object
     kind: Sero
     isExpert: bool
-    antigen: string
-    expertAntigen: string
+    antigen: cstring
+    expertAntigen: cstring
 
   Relation = enum
-    splitOf = " är en split av "
-    associated = " är associerat med "
+    splitOf
+    associated
 
   Split = object
     kind: Relation
-    broad: string
+    broad: cstring
+
+  TableResult = tuple
+    alleles: JsTable[cstring, cstring]
+    groups: JsTable[cstring, seq[cstring]]
+
+const strSero: array[Sero, cstring] =[
+  "saknas".cstring,
+  "Unambiguous",
+  "Possible",
+  "Assumed",
+  "Expert assigned"
+]
+
+const strRelation: array[Relation, cstring] = [
+  " är en split av ".cstring,
+  " är associerat med "
+]
+
+# https://hla.alleles.org/antigens/bw46.html
+# "The following specificities are generally agreed inclusions of HLA epitopes
+# Bw4 and Bw6."
+const Bw4 = [
+    "A9".cstring, "A23", "A24", "A2403", "A25", "A32",
+
+    "B5", "B5102", "B5103", "B13", "B17", "B27", "B37", "B38", "B44", "B47",
+    "B49", "B51", "B52", "B53", "B57", "B58", "B59", "B63", "B77"
+]
+
+const Bw6 = [
+    "B7".cstring, "B703", "B8", "B14", "B18", "B22", "B2708", "B35", "B39",
+    "B3901", "B3902", "B40", "B4005", "B41", "B42", "B45", "B46", "B48", "B50",
+    "B54", "B55", "B56", "B60", "B61", "B62", "B64", "B65", "B67", "B70",
+    "B71", "B72", "B73", "B75", "B76", "B78", "B81", "B82"
+]
+
 
 # global tables
 var
-  galleles = initTable[string, string]()
-  ggroups = initTable[string, seq[string]]()
-  palleles = initTable[string, string]()
-  pgroups = initTable[string, seq[string]]()
-  alleleIDs = initTable[string, string]()
-  serological = initTable[string, Antigen]()
-  splits = initTable[string, Split]()
+  galleles = newJsTable[cstring, cstring]()
+  ggroups = newJsTable[cstring, seq[cstring]]()
+  palleles = newJsTable[cstring, cstring]()
+  pgroups = newJsTable[cstring, seq[cstring]]()
+  alleleIDs = newJsTable[cstring, cstring]()
+  serological = newJsTable[cstring, Antigen]()
+  splits = newJsTable[cstring, Split]()
 
 
-proc outputMeta(line: string) =
+proc outputMeta(line: cstring) =
   let
-    fields = line.split(": ", maxsplit=1)
-    key = fields[0][2 ..< fields[0].len]  # remove leading "# "
+    fields = line.split(": ")
+    key = fields[0].substr(2)   # remove leading "# "
     value = fields[1]
-  echo key, spaces(20-key.len), value
+  const spaces = "                    ".cstring  # 20 spaces
+  echo key, spaces.substr(key.len), value
 
-proc parseGroup*(data: string, alleles: var Table[string, string],
-  groups: var Table[string, seq[string]]) {.exportc.} =
 
-  var fields = newSeq[string]()
+proc parseGroup*(data: cstring): TableResult {.exportc.} =
+  var fields: seq[cstring]
+  result.alleles = newJsTable[cstring, cstring]()
+  result.groups = newJsTable[cstring, seq[cstring]]()
 
-  for line in splitLines(data):
-    if line.startsWith('#'):
+  for line in data.split("\n"):
+    if line.startsWith("#"):
       outputMeta(line)
       continue
 
     # parse data rows
-    fields = line.split(';')
+    fields = line.split(";")
+
     if fields.len < 3:
       continue
     let
       locus = fields[0]
-      members = fields[1].split('/')
+      members = fields[1].split("/")
       group = if fields[2].len == 0:
           locus & members[0]
         else:
           locus & fields[2]
 
-    groups[group] = newSeqOfCap[string](members.len)
+    var memberlist: seq[cstring]
     for allele in members:
       let name = locus & allele
-      alleles[name] = group
-      groups[group].add name
+      result.alleles[name] = group
+      memberlist.add name
+    result.groups[group] = memberlist
 
 
 proc initGgroupData*(gdata: cstring) {.exportc.} =
   ## Load data into tables, to be used as callback
-  parseGroup($gdata, galleles, ggroups)
+  let data = parseGroup(gdata)
+  galleles = data.alleles
+  ggroups = data.groups
   # The only alleles in G but not in P are the null alleles (feb 2018)
 
 proc initPgroupData*(pdata: cstring) {.exportc.} =
   ## Load data into tables, to be used as callback
-  parseGroup($pdata, palleles, pgroups)
+  (palleles, pgroups) = parseGroup(pdata)
   # These are the only alleles in P but not in G (as of feb 2018):
   #
   # DRA*01:01:01:01, DRA*01:02:03, DRA*01:02:02, DRA*01:01:01:03,
@@ -91,34 +135,41 @@ proc initAlleleIdData*(alleleData: cstring) {.exportc.} =
   #  AlleleID,Allele
   #  HLA00001,A*01:01:01:01
 
-  var fields: seq[string]
+  var fields: seq[cstring]
 
-  for line in splitLines($alleleData):
-    if line.startsWith('#'):
+  for line in alleleData.split("\n"):
+    if line.startsWith("#"):
       outputMeta(line)
       continue
     if line.startsWith("AlleleID"):
       continue
-    fields = line.split(',')
+    fields = line.split(",")
     if fields.len != 2:
       continue
     # allele as key, allele ID as value
     alleleIDs[fields[1]] = fields[0]
 
 
-func antigenPrefix(locus: string): string =
+proc antigenPrefix(locus: cstring): cstring =
   # These are the loci where antigens are available
-  case locus
-  of "A", "B": locus
-  of "C": "Cw"
-  of "DRB1", "DRB3", "DRB4", "DRB5": "DR"
-  of "DQB1": "DQ"
-  else: ""
+  # Can't case..of on cstring
+  result = ""
+  if locus == "A" or locus == "B":
+    result = locus
+  elif locus == "C":
+    result = "Cw"
+  elif locus in ["DRB1".cstring, "DRB3", "DRB4", "DRB5"]:
+    result = "DR"
+  elif locus == "DQB1":
+    result = "DQ"
 
 
-func parseAntigen(fields: seq[string]): Antigen =
+proc parseAntigen(fields: seq[cstring]): Antigen =
   let
-    locus = fields[0].strip(chars={'*'}, leading=false)  # strip asterisk
+    locus = if fields[0].endsWith("*"):
+        fields[0].substr(0, fields[0].len - 1)
+      else:
+        fields[0]
     prefix = antigenPrefix(locus)  # DRB1 to DR etc
     isExpert = fields[5].len != 0
 
@@ -126,21 +177,31 @@ func parseAntigen(fields: seq[string]): Antigen =
   for field in [2, 3, 4]:
     if fields[field] != "":
       let ag = fields[field]
-      let compound = case ag
-        of "0": "(nullallel)"
-        of "0/?": "(nullallel/oklart)"
-        of "?": "oklart"
-        else:
-          if '/' in ag:
-            var ags = ag.split('/')
-            for a in ags.mitems:
-              case a
-              of "0": a = "null"
-              of "?": a = "oklart"
-              else: a = prefix & a
-            ags.join("/")
+
+      var compound: cstring
+
+      # parse compound antigen strings
+      if ag == "0":
+        compound = "(nullallel)"
+      elif ag == "0/?":
+        compound = "(nullallel/oklart)"
+      elif ag == "?":
+        compound = "oklart"
+      elif "/" in ag:
+        # several possibilities, mixed null/actual
+        let ags = ag.split("/")
+        for i, a in ags:
+          if a == "0":
+            compound.add "null"
+          elif a == "?":
+            compound.add "oklart"
           else:
-            prefix & ag
+            compound.add(prefix & a)
+          if i < ags.len - 1:
+            compound.add "/"
+      else:
+        # give up
+        compound = prefix & ag
 
       let kind = Sero(field - 1)  # careful, must sync fields with enum
 
@@ -165,12 +226,12 @@ proc initSerologicalData*(seroData: cstring) {.exportc.} =
   # A*;43:01;43;;;
   # A*;01:01:01:02N;0;;;
   # A*;66:01:01:01;66;;;26/34
-  var fields: seq[string]
-  for line in splitLines($serodata):
-    if line.startsWith('#'):
+  var fields: seq[cstring]
+  for line in serodata.split("\n"):
+    if line.startsWith("#"):
       outputMeta(line)
       continue
-    fields = line.strip.split(';')
+    fields = line.strip.split(";")
     if fields.len != 6:
       # should never happen
       continue
@@ -181,19 +242,18 @@ proc initSerologicalData*(seroData: cstring) {.exportc.} =
     serological[allele] = antigen
 
 
-proc parseSplits(fields: seq[string]) =
+proc parseSplits(fields: seq[cstring]) =
   # A;2;;203/210    # relation
   # A;9;23/24;      # split
   let
     locus = fields[0]
     broad = locus & fields[1]
   if fields[2] != "":
-    for ag in fields[2].split('/'):
+    for ag in fields[2].split("/"):
       splits[locus & ag] = Split(kind: splitOf, broad: broad)
   if fields[3] != "":
-    for ag in fields[3].split('/'):
+    for ag in fields[3].split("/"):
       splits[locus & ag] = Split(kind: associated, broad: broad)
-  echo splits
 
 
 proc initSplitData*(data: cstring) {.exportc.} =
@@ -203,30 +263,30 @@ proc initSplitData*(data: cstring) {.exportc.} =
   # - HLA Antigen name
   # - Split Antigen
   # - Associated Antigen
-  var fields: seq[string]
-  for line in splitLines($data):
-    if line.startsWith('#'):
+  var fields: seq[cstring]
+  for line in data.split("\n"):
+    if line.startsWith("#"):
       outputMeta(line)
       continue
-    fields = line.strip.split(';')
+    fields = line.strip.split(";")
     if fields.len != 4:
       # should never happen
       continue
     parseSplits(fields)
 
 
-template infoLink(allele: string): string =
+template infoLink(allele: cstring): cstring =
   ## Create a link to the HLA dictionary
   let alleleID = alleleIDs[allele]
   # use the allele as link text, but link to alleleID
   a(href="https://www.ebi.ac.uk/ipd/imgt/hla/alleles/allele/?accession=" & alleleID, allele)
 
 
-template valueFromInput(elementId: string): string =
-  $cast[OptionElement](document.getElementById(elementId)).value
+template valueFromInput(elementId: cstring): cstring =
+  cast[OptionElement](document.getElementById(elementId)).value
 
-proc setInnerHtml(elementId, value: string) =
-  document.getElementById(elementId.cstring).innerHtml = value.cstring
+proc setInnerHtml(elementId, value: cstring) =
+  document.getElementById(elementId).innerHtml = value
 
 proc clearForm() =
   setInnerHtml("alleleinfo", "")
@@ -240,28 +300,92 @@ proc clearForm() =
   setInnerHtml("serokind", "")
   setInnerHtml("seroantigen", "")
 
-proc help(html: string) =
+proc help(html: cstring) =
   setInnerHtml("helptext", "<br>\n" & html)
 
-proc lookForAlternateAllele(allele: string) =
+proc lookForAlternateAllele(allele: cstring) =
   # clear before we continue
   clearForm()
 
   # leta kandidater med samma start
   const maxresults = 10
-  var cand = newSeq[string]()
+  var cands: seq[cstring]
   for key in alleleIDs.keys:
     if key.startsWith(allele):
-      cand.add key
-      if cand.len > maxresults:
+      cands.add key
+      if cands.len > maxresults:
         break
-  if cand.len > 0:
-    help("Mer specifik fråga behövs, ange t.ex. någon av:<br>\n$#\n<br>$#" % [
-      cand.join("<br>\n"), if cand.len > maxresults: "..." else: ""])
+  if cands.len > 0:
+    var helpstring: cstring = "Mer specifik fråga behövs, ange t.ex. någon av:<br>\n"
+    for cand in cands:
+      helpstring.add(cand & "<br>\n")
+    if cands.len > maxresults:
+      helpstring.add "..."
+    help(helpstring)
     return
 
   # sista utvägen
   help("Okänd allel, ange alleler som t.ex. A*01:01:01:01")
+
+proc outputPgroup(allele: cstring) =
+  # Output P-groups
+  let pgroup = palleles[allele]
+  setInnerHtml("pgroup", pgroup)
+  setInnerHtml("pgrouplen", pgroups[pgroup].len.toCstr)
+
+  # create links to other alleles
+  var alleleLinks: seq[cstring]
+  for otherAllele in pgroups[pgroup]:
+    alleleLinks.add infoLink(otherAllele)
+  var joined: cstring
+  for i, link in alleleLinks:
+    joined.add link
+    if i < allelelinks.len - 1:
+      joined.add " "
+  setInnerHtml("pother", joined)
+
+proc outputGgroup(allele: cstring) =
+  # Output G-group
+  let ggroup = galleles[allele]
+  setInnerHtml("ggroup", ggroup)
+  setInnerHtml("ggrouplen", ggroups[ggroup].len.toCstr)
+
+  # create links to other alleles
+  var alleleLinks: seq[cstring]
+  for otherAllele in ggroups[ggroup]:
+    alleleLinks.add infoLink(otherAllele)
+  var joined: cstring
+  for i, link in alleleLinks:
+    joined.add link
+    if i < allelelinks.len - 1:
+      joined.add " "
+  setInnerHtml("gother", joined)
+
+proc outputSerological(allele: cstring) =
+  let bwlink = a("https://hla.alleles.org/antigens/bw46.html", "källa")
+  let antigen = serological[allele]
+  var
+    evidenceStr = strSero[antigen.kind]
+    antigenStr = antigen.antigen
+
+  if antigen.isExpert:
+    evidenceStr.add " (med \"expert assigned\" tillägg)"
+    antigenStr.add " (expert " & antigen.expertAntigen & ")"
+
+  if antigenStr in splits:
+    let
+      split = splits[antigenStr]
+      relation = strRelation[split.kind]
+    antigenStr.add br() & antigen.antigen & relation & split.broad
+
+  if antigen.antigen in Bw4:
+    antigenStr.add br() & antigen.antigen & " bär Bw4 (" & bwlink & ")"
+  elif antigen.antigen in Bw6:
+    antigenStr.add br() & antigen.antigen & " bär Bw6 (" & bwlink & ")"
+
+  setInnerHtml("serokind", evidenceStr)
+  setInnerHtml("seroantigen", antigenStr)
+
 
 proc lookupAllele() {.exportc.} =
   ## Lookup an allele and put data into HTML elements
@@ -277,85 +401,12 @@ proc lookupAllele() {.exportc.} =
 
   # P-alleles
   if allele in palleles:
-    let pgroup = palleles[allele]
-    setInnerHtml("pgroup", pgroup)
-    setInnerHtml("pgrouplen", $pgroups[pgroup].len)
-
-    # create links to other alleles
-    var alleleLinks = newSeq[string]()
-    for otherAllele in pgroups[pgroup]:
-      alleleLinks.add infoLink(otherAllele)
-    setInnerHtml("pother", alleleLinks.join(" "))
+    outputPgroup(allele)
 
   # G-alleles
   if allele in galleles:
-    let ggroup = galleles[allele]
-    setInnerHtml("ggroup", ggroup)
-    setInnerHtml("ggrouplen", $ggroups[ggroup].len)
+    outputGgroup(allele)
 
-    # create links to other alleles
-    var alleleLinks = newSeq[string]()
-    for otherAllele in ggroups[ggroup]:
-      alleleLinks.add infoLink(otherAllele)
-    setInnerHtml("gother", alleleLinks.join(" "))
-
+  # Sero stuff
   if allele in serological:
-    let antigen = serological[allele]
-    var splitString = ""
-    if antigen.antigen in splits:
-      let split = splits[antigen.antigen]
-      splitString = br() & antigen.antigen & $split.kind & split.broad
-    if antigen.isExpert:
-      setInnerHtml("serokind",
-        $antigen.kind & " (med \"expert assigned\" tillägg)"
-      )
-      setInnerHtml("seroantigen",
-        antigen.antigen & " (expert " & antigen.expertAntigen & ")" & splitString
-      )
-    else:
-      setInnerHtml("serokind", $antigen.kind)
-      setInnerHtml("seroantigen", antigen.antigen & splitString)
-
-
-when false:
-  ## Example CLI, requires parsegroup only
-
-  import httpclient, os
-
-  const urlG = "https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/wmda/hla_nom_g.txt"
-  const urlP = "https://raw.githubusercontent.com/ANHIG/IMGTHLA/Latest/wmda/hla_nom_p.txt"
-
-  proc getRemoteFile(url: string): string =
-    var client = newHttpClient()
-    return client.getContent(url)
-
-  proc main() =
-    if paramCount() < 1:
-      quit("usage: " & getAppFileName() & " allele [allele ...]")
-
-    let gdata = getRemoteFile(urlG)
-    var
-      galleles = initTable[string, string]()
-      ggroups = initTable[string, seq[string]]()
-    parseGroup(gdata, galleles, ggroups)
-
-    let pdata = getRemoteFile(urlP)
-    var
-      palleles = initTable[string, string]()
-      pgroups = initTable[string, seq[string]]()
-    parseGroup(pdata, palleles, pgroups)
-
-    for allele in commandLineParams():
-      echo ""
-      if allele in galleles and allele in palleles:
-        let
-          ggroup = galleles[allele]
-          gother = ggroups[ggroup]
-          pgroup = palleles[allele]
-          pother = pgroups[pgroup]
-        echo("Allele $# is in G group $# along with\n$#\nand in P group $# along with\n$#\n" %
-             [allele, ggroup, join(gother, ", "), pgroup, join(pother, ", ")])
-      else:
-        echo "allele ", allele, " is not in a G- and P-group"
-
-  main()
+    outputSerological(allele)
