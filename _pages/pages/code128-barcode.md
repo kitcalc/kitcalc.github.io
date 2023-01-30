@@ -6,12 +6,12 @@ summary: Generera en barcode i Code128-format
 
 Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format.
 
-<form id="barcodeform" onchange="javascript:genBarcode()" action="javascript:genBarcode()">
+<form id="barcodeform" onchange="javascript:genBarcode()">
     <fieldset>
         <legend>Inmatning</legend>
 
         <label for="text">Text</label>
-        <input type="text" id="text">
+        <input type="text" id="text" onkeyup="javascript:genBarcode()">
 
         <!-- For help text output -->
         <div id="helptext"></div>

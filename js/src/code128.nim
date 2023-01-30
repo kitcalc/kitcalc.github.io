@@ -386,9 +386,10 @@ when defined(js):
 
       code = toCode128(text)
       svg = code.toSvg(height, width, textsize, fontfamily, showframe, showtext)
+      source = svg.replace("<", "&lt;")
 
     document.getElementById("barcode").innerHtml = svg.cstring
-    document.getElementById("svgsource").innerHtml = svg.cstring
+    document.getElementById("svgsource").innerHtml = source.cstring
 else:
   import os
   echo paramCount()

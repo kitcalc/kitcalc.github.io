@@ -27,12 +27,12 @@
 <p><i>2023-01-30</i></p>
 
 <p>Barcode i <a href="https://en.wikipedia.org/wiki/Code_128">Code128</a>-format.</p>
-<form id="barcodeform" onchange="javascript:genBarcode()" action="javascript:genBarcode()">
+<form id="barcodeform" onchange="javascript:genBarcode()">
     <fieldset>
         <legend>Inmatning</legend>
 
         <label for="text">Text</label>
-        <input type="text" id="text">
+        <input type="text" id="text" onkeyup="javascript:genBarcode()">
 
         <!-- For help text output -->
         <div id="helptext"></div>
