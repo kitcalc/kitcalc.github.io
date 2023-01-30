@@ -226,7 +226,7 @@ func isTableCOptimal(code: Code128): bool =
     result = true
 
 
-func toCode128*(s: string|cstring): Code128 {.exportc.} =
+func toCode128*(s: string): Code128 {.exportc.} =
   ## Encodes `s` into a Code128 object
   var code = initCode128($s)
 
@@ -279,12 +279,6 @@ func toCode128*(s: string|cstring): Code128 {.exportc.} =
 
   # we're done
   result = code
-
-#[  TODO: necessary?
-proc toString(code: Code128): string {.exportc.} =
-  ## Retrieves `code` as a string
-  result = code.bar
-]#
 
 
 const
@@ -382,19 +376,19 @@ when defined(js):
   proc genBarcode*() {.exportc.} =
     ## Generate a barcode
     let
-      text = document.getElementById("text")
-      height = document.getElementById("height").value
-      width = document.getElementById("width").value
+      text = $document.getElementById("text").value
+      height = $document.getElementById("height").value
+      width = $document.getElementById("width").value
       showframe = document.getElementById("showframe").checked
       showtext = document.getElementById("showtext").checked
-      textsize = document.getElementById("textsize").value
-      fontfamily = document.getElementById("fontfamily").value
+      textsize = $document.getElementById("textsize").value
+      fontfamily = $document.getElementById("fontfamily").value
 
       code = toCode128(text)
       svg = code.toSvg(height, width, textsize, fontfamily, showframe, showtext)
 
-    document.getElementById("barcode").innerHtml = svg
-    document.getElementById("svgsource").innerHtml = "<code>" & svg & "</code>"
+    document.getElementById("barcode").innerHtml = svg.cstring
+    document.getElementById("svgsource").innerHtml = svg.cstring
 else:
   import os
   echo paramCount()

@@ -11,7 +11,7 @@ Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format).
         <legend>Inmatning</legend>
 
         <label for="text">Text</label>
-        <input type="text" id="allele">
+        <input type="text" id="text">
 
         <!-- For help text output -->
         <div id="helptext"></div>
