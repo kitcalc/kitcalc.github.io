@@ -4,7 +4,7 @@ js: js/code128.js
 summary: Generera en barcode i Code128-format
 ---
 
-Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format).
+Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format.
 
 <form id="barcodeform" onchange="javascript:genBarcode()" action="javascript:genBarcode()">
     <fieldset>
