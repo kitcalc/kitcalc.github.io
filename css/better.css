@@ -74,6 +74,12 @@ a:focus {
     text-decoration: underline;
 }
 
+/* keep the dots but make them smaller and further down */
+abbr[title] {
+    text-decoration: underline dotted 1px;
+    text-underline-position: under;
+}
+
 /*
  *                 _ _
  *    ___ ___   __| (_)_ __   __ _
