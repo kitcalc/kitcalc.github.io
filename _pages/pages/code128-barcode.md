@@ -35,6 +35,9 @@ Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format.
 
             <label for="fontfamily">Teckensnitt</label>
             <input type="text" id="fontfamily" value="sans-serif"><br>
+            
+            <label for="debugmode">Debug-läge</label>
+            <input type="checkbox" checked="false" id="debugmode">
         </details>
 
     </fieldset>
