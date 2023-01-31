@@ -38,7 +38,10 @@ Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format.
             <input type="text" id="fontfamily" value="sans-serif"><br>
             
             <label for="debugmode">Debug-läge</label>
-            <input type="checkbox" checked="false" id="debugmode">
+            <input type="checkbox" checked="false" id="debugmode"><br>
+            
+            <label for="rawmode">Escape-sekvenser</label>
+            <input type="checkbox" checked="false" id="rawmode">
         </details>
 
     </fieldset>
