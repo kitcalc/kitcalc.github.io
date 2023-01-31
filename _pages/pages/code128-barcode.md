@@ -11,10 +11,11 @@ Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format.
         <legend>Inmatning</legend>
 
         <label for="text">Text</label>
-        <input type="text" id="text" onkeyup="javascript:genBarcode()">
+        <textarea id="text" rows="3" onkeyup="javascript:genBarcode()"></textarea>
 
         <!-- For help text output -->
-        <div id="helptext"></div>
+        <!-- <div id="helptext"></div> -->
+
         <details>
             <summary>Fler inställningar</summary>
 
