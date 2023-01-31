@@ -369,6 +369,15 @@ func toSvg*(code: Code128, debug=false): string =
   let barcodeWidth = $necessaryWidth(code)
   code.toSvg("80", barcodeWidth, "12", "sans-serif", debug=debug)
 
+func unescapeInput(text: string): string =
+  ## Unescapes a subset of characters to be able to input data like "hello\nworld"
+  result = s.multiReplace(
+     (r"\\", r"\"),
+     (r"\n", "\n"),
+     (r"\t", "\t"),
+     (r"\f", "\f"),
+     (r"\c", "\c")
+  )
 
 when defined(js):
   import dom
@@ -376,7 +385,7 @@ when defined(js):
   proc genBarcode*() {.exportc.} =
     ## Generate a barcode
     let
-      texts = ($document.getElementById("text").value).splitLines
+      text = ($document.getElementById("text").value).splitLines
       height = $document.getElementById("height").value
       width = $document.getElementById("width").value
       showframe = document.getElementById("showframe").checked
@@ -384,6 +393,7 @@ when defined(js):
       textsize = $document.getElementById("textsize").value
       fontfamily = $document.getElementById("fontfamily").value
       debugmode = document.getElementById("debugmode").checked
+      rawmode = document.getElementById("rawmode").checked
 
     # clear output
     document.getElementById("barcode").innerHtml = ""
@@ -391,7 +401,8 @@ when defined(js):
 
     for line in texts:
       let
-        code = toCode128(line)
+        final = if rawmode: line.unescapeInput else: line
+        code = toCode128(final)
         svg = code.toSvg(height, width, textsize, fontfamily, showframe, showtext, debugmode)
         source = svg.replace("<", "&lt;")
 
