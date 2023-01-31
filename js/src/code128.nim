@@ -357,7 +357,7 @@ func toSvg*(code: Code128, height, width, textSize, fontFamily: string,
     result.add svgBars(c, x, barHeight, debug)
   result.add "  </svg>\n"
   if showText:
-    result.add "  <!-- text, does not scale -->\n"
+    result.add "\n  <!-- text, does not scale -->\n"
     result.add "  <svg>\n"
     result.add getText(code, textSize, fontFamily)
     result.add "  </svg>\n"
@@ -376,20 +376,30 @@ when defined(js):
   proc genBarcode*() {.exportc.} =
     ## Generate a barcode
     let
-      text = $document.getElementById("text").value
+      texts = ($document.getElementById("text").value).splitLines
       height = $document.getElementById("height").value
       width = $document.getElementById("width").value
       showframe = document.getElementById("showframe").checked
       showtext = document.getElementById("showtext").checked
       textsize = $document.getElementById("textsize").value
       fontfamily = $document.getElementById("fontfamily").value
+      debugmode = document.getElementById("debugmode").checked
 
-      code = toCode128(text)
-      svg = code.toSvg(height, width, textsize, fontfamily, showframe, showtext)
-      source = svg.replace("<", "&lt;")
+    # clear output
+    document.getElementById("barcode").innerHtml = ""
+    document.getElementById("svgsource").innerHtml = source.cstring 
 
-    document.getElementById("barcode").innerHtml = svg.cstring
-    document.getElementById("svgsource").innerHtml = source.cstring
+    for line in texts:
+      let
+        code = toCode128(line)
+        svg = code.toSvg(height, width, textsize, fontfamily, showframe, showtext, debugmode)
+        source = svg.replace("<", "&lt;")
+
+      document.getElementById("barcode").innerHtml &= svg.cstring
+      document.getElementById("barcode").innerHtml &= "\n<br>\n".cstring
+      
+      document.getElementById("svgsource").innerHtml &= source.cstring
+      document.getElementById("svgsource").innerHtml &= "\n\n"  # a bit ugly
 else:
   import os
   echo paramCount()
