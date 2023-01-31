@@ -23,7 +23,7 @@ Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format.
             <input type="text" id="height" value="80"><br>
 
             <label for="width">Bredd</label>
-            <input type="text" id="width" value="110"><br> <!-- set optimal -->
+            <input type="text" id="width" value="180"><br>
 
             <label for="showframe">Visa ram</label>
             <input type="checkbox" checked="true" id="showframe"><br>
