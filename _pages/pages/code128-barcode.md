@@ -26,22 +26,22 @@ Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format.
             <input type="text" id="width" value="180"><br>
 
             <label for="showframe">Visa ram</label>
-            <input type="checkbox" checked="true" id="showframe"><br>
+            <input type="checkbox" id="showframe" checked><br>
 
             <label for="showtext">Visa text</label>
-            <input type="checkbox" checked="true" id="showtext"><br>
+            <input type="checkbox" id="showtext" checked><br>
 
             <label for="textsize">Textstorlek</label>
             <input type="text" id="textsize" value="12"><br>
 
             <label for="fontfamily">Teckensnitt</label>
             <input type="text" id="fontfamily" value="sans-serif"><br>
-            
+
             <label for="debugmode">Debug-läge</label>
-            <input type="checkbox" checked="false" id="debugmode"><br>
-            
+            <input type="checkbox" id="debugmode"><br>
+
             <label for="rawmode">Escape-sekvenser</label>
-            <input type="checkbox" checked="false" id="rawmode">
+            <input type="checkbox" id="rawmode">
         </details>
 
     </fieldset>

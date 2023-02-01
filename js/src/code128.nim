@@ -300,6 +300,8 @@ func getSvgHeader(code: Code128; totalWidth, barcodeWidth, totalHeight: string,
   result = &"""
 <svg width="{totalWidth}" height="{totalHeight}" xmlns="http://www.w3.org/2000/svg">
 
+  <!-- Code128 barcode for the string "{code.s}" -->
+
   <!-- contents of nested tag will scale -->
   <svg viewBox="0 0 {barcodeWidth} {totalHeight}" preserveAspectRatio="none">
 
@@ -329,9 +331,10 @@ func svgBars(c: Code128Range, x: var int, height: string, debug = false): string
     if i mod 2 == 0:
       result.add svgBar(x, $width, height)
       result.add "\n"
-    # else: add whitespace only
-    elif debug:
-      result.add &"    <!-- whitespace width {width} -->\n"
+    else:
+      # add whitespace only
+      if debug:
+        result.add &"    <!-- whitespace width {width} -->\n"
     inc x, width
 
   # add final 2-width bar for stop
@@ -371,7 +374,7 @@ func toSvg*(code: Code128, debug=false): string =
 
 func unescapeInput(text: string): string =
   ## Unescapes a subset of characters to be able to input data like "hello\nworld"
-  result = s.multiReplace(
+  result = text.multiReplace(
      (r"\\", r"\"),
      (r"\n", "\n"),
      (r"\t", "\t"),
@@ -385,7 +388,7 @@ when defined(js):
   proc genBarcode*() {.exportc.} =
     ## Generate a barcode
     let
-      text = ($document.getElementById("text").value).splitLines
+      texts = ($document.getElementById("text").value).splitLines
       height = $document.getElementById("height").value
       width = $document.getElementById("width").value
       showframe = document.getElementById("showframe").checked
@@ -397,7 +400,7 @@ when defined(js):
 
     # clear output
     document.getElementById("barcode").innerHtml = ""
-    document.getElementById("svgsource").innerHtml = source.cstring 
+    document.getElementById("svgsource").innerHtml = ""
 
     for line in texts:
       let
@@ -408,7 +411,7 @@ when defined(js):
 
       document.getElementById("barcode").innerHtml &= svg.cstring
       document.getElementById("barcode").innerHtml &= "\n<br>\n".cstring
-      
+
       document.getElementById("svgsource").innerHtml &= source.cstring
       document.getElementById("svgsource").innerHtml &= "\n\n"  # a bit ugly
 else:
