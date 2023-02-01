@@ -2,6 +2,9 @@
 var framePtr = null;
 var excHandler = 0;
 var lastJSError = null;
+var NTI33554438 = {size: 0,kind: 2,base: null,node: null,finalizer: null};
+var NTI620758193 = {size: 0, kind: 19, base: null, node: null, finalizer: null};
+var NTI620757472 = {size: 0, kind: 24, base: null, node: null, finalizer: null};
 var NTI486539270 = {size: 0, kind: 16, base: null, node: null, finalizer: null};
 var NTI872415304 = {size: 0,kind: 31,base: null,node: null,finalizer: null};
 var NTI872415311 = {size: 0, kind: 18, base: null, node: null, finalizer: null};
@@ -83,6 +86,8 @@ var NNI872415311 = {kind: 2, len: 2, offset: 0, typ: null, name: null, sons: [{k
 {kind: 1, offset: "b", len: 0, typ: NTI33554456, name: "b", sons: null}]};
 NTI872415311.node = NNI872415311;
 NTI486539270.base = NTI33554456;
+NTI620757472.base = NTI33554439;
+NTI620758193.base = NTI33554438;
 
 function makeNimstrLit(c_33556801) {
       var result = [];
@@ -395,45 +400,7 @@ function addChar(x_33557255, c_33557256) {
   
 }
       var barWidths_486539318 = [new Int32Array([2, 1, 2, 2, 2, 2]), new Int32Array([2, 2, 2, 1, 2, 2]), new Int32Array([2, 2, 2, 2, 2, 1]), new Int32Array([1, 2, 1, 2, 2, 3]), new Int32Array([1, 2, 1, 3, 2, 2]), new Int32Array([1, 3, 1, 2, 2, 2]), new Int32Array([1, 2, 2, 2, 1, 3]), new Int32Array([1, 2, 2, 3, 1, 2]), new Int32Array([1, 3, 2, 2, 1, 2]), new Int32Array([2, 2, 1, 2, 1, 3]), new Int32Array([2, 2, 1, 3, 1, 2]), new Int32Array([2, 3, 1, 2, 1, 2]), new Int32Array([1, 1, 2, 2, 3, 2]), new Int32Array([1, 2, 2, 1, 3, 2]), new Int32Array([1, 2, 2, 2, 3, 1]), new Int32Array([1, 1, 3, 2, 2, 2]), new Int32Array([1, 2, 3, 1, 2, 2]), new Int32Array([1, 2, 3, 2, 2, 1]), new Int32Array([2, 2, 3, 2, 1, 1]), new Int32Array([2, 2, 1, 1, 3, 2]), new Int32Array([2, 2, 1, 2, 3, 1]), new Int32Array([2, 1, 3, 2, 1, 2]), new Int32Array([2, 2, 3, 1, 1, 2]), new Int32Array([3, 1, 2, 1, 3, 1]), new Int32Array([3, 1, 1, 2, 2, 2]), new Int32Array([3, 2, 1, 1, 2, 2]), new Int32Array([3, 2, 1, 2, 2, 1]), new Int32Array([3, 1, 2, 2, 1, 2]), new Int32Array([3, 2, 2, 1, 1, 2]), new Int32Array([3, 2, 2, 2, 1, 1]), new Int32Array([2, 1, 2, 1, 2, 3]), new Int32Array([2, 1, 2, 3, 2, 1]), new Int32Array([2, 3, 2, 1, 2, 1]), new Int32Array([1, 1, 1, 3, 2, 3]), new Int32Array([1, 3, 1, 1, 2, 3]), new Int32Array([1, 3, 1, 3, 2, 1]), new Int32Array([1, 1, 2, 3, 1, 3]), new Int32Array([1, 3, 2, 1, 1, 3]), new Int32Array([1, 3, 2, 3, 1, 1]), new Int32Array([2, 1, 1, 3, 1, 3]), new Int32Array([2, 3, 1, 1, 1, 3]), new Int32Array([2, 3, 1, 3, 1, 1]), new Int32Array([1, 1, 2, 1, 3, 3]), new Int32Array([1, 1, 2, 3, 3, 1]), new Int32Array([1, 3, 2, 1, 3, 1]), new Int32Array([1, 1, 3, 1, 2, 3]), new Int32Array([1, 1, 3, 3, 2, 1]), new Int32Array([1, 3, 3, 1, 2, 1]), new Int32Array([3, 1, 3, 1, 2, 1]), new Int32Array([2, 1, 1, 3, 3, 1]), new Int32Array([2, 3, 1, 1, 3, 1]), new Int32Array([2, 1, 3, 1, 1, 3]), new Int32Array([2, 1, 3, 3, 1, 1]), new Int32Array([2, 1, 3, 1, 3, 1]), new Int32Array([3, 1, 1, 1, 2, 3]), new Int32Array([3, 1, 1, 3, 2, 1]), new Int32Array([3, 3, 1, 1, 2, 1]), new Int32Array([3, 1, 2, 1, 1, 3]), new Int32Array([3, 1, 2, 3, 1, 1]), new Int32Array([3, 3, 2, 1, 1, 1]), new Int32Array([3, 1, 4, 1, 1, 1]), new Int32Array([2, 2, 1, 4, 1, 1]), new Int32Array([4, 3, 1, 1, 1, 1]), new Int32Array([1, 1, 1, 2, 2, 4]), new Int32Array([1, 1, 1, 4, 2, 2]), new Int32Array([1, 2, 1, 1, 2, 4]), new Int32Array([1, 2, 1, 4, 2, 1]), new Int32Array([1, 4, 1, 1, 2, 2]), new Int32Array([1, 4, 1, 2, 2, 1]), new Int32Array([1, 1, 2, 2, 1, 4]), new Int32Array([1, 1, 2, 4, 1, 2]), new Int32Array([1, 2, 2, 1, 1, 4]), new Int32Array([1, 2, 2, 4, 1, 1]), new Int32Array([1, 4, 2, 1, 1, 2]), new Int32Array([1, 4, 2, 2, 1, 1]), new Int32Array([2, 4, 1, 2, 1, 1]), new Int32Array([2, 2, 1, 1, 1, 4]), new Int32Array([4, 1, 3, 1, 1, 1]), new Int32Array([2, 4, 1, 1, 1, 2]), new Int32Array([1, 3, 4, 1, 1, 1]), new Int32Array([1, 1, 1, 2, 4, 2]), new Int32Array([1, 2, 1, 1, 4, 2]), new Int32Array([1, 2, 1, 2, 4, 1]), new Int32Array([1, 1, 4, 2, 1, 2]), new Int32Array([1, 2, 4, 1, 1, 2]), new Int32Array([1, 2, 4, 2, 1, 1]), new Int32Array([4, 1, 1, 2, 1, 2]), new Int32Array([4, 2, 1, 1, 1, 2]), new Int32Array([4, 2, 1, 2, 1, 1]), new Int32Array([2, 1, 2, 1, 4, 1]), new Int32Array([2, 1, 4, 1, 2, 1]), new Int32Array([4, 1, 2, 1, 2, 1]), new Int32Array([1, 1, 1, 1, 4, 3]), new Int32Array([1, 1, 1, 3, 4, 1]), new Int32Array([1, 3, 1, 1, 4, 1]), new Int32Array([1, 1, 4, 1, 1, 3]), new Int32Array([1, 1, 4, 3, 1, 1]), new Int32Array([4, 1, 1, 1, 1, 3]), new Int32Array([4, 1, 1, 3, 1, 1]), new Int32Array([1, 1, 3, 1, 4, 1]), new Int32Array([1, 1, 4, 1, 3, 1]), new Int32Array([3, 1, 1, 1, 4, 1]), new Int32Array([4, 1, 1, 1, 3, 1]), new Int32Array([2, 1, 1, 4, 1, 2]), new Int32Array([2, 1, 1, 2, 1, 4]), new Int32Array([2, 1, 1, 2, 3, 2]), new Int32Array([2, 3, 3, 1, 1, 1])];
-
-function cstrToNimstr(c_33556804) {
-      var ln = c_33556804.length;
-  var result = new Array(ln);
-  var r = 0;
-  for (var i = 0; i < ln; ++i) {
-    var ch = c_33556804.charCodeAt(i);
-
-    if (ch < 128) {
-      result[r] = ch;
-    }
-    else {
-      if (ch < 2048) {
-        result[r] = (ch >> 6) | 192;
-      }
-      else {
-        if (ch < 55296 || ch >= 57344) {
-          result[r] = (ch >> 12) | 224;
-        }
-        else {
-            ++i;
-            ch = 65536 + (((ch & 1023) << 10) | (c_33556804.charCodeAt(i) & 1023));
-            result[r] = (ch >> 18) | 240;
-            ++r;
-            result[r] = ((ch >> 12) & 63) | 128;
-        }
-        ++r;
-        result[r] = ((ch >> 6) & 63) | 128;
-      }
-      ++r;
-      result[r] = (ch & 63) | 128;
-    }
-    ++r;
-  }
-  return result;
-  
-
-  
-}
+var ConstSet21 = setConstr(13, 10);
 
 function nimMax(a_33556998, b_33556999) {
     var Temporary1;
@@ -476,6 +443,46 @@ function nimMin(a_33556994, b_33556995) {
   return result_33556996;
 
 }
+
+function cstrToNimstr(c_33556804) {
+      var ln = c_33556804.length;
+  var result = new Array(ln);
+  var r = 0;
+  for (var i = 0; i < ln; ++i) {
+    var ch = c_33556804.charCodeAt(i);
+
+    if (ch < 128) {
+      result[r] = ch;
+    }
+    else {
+      if (ch < 2048) {
+        result[r] = (ch >> 6) | 192;
+      }
+      else {
+        if (ch < 55296 || ch >= 57344) {
+          result[r] = (ch >> 12) | 224;
+        }
+        else {
+            ++i;
+            ch = 65536 + (((ch & 1023) << 10) | (c_33556804.charCodeAt(i) & 1023));
+            result[r] = (ch >> 18) | 240;
+            ++r;
+            result[r] = ((ch >> 12) & 63) | 128;
+        }
+        ++r;
+        result[r] = ((ch >> 6) & 63) | 128;
+      }
+      ++r;
+      result[r] = (ch & 63) | 128;
+    }
+    ++r;
+  }
+  return result;
+  
+
+  
+}
+var ConstSet22 = setConstr();
 if (!Math.trunc) {
   Math.trunc = function(v) {
     v = +v;
@@ -1750,7 +1757,9 @@ function getSvgHeader_486539697(code_486539698, totalWidth_486539699, barcodeWid
     formatValue_637534370(fmtRes_486539708, 0, totalWidth_486539699, []);
     fmtRes_486539708[0].push.apply(fmtRes_486539708[0], makeNimstrLit("\" height=\""));;
     formatValue_637534370(fmtRes_486539708, 0, totalHeight_486539701, []);
-    fmtRes_486539708[0].push.apply(fmtRes_486539708[0], makeNimstrLit("\" xmlns=\"http://www.w3.org/2000/svg\">\x0A\x0A  <!-- contents of nested tag will scale -->\x0A  <svg viewBox=\"0 0 "));;
+    fmtRes_486539708[0].push.apply(fmtRes_486539708[0], makeNimstrLit("\" xmlns=\"http://www.w3.org/2000/svg\">\x0A\x0A  <!-- Code128 barcode for the string \""));;
+    formatValue_637534370(fmtRes_486539708, 0, code_486539698.s, []);
+    fmtRes_486539708[0].push.apply(fmtRes_486539708[0], makeNimstrLit("\" -->\x0A\x0A  <!-- contents of nested tag will scale -->\x0A  <svg viewBox=\"0 0 "));;
     formatValue_637534370(fmtRes_486539708, 0, barcodeWidth_486539700, []);
     fmtRes_486539708[0].push.apply(fmtRes_486539708[0], makeNimstrLit(" "));;
     formatValue_637534370(fmtRes_486539708, 0, totalHeight_486539701, []);
@@ -2040,14 +2049,16 @@ function svgBars_486539770(c_486539771, x_486539772, x_486539772_Idx, height_486
             result_486539775.push.apply(result_486539775, makeNimstrLit("\x0A"));;
             }
             else {
-            if (debug_486539774) {
-            var fmtRes_486539828 = [mnewString(0)];
-            fmtRes_486539828[0].push.apply(fmtRes_486539828[0], makeNimstrLit("    <!-- whitespace width "));;
-            formatValue_486539719(fmtRes_486539828, 0, width_486539827, []);
-            fmtRes_486539828[0].push.apply(fmtRes_486539828[0], makeNimstrLit(" -->\x0A"));;
-            result_486539775.push.apply(result_486539775, fmtRes_486539828[0]);;
+              if (debug_486539774) {
+              var fmtRes_486539828 = [mnewString(0)];
+              fmtRes_486539828[0].push.apply(fmtRes_486539828[0], makeNimstrLit("    <!-- whitespace width "));;
+              formatValue_486539719(fmtRes_486539828, 0, width_486539827, []);
+              fmtRes_486539828[0].push.apply(fmtRes_486539828[0], makeNimstrLit(" -->\x0A"));;
+              result_486539775.push.apply(result_486539775, fmtRes_486539828[0]);;
+              }
+              
             }
-            }
+            
             x_486539772[x_486539772_Idx] = addInt(x_486539772[x_486539772_Idx], width_486539827);
             if ((5 <= i_486539907)) {
             break Label2;
@@ -2121,7 +2132,7 @@ function toSvg(code_486539845, height_486539846, width_486539847, textSize_48653
     } while (false);
     result_486539853.push.apply(result_486539853, makeNimstrLit("  </svg>\x0A"));;
     if (showText_486539851) {
-    result_486539853.push.apply(result_486539853, makeNimstrLit("  <!-- text, does not scale -->\x0A"));;
+    result_486539853.push.apply(result_486539853, makeNimstrLit("\x0A  <!-- text, does not scale -->\x0A"));;
     result_486539853.push.apply(result_486539853, makeNimstrLit("  <svg>\x0A"));;
     result_486539853.push.apply(result_486539853, getText_486539838(code_486539845, textSize_486539848, fontFamily_486539849));;
     result_486539853.push.apply(result_486539853, makeNimstrLit("  </svg>\x0A"));;
@@ -2130,6 +2141,189 @@ function toSvg(code_486539845, height_486539846, width_486539847, textSize_48653
     result_486539853.push.apply(result_486539853, makeNimstrLit("</svg>"));;
 
   return result_486539853;
+
+}
+
+function substr_33557906(s_33557907, first_33557908, last_33557909) {
+  var result_33557910 = [];
+
+    var first_33557911 = nimMax(first_33557908, 0);
+    var L_33557912 = nimMax(addInt(subInt(nimMin(last_33557909, (s_33557907).length - 1), first_33557911), 1), 0);
+    result_33557910 = nimCopy(null, mnewString(chckRange(L_33557912, 0, 2147483647)), NTI33554439);
+    Label1: do {
+      var i_33557917 = 0;
+      var colontmp__486540012 = 0;
+      colontmp__486540012 = subInt(L_33557912, 1);
+      var res_486540013 = 0;
+      Label2: do {
+          Label3: while (true) {
+          if (!(res_486540013 <= colontmp__486540012)) break Label3;
+            i_33557917 = res_486540013;
+            result_33557910[chckIndx(i_33557917, 0, (result_33557910).length - 1)] = s_33557907[chckIndx(addInt(i_33557917, first_33557911), 0, (s_33557907).length - 1)];
+            res_486540013 = addInt(res_486540013, 1);
+          }
+      } while (false);
+    } while (false);
+
+  return result_33557910;
+
+}
+
+function nsuSplitLines(s_620757618, keepEol_620757619) {
+            var Temporary6;
+
+  var result_620757620 = [];
+
+    result_620757620 = nimCopy(null, [], NTI620757472);
+    Label1: do {
+      var xHEX60gensym76_620757626 = [];
+      var first_486540006 = 0;
+      var last_486540007 = 0;
+      var eolpos_486540008 = 0;
+      Label2: do {
+          Label3: while (true) {
+          if (!true) break Label3;
+            Label4: do {
+                Label5: while (true) {
+                if (!((last_486540007 < (s_620757618).length) && !((ConstSet21[s_620757618[chckIndx(last_486540007, 0, (s_620757618).length - 1)]] != undefined)))) break Label5;
+                  last_486540007 = addInt(last_486540007, 1);
+                }
+            } while (false);
+            eolpos_486540008 = last_486540007;
+            if ((last_486540007 < (s_620757618).length)) {
+            if ((s_620757618[chckIndx(last_486540007, 0, (s_620757618).length - 1)] == 10)) {
+            last_486540007 = addInt(last_486540007, 1);
+            }
+            else {
+            if ((s_620757618[chckIndx(last_486540007, 0, (s_620757618).length - 1)] == 13)) {
+            last_486540007 = addInt(last_486540007, 1);
+            if (((last_486540007 < (s_620757618).length) && (s_620757618[chckIndx(last_486540007, 0, (s_620757618).length - 1)] == 10))) {
+            last_486540007 = addInt(last_486540007, 1);
+            }
+            
+            }
+            }
+            }
+            
+            if (keepEol_620757619) {
+            Temporary6 = subInt(last_486540007, 1);
+            }
+            else {
+            Temporary6 = subInt(eolpos_486540008, 1);
+            }
+            
+            xHEX60gensym76_620757626 = substr_33557906(s_620757618, first_486540006, Temporary6);
+            var Temporary7 = nimCopy(null, xHEX60gensym76_620757626, NTI33554439);
+            result_620757620.push(Temporary7);;
+            if ((eolpos_486540008 == last_486540007)) {
+            break Label2;
+            }
+            
+            first_486540006 = last_486540007;
+          }
+      } while (false);
+    } while (false);
+
+  return result_620757620;
+
+}
+
+function nsuContinuesWith(s_620758341, substr_620758342, start_620758343) {
+            var Temporary3;
+
+  var result_620758344 = false;
+
+  BeforeRet: do {
+    var i_620758345 = 0;
+    Label1: do {
+        Label2: while (true) {
+        if (!true) break Label2;
+          if (((substr_620758342).length <= i_620758345)) {
+          result_620758344 = true;
+          break BeforeRet;
+          }
+          
+            if (((s_620758341).length <= addInt(i_620758345, start_620758343))) Temporary3 = true; else {              Temporary3 = !((s_620758341[chckIndx(addInt(i_620758345, start_620758343), 0, (s_620758341).length - 1)] == substr_620758342[chckIndx(i_620758345, 0, (substr_620758342).length - 1)]));            }          if (Temporary3) {
+          result_620758344 = false;
+          break BeforeRet;
+          }
+          
+          i_620758345 = addInt(i_620758345, 1);
+        }
+    } while (false);
+  } while (false);
+
+  return result_620758344;
+
+}
+
+function multiReplace_620758731(s_620758732, replacements_620758733) {
+                      var Temporary10;
+
+  var result_620758734 = [];
+
+    result_620758734 = nimCopy(null, mnewString(0), NTI33554439);
+    var i_620758735 = 0;
+    var fastChk_620758736 = nimCopy(null, ConstSet22, NTI620758193);
+    Label1: do {
+      var sub_620758749 = [];
+      var by_620758750 = [];
+      var i_486540017 = 0;
+      Label2: do {
+          Label3: while (true) {
+          if (!(i_486540017 < (replacements_620758733).length)) break Label3;
+            sub_620758749 = replacements_620758733[chckIndx(i_486540017, 0, (replacements_620758733).length - 1)]["Field0"];
+            by_620758750 = replacements_620758733[chckIndx(i_486540017, 0, (replacements_620758733).length - 1)]["Field1"];
+            if ((0 < (sub_620758749).length)) {
+            fastChk_620758736[sub_620758749[chckIndx(0, 0, (sub_620758749).length - 1)]] = true;
+            }
+            
+            i_486540017 = addInt(i_486540017, 1);
+          }
+      } while (false);
+    } while (false);
+    Label4: do {
+        Label5: while (true) {
+        if (!(i_620758735 < (s_620758732).length)) break Label5;
+          Label6: do {
+            if ((fastChk_620758736[s_620758732[chckIndx(i_620758735, 0, (s_620758732).length - 1)]] != undefined)) {
+            Label7: do {
+              var sub_620758763 = [];
+              var by_620758764 = [];
+              var i_486540021 = 0;
+              Label8: do {
+                  Label9: while (true) {
+                  if (!(i_486540021 < (replacements_620758733).length)) break Label9;
+                    sub_620758763 = replacements_620758733[chckIndx(i_486540021, 0, (replacements_620758733).length - 1)]["Field0"];
+                    by_620758764 = replacements_620758733[chckIndx(i_486540021, 0, (replacements_620758733).length - 1)]["Field1"];
+                      if (!(0 < (sub_620758763).length)) Temporary10 = false; else {                        Temporary10 = nsuContinuesWith(s_620758732, sub_620758763, chckRange(i_620758735, 0, 2147483647));                      }                    if (Temporary10) {
+                    result_620758734.push.apply(result_620758734, by_620758764);;
+                    i_620758735 = addInt(i_620758735, (sub_620758763).length);
+                    break Label6;
+                    }
+                    
+                    i_486540021 = addInt(i_486540021, 1);
+                  }
+              } while (false);
+            } while (false);
+            }
+            
+            addChar(result_620758734, s_620758732[chckIndx(i_620758735, 0, (s_620758732).length - 1)]);;
+            i_620758735 = addInt(i_620758735, 1);
+          } while (false);
+        }
+    } while (false);
+
+  return result_620758734;
+
+}
+
+function unescapeInput_486539923(text_486539924) {
+  var result_486539925 = [];
+
+    result_486539925 = nimCopy(null, multiReplace_620758731(text_486539924, [{Field0: makeNimstrLit("\\\\"), Field1: makeNimstrLit("\\")}, {Field0: makeNimstrLit("\\n"), Field1: makeNimstrLit("\x0A")}, {Field0: makeNimstrLit("\\t"), Field1: makeNimstrLit("\x09")}, {Field0: makeNimstrLit("\\f"), Field1: makeNimstrLit("\x0C")}, {Field0: makeNimstrLit("\\c"), Field1: makeNimstrLit("\x0D")}]), NTI33554439);
+
+  return result_486539925;
 
 }
 
@@ -2149,19 +2343,19 @@ function nsuFindChar(s_620758520, sub_620758521, start_620758522, last_620758523
     var last_620758525 = Temporary1;
     Label2: do {
       var i_620758535 = 0;
-      var colontmp__486539960 = 0;
-      colontmp__486539960 = start_620758522;
-      var res_486539961 = colontmp__486539960;
+      var colontmp__486540031 = 0;
+      colontmp__486540031 = start_620758522;
+      var res_486540032 = colontmp__486540031;
       Label3: do {
           Label4: while (true) {
-          if (!(res_486539961 <= last_620758525)) break Label4;
-            i_620758535 = res_486539961;
+          if (!(res_486540032 <= last_620758525)) break Label4;
+            i_620758535 = res_486540032;
             if ((sub_620758521 == s_620758520[chckIndx(i_620758535, 0, (s_620758520).length - 1)])) {
             result_620758524 = i_620758535;
             break BeforeRet;
             }
             
-            res_486539961 = addInt(res_486539961, 1);
+            res_486540032 = addInt(res_486540032, 1);
           }
       } while (false);
     } while (false);
@@ -2170,31 +2364,6 @@ function nsuFindChar(s_620758520, sub_620758521, start_620758522, last_620758523
   } while (false);
 
   return result_620758524;
-
-}
-
-function substr_33557906(s_33557907, first_33557908, last_33557909) {
-  var result_33557910 = [];
-
-    var first_33557911 = nimMax(first_33557908, 0);
-    var L_33557912 = nimMax(addInt(subInt(nimMin(last_33557909, (s_33557907).length - 1), first_33557911), 1), 0);
-    result_33557910 = nimCopy(null, mnewString(chckRange(L_33557912, 0, 2147483647)), NTI33554439);
-    Label1: do {
-      var i_33557917 = 0;
-      var colontmp__486539964 = 0;
-      colontmp__486539964 = subInt(L_33557912, 1);
-      var res_486539965 = 0;
-      Label2: do {
-          Label3: while (true) {
-          if (!(res_486539965 <= colontmp__486539964)) break Label3;
-            i_33557917 = res_486539965;
-            result_33557910[chckIndx(i_33557917, 0, (result_33557910).length - 1)] = s_33557907[chckIndx(addInt(i_33557917, first_33557911), 0, (s_33557907).length - 1)];
-            res_486539965 = addInt(res_486539965, 1);
-          }
-      } while (false);
-    } while (false);
-
-  return result_33557910;
 
 }
 
@@ -2225,15 +2394,15 @@ function nsuInitSkipTable(a_620758456, sub_620758457) {
     fill_620758459(a_620758456, m_620758458);
     Label1: do {
       var i_620758477 = 0;
-      var colontmp__486539968 = 0;
-      colontmp__486539968 = subInt(m_620758458, 1);
-      var i_486539969 = 0;
+      var colontmp__486540035 = 0;
+      colontmp__486540035 = subInt(m_620758458, 1);
+      var i_486540036 = 0;
       Label2: do {
           Label3: while (true) {
-          if (!(i_486539969 < colontmp__486539968)) break Label3;
-            i_620758477 = i_486539969;
+          if (!(i_486540036 < colontmp__486540035)) break Label3;
+            i_620758477 = i_486540036;
             a_620758456[chckIndx(sub_620758457[chckIndx(i_620758477, 0, (sub_620758457).length - 1)], 0, (a_620758456).length - 1)] = subInt(subInt(m_620758458, 1), i_620758477);
-            i_486539969 = addInt(i_486539969, 1);
+            i_486540036 = addInt(i_486540036, 1);
           }
       } while (false);
     } while (false);
@@ -2343,18 +2512,50 @@ function nsuReplaceStr(s_620758689, sub_620758690, by_620758691) {
 }
 
 function genBarcode() {
-    var text_486539925 = cstrToNimstr(document.getElementById("text").value);
-    var height_486539926 = cstrToNimstr(document.getElementById("height").value);
-    var width_486539927 = cstrToNimstr(document.getElementById("width").value);
-    var showframe_486539928 = document.getElementById("showframe").checked;
-    var showtext_486539929 = document.getElementById("showtext").checked;
-    var textsize_486539930 = cstrToNimstr(document.getElementById("textsize").value);
-    var fontfamily_486539931 = cstrToNimstr(document.getElementById("fontfamily").value);
-    var code_486539932 = toCode128(text_486539925);
-    var svg_486539933 = toSvg(code_486539932, height_486539926, width_486539927, textsize_486539930, fontfamily_486539931, showframe_486539928, showtext_486539929, false);
-    var source_486539934 = nsuReplaceStr(svg_486539933, makeNimstrLit("<"), makeNimstrLit("&lt;"));
-    document.getElementById("barcode").innerHTML = toJSStr(svg_486539933);
-    document.getElementById("svgsource").innerHTML = toJSStr(source_486539934);
+            var Temporary4;
+
+    var texts_486539946 = nsuSplitLines(cstrToNimstr(document.getElementById("text").value), false);
+    var height_486539947 = cstrToNimstr(document.getElementById("height").value);
+    var width_486539948 = cstrToNimstr(document.getElementById("width").value);
+    var showframe_486539949 = document.getElementById("showframe").checked;
+    var showtext_486539950 = document.getElementById("showtext").checked;
+    var textsize_486539951 = cstrToNimstr(document.getElementById("textsize").value);
+    var fontfamily_486539952 = cstrToNimstr(document.getElementById("fontfamily").value);
+    var debugmode_486539953 = document.getElementById("debugmode").checked;
+    var rawmode_486539954 = document.getElementById("rawmode").checked;
+    document.getElementById("barcode").innerHTML = "";
+    document.getElementById("svgsource").innerHTML = "";
+    Label1: do {
+      var line_486539975 = [];
+      var i_486540000 = 0;
+      var L_486540001 = (texts_486539946).length;
+      Label2: do {
+          Label3: while (true) {
+          if (!(i_486540000 < L_486540001)) break Label3;
+            line_486539975 = texts_486539946[chckIndx(i_486540000, 0, (texts_486539946).length - 1)];
+            if (rawmode_486539954) {
+            Temporary4 = unescapeInput_486539923(line_486539975);
+            }
+            else {
+            Temporary4 = line_486539975;
+            }
+            
+            var final_486539976 = nimCopy(null, Temporary4, NTI33554439);
+            var code_486539977 = toCode128(final_486539976);
+            var svg_486539978 = toSvg(code_486539977, height_486539947, width_486539948, textsize_486539951, fontfamily_486539952, showframe_486539949, showtext_486539950, debugmode_486539953);
+            var source_486539979 = nsuReplaceStr(svg_486539978, makeNimstrLit("<"), makeNimstrLit("&lt;"));
+            if (null != toJSStr(svg_486539978)) { if (null == document.getElementById("barcode").innerHTML) document.getElementById("barcode").innerHTML = toJSStr(svg_486539978); else document.getElementById("barcode").innerHTML += toJSStr(svg_486539978); };
+            if (null != "\n<br>\n") { if (null == document.getElementById("barcode").innerHTML) document.getElementById("barcode").innerHTML = "\n<br>\n"; else document.getElementById("barcode").innerHTML += "\n<br>\n"; };
+            if (null != toJSStr(source_486539979)) { if (null == document.getElementById("svgsource").innerHTML) document.getElementById("svgsource").innerHTML = toJSStr(source_486539979); else document.getElementById("svgsource").innerHTML += toJSStr(source_486539979); };
+            if (null != "\n\n") { if (null == document.getElementById("svgsource").innerHTML) document.getElementById("svgsource").innerHTML = "\n\n"; else document.getElementById("svgsource").innerHTML += "\n\n"; };
+            i_486540000 = addInt(i_486540000, 1);
+            if (!(((texts_486539946).length == L_486540001))) {
+            failedAssertImpl_218103864(makeNimstrLit("iterators.nim(240, 11) `len(a) == L` the length of the seq changed while iterating over it"));
+            }
+            
+          }
+      } while (false);
+    } while (false);
 
   
 }

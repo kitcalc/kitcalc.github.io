@@ -300,6 +300,8 @@ func getSvgHeader(code: Code128; totalWidth, barcodeWidth, totalHeight: string,
   result = &"""
 <svg width="{totalWidth}" height="{totalHeight}" xmlns="http://www.w3.org/2000/svg">
 
+  <!-- Code128 barcode for the string "{code.s}" -->
+
   <!-- contents of nested tag will scale -->
   <svg viewBox="0 0 {barcodeWidth} {totalHeight}" preserveAspectRatio="none">
 
@@ -329,9 +331,10 @@ func svgBars(c: Code128Range, x: var int, height: string, debug = false): string
     if i mod 2 == 0:
       result.add svgBar(x, $width, height)
       result.add "\n"
-    # else: add whitespace only
-    elif debug:
-      result.add &"    <!-- whitespace width {width} -->\n"
+    else:
+      # add whitespace only
+      if debug:
+        result.add &"    <!-- whitespace width {width} -->\n"
     inc x, width
 
   # add final 2-width bar for stop
@@ -357,7 +360,7 @@ func toSvg*(code: Code128, height, width, textSize, fontFamily: string,
     result.add svgBars(c, x, barHeight, debug)
   result.add "  </svg>\n"
   if showText:
-    result.add "  <!-- text, does not scale -->\n"
+    result.add "\n  <!-- text, does not scale -->\n"
     result.add "  <svg>\n"
     result.add getText(code, textSize, fontFamily)
     result.add "  </svg>\n"
@@ -369,6 +372,15 @@ func toSvg*(code: Code128, debug=false): string =
   let barcodeWidth = $necessaryWidth(code)
   code.toSvg("80", barcodeWidth, "12", "sans-serif", debug=debug)
 
+func unescapeInput(text: string): string =
+  ## Unescapes a subset of characters to be able to input data like "hello\nworld"
+  result = text.multiReplace(
+     (r"\\", r"\"),
+     (r"\n", "\n"),
+     (r"\t", "\t"),
+     (r"\f", "\f"),
+     (r"\c", "\c")
+  )
 
 when defined(js):
   import dom
@@ -376,20 +388,32 @@ when defined(js):
   proc genBarcode*() {.exportc.} =
     ## Generate a barcode
     let
-      text = $document.getElementById("text").value
+      texts = ($document.getElementById("text").value).splitLines
       height = $document.getElementById("height").value
       width = $document.getElementById("width").value
       showframe = document.getElementById("showframe").checked
       showtext = document.getElementById("showtext").checked
       textsize = $document.getElementById("textsize").value
       fontfamily = $document.getElementById("fontfamily").value
+      debugmode = document.getElementById("debugmode").checked
+      rawmode = document.getElementById("rawmode").checked
 
-      code = toCode128(text)
-      svg = code.toSvg(height, width, textsize, fontfamily, showframe, showtext)
-      source = svg.replace("<", "&lt;")
+    # clear output
+    document.getElementById("barcode").innerHtml = ""
+    document.getElementById("svgsource").innerHtml = ""
 
-    document.getElementById("barcode").innerHtml = svg.cstring
-    document.getElementById("svgsource").innerHtml = source.cstring
+    for line in texts:
+      let
+        final = if rawmode: line.unescapeInput else: line
+        code = toCode128(final)
+        svg = code.toSvg(height, width, textsize, fontfamily, showframe, showtext, debugmode)
+        source = svg.replace("<", "&lt;")
+
+      document.getElementById("barcode").innerHtml &= svg.cstring
+      document.getElementById("barcode").innerHtml &= "\n<br>\n".cstring
+
+      document.getElementById("svgsource").innerHtml &= source.cstring
+      document.getElementById("svgsource").innerHtml &= "\n\n"  # a bit ugly
 else:
   import os
   echo paramCount()
