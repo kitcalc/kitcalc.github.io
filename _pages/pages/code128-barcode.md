@@ -54,6 +54,6 @@ Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format.
 
 <details>
     <summary>SVG-källa</summary>
-    <code id="svgsource"></code>
+    <pre><code id="svgsource"></code></pre>
 </details>
 
