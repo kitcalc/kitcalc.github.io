@@ -70,6 +70,7 @@ var
   alleleIDs = newJsTable[cstring, cstring]()
   serological = newJsTable[cstring, Antigen]()
   splits = newJsTable[cstring, Split]()
+  broads = newJsTable[cstring, cstring]()
 
 
 proc outputMeta(line: cstring) =
@@ -274,6 +275,14 @@ proc initSplitData*(data: cstring) {.exportc.} =
       continue
     parseSplits(fields)
 
+  # add broads
+  for split in splits.keys:
+    let broad = splits[split].broad
+    if broad notin broads:
+      broads[broad] = split
+    else:
+      broads[broad] = broads[broad] & ", " & split
+
 
 template infoLink(allele: cstring): cstring =
   ## Create a link to the HLA dictionary
@@ -378,11 +387,15 @@ proc outputSerological(allele: cstring) =
     evidenceStr.add " (med \"expert assigned\" tillägg)"
     antigenStr.add " (expert " & antigen.expertAntigen & ")"
 
-  if antigenStr in splits:
+  if antigen.antigen in splits:
     let
       split = splits[antigenStr]
       relation = strRelation[split.kind]
-    antigenStr.add br() & antigen.antigen & relation & split.broad
+    antigenStr.add br() & antigen.antigen
+    antigenStr.add relation & split.broad
+  elif antigen.antigen in broads:
+    antigenStr.add br() & antigen.antigen
+    antigenStr.add " kan splittas i " & broads[antigen.antigen]
 
   if antigen.antigen in Bw4:
     antigenStr.add br() & antigen.antigen & " bär Bw4 (" & bwlink & ")"
