@@ -12,7 +12,7 @@ summary: CD34+ och CD3+ i stamcellsskörd
     <fieldset>
         <legend>Patientdata</legend>
 
-        <label for="recipientvikt">Recipientvikt (kg)</label>
+        <label for="recipient_weight">Recipientvikt (kg)</label>
         <input type="number" id="recipient_weight" pattern="\d*"><br>
 
         <label for="volume">Volym (ml)</label>
