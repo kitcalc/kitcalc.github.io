@@ -2152,15 +2152,15 @@ function substr_33557906(s_33557907, first_33557908, last_33557909) {
     result_33557910 = nimCopy(null, mnewString(chckRange(L_33557912, 0, 2147483647)), NTI33554439);
     Label1: do {
       var i_33557917 = 0;
-      var colontmp__486540012 = 0;
-      colontmp__486540012 = subInt(L_33557912, 1);
-      var res_486540013 = 0;
+      var colontmp__486540013 = 0;
+      colontmp__486540013 = subInt(L_33557912, 1);
+      var res_486540014 = 0;
       Label2: do {
           Label3: while (true) {
-          if (!(res_486540013 <= colontmp__486540012)) break Label3;
-            i_33557917 = res_486540013;
+          if (!(res_486540014 <= colontmp__486540013)) break Label3;
+            i_33557917 = res_486540014;
             result_33557910[chckIndx(i_33557917, 0, (result_33557910).length - 1)] = s_33557907[chckIndx(addInt(i_33557917, first_33557911), 0, (s_33557907).length - 1)];
-            res_486540013 = addInt(res_486540013, 1);
+            res_486540014 = addInt(res_486540014, 1);
           }
       } while (false);
     } while (false);
@@ -2177,28 +2177,28 @@ function nsuSplitLines(s_620757618, keepEol_620757619) {
     result_620757620 = nimCopy(null, [], NTI620757472);
     Label1: do {
       var xHEX60gensym76_620757626 = [];
-      var first_486540006 = 0;
-      var last_486540007 = 0;
-      var eolpos_486540008 = 0;
+      var first_486540007 = 0;
+      var last_486540008 = 0;
+      var eolpos_486540009 = 0;
       Label2: do {
           Label3: while (true) {
           if (!true) break Label3;
             Label4: do {
                 Label5: while (true) {
-                if (!((last_486540007 < (s_620757618).length) && !((ConstSet21[s_620757618[chckIndx(last_486540007, 0, (s_620757618).length - 1)]] != undefined)))) break Label5;
-                  last_486540007 = addInt(last_486540007, 1);
+                if (!((last_486540008 < (s_620757618).length) && !((ConstSet21[s_620757618[chckIndx(last_486540008, 0, (s_620757618).length - 1)]] != undefined)))) break Label5;
+                  last_486540008 = addInt(last_486540008, 1);
                 }
             } while (false);
-            eolpos_486540008 = last_486540007;
-            if ((last_486540007 < (s_620757618).length)) {
-            if ((s_620757618[chckIndx(last_486540007, 0, (s_620757618).length - 1)] == 10)) {
-            last_486540007 = addInt(last_486540007, 1);
+            eolpos_486540009 = last_486540008;
+            if ((last_486540008 < (s_620757618).length)) {
+            if ((s_620757618[chckIndx(last_486540008, 0, (s_620757618).length - 1)] == 10)) {
+            last_486540008 = addInt(last_486540008, 1);
             }
             else {
-            if ((s_620757618[chckIndx(last_486540007, 0, (s_620757618).length - 1)] == 13)) {
-            last_486540007 = addInt(last_486540007, 1);
-            if (((last_486540007 < (s_620757618).length) && (s_620757618[chckIndx(last_486540007, 0, (s_620757618).length - 1)] == 10))) {
-            last_486540007 = addInt(last_486540007, 1);
+            if ((s_620757618[chckIndx(last_486540008, 0, (s_620757618).length - 1)] == 13)) {
+            last_486540008 = addInt(last_486540008, 1);
+            if (((last_486540008 < (s_620757618).length) && (s_620757618[chckIndx(last_486540008, 0, (s_620757618).length - 1)] == 10))) {
+            last_486540008 = addInt(last_486540008, 1);
             }
             
             }
@@ -2206,20 +2206,20 @@ function nsuSplitLines(s_620757618, keepEol_620757619) {
             }
             
             if (keepEol_620757619) {
-            Temporary6 = subInt(last_486540007, 1);
+            Temporary6 = subInt(last_486540008, 1);
             }
             else {
-            Temporary6 = subInt(eolpos_486540008, 1);
+            Temporary6 = subInt(eolpos_486540009, 1);
             }
             
-            xHEX60gensym76_620757626 = substr_33557906(s_620757618, first_486540006, Temporary6);
+            xHEX60gensym76_620757626 = substr_33557906(s_620757618, first_486540007, Temporary6);
             var Temporary7 = nimCopy(null, xHEX60gensym76_620757626, NTI33554439);
             result_620757620.push(Temporary7);;
-            if ((eolpos_486540008 == last_486540007)) {
+            if ((eolpos_486540009 == last_486540008)) {
             break Label2;
             }
             
-            first_486540006 = last_486540007;
+            first_486540007 = last_486540008;
           }
       } while (false);
     } while (false);
@@ -2268,17 +2268,17 @@ function multiReplace_620758731(s_620758732, replacements_620758733) {
     Label1: do {
       var sub_620758749 = [];
       var by_620758750 = [];
-      var i_486540017 = 0;
+      var i_486540018 = 0;
       Label2: do {
           Label3: while (true) {
-          if (!(i_486540017 < (replacements_620758733).length)) break Label3;
-            sub_620758749 = replacements_620758733[chckIndx(i_486540017, 0, (replacements_620758733).length - 1)]["Field0"];
-            by_620758750 = replacements_620758733[chckIndx(i_486540017, 0, (replacements_620758733).length - 1)]["Field1"];
+          if (!(i_486540018 < (replacements_620758733).length)) break Label3;
+            sub_620758749 = replacements_620758733[chckIndx(i_486540018, 0, (replacements_620758733).length - 1)]["Field0"];
+            by_620758750 = replacements_620758733[chckIndx(i_486540018, 0, (replacements_620758733).length - 1)]["Field1"];
             if ((0 < (sub_620758749).length)) {
             fastChk_620758736[sub_620758749[chckIndx(0, 0, (sub_620758749).length - 1)]] = true;
             }
             
-            i_486540017 = addInt(i_486540017, 1);
+            i_486540018 = addInt(i_486540018, 1);
           }
       } while (false);
     } while (false);
@@ -2290,19 +2290,19 @@ function multiReplace_620758731(s_620758732, replacements_620758733) {
             Label7: do {
               var sub_620758763 = [];
               var by_620758764 = [];
-              var i_486540021 = 0;
+              var i_486540022 = 0;
               Label8: do {
                   Label9: while (true) {
-                  if (!(i_486540021 < (replacements_620758733).length)) break Label9;
-                    sub_620758763 = replacements_620758733[chckIndx(i_486540021, 0, (replacements_620758733).length - 1)]["Field0"];
-                    by_620758764 = replacements_620758733[chckIndx(i_486540021, 0, (replacements_620758733).length - 1)]["Field1"];
+                  if (!(i_486540022 < (replacements_620758733).length)) break Label9;
+                    sub_620758763 = replacements_620758733[chckIndx(i_486540022, 0, (replacements_620758733).length - 1)]["Field0"];
+                    by_620758764 = replacements_620758733[chckIndx(i_486540022, 0, (replacements_620758733).length - 1)]["Field1"];
                       if (!(0 < (sub_620758763).length)) Temporary10 = false; else {                        Temporary10 = nsuContinuesWith(s_620758732, sub_620758763, chckRange(i_620758735, 0, 2147483647));                      }                    if (Temporary10) {
                     result_620758734.push.apply(result_620758734, by_620758764);;
                     i_620758735 = addInt(i_620758735, (sub_620758763).length);
                     break Label6;
                     }
                     
-                    i_486540021 = addInt(i_486540021, 1);
+                    i_486540022 = addInt(i_486540022, 1);
                   }
               } while (false);
             } while (false);
@@ -2343,19 +2343,19 @@ function nsuFindChar(s_620758520, sub_620758521, start_620758522, last_620758523
     var last_620758525 = Temporary1;
     Label2: do {
       var i_620758535 = 0;
-      var colontmp__486540031 = 0;
-      colontmp__486540031 = start_620758522;
-      var res_486540032 = colontmp__486540031;
+      var colontmp__486540032 = 0;
+      colontmp__486540032 = start_620758522;
+      var res_486540033 = colontmp__486540032;
       Label3: do {
           Label4: while (true) {
-          if (!(res_486540032 <= last_620758525)) break Label4;
-            i_620758535 = res_486540032;
+          if (!(res_486540033 <= last_620758525)) break Label4;
+            i_620758535 = res_486540033;
             if ((sub_620758521 == s_620758520[chckIndx(i_620758535, 0, (s_620758520).length - 1)])) {
             result_620758524 = i_620758535;
             break BeforeRet;
             }
             
-            res_486540032 = addInt(res_486540032, 1);
+            res_486540033 = addInt(res_486540033, 1);
           }
       } while (false);
     } while (false);
@@ -2394,15 +2394,15 @@ function nsuInitSkipTable(a_620758456, sub_620758457) {
     fill_620758459(a_620758456, m_620758458);
     Label1: do {
       var i_620758477 = 0;
-      var colontmp__486540035 = 0;
-      colontmp__486540035 = subInt(m_620758458, 1);
-      var i_486540036 = 0;
+      var colontmp__486540036 = 0;
+      colontmp__486540036 = subInt(m_620758458, 1);
+      var i_486540037 = 0;
       Label2: do {
           Label3: while (true) {
-          if (!(i_486540036 < colontmp__486540035)) break Label3;
-            i_620758477 = i_486540036;
+          if (!(i_486540037 < colontmp__486540036)) break Label3;
+            i_620758477 = i_486540037;
             a_620758456[chckIndx(sub_620758457[chckIndx(i_620758477, 0, (sub_620758457).length - 1)], 0, (a_620758456).length - 1)] = subInt(subInt(m_620758458, 1), i_620758477);
-            i_486540036 = addInt(i_486540036, 1);
+            i_486540037 = addInt(i_486540037, 1);
           }
       } while (false);
     } while (false);
@@ -2512,7 +2512,7 @@ function nsuReplaceStr(s_620758689, sub_620758690, by_620758691) {
 }
 
 function genBarcode() {
-            var Temporary4;
+              var Temporary5;
 
     var texts_486539946 = nsuSplitLines(cstrToNimstr(document.getElementById("text").value), false);
     var height_486539947 = cstrToNimstr(document.getElementById("height").value);
@@ -2527,29 +2527,35 @@ function genBarcode() {
     document.getElementById("svgsource").innerHTML = "";
     Label1: do {
       var line_486539975 = [];
-      var i_486540000 = 0;
-      var L_486540001 = (texts_486539946).length;
+      var i_486540001 = 0;
+      var L_486540002 = (texts_486539946).length;
       Label2: do {
           Label3: while (true) {
-          if (!(i_486540000 < L_486540001)) break Label3;
-            line_486539975 = texts_486539946[chckIndx(i_486540000, 0, (texts_486539946).length - 1)];
-            if (rawmode_486539954) {
-            Temporary4 = unescapeInput_486539923(line_486539975);
-            }
-            else {
-            Temporary4 = line_486539975;
-            }
-            
-            var final_486539976 = nimCopy(null, Temporary4, NTI33554439);
-            var code_486539977 = toCode128(final_486539976);
-            var svg_486539978 = toSvg(code_486539977, height_486539947, width_486539948, textsize_486539951, fontfamily_486539952, showframe_486539949, showtext_486539950, debugmode_486539953);
-            var source_486539979 = nsuReplaceStr(svg_486539978, makeNimstrLit("<"), makeNimstrLit("&lt;"));
-            if (null != toJSStr(svg_486539978)) { if (null == document.getElementById("barcode").innerHTML) document.getElementById("barcode").innerHTML = toJSStr(svg_486539978); else document.getElementById("barcode").innerHTML += toJSStr(svg_486539978); };
-            if (null != "\n<br>\n") { if (null == document.getElementById("barcode").innerHTML) document.getElementById("barcode").innerHTML = "\n<br>\n"; else document.getElementById("barcode").innerHTML += "\n<br>\n"; };
-            if (null != toJSStr(source_486539979)) { if (null == document.getElementById("svgsource").innerHTML) document.getElementById("svgsource").innerHTML = toJSStr(source_486539979); else document.getElementById("svgsource").innerHTML += toJSStr(source_486539979); };
-            if (null != "\n\n") { if (null == document.getElementById("svgsource").innerHTML) document.getElementById("svgsource").innerHTML = "\n\n"; else document.getElementById("svgsource").innerHTML += "\n\n"; };
-            i_486540000 = addInt(i_486540000, 1);
-            if (!(((texts_486539946).length == L_486540001))) {
+          if (!(i_486540001 < L_486540002)) break Label3;
+            line_486539975 = texts_486539946[chckIndx(i_486540001, 0, (texts_486539946).length - 1)];
+            Label4: do {
+              if (((line_486539975).length == 0)) {
+              break Label4;
+              }
+              
+              if (rawmode_486539954) {
+              Temporary5 = unescapeInput_486539923(line_486539975);
+              }
+              else {
+              Temporary5 = line_486539975;
+              }
+              
+              var final_486539976 = nimCopy(null, Temporary5, NTI33554439);
+              var code_486539977 = toCode128(final_486539976);
+              var svg_486539978 = toSvg(code_486539977, height_486539947, width_486539948, textsize_486539951, fontfamily_486539952, showframe_486539949, showtext_486539950, debugmode_486539953);
+              var source_486539979 = nsuReplaceStr(svg_486539978, makeNimstrLit("<"), makeNimstrLit("&lt;"));
+              if (null != toJSStr(svg_486539978)) { if (null == document.getElementById("barcode").innerHTML) document.getElementById("barcode").innerHTML = toJSStr(svg_486539978); else document.getElementById("barcode").innerHTML += toJSStr(svg_486539978); };
+              if (null != "\n<br>\n") { if (null == document.getElementById("barcode").innerHTML) document.getElementById("barcode").innerHTML = "\n<br>\n"; else document.getElementById("barcode").innerHTML += "\n<br>\n"; };
+              if (null != toJSStr(source_486539979)) { if (null == document.getElementById("svgsource").innerHTML) document.getElementById("svgsource").innerHTML = toJSStr(source_486539979); else document.getElementById("svgsource").innerHTML += toJSStr(source_486539979); };
+              if (null != "\n\n") { if (null == document.getElementById("svgsource").innerHTML) document.getElementById("svgsource").innerHTML = "\n\n"; else document.getElementById("svgsource").innerHTML += "\n\n"; };
+            } while (false);
+            i_486540001 = addInt(i_486540001, 1);
+            if (!(((texts_486539946).length == L_486540002))) {
             failedAssertImpl_218103864(makeNimstrLit("iterators.nim(240, 11) `len(a) == L` the length of the seq changed while iterating over it"));
             }
             

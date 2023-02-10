@@ -403,6 +403,7 @@ when defined(js):
     document.getElementById("svgsource").innerHtml = ""
 
     for line in texts:
+      if line.len == 0: continue
       let
         final = if rawmode: line.unescapeInput else: line
         code = toCode128(final)
