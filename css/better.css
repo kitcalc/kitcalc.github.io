@@ -30,6 +30,12 @@ body {
     padding: 0 10px
 }
 
+@media only screen and (max-width: 660px) {
+    body {
+        max-width: 100%;
+    }
+}
+
 blockquote {
     padding: .25rem .5rem;
     margin: .8rem 0;
@@ -227,7 +233,7 @@ button {
 
 /* stack form elements on small screens */
 
-@media only screen and (max-width :480px) {
+@media only screen and (max-width: 480px) {
     input, label, select, textarea, button {
         display: block;
     }
