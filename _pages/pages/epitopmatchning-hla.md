@@ -39,50 +39,52 @@ Frågor som ej besvaras av artikeln, *och som gör resultaten nedan osäkra*:
     <fieldset>
         <legend>Recipient</legend>
 
+        <ul>
+        <li>
         <label for="recA_1">HLA-A</label>
         <select id="recA_1"></select>
         <select id="recA_2"></select>
-        <br>
 
+        <li>
         <label for="recB_1">HLA-B</label>
         <select id="recB_1"></select>
         <select id="recB_2"></select>
-        <br>
 
+        <li>
         <label for="recC_1">HLA-C</label>
         <select id="recC_1"></select>
         <select id="recC_2"></select>
-        <br>
 
+        <li>
         <label for="recDRB1_1">HLA-DRB1<sup>†</sup></label>
         <select id="recDRB1_1"></select>
         <select id="recDRB1_2"></select>
-        <br>
 
+        <li>
         <label for="recDRB345">HLA-DRB3/4/5<sup>†</sup></label>
         <select id="recDRB345_1"></select>
         <select id="recDRB345_2"></select>
-        <br>
 
+        <li>
         <label for="recDQA1_1">HLA-DQA1<sup>†</sup></label>
         <select id="recDQA1_1"></select>
         <select id="recDQA1_2"></select>
-        <br>
 
+        <li>
         <label for="recDQB1_1">HLA-DQB1<sup>†</sup></label>
         <select id="recDQB1_1"></select>
         <select id="recDQB1_2"></select>
-        <br>
 
+        <li>
         <label for="recDPA1_1">HLA-DPA1</label>
         <select id="recDPA1_1"></select>
         <select id="recDPA1_2"></select>
-        <br>
 
+        <li>
         <label for="recDPB1_1">HLA-DPB1</label>
         <select id="recDPB1_1"></select>
         <select id="recDPB1_2"></select>
-        <br>
+        </ul>
     </fieldset>
 
     <fieldset>
@@ -91,55 +93,58 @@ Frågor som ej besvaras av artikeln, *och som gör resultaten nedan osäkra*:
         <label for="donA_1">HLA-A</label>
         <select id="donA_1"></select>
         <select id="donA_2"></select>
-        <br>
 
+        <li>
         <label for="donB_1">HLA-B</label>
         <select id="donB_1"></select>
         <select id="donB_2"></select>
-        <br>
 
+        <li>
         <label for="donC_1">HLA-C</label>
         <select id="donC_1"></select>
         <select id="donC_2"></select>
-        <br>
 
+        <li>
         <label for="donDRB1_1">HLA-DRB1<sup>†</sup></label>
         <select id="donDRB1_1"></select>
         <select id="donDRB1_2"></select>
-        <br>
 
+        <li>
         <label for="donDRB345">HLA-DRB3/4/5<sup>†</sup></label>
         <select id="donDRB345_1"></select>
         <select id="donDRB345_2"></select>
-        <br>
 
+        <li>
         <label for="donDQA1_1">HLA-DQA1<sup>†</sup></label>
         <select id="donDQA1_1"></select>
         <select id="donDQA1_2"></select>
-        <br>
 
+        <li>
         <label for="donDQB1_1">HLA-DQB1<sup>†</sup></label>
         <select id="donDQB1_1"></select>
         <select id="donDQB1_2"></select>
-        <br>
 
+        <li>
         <label for="donDPA1_1">HLA-DPA1</label>
         <select id="donDPA1_1"></select>
         <select id="donDPA1_2"></select>
-        <br>
 
+        <li>
         <label for="donDPB1_1">HLA-DPB1</label>
         <select id="donDPB1_1"></select>
         <select id="donDPB1_2"></select>
-        <br>
+        </ul>
     </fieldset>
 
+    <ul>
+    <li>
     <label for="emulateMatchmaker">Emulera HLAmatchmaker</label>
     <input type="checkbox" id="emulateMatchmaker" value="checked" checked>
-    <br>
 
+    <li>
     <button type="button" onclick="javascript:showMismatchedEplets()">Jämför</button>
     <input type="reset" value="Rensa">
+    </ul>
 </form>
 
 

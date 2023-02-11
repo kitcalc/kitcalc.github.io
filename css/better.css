@@ -175,6 +175,15 @@ thead {
  *   surprisingly tricky
  */
 
+form li {
+    list-style-type: none;
+}
+
+form ul {
+    margin: 0px;
+    padding-left: 0px;
+}
+
 input, select, textarea, button {
     padding: 0.5em 0.6em;
     /*display: inline-block;*/
@@ -213,7 +222,6 @@ fieldset {
 
 legend {
     display: block;
-    width: 100%;
     padding: .3em 0;
     margin-bottom: .3em;
     border-bottom: 1px solid #eee;
@@ -235,18 +243,10 @@ button {
     cursor: pointer;
 }
 
-/* stack form elements on small screens */
+/* bigger textarea on small screens */
 
 @media only screen and (max-width: 480px) {
-    input, label, select, textarea, button {
-        display: block;
-    }
-
     textarea {
-        width: 100%;
-    }
-
-    label {
         width: 100%;
     }
 }
