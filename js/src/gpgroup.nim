@@ -72,15 +72,8 @@ var
   splits = newJsTable[cstring, Split]()
   broads = newJsTable[cstring, cstring]()
 
-
 proc outputMeta(line: cstring) =
-  let
-    fields = line.split(": ")
-    key = fields[0].substr(2)   # remove leading "# "
-    value = fields[1]
-  const spaces = "                    ".cstring  # 20 spaces
-  echo key, spaces.substr(key.len), value
-
+  echo line
 
 proc parseGroup*(data: cstring): TableResult {.exportc.} =
   var fields: seq[cstring]
