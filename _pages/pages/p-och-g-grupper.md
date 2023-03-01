@@ -6,8 +6,8 @@ js: js/gpgroup.js
 summary: Bestämning av P- och G-grupper för HLA-alleler
 ---
 
-Information om [P-grupper](http://hla.alleles.org/alleles/p_groups.html),
-[G-grupper](http://hla.alleles.org/alleles/g_groups.html) och
+Information om [P-grupper](https://hla.alleles.org/alleles/p_groups.html),
+[G-grupper](https://hla.alleles.org/alleles/g_groups.html) och
 [antigen](https://hla.alleles.org/antigens/index.html)
 
 <form id="gpgroupform" action="javascript:lookupAllele()">
