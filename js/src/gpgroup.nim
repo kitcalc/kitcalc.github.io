@@ -297,6 +297,13 @@ template valueFromInput(elementId: cstring): cstring =
 proc setInnerHtml(elementId, value: cstring) =
   document.getElementById(elementId).innerHtml = value
 
+template fillInput(value: cstring): cstring =
+  ## Set `allele` input text to value
+  const action = """document.getElementById("allele").innerHtml=this.innerHTML""".cstring
+  "<span onclick='javascript:".cstring &
+    action & "'>".cstring &
+    value & "</span>".cstring
+
 proc clearForm() =
   setInnerHtml("alleleinfo", "")
   setInnerHtml("helptext", "")
@@ -327,7 +334,7 @@ proc lookForAlternateAllele(allele: cstring) =
   if cands.len > 0:
     var helpstring: cstring = "Mer specifik fråga behövs, ange t.ex. någon av:<br>\n"
     for cand in cands:
-      helpstring.add(cand & "<br>\n")
+      helpstring.add(fillInput(cand) & "<br>\n")
     if cands.len > maxresults:
       helpstring.add "..."
     help(helpstring)
