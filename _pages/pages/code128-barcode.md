@@ -60,7 +60,7 @@ Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format.
 
 ## Barcode
 
-<div id="barcode"></div>
+<div id="barcodeout"></div>
 
 <details>
     <summary>SVG-källa</summary>
