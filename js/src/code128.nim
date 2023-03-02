@@ -399,7 +399,7 @@ when defined(js):
       rawmode = document.getElementById("rawmode").checked
 
     # clear output
-    document.getElementById("barcode").innerHtml = ""
+    document.getElementById("barcodeout").innerHtml = ""
     document.getElementById("svgsource").innerHtml = ""
 
     for line in texts:
@@ -410,8 +410,8 @@ when defined(js):
         svg = code.toSvg(height, width, textsize, fontfamily, showframe, showtext, debugmode)
         source = svg.replace("<", "&lt;")
 
-      document.getElementById("barcode").innerHtml &= svg.cstring
-      document.getElementById("barcode").innerHtml &= "\n<br>\n".cstring
+      document.getElementById("barcodeout").innerHtml &= svg.cstring
+      document.getElementById("barcodeout").innerHtml &= "\n<br>\n".cstring
 
       document.getElementById("svgsource").innerHtml &= source.cstring
       document.getElementById("svgsource").innerHtml &= "\n\n"  # a bit ugly
