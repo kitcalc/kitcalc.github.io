@@ -2523,7 +2523,7 @@ function genBarcode() {
     var fontfamily_486539952 = cstrToNimstr(document.getElementById("fontfamily").value);
     var debugmode_486539953 = document.getElementById("debugmode").checked;
     var rawmode_486539954 = document.getElementById("rawmode").checked;
-    document.getElementById("barcode").innerHTML = "";
+    document.getElementById("barcodeout").innerHTML = "";
     document.getElementById("svgsource").innerHTML = "";
     Label1: do {
       var line_486539975 = [];
@@ -2549,8 +2549,8 @@ function genBarcode() {
               var code_486539977 = toCode128(final_486539976);
               var svg_486539978 = toSvg(code_486539977, height_486539947, width_486539948, textsize_486539951, fontfamily_486539952, showframe_486539949, showtext_486539950, debugmode_486539953);
               var source_486539979 = nsuReplaceStr(svg_486539978, makeNimstrLit("<"), makeNimstrLit("&lt;"));
-              if (null != toJSStr(svg_486539978)) { if (null == document.getElementById("barcode").innerHTML) document.getElementById("barcode").innerHTML = toJSStr(svg_486539978); else document.getElementById("barcode").innerHTML += toJSStr(svg_486539978); };
-              if (null != "\n<br>\n") { if (null == document.getElementById("barcode").innerHTML) document.getElementById("barcode").innerHTML = "\n<br>\n"; else document.getElementById("barcode").innerHTML += "\n<br>\n"; };
+              if (null != toJSStr(svg_486539978)) { if (null == document.getElementById("barcodeout").innerHTML) document.getElementById("barcodeout").innerHTML = toJSStr(svg_486539978); else document.getElementById("barcodeout").innerHTML += toJSStr(svg_486539978); };
+              if (null != "\n<br>\n") { if (null == document.getElementById("barcodeout").innerHTML) document.getElementById("barcodeout").innerHTML = "\n<br>\n"; else document.getElementById("barcodeout").innerHTML += "\n<br>\n"; };
               if (null != toJSStr(source_486539979)) { if (null == document.getElementById("svgsource").innerHTML) document.getElementById("svgsource").innerHTML = toJSStr(source_486539979); else document.getElementById("svgsource").innerHTML += toJSStr(source_486539979); };
               if (null != "\n\n") { if (null == document.getElementById("svgsource").innerHTML) document.getElementById("svgsource").innerHTML = "\n\n"; else document.getElementById("svgsource").innerHTML += "\n\n"; };
             } while (false);
