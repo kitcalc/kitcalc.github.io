@@ -72,15 +72,8 @@ var
   splits = newJsTable[cstring, Split]()
   broads = newJsTable[cstring, cstring]()
 
-
 proc outputMeta(line: cstring) =
-  let
-    fields = line.split(": ")
-    key = fields[0].substr(2)   # remove leading "# "
-    value = fields[1]
-  const spaces = "                    ".cstring  # 20 spaces
-  echo key, spaces.substr(key.len), value
-
+  echo line
 
 proc parseGroup*(data: cstring): TableResult {.exportc.} =
   var fields: seq[cstring]
@@ -297,6 +290,13 @@ template valueFromInput(elementId: cstring): cstring =
 proc setInnerHtml(elementId, value: cstring) =
   document.getElementById(elementId).innerHtml = value
 
+template fillInput(value: cstring): cstring =
+  ## Set `allele` input text to value
+  const action = """document.getElementById('allele').value=this.innerHTML; lookupAllele()""".cstring
+  "<span onclick=\"".cstring &
+    action & "\">".cstring &
+    value & "</span>".cstring
+
 proc clearForm() =
   setInnerHtml("alleleinfo", "")
   setInnerHtml("helptext", "")
@@ -327,7 +327,7 @@ proc lookForAlternateAllele(allele: cstring) =
   if cands.len > 0:
     var helpstring: cstring = "Mer specifik fråga behövs, ange t.ex. någon av:<br>\n"
     for cand in cands:
-      helpstring.add(cand & "<br>\n")
+      helpstring.add(fillInput(cand) & "<br>\n")
     if cands.len > maxresults:
       helpstring.add "..."
     help(helpstring)
