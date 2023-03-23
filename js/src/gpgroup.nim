@@ -292,9 +292,9 @@ proc setInnerHtml(elementId, value: cstring) =
 
 template fillInput(value: cstring): cstring =
   ## Set `allele` input text to value
-  const action = """document.getElementById("allele").innerHtml=this.innerHTML; lookupAllele()""".cstring
-  "<span onclick='javascript:".cstring &
-    action & "'>".cstring &
+  const action = """document.getElementById('allele').value=this.innerHTML; lookupAllele()""".cstring
+  "<span onclick=\"".cstring &
+    action & "\">".cstring &
     value & "</span>".cstring
 
 proc clearForm() =

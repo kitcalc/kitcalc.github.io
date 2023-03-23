@@ -1074,7 +1074,7 @@ function lookForAlternateAllele_486539832(allele_486539833) {
           Label4: while (true) {
           if (!(i_486540075 < L_486540076)) break Label4;
             cand_486539856 = cands_486539835[chckIndx(i_486540075, 0, (cands_486539835).length - 1)];
-            if (null != (Temporary5 = ((((("<span onclick='javascript:" + "document.getElementById(\"allele\").innerHtml=this.innerHTML; lookupAllele()") + "'>") + cand_486539856) + "</span>") + "<br>\n"), Temporary5)) { if (null == helpstring_486539852) helpstring_486539852 = Temporary5; else helpstring_486539852 += Temporary5; };
+            if (null != (Temporary5 = ((((("<span onclick=\"" + "document.getElementById('allele').value=this.innerHTML; lookupAllele()") + "\">") + cand_486539856) + "</span>") + "<br>\n"), Temporary5)) { if (null == helpstring_486539852) helpstring_486539852 = Temporary5; else helpstring_486539852 += Temporary5; };
             i_486540075 = addInt(i_486540075, 1);
             if (!(((cands_486539835).length == L_486540076))) {
             failedAssertImpl_218103864(makeNimstrLit("iterators.nim(240, 11) `len(a) == L` the length of the seq changed while iterating over it"));
