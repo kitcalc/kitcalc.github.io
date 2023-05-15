@@ -144,7 +144,7 @@ proc toPlateSetup(plate: Plate): string =
 
         lastSampleId = sample
 
-      samplecolor = colors[colorId]
+      let samplecolor = colors[colorId]
 
       result.add plateSample(sample, pos, samplecolor)
 
