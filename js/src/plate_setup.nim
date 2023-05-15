@@ -89,7 +89,7 @@ const
 Well	Sample Name	Sample Color	Biogroup Name	Biogroup Color	Target Name	Target Color	Task	Reporter	Quencher	Quantity	Comments
 """
 
-proc plateSample(sample: string, position: string): string =
+proc plateSample(sample: string, position: string, color: string): string =
   ## Generate text for sample, two lines including control
   const
     vicRgb = "\"RGB(208,243,98)\""
@@ -103,27 +103,51 @@ proc plateSample(sample: string, position: string): string =
   let
     # GAPDH - VIC
     gapdhLine = [
-      position, sample, "", "", "", gapdh, vicRgb, gapdh, vic, que, "", ""
+      position, sample, color, "", "", gapdh, vicRgb, gapdh, vic, que, "", ""
     ]
 
     # RHD - FAM
     rhdLine = [
-      position, sample, "", "", "", rhd, famRgb, rhd, fam, que, "", ""
+      position, sample, color, "", "", rhd, famRgb, rhd, fam, que, "", ""
     ]
 
   # join and end with newline
   result = gapdhLine.join("\t") & "\n" & rhdLine.join("\t") & "\n"
 
+const colors = [
+  "\"RGB(132,193,241)\"",
+  "\"RGB(168,255,222)\"",
+  "\"RGB(223,221,142)\"",
+  "\"RGB(247,255,168)\"",
+  "\"RGB(180,255,0)\"",
+  "\"RGB(255,204,153)\"",
+  "\"RGB(253,138,88)\"",
+  "\"RGB(213,244,165)\"",
+  "\"RGB(96,255,160)\""
+]
+
 proc toPlateSetup(plate: Plate): string =
   ## Convert plate to output format
   result = plateHeader
+  var
+    lastSampleId = ""
+    colorId = 0
   for row in Row.low .. Row.high:
     for col in Column.low .. Column.high:
       # oddly, output by column but with row index first
       let
         sample = plate[row][col]
         pos = $row & $col  # A1 .. H12
-      result.add plateSample(sample, pos)
+      if sample != lastSampleId:
+        # change to next color
+        colorId = (colorId + 1) mod colors.len
+
+        lastSampleId = sample
+
+      samplecolor = colors[colorId]
+
+      result.add plateSample(sample, pos, samplecolor)
+
 
 proc columnIndex(): string =
   ## Static proc to generate column index for table
