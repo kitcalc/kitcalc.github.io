@@ -76,17 +76,19 @@ proc linkFileName(file: string): string =
   result = trimmed & "_" & currTime & ".txt"
 
 
+# NOTE: output windows newlines (CRLF)!
+
 const
   # table header is tab-separated
-  plateHeader = """* Block Type = 96alum
-* Chemistry = TAQMAN
-* Experiment File Name = C:\Users\leocadie.henry\OneDrive - Thermo Fisher Scientific\Documents\Cases\2023\01855962 _SE_7500_SSO_SN_ 8046438_LUNDS UNIVERSITETSSJUKHUS\Devyser RHD template 7500 v2_3 20200831.edt
-* Experiment Run End Time = Not Started
-* Instrument Type = sds7500
-* Passive Reference = ROX
-
-[Sample Setup]
-Well	Sample Name	Sample Color	Biogroup Name	Biogroup Color	Target Name	Target Color	Task	Reporter	Quencher	Quantity	Comments
+  plateHeader = """* Block Type = 96alum\c
+* Chemistry = TAQMAN\c
+* Experiment File Name = D:\Users\INSTR-USER\Desktop\Devyser RHD template 7500 v2_3 20200831.edt\c
+* Experiment Run End Time = Not Started\c
+* Instrument Type = sds7500\c
+* Passive Reference = ROX\c
+\c
+[Sample Setup]\c
+Well	Sample Name	Sample Color	Biogroup Name	Biogroup Color	Target Name	Target Color	Task	Reporter	Quencher	Quantity	Comments\c
 """
 
 proc plateSample(sample: string, position: string, color: string): string =
@@ -99,20 +101,21 @@ proc plateSample(sample: string, position: string, color: string): string =
     gapdh = "GAPDH"
     rhd = "RHD"
     que = "NFQ-MGB"
+    unk = "UNKNOWN"
 
   let
     # GAPDH - VIC
     gapdhLine = [
-      position, sample, color, "", "", gapdh, vicRgb, gapdh, vic, que, "", ""
+      position, sample, color, "", "", gapdh, vicRgb, unk, vic, que, "", ""
     ]
 
     # RHD - FAM
     rhdLine = [
-      position, sample, color, "", "", rhd, famRgb, rhd, fam, que, "", ""
+      position, sample, color, "", "", rhd, famRgb, unk, fam, que, "", ""
     ]
 
   # join and end with newline
-  result = gapdhLine.join("\t") & "\n" & rhdLine.join("\t") & "\n"
+  result = gapdhLine.join("\t") & "\c\n" & rhdLine.join("\t") & "\c\n"
 
 const colors = [
   "\"RGB(132,193,241)\"",
