@@ -80,7 +80,7 @@ const
   # table header is tab-separated
   plateHeader = """* Block Type = 96alum
 * Chemistry = TAQMAN
-* Experiment File Name = C:\Users\leocadie.henry\OneDrive - Thermo Fisher Scientific\Documents\Cases\2023\01855962 _SE_7500_SSO_SN_ 8046438_LUNDS UNIVERSITETSSJUKHUS\Devyser RHD template 7500 v2_3 20200831.edt
+* Experiment File Name = D:\Users\INSTR-USER\Desktop\Devyser RHD template 7500 v2_3 20200831.edt
 * Experiment Run End Time = Not Started
 * Instrument Type = sds7500
 * Passive Reference = ROX
@@ -99,16 +99,17 @@ proc plateSample(sample: string, position: string, color: string): string =
     gapdh = "GAPDH"
     rhd = "RHD"
     que = "NFQ-MGB"
+    unk = "UNKNOWN"
 
   let
     # GAPDH - VIC
     gapdhLine = [
-      position, sample, color, "", "", gapdh, vicRgb, gapdh, vic, que, "", ""
+      position, sample, color, "", "", gapdh, vicRgb, unk, vic, que, "", ""
     ]
 
     # RHD - FAM
     rhdLine = [
-      position, sample, color, "", "", rhd, famRgb, rhd, fam, que, "", ""
+      position, sample, color, "", "", rhd, famRgb, unk, fam, que, "", ""
     ]
 
   # join and end with newline
@@ -172,7 +173,9 @@ proc htmlResult(contents, file: string): cstring =
   let
     linkText = linkFileName(file)
     plate = parseRackFile(contents)
-    plateSetup = toPlateSetup(plate)
+
+    # file must have windows newlines!!!
+    plateSetup = toPlateSetup(plate).replace("\n", "\c\n")
 
     dataUrl = toDataUrl(plateSetup)
 
