@@ -76,19 +76,17 @@ proc linkFileName(file: string): string =
   result = trimmed & "_" & currTime & ".txt"
 
 
-# NOTE: output windows newlines (CRLF)!
-
 const
   # table header is tab-separated
-  plateHeader = """* Block Type = 96alum\c
-* Chemistry = TAQMAN\c
-* Experiment File Name = D:\Users\INSTR-USER\Desktop\Devyser RHD template 7500 v2_3 20200831.edt\c
-* Experiment Run End Time = Not Started\c
-* Instrument Type = sds7500\c
-* Passive Reference = ROX\c
-\c
-[Sample Setup]\c
-Well	Sample Name	Sample Color	Biogroup Name	Biogroup Color	Target Name	Target Color	Task	Reporter	Quencher	Quantity	Comments\c
+  plateHeader = """* Block Type = 96alum
+* Chemistry = TAQMAN
+* Experiment File Name = D:\Users\INSTR-USER\Desktop\Devyser RHD template 7500 v2_3 20200831.edt
+* Experiment Run End Time = Not Started
+* Instrument Type = sds7500
+* Passive Reference = ROX
+
+[Sample Setup]
+Well	Sample Name	Sample Color	Biogroup Name	Biogroup Color	Target Name	Target Color	Task	Reporter	Quencher	Quantity	Comments
 """
 
 proc plateSample(sample: string, position: string, color: string): string =
@@ -115,7 +113,7 @@ proc plateSample(sample: string, position: string, color: string): string =
     ]
 
   # join and end with newline
-  result = gapdhLine.join("\t") & "\c\n" & rhdLine.join("\t") & "\c\n"
+  result = gapdhLine.join("\t") & "\n" & rhdLine.join("\t") & "\n"
 
 const colors = [
   "\"RGB(132,193,241)\"",
@@ -175,7 +173,9 @@ proc htmlResult(contents, file: string): cstring =
   let
     linkText = linkFileName(file)
     plate = parseRackFile(contents)
-    plateSetup = toPlateSetup(plate)
+
+    # file must have windows newlines!!!
+    plateSetup = toPlateSetup(plate).replace("\n", "\c\n")
 
     dataUrl = toDataUrl(plateSetup)
 
