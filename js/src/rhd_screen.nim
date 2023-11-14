@@ -179,7 +179,10 @@ proc analyzeSample(rawSample: RawSample; gapdhMin, gapdhMax: float): Sample =
 
 func cmpSampleId(s1, s2: string): int =
   ## Comparison for sorting sample ids, omitting first char
-  cmp(s1[1..<s1.len], s2[1..<s2.len])
+  let
+    s1start = max(s1.len - 11, 0)
+    s2start = max(s2.len - 11, 0)
+  cmp(s1[s1start..<s1.len], s2[s2start..<s2.len])
 
 
 iterator sortedSamples(samples: Table[string, RawSample]): RawSample =
