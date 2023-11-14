@@ -30,7 +30,9 @@ type
 
 # explanations for inconclusive results
 const codes: array[Result, string] =
-  ["", "",
+  [
+    "",
+    "",
     "endast en positiv reaktion",
     "låg DNA konc",
     "hög DNA konc",
@@ -63,13 +65,17 @@ proc parseExportFile(contents: string): Table[string, RawSample] =
 
     let fields = line.split(',')
 
+    # skip header row
+    if fields[0] == "\"Well Position\"":
+      continue
+
     # rough check for errors
     if fields.len != 4:
       outputAndRaise("fel antal fält ("  & $fields.len & ") på rad " & $i & ": " & line)
 
     # data rows
     let
-      sampleId = fields[1]
+      sampleId = fields[1].strip(chars={'\"'})
       gene = fields[2].strip(chars={'\"'})
 
     if gene notin ["RHD", "GAPDH"]:
@@ -130,7 +136,7 @@ proc checkPosNeg(sample: var Sample, rawSample: RawSample) =
   elif npos > 1:
     sample.status = Pos
 
-proc checkDnaIsLow(sample: var Sample; rawSample: RawSample; gapdhMin, gapdhMax: float): bool =
+proc checkDnaIsLow(sample: var Sample; rawSample: RawSample; gapdhMax: float): bool =
   ## Check if DNA conc is too low
   if sample.status in [Neg, IncOnePositive]:
     for ct in rawSample.gapdhCts:
@@ -138,11 +144,11 @@ proc checkDnaIsLow(sample: var Sample; rawSample: RawSample; gapdhMin, gapdhMax:
         sample.status = IncDnaLow
         return true
 
-proc checkDnaIsHigh(sample: var Sample; rawSample: RawSample; gapdhMin, gapdhMax: float): bool =
+proc checkDnaIsHigh(sample: var Sample; rawSample: RawSample; gapdhMin: float): bool =
   ## Check if DNA conc is too high
   if sample.status in [Neg, IncOnePositive]:
     for ct in rawSample.gapdhCts:
-      if ct < gapdhMax:
+      if ct < gapdhMin:
         sample.status = IncDnaHigh
         return true
 
@@ -162,9 +168,9 @@ proc analyzeSample(rawSample: RawSample; gapdhMin, gapdhMax: float): Sample =
   checkPosNeg(result, rawSample)
 
   # further checking
-  if checkDnaIsLow(result, rawSample, gapdhMin, gapdhMax):
+  if checkDnaIsLow(result, rawSample, gapdhMax):
     return
-  if checkDnaIsHigh(result, rawSample, gapdhMin, gapdhMax):
+  if checkDnaIsHigh(result, rawSample, gapdhMin):
     return
   if checkRhdHigh(result, rawSample):
     return
@@ -173,7 +179,7 @@ proc analyzeSample(rawSample: RawSample; gapdhMin, gapdhMax: float): Sample =
 
 func cmpSampleId(s1, s2: string): int =
   ## Comparison for sorting sample ids, omitting first char
-  cmp(s1[1..<s2.len], s2[1..<s2.len])
+  cmp(s1[1..<s1.len], s2[1..<s2.len])
 
 
 iterator sortedSamples(samples: Table[string, RawSample]): RawSample =
@@ -186,10 +192,10 @@ iterator sortedSamples(samples: Table[string, RawSample]): RawSample =
 proc verifyNegativeControl(ntcsample: RawSample) =
   ## Verify that the negative control is negative
   for res in ntcsample.rhdCts:
-    if res != NaN:
+    if not res.isNaN:
       outputAndRaise("negativ RHD-kontroll är positiv: " & $res)
   for res in ntcsample.gapdhCts:
-    if res != NaN:
+    if not res.isNaN:
       outputAndRaise("negativ GAPDH-kontroll är positiv: " & $res)
 
 
@@ -217,7 +223,7 @@ proc analyzeResults(samples: Table[string, RawSample]): seq[Sample] =
     result.add final
 
 
-const header = ["SampleID", "Result", "Pattern", "Comment"]
+const header = ["LID", "Resultat", "Svar", "Kommentar"]
 
 proc toResultTable(samples: seq[Sample]): string =
   ## Convert results to text output format, tab-separated
@@ -236,9 +242,10 @@ proc toResultTable(samples: seq[Sample]): string =
 
 proc sampleHtml(sample: Sample): string =
   ## Generate HTML row for sample
+  let pattern = sample.pattern.replace("-", "&minus;")
   result = tr(
     td(sample.sampleId),
-    td(sample.pattern),
+    td(pattern),
     td($sample.status),
     td(codes[sample.status])
   )
@@ -272,7 +279,11 @@ proc htmlResult(contents, file: string): cstring =
   # the HTML result string, conversion upon return from proc
   var s: string
 
-  s = h3("Länk till konverterad fil")
+  s.add p(
+    htmlTable
+  )
+
+  s.add h3("Länk till resultatfil")
   s.add p(a(href=dataUrl, download=linkText, linkText))
 
   s.add p(details(
@@ -280,10 +291,6 @@ proc htmlResult(contents, file: string): cstring =
     pre(code(resultTable))  # code or any html-like content will be rendered
   ))
 
-  s.add p(details(
-    summary("Visa resultat"),
-    htmlTable
-  ))
 
   result = s.cstring
 
