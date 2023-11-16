@@ -63,15 +63,18 @@ proc parseExportFile(contents: string): Table[string, RawSample] =
       echo line
       continue
 
-    let fields = line.split(',')
+    let
+      # file is sometimes unquoted, with semicolon separators - normalize to comma
+      normalized = line.replace(';', ',')
+      fields = normalized.split(',')
 
-    # skip header row
-    if fields[0] == "\"Well Position\"":
+    # skip header row, field is sometimes quoted so cannot compare directly
+    if "Well Position" in fields[0]:
       continue
 
     # rough check for errors
-    if fields.len != 4:
-      outputAndRaise("fel antal fält ("  & $fields.len & ") på rad " & $i & ": " & line)
+    if fields.len < 4:
+      outputAndRaise("fel antal fält (n="  & $fields.len & ") på rad " & $i & ": " & line)
 
     # data rows
     let
