@@ -6,6 +6,6 @@ summary: Tolkning av <i>RHD</i>-screening
 
 ### Välj exporterad fil (.csv)
 
-<input type="file" onchange="fileLoaded()" id="fileInput" />
+<input type="file" onchange="fileLoaded()" id="fileInput" accept=".csv" />
 
 <div id="showcontent">Resultat visas här när konvertering är klar</div>
