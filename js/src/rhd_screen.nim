@@ -62,9 +62,9 @@ proc assertTriplicates(samples: Table[string, RawSample]) =
   ## Assert that all samples are triplicates
   for sample in samples.values:
     if not sample.rhdCts.len == 3:
-      outputAndRaise("provet " & sample.sampleId & " hade bara " & $sample.rhdCts.len " värden för RHD")
+      outputAndRaise("provet " & sample.sampleId & " hade bara " & $sample.rhdCts.len & " värden för RHD")
     if not sample.gapdhCts.len == 3:
-      outputAndRaise("provet " & sample.sampleId & " hade bara " & $sample.gapdhCts.len " värden för GAPDH")
+      outputAndRaise("provet " & sample.sampleId & " hade bara " & $sample.gapdhCts.len & " värden för GAPDH")
 
 
 proc parseExportFile(contents: string): Table[string, RawSample] =
@@ -193,6 +193,8 @@ proc analyzeSample(rawSample: RawSample; gapdhMin, gapdhMax: float): Sample =
   ## Analyze one sample
   result.sampleId = rawSample.sampleId
 
+  # it is ugly to modify objects inplace, but it works
+
   # initial status
   checkPosNeg(result, rawSample)
 
@@ -206,7 +208,8 @@ proc analyzeSample(rawSample: RawSample; gapdhMin, gapdhMax: float): Sample =
 
 
 func cmpSampleId(s1, s2: string): int =
-  ## Comparison for sorting sample ids, omitting first char
+  ## Comparison for sorting sample ids, omitting the first char
+  # TODO: adapt to future sample id formats
   let
     s1start = max(s1.len - 11, 0)
     s2start = max(s2.len - 11, 0)
