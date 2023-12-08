@@ -101,7 +101,13 @@ proc parseExportFile(contents: string): Table[string, RawSample] =
 
     let
       ctRaw = fields[3].strip(chars={'\"'})
-      ct = if ctRaw == "Undetermined": NaN else: ctRaw.parseFloat
+      ct = if ctRaw == "Undetermined":
+        NaN
+      else:
+        try:
+          ctRaw.parseFloat
+        except ValueError:
+          outputAndRaise("inget giltigt Ct-värde (" & ctRaw & ") på rad " & $i & ": " & line)
 
     if sampleId notin result:
       result[sampleId] = RawSample(sampleId: sampleId, rhdCts: @[], gapdhCts: @[])
