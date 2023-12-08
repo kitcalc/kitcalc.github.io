@@ -1,10 +1,5 @@
 import strutils, base64, htmlgen, dom, tables, times, algorithm, sequtils, math
 
-# General idea: parse the raw data, save each data row by sample id in a table
-# Next, generate a Run where each sample has a final status (P, N, I;
-# additionally, "I" samples have a reason enum attached) and where controls are
-# checked and removed
-
 const
   inputId = "fileInput"
   outputId = "showcontent"
@@ -61,10 +56,16 @@ proc assertControlsPresent(samples: Table[string, RawSample]) =
 proc assertTriplicates(samples: Table[string, RawSample]) =
   ## Assert that all samples are triplicates
   for sample in samples.values:
-    if not sample.rhdCts.len == 3:
-      outputAndRaise("provet " & sample.sampleId & " hade bara " & $sample.rhdCts.len & " värden för RHD")
-    if not sample.gapdhCts.len == 3:
-      outputAndRaise("provet " & sample.sampleId & " hade bara " & $sample.gapdhCts.len & " värden för GAPDH")
+    let minLen = if sample.sampleId == "NTC":
+      1
+    elif sample.sampleId == "PC":
+      2
+    else:
+      3
+    if not sample.rhdCts.len == minLen:
+      outputAndRaise("provet " & sample.sampleId & " hade bara " & $sample.rhdCts.len & " värden för RHD men minsta antal är " & $minLen)
+    if not sample.gapdhCts.len == minLen:
+      outputAndRaise("provet " & sample.sampleId & " hade bara " & $sample.gapdhCts.len & " värden för GAPDH men minsta antal är " & $minLen)
 
 
 proc parseExportFile(contents: string): Table[string, RawSample] =
@@ -167,6 +168,7 @@ proc checkDnaIsLow(sample: var Sample; rawSample: RawSample; gapdhMax: float): b
   if sample.status in [Neg, IncOnePositive]:
     for ct in rawSample.gapdhCts:
       if ct > gapdhMax:
+        echo "checkDnaIsLow sample: ", sample.sampleId, " prev status: ", sample.status, " ct: ", ct, " gapdhMax: ", gapdhMax
         sample.status = IncDnaLow
         return true
 
@@ -176,6 +178,7 @@ proc checkDnaIsHigh(sample: var Sample; rawSample: RawSample; gapdhMin: float): 
   if sample.status in [Neg, IncOnePositive]:
     for ct in rawSample.gapdhCts:
       if ct < gapdhMin:
+        echo "checkDnaIsHigh sample: ", sample.sampleId, " prev status: ", sample.status, " ct: ", ct, " gapdhMin: ", gapdhMin
         sample.status = IncDnaHigh
         return true
 
@@ -185,6 +188,7 @@ proc checkRhdHigh(sample: var Sample; rawSample: RawSample): bool =
   # make it simple, check if the lowest RHD is lower than the highest ct
   if sample.status == Pos:
     if min(rawSample.rhdCts) < max(rawSample.gapdhCts):
+      echo "checkRhdHigh sample: ", sample.sampleId, " prev status: ", sample.status, " min(rhdCts): ", min(rawSample.rhdCts), " max(gapdhCts): ", max(rawSample.gapdhCts)
       sample.status = IncRhdHigh
       return true
 
