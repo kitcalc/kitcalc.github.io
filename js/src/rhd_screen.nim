@@ -25,7 +25,7 @@ type
 
   Sample = object
     sampleId: string
-    pattern: string  # eg., "+ + - "
+    pattern: string  # eg., "+ + -"
     status: Result
 
 # explanations for inconclusive results
@@ -50,9 +50,26 @@ proc outputAndRaise(error: string) =
   raise newException(ValueError, error)
 
 
+proc assertControlsPresent(samples: Table[string, RawSample]) =
+  ## Assert that controls are always present
+  if "NTC" notin samples:
+    outputAndRaise("förväntades en negativ kontroll \"NTC\" men det fanns ingen i filen")
+  elif "PC" notin samples:
+    outputAndRaise("förväntades en positiv kontroll \"PC\" men det fanns ingen i filen")
+
+
+proc assertTriplicates(samples: Table[string, RawSample]) =
+  ## Assert that all samples are triplicates
+  for sample in samples.values:
+    if not sample.rhdCts.len == 3:
+      outputAndRaise("provet " & sample.sampleId & " hade bara " & $sample.rhdCts.len " värden för RHD")
+    if not sample.gapdhCts.len == 3:
+      outputAndRaise("provet " & sample.sampleId & " hade bara " & $sample.gapdhCts.len " värden för GAPDH")
+
+
 proc parseExportFile(contents: string): Table[string, RawSample] =
   ## Parse the export file
-  # File contains 4 comma-separated fields per row, some fields are quoted
+  # File contains at least 4 comma/semicolon-separated fields per row, some fields are quoted
 
   for (i, line) in pairs(splitLines(contents)):
     if line.len == 0:
@@ -81,9 +98,6 @@ proc parseExportFile(contents: string): Table[string, RawSample] =
       sampleId = fields[1].strip(chars={'\"'})
       gene = fields[2].strip(chars={'\"'})
 
-    if gene notin ["RHD", "GAPDH"]:
-      outputAndRaise("okänd gen \"" & gene & "\" på rad " & $i & ": " & line)
-
     let
       ctRaw = fields[3].strip(chars={'\"'})
       ct = if ctRaw == "Undetermined": NaN else: ctRaw.parseFloat
@@ -91,20 +105,18 @@ proc parseExportFile(contents: string): Table[string, RawSample] =
     if sampleId notin result:
       result[sampleId] = RawSample(sampleId: sampleId, rhdCts: @[], gapdhCts: @[])
 
-    # sanity check for genes
+    # add result depending on gene name
     case gene
     of "RHD":
       result[sampleId].rhdCts.add ct
     of "GAPDH":
       result[sampleId].gapdhCts.add ct
     else:
-      outputAndRaise("internt fel: okänd gen \"" & gene & "\" på rad " & $i & ": " & line)
+      outputAndRaise("okänd gen \"" & gene & "\" på rad " & $i & ": " & line)
 
-  # controls should be present
-  if "NTC" notin result:
-    outputAndRaise("förväntades en negativ kontroll \"NTC\" men det fanns ingen i filen")
-  elif "PC" notin result:
-    outputAndRaise("förväntades en positiv kontroll \"PC\" men det fanns ingen i filen")
+  # checks
+  assertControlsPresent(result)
+  assertTriplicates(result)
 
 
 proc toDataUrl(contents: string): string =
@@ -123,37 +135,50 @@ proc linkFileName(file: string): string =
   let currTime = now().format("yyyyMMdd'_'HHmmss")
   result = trimmed & "_" & currTime & ".txt"
 
+
 proc checkPosNeg(sample: var Sample, rawSample: RawSample) =
+  ## Determine if sample is positive or negative, or inconclusive
   var npos = 0
   for res in rawSample.rhdCts:
     if res.isNan or res >= 45.0:
+      # no signal or too many cycles
       sample.pattern.add "- "
     elif res < 45.0:
+      # detectable signal
       inc npos
       sample.pattern.add "+ "
-  sample.pattern = sample.pattern[0..<5]  # ugly trimming
+
+  # some output string trimming
+  sample.pattern = sample.pattern.strip()
+
   if npos == 0:
+    # no signal at all
     sample.status = Neg
   elif npos == 1:
+    # only one positive
     sample.status = IncOnePositive
   elif npos > 1:
+    # positive by majority vote
     sample.status = Pos
 
+
 proc checkDnaIsLow(sample: var Sample; rawSample: RawSample; gapdhMax: float): bool =
-  ## Check if DNA conc is too low
+  ## Check if DNA conc is too low for negative or inconclusive samples
   if sample.status in [Neg, IncOnePositive]:
     for ct in rawSample.gapdhCts:
       if ct > gapdhMax:
         sample.status = IncDnaLow
         return true
 
+
 proc checkDnaIsHigh(sample: var Sample; rawSample: RawSample; gapdhMin: float): bool =
-  ## Check if DNA conc is too high
+  ## Check if DNA conc is too high for negative or inconclusive samples
   if sample.status in [Neg, IncOnePositive]:
     for ct in rawSample.gapdhCts:
       if ct < gapdhMin:
         sample.status = IncDnaHigh
         return true
+
 
 proc checkRhdHigh(sample: var Sample; rawSample: RawSample): bool =
   ## Check if ctRHD > ctGAPDH, suggesting a maternal gene
@@ -162,6 +187,7 @@ proc checkRhdHigh(sample: var Sample; rawSample: RawSample): bool =
     if min(rawSample.rhdCts) < max(rawSample.gapdhCts):
       sample.status = IncRhdHigh
       return true
+
 
 proc analyzeSample(rawSample: RawSample; gapdhMin, gapdhMax: float): Sample =
   ## Analyze one sample
@@ -177,7 +203,6 @@ proc analyzeSample(rawSample: RawSample; gapdhMin, gapdhMax: float): Sample =
     return
   if checkRhdHigh(result, rawSample):
     return
-
 
 
 func cmpSampleId(s1, s2: string): int =
@@ -214,6 +239,11 @@ proc analyzeResults(samples: Table[string, RawSample]): seq[Sample] =
     gapdhMean = gapdhSum / 2.0
     gapdhMin = gapdhMean - 1.5
     gapdhMax = gapdhMean + 6.4
+
+  # some logging
+  echo "gapdh mean: ", gapdhMean
+  echo "gapdh min:  ", gapdhMin
+  echo "gapdh max:  ", gapdhMax
 
   # TODO: what does the PC RHD control do?
 
@@ -299,6 +329,7 @@ proc htmlResult(contents, file: string): cstring =
 
 
   result = s.cstring
+
 
 proc parseAndOutput(c, file: string) =
   ## Do the work
