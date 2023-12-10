@@ -98,16 +98,15 @@ proc parseExportFile(contents: string): Table[string, RawSample] =
     let
       sampleId = fields[1].strip(chars={'\"'})
       gene = fields[2].strip(chars={'\"'})
-
-    let
       ctRaw = fields[3].strip(chars={'\"'})
-      ct = if ctRaw == "Undetermined":
-        NaN
-      else:
-        try:
-          ctRaw.parseFloat
-        except ValueError:
-          outputAndRaise("inget giltigt Ct-värde (" & ctRaw & ") på rad " & $i & ": " & line)
+    var ct: float
+    if ctRaw == "Undetermined":
+      ct = NaN
+    else:
+      try:
+        ct = ctRaw.parseFloat
+      except ValueError:
+        outputAndRaise("inget giltigt Ct-värde (" & ctRaw & ") på rad " & $i & ": " & line)
 
     if sampleId notin result:
       result[sampleId] = RawSample(sampleId: sampleId, rhdCts: @[], gapdhCts: @[])
