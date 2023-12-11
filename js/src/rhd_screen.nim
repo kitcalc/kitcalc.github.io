@@ -62,9 +62,9 @@ proc assertTriplicates(samples: Table[string, RawSample]) =
       2
     else:
       3
-    if not sample.rhdCts.len == minLen:
+    if sample.rhdCts.len != minLen:
       outputAndRaise("provet " & sample.sampleId & " hade bara " & $sample.rhdCts.len & " värden för RHD men minsta antal är " & $minLen)
-    if not sample.gapdhCts.len == minLen:
+    if sample.gapdhCts.len != minLen:
       outputAndRaise("provet " & sample.sampleId & " hade bara " & $sample.gapdhCts.len & " värden för GAPDH men minsta antal är " & $minLen)
 
 
