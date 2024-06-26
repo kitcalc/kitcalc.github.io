@@ -238,7 +238,7 @@ proc parseTds(code: ProductCode): Tds =
 
 proc toHtml*(code: ProductCode): string =
   ## Show information about `code` as HTML
-
+  const style = "padding-left: 1em;"
   let
     productType = parseProductDescription(code)
     tds = parseTds(code)
@@ -247,17 +247,17 @@ proc toHtml*(code: ProductCode): string =
   case tds.kind
   of simple:
     tdsRows = tr(
-      td(i("Tolkad delning")),
+      td("Delning", style=style),
       td(if tds.division == "000": "ej delad" else: "delad")
     )
   of complex:
     tdsRows.add tr(
-      td(i("Tolkad typ av tappning och användning")),
+      td("Typ av tappning och användning", style=style),
       td(tds.collectionType)
     )
     if code.productDescriptionCode[0] in {'A'..'D'}:
       tdsRows.add tr(
-        td(i("Tolkad delning")),
+        td("Delning", style=style),
         td("lokalt eller nationellt definierad kod")
       )
     else:
@@ -268,7 +268,7 @@ proc toHtml*(code: ProductCode): string =
       else:
         "delad"
       tdsRows.add tr(
-        td(i("Tolkad delning")),
+        td("Delning", style=style),
         td(divisionField)
       )
 
@@ -285,7 +285,7 @@ proc toHtml*(code: ProductCode): string =
         td(code.productDescriptionCode)
       ),
       tr(
-        td(i("Tolkad komponenttyp")),
+        td("Komponenttyp", style=style),
         td(productType)
       ),
       tr(

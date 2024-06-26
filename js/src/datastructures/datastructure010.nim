@@ -31,7 +31,7 @@ proc parseSpecialTestingGeneral*(code: string): SpecialTestingGeneral =
 
 proc toHtml*(code: SpecialTestingGeneral): string =
   ## Show information about `code` as HTML
-
+  const style = "padding-left: 1em;"
   let
     head = thead(
       tr(
@@ -45,7 +45,7 @@ proc toHtml*(code: SpecialTestingGeneral): string =
         td(code.zzzzz)
       ),
       tr(
-        td(i("Tolkning")),
+        td("Tolkning", style=style),
         td("Går ej att tolka, ej öppen tillgång till information")
       ),
     )

@@ -283,6 +283,7 @@ proc interpretRhKellMi(bg: BloodGroupsABORhD): RhKellMi =
 
 proc toHtml*(bg: BloodGroupsABORhD): string =
   ## Show information about `bg` as HTML
+  const style = "padding-left: 1em;"
   let
     aboRhD = interpretABORhD(bg)
     rhKellMi = interpretRhKellMi(bg)
@@ -293,16 +294,16 @@ proc toHtml*(bg: BloodGroupsABORhD): string =
   )
   if aboRhD.kind == bloodGroup:
     aboRows.add tr(
-      td(i("Tolkning ABO och RhD")),
+      td("ABO och RhD", style=style),
       td(aboRhD.group)
     )
     aboRows.add tr(
-      td(i("Tolkning tappningstyp")),
+      td("Tappningstyp", style=style),
       td($aboRhD.collectionInformation)
     )
   else:
     aboRows.add tr(
-      td(i("Tolkning meddelande")),
+      td("Meddelande", style=style),
       td(aboRhD.message)
     )
 
@@ -315,17 +316,17 @@ proc toHtml*(bg: BloodGroupsABORhD): string =
     let phenoString = ("K" & $rhKellMi.kell & " C" & $rhKellMi.rhC & " c" &
       $rhKellMi.rhsmallc & " E" & $rhKellMi.rhE & " e" & $rhKellMi.rhsmalle)
     phenoRows.add tr(
-      td(i("Tolkning fenotyp (Rh/K)")),
+      td("Fenotyp (Rh/K)", style=style),
       td(phenoString)
     )
   of mi:
     phenoRows.add tr(
-      td(i("Tolkning fenotyp (Mi<sup>a</sup>/Mur)")),
+      td("Fenotyp (Mi<sup>a</sup>/Mur)", style=style),
       td($rhKellMi.mipheno)
     )
   of special:
     phenoRows.add tr(
-      td(i("Tolkning fenotyp (okänd)")),
+      td("Fenotyp (okänd)", style=style),
       td("Special Testing bar code present and must be scanned and interpreted")
     )
 

@@ -247,12 +247,12 @@ proc parseNegativeAntigen(spec: SpecialTestingAntigensGeneral): string =
 
 proc toHtml*(spec: SpecialTestingAntigensGeneral): string =
   ## Show information about `spec` as HTML
-
+  const style = "padding-left: 1em;"
   let pheno = parseAntigen(spec)
   var phenotypeRows: string
   for pair in pheno:
     phenotypeRows.add tr(
-      td(pair.name),
+      td(pair.name, style=style),
       td($pair.pheno)
     )
 
@@ -274,7 +274,7 @@ proc toHtml*(spec: SpecialTestingAntigensGeneral): string =
         td(spec.ii)
       ),
       tr(
-        td(i("Tolkning negativ för")),
+        td("Negativ för", style=style),
         td(parseNegativeAntigen(spec))
       ),
     )
