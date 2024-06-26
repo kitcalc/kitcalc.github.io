@@ -99,6 +99,55 @@ type
     # Defined nationally
     confidentialUnitExclusion  # "Confidential Unit Exclusion Status Data Structure"
 
+const dataStructureNames: array[DataStructure, string] =
+  [
+    # vissa fritt översatta alt från Handboken eller ProSang
+    "Tappningsnummer (Donation Identification Number)",
+    "Blodgrupp (ABO och RhD)",
+    "Produktkod",
+    "Utgångsdatum",
+    "Utgångsdatum och tid",
+    "Tappningsdatum",
+    "Tappningsdatum och tid",
+    "Produktionsdatum",
+    "Produktionsdatum och tid",
+
+    # ej översatta
+    "Special Testing: General",
+    "Special Testing: Red Blood Cell Antigens",
+    "Special Testing: Red Blood Cell Antigens—General",
+    "Special Testing: Red Blood Cell Antigens—Finnish",
+    "Special Testing: Platelet HLA and Platelet Specific Antigens",
+    "Special Testing: HLA-A and -B Alleles",
+    "Special Testing: HLA-DRB1 Alleles",
+    "Container Manufacturer and Catalog Number",
+    "Container Lot Number",
+    "Donor Identification Number",
+    "Staff Member Identification Number",
+    "Manufacturer and Catalog Number: Items Other Than Containers",
+    "Lot Number: Items Other Than Containers",
+    "Compound Message",
+    "Patient Date of Birth",
+    "Patient Identification Number",
+    "Expiration Month and Year",
+    "Transfusion Transmitted Infection Marker",
+    "Product Consignment",
+    "Dimensions",
+    "Red Cell Antigens with Test History",
+    "Flexible Date and Time",
+    "Product Divisions",
+    "Processing Facility Information Code",
+    "Processor Product Identification Code",
+    "MPHO Lot Number",
+    "MPHO Supplemental Identification Number",
+    "Global Registration Identifier for Donors",
+    "Single European Code",
+    "Global Registration Identifier for Donors",
+    "Chain of Identity Identifier",
+    "Data Structures Not Defined by ICCBBA",
+    "Reserved Data Identifiers for a Nationally Specified Donor Identification Number",
+    "Confidential Unit Exclusion Status Data Structure"
+]
 
 func classifyDataStructure(code: string): DataStructure =
   ## Returns the Data Structure associated with `code`, or a ValueError if
@@ -375,7 +424,7 @@ when defined(js):
         code = $document.getElementById("code").value
         dataStructure = classifyDataStructure(code)
         html = parseDataStructure(dataStructure, code)
-        contents = h1($dataStructure) & p(html)
+        contents = h2(dataStructureNames[dataStructure]) & p(html)
       document.getElementById("isbt128out").innerHtml = contents.cstring
     except:
       let s = "Fel vid tolkning: " & getCurrentExceptionMsg()
