@@ -159,18 +159,10 @@ import datastructures/datastructure004
 import datastructures/datastructure005
 import datastructures/datastructure006
 import datastructures/datastructure007
+import datastructures/datastructure008
+import datastructures/datastructure009
 
 #[
-
-proc parseProductionDate(number: string) =
-  ## Parse Data Structure 008, "Production Date"
-  discard "not implemented"
-
-
-proc parseProductionDateAndTime(number: string) =
-  ## Parse Data Structure 009, "Production Date and Time"
-  discard "not implemented"
-
 
 proc parseSpecialTestingGeneral(number: string) =
   ## Parse Data Structure 010, "Special Testing: General"
@@ -353,14 +345,18 @@ proc parseDataStructure(dataStructureType: DataStructure, code: string): string 
     result = parseBloodGroupsABORhD(code).toHtml
   of productCode:
     result = parseProductCode(code).toHtml
-  of: expirationDate:
+  of expirationDate:
     result = parseExpirationDate(code).toHtml
-  of: expirationDateAndTime:
+  of expirationDateAndTime:
     result = parseExpirationDateAndTime(code).toHtml
-  of: collectionDate:
+  of collectionDate:
     result = parseCollectionDate(code).toHtml
-  of: collectionDateAndTime:
+  of collectionDateAndTime:
     result = parseCollectionDateAndTime(code).toHtml
+  of productionDate:
+    result = parseProductionDate(code).toHtml
+  of productionDateAndTime:
+    result = parseProductionDateAndTime(code).toHtml
   else:
     result = "Tolkning är inte implementerad för datatypen: " & $dataStructureType
 
