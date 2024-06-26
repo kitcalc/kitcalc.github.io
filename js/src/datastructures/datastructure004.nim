@@ -25,7 +25,7 @@ func verifyExpirationDate(code: string) =
       " tecken fanns i koden")
 
 proc parseExpirationDate*(code: string): ProductCode =
-  ## Parse Data Structure 003, "Product Code"
+  ## Parse Data Structure 004, "Expiration Date"
   verifyExpirationDate(code)
 
   result.dataIdentifier = code[0..1]
