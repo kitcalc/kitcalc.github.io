@@ -13,7 +13,7 @@ type ProductCode* = object
     ##
     ## α    - alphabetic {A-Z}
     ## oooo - alphanumeric {A-Z; 0–9}
-    ## 
+    ##
     ## αoooo
     ## • shall specify the Product Description Code (PDC)
     ## • shall be encoded and interpreted by reference to the Product
@@ -87,7 +87,7 @@ proc parseProductDescription(code: ProductCode): string =
       of 1000..9999:
         result = "Not assigned"
       else: discard
-    except ValueError: 
+    except ValueError:
       discard
   of 'P':
     result = "Regenerated Tissue products"
@@ -113,7 +113,7 @@ proc parseProductDescription(code: ProductCode): string =
     # specific W-codes are numeric
     try:
       let numeric = code.productDescriptionCode[1..4].parseInt  # last four characters
-      case numeric 
+      case numeric
       of 1..999:
         result = "Fecal Microbiota"
       of 1000..9999:
@@ -125,7 +125,7 @@ proc parseProductDescription(code: ProductCode): string =
     # specific X-codes are numeric
     try:
       let numeric = code.productDescriptionCode[1..4].parseInt  # last four characters
-      case numeric 
+      case numeric
       of 1..999:
         result = "Plasma Derivatives"
       of 1000..4999:
@@ -209,7 +209,7 @@ type
 proc parseTds(code: ProductCode): Tds =
   ## Parse the TDS sequence
   # use \alpha once again
-  let 
+  let
     first = code.productDescriptionCode[0]
     second = code.productDescriptionCode[0]  # for X, Y
   case first
@@ -239,7 +239,7 @@ proc parseTds(code: ProductCode): Tds =
 proc toHtml*(code: ProductCode): string =
   ## Show information about `code` as HTML
 
-  let 
+  let
     productType = parseProductDescription(code)
     tds = parseTds(code)
 

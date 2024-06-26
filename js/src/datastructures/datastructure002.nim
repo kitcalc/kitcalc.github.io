@@ -283,7 +283,6 @@ proc interpretRhKellMi(bg: BloodGroupsABORhD): RhKellMi =
 
 proc toHtml*(bg: BloodGroupsABORhD): string =
   ## Show information about `bg` as HTML
-  result = b("ABO och RhD")
   let
     aboRhD = interpretABORhD(bg)
     rhKellMi = interpretRhKellMi(bg)

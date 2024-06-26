@@ -201,7 +201,6 @@ func type3FlagCharacters(din: DonationIdentificationNumber): string =
 
 proc toHtml*(din: DonationIdentificationNumber): string =
   ## Show information about `din` as HTML
-  result = b("Tappningsnummer (Donation Identification Number)")
   let
     head = thead(
       tr(
