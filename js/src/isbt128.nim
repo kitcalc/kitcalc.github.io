@@ -155,13 +155,9 @@ func classifyDataStructure(code: string): DataStructure =
 import datastructures/datastructure001
 import datastructures/datastructure002
 import datastructures/datastructure003
+import datastructures/datastructure004
 
 #[
-
-proc parseExpirationDate(number: string) =
-  ## Parse Data Structure 004, "Expiration Date"
-  discard "not implemented"
-
 
 proc parseExpirationDateAndTime(number: string) =
   ## Parse Data Structure 005, "Expiration Date and Time"
@@ -368,7 +364,9 @@ proc parseDataStructure(dataStructureType: DataStructure, code: string): string 
   of bloodGroupsABORhD:
     result = parseBloodGroupsABORhD(code).toHtml
   of productCode:
-    result = parseProcuctCode(code).toHtml
+    result = parseProductCode(code).toHtml
+  of: expirationDate:
+    result = parseExpirationDate(code).toHtml
   else:
     result = "Tolkning är inte implementerad för datatypen: " & $dataStructureType
 
