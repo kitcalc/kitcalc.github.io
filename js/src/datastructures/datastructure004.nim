@@ -1,6 +1,6 @@
 ## 2.4.4 Expiration Date [Data Structure 004]
 
-import htmlgen, strutils
+import htmlgen
 
 type ExpirationDate* = object
   dataIdentifier: string ##\
