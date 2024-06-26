@@ -4,7 +4,7 @@ import htmlgen
 
 type ExpirationDateAndTime* = object
   dataIdentifier: string ##\
-    ## =
+    ## &
     ## data identifier, first character
     ## >
     ## data identifier, second character
