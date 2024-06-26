@@ -15,7 +15,7 @@ type SpecialTestingAntigensGeneral* = object
     ## ... and Table 12, page 100.
 
 func verifySpecialTestingAntigensGeneral(code: string) =
-  ## QC for Data Structure 011, "Special Testing: Red Blood Cell Antigens"
+  ## QC for Data Structure 012, "Special Testing: Red Blood Cell Antigens"
   if code.len != 20:
     raise newException(ValueError,
       "Fel längd: längd 20 förväntades men endast " & $code.len &
@@ -73,7 +73,7 @@ const
     "Js<sup>a</sup>",
     "C",
     "c",
-    "E"
+    "E",
     "e",
     "CMV-ak"
   ]
@@ -109,7 +109,7 @@ proc parseRh(value: ValueRange): array[4, PhenoPair] =
   of '9':
     result = [("C", ni), ("c", ni), ("E", ni), ("e", ni)]
 
-proc parseAntigen(spec: SpecialTestingAntigensRetired): seq[PhenoPair] =
+proc parseAntigen(spec: SpecialTestingAntigensGeneral): seq[PhenoPair] =
   ## Parse the antigens, returns a seq of phenotype strings
 
   var agIndex = antigens.low
@@ -233,7 +233,7 @@ const antigenNegativ: array[100, string] = [
   "no information provided"  #  99
 ]
 
-proc parseNegativeAntigen(spec: SpecialTestingAntigensRetired): string =
+proc parseNegativeAntigen(spec: SpecialTestingAntigensGeneral): string =
   ## Parse the negative antigen field.
   # Table 12
   try:
@@ -244,7 +244,7 @@ proc parseNegativeAntigen(spec: SpecialTestingAntigensRetired): string =
     raise newException(ValueError, "okänd kod för antigen: " & spec.ii)
 
 
-proc toHtml*(spec: SpecialTestingAntigensRetired): string =
+proc toHtml*(spec: SpecialTestingAntigensGeneral): string =
   ## Show information about `spec` as HTML
 
   let pheno = parseAntigen(spec)
@@ -279,111 +279,3 @@ proc toHtml*(spec: SpecialTestingAntigensRetired): string =
     )
 
   result.add table(head, body)
-
-
-  #[
-  Table 12
-
-  Value	Antigen
-00	information elsewhere
-01	Ena
-02	‘N’
-03	Vw
-04	Mur*
-05	Hut
-06	Hil
-07	P
-08	PP1Pk
-09	hrS
-10	hrB
-11	f
-12	Ce
-13	G
-14	Hr0
-15	CE
-16	cE
-17	Cx
-18	Ew
-19	Dw
-20	hrH
-21	Goa
-22	Rh32
-23	Rh33
-24	Tar
-25	Kpb
-26	Kpc
-27	Jsb
-28	Ula
-29	K11
-30	K12
-31	K13
-32	K14
-33	K17
-34	K18
-35	K19
-36	K22
-37	K23
-38	K24
-39	Lub
-40	Lu3
-41	Lu4
-42	Lu5
-43	Lu6
-44	Lu7
-45	Lu8
-46	Lu11
-47	Lu12
-48	Lu13
-49	Lu20
-50	Aua
-51	Aub
-52	Fy4
-53	Fy5
-54	Fy6
-55	Dib
-56	Sda
-57	Wrb
-58	Ytb
-59	Xga
-60	Sc1
-61	Sc2
-62	Sc3
-63	Joa
-64	removed
-65	Hy
-66	Gya
-67	Co3
-68	Lwa
-69	LWb
-70	Kx
-71	Ge2
-72	Ge3
-73	Wb
-74	Lsa
-75	Ana
-76	Dha
-77	Cra
-78	IFC
-79	Kna
-80	Inb
-81	Csa
-82	I
-83	Era
-84	Vel
-85	Lan
-86	Ata
-87	Jra
-88	Oka
-89	Wra
-90	Ge4
-91	reserved for future use
-92	reserved for future use
-93	reserved for future use
-94	reserved for future use
-95	Nationally specified
-96	Hemoglobin S negative
-97	parvovirus B19 antibody present
-98	IgA deficient
-99	no information provided
-
-  ]#
