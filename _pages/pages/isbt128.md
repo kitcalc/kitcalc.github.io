@@ -192,11 +192,12 @@ Tolka koder i [ISBT 128](https://www.isbt128.org/tech-spec)-format.
     </table>
 </details>
 
-<form id="codeinputform" onchange="javascript:interpretCode()">
-    <fieldset>
-        <!-- <legend>Inmatning</legend> -->
-        <label for="code">Ange kod</label>
-        <input type="text" id="code">
+<form id="codeinputform" action="javascript:interpretCode()">
+  <fieldset>
+      <!-- <legend>Inmatning</legend> -->
+      <label for="code">Ange kod</label>
+      <input type="text" id="code">
+      <input type="submit" hidden />
     </fieldset>
 </form>
 
