@@ -211,13 +211,9 @@ import datastructures/datastructure007
 import datastructures/datastructure008
 import datastructures/datastructure009
 import datastructures/datastructure010
+import datastructures/datastructure011
 
 #[
-
-proc parseSpecialTestingAntigensRetired(number: string) =
-  ## Parse Data Structure 011, "Special Testing: Red Blood Cell Antigens"
-  discard "not implemented"
-
 
 proc parseSpecialTestingAntigensGeneral(number: string) =
   ## Parse Data Structure 012, "Special Testing: Red Blood Cell AntigensGeneral"
@@ -404,6 +400,8 @@ proc parseDataStructure(dataStructureType: DataStructure, code: string): string 
     result = parseProductionDateAndTime(code).toHtml
   of specialTestingGeneral:
     result = parseSpecialTestingGeneral(code).toHtml
+  of specialTestingAntigensRetired:
+    result = parseSpecialTestingAntigensRetired(code).toHtml
   else:
     result = "Tolkning är inte implementerad för datatypen: " & $dataStructureType
 
