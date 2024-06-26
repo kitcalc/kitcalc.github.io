@@ -1,7 +1,7 @@
 ## ISBT128 coding, standard version 6.2.2 (April 2023)
 ## See https://www.isbt128.org/tech-spec for the latest standard
 
-import strutils
+import strutils, htmlgen
 
 type
   DataStructure = enum  ## Data structures in ISBT128. From Table 2
@@ -154,13 +154,9 @@ func classifyDataStructure(code: string): DataStructure =
 
 import datastructures/datastructure001
 import datastructures/datastructure002
-
+import datastructures/datastructure003
 
 #[
-proc parseProductCode(number: string) =
-  ## Parse Data Structure 003, "Product Code"
-  discard "not implemented"
-
 
 proc parseExpirationDate(number: string) =
   ## Parse Data Structure 004, "Expiration Date"
@@ -364,17 +360,17 @@ proc parseConfidentialUnitExclusion(number: string) =
 ]#
 
 # Main parsing proc
-proc parseDataStructure(code: string): string =
+proc parseDataStructure(dataStructureType: DataStructure, code: string): string =
   ## Determines data structure type and returns HTML from the appropiate parser
-  let
-    dataStructureType = classifyDataStructure(code)
-  result = case dataStructureType
+  case dataStructureType
   of donationIdentificationNumber:
-    parseDonationIdentificationNumber(code).toHtml
+    result = parseDonationIdentificationNumber(code).toHtml
   of bloodGroupsABORhD:
-    parseBloodGroupsABORhD(code).toHtml
+    result = parseBloodGroupsABORhD(code).toHtml
+  of productCode:
+    result = parseProcuctCode(code).toHtml
   else:
-    "Not yet implemented!"
+    result = "Tolkning är inte implementerad för datatypen: " & $dataStructureType
 
 
 when defined(js):
@@ -389,9 +385,10 @@ when defined(js):
     try:
       let
         code = $document.getElementById("code").value
-        html = parseDataStructure(code)
-
-      document.getElementById("isbt128out").innerHtml = html.cstring
+        dataStructure = classifyDataStructure(code)
+        html = parseDataStructure(dataStructure, code)
+        contents = h1($dataStructure) & p(html)
+      document.getElementById("isbt128out").innerHtml = contents.cstring
     except:
       let s = "Fel vid tolkning: " & getCurrentExceptionMsg()
       document.getElementById("isbt128out").innerHtml = s.cstring
