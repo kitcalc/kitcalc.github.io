@@ -6,7 +6,7 @@ type CollectionDateAndTime* = object
   dataIdentifier: string ##\
     ## &
     ## data identifier, first character
-    ## >
+    ## *
     ## data identifier, second character
   c: string  ##\
     ## shall specify the century of the year in which the product was collected 
