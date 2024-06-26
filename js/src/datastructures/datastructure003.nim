@@ -237,7 +237,7 @@ proc parseTds(code: ProductCode): Tds =
 
 
 proc toHtml*(code: ProductCode): string =
-  ## Show information about `bg` as HTML
+  ## Show information about `code` as HTML
 
   let 
     productType = parseProductDescription(code)
