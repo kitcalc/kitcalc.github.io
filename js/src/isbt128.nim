@@ -156,13 +156,9 @@ import datastructures/datastructure001
 import datastructures/datastructure002
 import datastructures/datastructure003
 import datastructures/datastructure004
+import datastructures/datastructure005
 
 #[
-
-proc parseExpirationDateAndTime(number: string) =
-  ## Parse Data Structure 005, "Expiration Date and Time"
-  discard "not implemented"
-
 
 proc parseCollectionDate(number: string) =
   ## Parse Data Structure 006, "Collection Date"
@@ -367,6 +363,8 @@ proc parseDataStructure(dataStructureType: DataStructure, code: string): string 
     result = parseProductCode(code).toHtml
   of: expirationDate:
     result = parseExpirationDate(code).toHtml
+  of: expirationDateAndTime:
+    result = parseExpirationDateAndTime(code).toHtml
   else:
     result = "Tolkning är inte implementerad för datatypen: " & $dataStructureType
 
