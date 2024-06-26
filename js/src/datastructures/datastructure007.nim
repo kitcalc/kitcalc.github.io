@@ -9,7 +9,7 @@ type CollectionDateAndTime* = object
     ## *
     ## data identifier, second character
   c: string  ##\
-    ## shall specify the century of the year in which the product was collected 
+    ## shall specify the century of the year in which the product was collected
     ## or recovered.
   yy: string ##\
     ## shall specify the year within the century in which the product was
@@ -56,23 +56,23 @@ proc toHtml*(date: CollectionDateAndTime): string =
     body = tbody(
       tr(
         td("Sekel"),
-        td(code.c)
+        td(date.c)
       ),
       tr(
         td("År"),
-        td(code.yy)
+        td(date.yy)
       ),
       tr(
         td("Datumnummer (1 januari = 1)"),
-        td(code.jjj)
+        td(date.jjj)
       ),
       tr(
         td("Timme"),
-        td(code.hh)
+        td(date.hh)
       ),
       tr(
         td("Minut"),
-        td(code.mm)
+        td(date.mm)
       ),
     )
 

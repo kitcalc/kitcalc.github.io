@@ -10,8 +10,8 @@ type SpecialTestingGeneral* = object
     ## data identifier, second character
   zzzzz: string  ##\
     ## The five (5)-character data content string, zzzzz, shall be encoded and
-    ## interpreted by reference to the Special Testing database table (see 
-    ## Section 5.2, page 115) published and maintained by ICCBBA in the 
+    ## interpreted by reference to the Special Testing database table (see
+    ## Section 5.2, page 115) published and maintained by ICCBBA in the
     ## password-protected area of the ICCBBA Website.
 
 func verifySpecialTestingGeneral(code: string) =
@@ -26,7 +26,7 @@ proc parseSpecialTestingGeneral*(code: string): SpecialTestingGeneral =
   verifySpecialTestingGeneral(code)
 
   result.dataIdentifier = code[0..1]
-  result.zzzz = code[2..6]
+  result.zzzzz = code[2..6]
 
 
 proc toHtml*(code: SpecialTestingGeneral): string =
@@ -42,7 +42,7 @@ proc toHtml*(code: SpecialTestingGeneral): string =
     body = tbody(
       tr(
         td("zzzzz"),
-        td(code.zzzz)
+        td(code.zzzzz)
       ),
       tr(
         td(i("Tolkning")),

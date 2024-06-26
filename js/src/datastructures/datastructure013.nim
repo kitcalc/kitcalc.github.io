@@ -13,13 +13,13 @@ type SpecialTestingAntigensFinnish* = object
     ## shall be encoded and interpreted using Table 10, starting on page 97, ...
   ii: string ##\
     ## ... and Table 13, page 101.
-    ## 
-    ## If there are red blood cell antigen test results that cannot be encoded 
-    ## using Table 10 or Table 13, positions 17 and 18 may be set to 00 (see 
-    ## Table 13), and information concerning the status of those antigens may 
-    ## be indicated in the label text. Alternatively, red blood cell antigens 
-    ## not found in these tables may be encoded using the Red Cell Antigens 
-    ## with Test History (Data Structure 030). For information on this data 
+    ##
+    ## If there are red blood cell antigen test results that cannot be encoded
+    ## using Table 10 or Table 13, positions 17 and 18 may be set to 00 (see
+    ## Table 13), and information concerning the status of those antigens may
+    ## be indicated in the label text. Alternatively, red blood cell antigens
+    ## not found in these tables may be encoded using the Red Cell Antigens
+    ## with Test History (Data Structure 030). For information on this data
     ## structure, see Section 2.4.30, page 67.
 
 func verifySpecialTestingAntigensFinnish(code: string) =
@@ -248,6 +248,7 @@ proc parseNegativeAntigen(spec: SpecialTestingAntigensFinnish): string =
     let numeric = spec.ii.parseInt
     if numeric > 99:
       raise newException(ValueError, "okänd kod för antigen: " & spec.ii)
+    result = antigenNegativ[numeric]
   except:
     raise newException(ValueError, "okänd kod för antigen: " & spec.ii)
 

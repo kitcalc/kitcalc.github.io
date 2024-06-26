@@ -9,7 +9,7 @@ type SpecialTestingAntigensGeneral* = object
     ## \
     ## data identifier, second character
   aaaaaaaaaaaaaaaa: string ##\
-    ## The eighteen (18)-character data content string, aaaaaaaaaaaaaaaaii, 
+    ## The eighteen (18)-character data content string, aaaaaaaaaaaaaaaaii,
     ## shall be encoded and interpreted using Table 9, starting on page 95, ...
   ii: string ##\
     ## ... and Table 12, page 100.
@@ -240,6 +240,7 @@ proc parseNegativeAntigen(spec: SpecialTestingAntigensGeneral): string =
     let numeric = spec.ii.parseInt
     if numeric > 99:
       raise newException(ValueError, "okänd kod för antigen: " & spec.ii)
+    result = antigenNegativ[numeric]
   except:
     raise newException(ValueError, "okänd kod för antigen: " & spec.ii)
 

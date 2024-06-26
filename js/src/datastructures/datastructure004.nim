@@ -13,7 +13,7 @@ type ExpirationDate* = object
   yy: string ##\
     ## shall specify the year within the century in which the item expires.
   jjj: string ##\
-    ## shall specify the ordinal number within the calendar year (Julian date) 
+    ## shall specify the ordinal number within the calendar year (Julian date)
     ## on which the item expires
     # note: this is now referred to as "ordinal date", from 1-366
 
@@ -46,15 +46,15 @@ proc toHtml*(date: ExpirationDate): string =
     body = tbody(
       tr(
         td("Sekel"),
-        td(code.c)
+        td(date.c)
       ),
       tr(
         td("År"),
-        td(code.yy)
+        td(date.yy)
       ),
       tr(
         td("Datumnummer (1 januari = 1)"),
-        td(code.jjj)
+        td(date.jjj)
       ),
     )
 

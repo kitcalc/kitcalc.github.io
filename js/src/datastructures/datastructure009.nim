@@ -53,23 +53,23 @@ proc toHtml*(date: ProductionDateAndTime): string =
     body = tbody(
       tr(
         td("Sekel"),
-        td(code.c)
+        td(date.c)
       ),
       tr(
         td("År"),
-        td(code.yy)
+        td(date.yy)
       ),
       tr(
         td("Datumnummer (1 januari = 1)"),
-        td(code.jjj)
+        td(date.jjj)
       ),
       tr(
         td("Timme"),
-        td(code.hh)
+        td(date.hh)
       ),
       tr(
         td("Minut"),
-        td(code.mm)
+        td(date.mm)
       ),
     )
 
