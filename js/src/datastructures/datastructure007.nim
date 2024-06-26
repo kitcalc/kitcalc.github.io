@@ -32,8 +32,8 @@ func verifyCollectionDateAndTime(code: string) =
       "Fel längd: längd 12 förväntades men endast " & $code.len &
       " tecken fanns i koden")
 
-proc parseCollectionDateAndTime*(code: string): ProductCode =
-  ## Parse Data Structure 005, "Collection Date and Time"
+proc parseCollectionDateAndTime*(code: string): CollectionDateAndTime =
+  ## Parse Data Structure 007, "Collection Date and Time"
   verifyCollectionDateAndTime(code)
 
   result.dataIdentifier = code[0..1]

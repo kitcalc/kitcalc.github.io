@@ -1,39 +1,40 @@
-## 2.4.4 Expiration Date [Data Structure 004]
+2.4.8 Production Date [Data Structure 008]
 
 import htmlgen
 
-type ExpirationDate* = object
+type ProductionDate* = object
   dataIdentifier: string ##\
     ## =
     ## data identifier, first character
-    ## >
+    ## }
     ## data identifier, second character
   c: string  ##\
-    ## shall specify the century of the year in which the item expires.
+    ## shall specify the century of the year in which the product was produced
   yy: string ##\
-    ## shall specify the year within the century in which the item expires.
+    ## shall specify the year within the century in which the product was
+    ## produced.
   jjj: string ##\
-    ## shall specify the ordinal number within the calendar year (Julian date) 
-    ## on which the item expires
+    ## shall specify the ordinal number within the calendar year (Julian date) on
+    ## which the product was produced.
     # note: this is now referred to as "ordinal date", from 1-366
 
-func verifyExpirationDate(code: string) =
-  ## QC for Data Structure 004, "Expiration Date"
+func verifyProductionDate(code: string) =
+  ## QC for Data Structure 008, "Production Date"
   if code.len != 8:
     raise newException(ValueError,
       "Fel längd: längd 8 förväntades men endast " & $code.len &
       " tecken fanns i koden")
 
-proc parseExpirationDate*(code: string): ExpirationDate =
-  ## Parse Data Structure 004, "Expiration Date"
-  verifyExpirationDate(code)
+proc parseProductionDate*(code: string): ProductionDate =
+  ## Parse Data Structure 008, "Production Date"
+  verifyProductionDate(code)
 
   result.dataIdentifier = code[0..1]
   result.c = code[2..2]
   result.yy = code[3..4]
   result.jjj = code[5..7]
 
-proc toHtml*(date: ExpirationDate): string =
+proc toHtml*(date: ProductionDate): string =
   ## Show information about `date` as HTML
 
   let

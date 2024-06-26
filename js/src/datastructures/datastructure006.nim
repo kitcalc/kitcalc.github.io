@@ -26,7 +26,7 @@ func verifyCollectionDate(code: string) =
       "Fel längd: längd 8 förväntades men endast " & $code.len &
       " tecken fanns i koden")
 
-proc parseCollectionDate*(code: string): ProductCode =
+proc parseCollectionDate*(code: string): CollectionDate =
   ## Parse Data Structure 006, "Collection Date"
   verifyCollectionDate(code)
 

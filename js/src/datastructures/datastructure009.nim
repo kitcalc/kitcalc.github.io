@@ -1,36 +1,37 @@
-## 2.4.5 Expiration Date and Time [Data Structure 005]
+## 2.4.9 Production Date and Time [Data Structure 009]
 
 import htmlgen
 
-type ExpirationDateAndTime* = object
+type ProductionDateAndTime* = object
   dataIdentifier: string ##\
     ## &
     ## data identifier, first character
-    ## >
+    ## }
     ## data identifier, second character
   c: string  ##\
-    ## shall specify the century of the year in which the item expires.
+    ## shall specify the century of the year in which the product was produced
   yy: string ##\
-    ## shall specify the year within the century in which the item expires.
+    ## shall specify the year within the century in which the product was
+    ## produced.
   jjj: string ##\
-    ## shall specify the ordinal number within the calendar year (Julian date) 
-    ## on which the item expires
+    ## shall specify the ordinal number within the calendar year (Julian date)
+    ## on which the product was produced.
     # note: this is now referred to as "ordinal date", from 1-366
   hh: string ##\
-    ## shall specify the hour at which the product expires (00 to 23)
+    ## shall specify the hour at which the product was produced (00 to 23).
   mm: string ##\
-    ## shall specify the minute at which the product expires (00 to 59).
+    ## shall specify the minute at which the product was produced (00 to 59).
 
-func verifyExpirationDateAndTime(code: string) =
-  ## QC for Data Structure 005, "Expiration Date and Time"
+func verifyProductionDateAndTime(code: string) =
+  ## QC for Data Structure 009, "Production Date and Time"
   if code.len != 12:
     raise newException(ValueError,
       "Fel längd: längd 12 förväntades men endast " & $code.len &
       " tecken fanns i koden")
 
-proc parseExpirationDateAndTime*(code: string): ExpirationDateAndTime =
-  ## Parse Data Structure 005, "Expiration Date and Time"
-  verifyExpirationDateAndTime(code)
+proc parseProductionDateAndTime*(code: string): ProductionDateAndTime =
+  ## Parse Data Structure 009, "Production Date and Time"
+  verifyProductionDateAndTime(code)
 
   result.dataIdentifier = code[0..1]
   result.c = code[2..2]
@@ -39,7 +40,7 @@ proc parseExpirationDateAndTime*(code: string): ExpirationDateAndTime =
   result.hh = code[8..9]
   result.mm = code[10..11]
 
-proc toHtml*(date: ExpirationDateAndTime): string =
+proc toHtml*(date: ProductionDateAndTime): string =
   ## Show information about `date` as HTML
 
   let
