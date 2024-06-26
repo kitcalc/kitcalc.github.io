@@ -23,7 +23,7 @@ func verifySpecialTestingAntigensRetired(code: string) =
       " tecken fanns i koden")
 
 proc parseSpecialTestingAntigensRetired*(code: string): SpecialTestingAntigensRetired =
-  ## Parse Data Structure 008, "Special Testing: General"
+  ## Parse Data Structure 011, "Special Testing: Red Blood Cell Antigens"
   verifySpecialTestingAntigensRetired(code)
 
   result.dataIdentifier = code[0..1]
