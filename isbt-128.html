@@ -212,11 +212,12 @@
         </tbody>
     </table>
 </details>
-<form id="codeinputform" onchange="javascript:interpretCode()">
+<form id="codeinputform" action="javascript:interpretCode()">
     <fieldset>
         <!-- <legend>Inmatning</legend> -->
         <label for="code">Ange kod</label>
         <input type="text" id="code">
+        <input type="submit" hidden />
     </fieldset>
 </form>
 <div id="isbt128out"></div>
