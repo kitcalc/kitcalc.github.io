@@ -418,9 +418,10 @@ when defined(js):
         html = parseDataStructure(dataStructure, code)
         # clean '<' as it causes problems with html
         cleanCode = code.replace("<", "&lt;")
-        contents = h2(dataStructureNames[dataStructure]) & p(cleanCode) & html
-        # to save in history; input code as label, table shown when expanded
-        toHist = details(summary(cleanCode), html).cstring
+        name = dataStructureNames[dataStructure]
+        contents = h2(name) & p(cleanCode) & html
+        # to save in history; input code and name as label, table shown when expanded
+        toHist = details(summary(cleanCode & " &ndash; " & name), html).cstring
 
       # reset the form, restore focus; to allow for sequential inputs
       document.getElementById("codeinputform").reset()
