@@ -238,7 +238,7 @@ proc parseTds(code: ProductCode): Tds =
 
 proc toHtml*(code: ProductCode): string =
   ## Show information about `code` as HTML
-  const style = "padding-left: 1em;"
+  const style = "padding-left: 2em;"
   let
     productType = parseProductDescription(code)
     tds = parseTds(code)

@@ -201,7 +201,7 @@ func type3FlagCharacters(din: DonationIdentificationNumber): string =
 
 proc toHtml*(din: DonationIdentificationNumber): string =
   ## Show information about `din` as HTML
-  const style = "padding-left: 1em;"
+  const style = "padding-left: 2em;"
   let
     head = thead(
       tr(
@@ -227,11 +227,11 @@ proc toHtml*(din: DonationIdentificationNumber): string =
         td(din.flagCharacters)
       ),
       tr(
-        td("Nummermarkör, svensk", style=style),
+        td("Svensk standard", style=style),
         td(interpretFlagSwe(din))
       ),
       tr(
-        td("Nummermarkör, ISBT 128", style=style),
+        td("ISBT 128", style=style),
         td(interpretFlag(din))
       )
     )

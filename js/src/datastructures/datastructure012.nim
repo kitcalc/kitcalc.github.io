@@ -247,7 +247,7 @@ proc parseNegativeAntigen(spec: SpecialTestingAntigensGeneral): string =
 
 proc toHtml*(spec: SpecialTestingAntigensGeneral): string =
   ## Show information about `spec` as HTML
-  const style = "padding-left: 1em;"
+  const style = "padding-left: 2em;"
   let pheno = parseAntigen(spec)
   var phenotypeRows: string
   for pair in pheno:
