@@ -196,7 +196,7 @@ Tolka koder i [ISBT 128](https://www.isbt128.org/tech-spec)-format.
   <fieldset>
       <!-- <legend>Inmatning</legend> -->
       <label for="code">Ange kod</label>
-      <input type="text" id="code">
+      <input type="text" id="code" autofocus>
       <input type="submit" hidden />
     </fieldset>
 </form>
