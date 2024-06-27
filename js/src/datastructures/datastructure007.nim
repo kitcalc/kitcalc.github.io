@@ -77,7 +77,7 @@ proc toHtml*(date: CollectionDateAndTime): string =
       ),
       tr(
         td("Datum och tid", style=commonstyle),
-        td(toDateTime(date.c, date.year, date.ordinal, date.hh, date.mm))
+        td(toDateTime(date.c, date.yy, date.jjj, date.hh, date.mm))
       ),
     )
 

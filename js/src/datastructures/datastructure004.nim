@@ -59,7 +59,7 @@ proc toHtml*(date: ExpirationDate): string =
       ),
       tr(
         td("Datum", style=commonstyle),
-        td(ordinalToDate(date.c, date.year, date.ordinal))
+        td(ordinalToDate(date.c, date.yy, date.jjj))
       ),
     )
 

@@ -1,4 +1,5 @@
 ## Procedures common to all datastructure
+import strutils  # parseInt
 
 # Date and time handling
 
@@ -29,14 +30,15 @@ func ordinalToDate*(century, year, ordinal: string): string =
   let
     long = longYear(century.parseInt, year.parseInt)
     mtab = if isLeapYear(long): monthsL else: months
+    ordinalint = ordinal.parseInt
 
   var
-    day = ordinal.parseInt
+    day = ordinalInt
     days = 0
     month = 0
   for m in mtab.low..mtab.high:
     inc days, mtab[m]
-    if days >= ordinal:
+    if days >= ordinalInt:
       month = m + 1
       break
     dec day, mtab[m]
