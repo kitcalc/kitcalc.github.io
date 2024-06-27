@@ -423,9 +423,6 @@ when defined(js):
         # to save in history; input code and name as label, table shown when expanded
         toHist = details(summary(cleanCode & " &ndash; " & name), html).cstring
 
-      # reset the form, restore focus; to allow for sequential inputs
-      document.getElementById("codeinputform").reset()
-      document.getElementById("code").focus()
 
       # set contents as active output
       document.getElementById("isbt128out").innerHtml = contents.cstring
@@ -433,6 +430,10 @@ when defined(js):
       # save contents in history
       # we prepend to previous results in div by using insertAdjacentHTML
       document.getElementById("isbt128history").insertAdjacentHTML("afterbegin", toHist)
+
+      # reset the form, restore focus; to allow for sequential inputs
+      document.getElementById("code").value = "";
+      document.getElementById("code").focus()
     except:
       let s = "Fel vid tolkning: " & getCurrentExceptionMsg()
       document.getElementById("isbt128out").innerHtml = s.cstring
