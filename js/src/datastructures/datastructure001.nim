@@ -4,6 +4,7 @@
 
 import strutils  # parseInt
 import htmlgen
+import common
 
 
 type DonationIdentificationNumber* = object
@@ -201,7 +202,6 @@ func type3FlagCharacters(din: DonationIdentificationNumber): string =
 
 proc toHtml*(din: DonationIdentificationNumber): string =
   ## Show information about `din` as HTML
-  const style = "padding-left: 2em;"
   let
     head = thead(
       tr(
@@ -227,11 +227,11 @@ proc toHtml*(din: DonationIdentificationNumber): string =
         td(din.flagCharacters)
       ),
       tr(
-        td("Svensk standard", style=style),
+        td("Svensk standard", style=commonstyle),
         td(interpretFlagSwe(din))
       ),
       tr(
-        td("ISBT 128", style=style),
+        td("ISBT 128", style=commonstyle),
         td(interpretFlag(din))
       )
     )

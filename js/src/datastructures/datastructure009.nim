@@ -1,6 +1,7 @@
 ## 2.4.9 Production Date and Time [Data Structure 009]
 
 import htmlgen
+import common
 
 type ProductionDateAndTime* = object
   dataIdentifier: string ##\
@@ -70,6 +71,10 @@ proc toHtml*(date: ProductionDateAndTime): string =
       tr(
         td("Minut"),
         td(date.mm)
+      ),
+      tr(
+        td("Datum och tid", style=commonstyle),
+        td(toDateTime(date.c, date.year, date.ordinal, date.hh, date.mm))
       ),
     )
 

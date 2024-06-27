@@ -1,6 +1,7 @@
 ## 2.4.8 Production Date [Data Structure 008]
 
 import htmlgen
+import common
 
 type ProductionDate* = object
   dataIdentifier: string ##\
@@ -56,6 +57,10 @@ proc toHtml*(date: ProductionDate): string =
       tr(
         td("Datumnummer (1 januari = 1)"),
         td(date.jjj)
+      ),
+      tr(
+        td("Datum", style=commonstyle),
+        td(ordinalToDate(date.c, date.year, date.ordinal))
       ),
     )
 

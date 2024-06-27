@@ -1,6 +1,7 @@
 ## 2.4.6 Collection Date [Data Structure 006]
 
 import htmlgen
+import common
 
 type CollectionDate* = object
   dataIdentifier: string ##\
@@ -57,6 +58,10 @@ proc toHtml*(date: CollectionDate): string =
       tr(
         td("Datumnummer (1 januari = 1)"),
         td(date.jjj)
+      ),
+      tr(
+        td("Datum", style=commonstyle),
+        td(ordinalToDate(date.c, date.year, date.ordinal))
       ),
     )
 

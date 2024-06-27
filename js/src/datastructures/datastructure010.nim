@@ -1,6 +1,7 @@
 ## 2.4.10 Special Testing: General [Data Structure 010]
 
 import htmlgen
+import common
 
 type SpecialTestingGeneral* = object
   dataIdentifier: string ##\
@@ -31,7 +32,6 @@ proc parseSpecialTestingGeneral*(code: string): SpecialTestingGeneral =
 
 proc toHtml*(code: SpecialTestingGeneral): string =
   ## Show information about `code` as HTML
-  const style = "padding-left: 2em;"
   let
     head = thead(
       tr(
@@ -45,7 +45,7 @@ proc toHtml*(code: SpecialTestingGeneral): string =
         td(code.zzzzz)
       ),
       tr(
-        td("Tolkning", style=style),
+        td("Tolkning", style=commonstyle),
         td("Går ej att tolka, ej öppen tillgång till information")
       ),
     )

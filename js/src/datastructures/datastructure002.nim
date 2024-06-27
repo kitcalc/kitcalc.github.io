@@ -1,6 +1,7 @@
 ## 2.4.2 Blood Groups [ABO and RhD] [Data Structure 002]
 
 import strutils, htmlgen
+import common
 
 type BloodGroupsABORhD* = object
   dataIdentifier: string ##\
@@ -283,7 +284,6 @@ proc interpretRhKellMi(bg: BloodGroupsABORhD): RhKellMi =
 
 proc toHtml*(bg: BloodGroupsABORhD): string =
   ## Show information about `bg` as HTML
-  const style = "padding-left: 2em;"
   let
     aboRhD = interpretABORhD(bg)
     rhKellMi = interpretRhKellMi(bg)
@@ -294,16 +294,16 @@ proc toHtml*(bg: BloodGroupsABORhD): string =
   )
   if aboRhD.kind == bloodGroup:
     aboRows.add tr(
-      td("ABO och RhD", style=style),
+      td("ABO och RhD", style=commonstyle),
       td(aboRhD.group)
     )
     aboRows.add tr(
-      td("Tappningstyp", style=style),
+      td("Tappningstyp", style=commonstyle),
       td($aboRhD.collectionInformation)
     )
   else:
     aboRows.add tr(
-      td("Meddelande", style=style),
+      td("Meddelande", style=commonstyle),
       td(aboRhD.message)
     )
 
@@ -313,20 +313,20 @@ proc toHtml*(bg: BloodGroupsABORhD): string =
   )
   case rhKellMi.kind
   of rhK:
-    let phenoString = ("K" & $rhKellMi.kell & " C" & $rhKellMi.rhC & " c" &
-      $rhKellMi.rhsmallc & " E" & $rhKellMi.rhE & " e" & $rhKellMi.rhsmalle)
+    let phenoString = (" C" & $rhKellMi.rhC & " c" & $rhKellMi.rhsmallc &
+      " E" & $rhKellMi.rhE & " e" & $rhKellMi.rhsmalle & "K" & $rhKellMi.kell)
     phenoRows.add tr(
-      td("Fenotyp (Rh/K)", style=style),
+      td("Fenotyp (Rh/K)", style=commonstyle),
       td(phenoString)
     )
   of mi:
     phenoRows.add tr(
-      td("Fenotyp (Mi<sup>a</sup>/Mur)", style=style),
+      td("Fenotyp (Mi<sup>a</sup>/Mur)", style=commonstyle),
       td($rhKellMi.mipheno)
     )
   of special:
     phenoRows.add tr(
-      td("Fenotyp (okänd)", style=style),
+      td("Fenotyp (okänd)", style=commonstyle),
       td("Special Testing bar code present and must be scanned and interpreted")
     )
 

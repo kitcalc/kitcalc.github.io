@@ -1,6 +1,7 @@
 ## 2.4.7 Collection Date and Time [Data Structure 007]
 
 import htmlgen
+import common
 
 type CollectionDateAndTime* = object
   dataIdentifier: string ##\
@@ -73,6 +74,10 @@ proc toHtml*(date: CollectionDateAndTime): string =
       tr(
         td("Minut"),
         td(date.mm)
+      ),
+      tr(
+        td("Datum och tid", style=commonstyle),
+        td(toDateTime(date.c, date.year, date.ordinal, date.hh, date.mm))
       ),
     )
 

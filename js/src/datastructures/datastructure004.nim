@@ -1,6 +1,7 @@
 ## 2.4.4 Expiration Date [Data Structure 004]
 
 import htmlgen
+import common
 
 type ExpirationDate* = object
   dataIdentifier: string ##\
@@ -55,6 +56,10 @@ proc toHtml*(date: ExpirationDate): string =
       tr(
         td("Datumnummer (1 januari = 1)"),
         td(date.jjj)
+      ),
+      tr(
+        td("Datum", style=commonstyle),
+        td(ordinalToDate(date.c, date.year, date.ordinal))
       ),
     )
 

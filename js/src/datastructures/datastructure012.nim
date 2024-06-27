@@ -1,6 +1,7 @@
 ## 2.4.12 Special Testing: Red Blood Cell Antigens—General [Data Structure 012]
 
 import htmlgen, strutils
+import common
 
 type SpecialTestingAntigensGeneral* = object
   dataIdentifier: string ##\
@@ -247,12 +248,11 @@ proc parseNegativeAntigen(spec: SpecialTestingAntigensGeneral): string =
 
 proc toHtml*(spec: SpecialTestingAntigensGeneral): string =
   ## Show information about `spec` as HTML
-  const style = "padding-left: 2em;"
   let pheno = parseAntigen(spec)
   var phenotypeRows: string
   for pair in pheno:
     phenotypeRows.add tr(
-      td(pair.name, style=style),
+      td(pair.name, style=commonstyle),
       td($pair.pheno)
     )
 
@@ -274,7 +274,7 @@ proc toHtml*(spec: SpecialTestingAntigensGeneral): string =
         td(spec.ii)
       ),
       tr(
-        td("Negativ för", style=style),
+        td("Negativ för", style=commonstyle),
         td(parseNegativeAntigen(spec))
       ),
     )

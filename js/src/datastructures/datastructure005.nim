@@ -1,6 +1,7 @@
 ## 2.4.5 Expiration Date and Time [Data Structure 005]
 
 import htmlgen
+import common
 
 type ExpirationDateAndTime* = object
   dataIdentifier: string ##\
@@ -69,6 +70,10 @@ proc toHtml*(date: ExpirationDateAndTime): string =
       tr(
         td("Minut"),
         td(date.mm)
+      ),
+      tr(
+        td("Datum och tid", style=commonstyle),
+        td(toDateTime(date.c, date.year, date.ordinal, date.hh, date.mm))
       ),
     )
 

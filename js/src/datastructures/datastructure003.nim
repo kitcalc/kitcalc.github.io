@@ -1,6 +1,7 @@
 ## 2.4.3 Product Code [Data Structure 003]
 
 import htmlgen, strutils
+import common
 
 type ProductCode* = object
   dataIdentifier: string ##\
@@ -238,7 +239,6 @@ proc parseTds(code: ProductCode): Tds =
 
 proc toHtml*(code: ProductCode): string =
   ## Show information about `code` as HTML
-  const style = "padding-left: 2em;"
   let
     productType = parseProductDescription(code)
     tds = parseTds(code)
@@ -247,17 +247,17 @@ proc toHtml*(code: ProductCode): string =
   case tds.kind
   of simple:
     tdsRows = tr(
-      td("Delning", style=style),
+      td("Delning", style=commonstyle),
       td(if tds.division == "000": "ej delad" else: "delad")
     )
   of complex:
     tdsRows.add tr(
-      td("Typ av tappning och användning", style=style),
+      td("Typ av tappning och användning", style=commonstyle),
       td(tds.collectionType)
     )
     if code.productDescriptionCode[0] in {'A'..'D'}:
       tdsRows.add tr(
-        td("Delning", style=style),
+        td("Delning", style=commonstyle),
         td("lokalt eller nationellt definierad kod")
       )
     else:
@@ -268,7 +268,7 @@ proc toHtml*(code: ProductCode): string =
       else:
         "delad"
       tdsRows.add tr(
-        td("Delning", style=style),
+        td("Delning", style=commonstyle),
         td(divisionField)
       )
 
@@ -285,7 +285,7 @@ proc toHtml*(code: ProductCode): string =
         td(code.productDescriptionCode)
       ),
       tr(
-        td("Komponenttyp", style=style),
+        td("Komponenttyp", style=commonstyle),
         td(productType)
       ),
       tr(
