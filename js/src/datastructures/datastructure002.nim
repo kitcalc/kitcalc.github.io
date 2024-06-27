@@ -283,7 +283,7 @@ proc interpretRhKellMi(bg: BloodGroupsABORhD): RhKellMi =
 
 proc toHtml*(bg: BloodGroupsABORhD): string =
   ## Show information about `bg` as HTML
-  const style = "padding-left: 1em;"
+  const style = "padding-left: 2em;"
   let
     aboRhD = interpretABORhD(bg)
     rhKellMi = interpretRhKellMi(bg)

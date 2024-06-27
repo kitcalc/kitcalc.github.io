@@ -31,7 +31,7 @@ proc parseSpecialTestingGeneral*(code: string): SpecialTestingGeneral =
 
 proc toHtml*(code: SpecialTestingGeneral): string =
   ## Show information about `code` as HTML
-  const style = "padding-left: 1em;"
+  const style = "padding-left: 2em;"
   let
     head = thead(
       tr(
