@@ -416,8 +416,16 @@ when defined(js):
         code = $document.getElementById("code").value
         dataStructure = classifyDataStructure(code)
         html = parseDataStructure(dataStructure, code)
-        contents = h2(dataStructureNames[dataStructure]) & p(html)
+        contents = h2(dataStructureNames[dataStructure]) & html
+        # to save in history; input code as label, table shown when expanded
+        # clean '<' as it causes problems with html
+        cleanCode = code.replace("<", "&lt;")
+        toHist = details(summary(cleanCode), html).cstring
+      # set contents as active output
       document.getElementById("isbt128out").innerHtml = contents.cstring
+      # save contents in history
+      # we prepend to previous results in div by using insertAdjacentHTML
+      document.getElementById("isbt128history").insertAdjacentHTML("afterbegin", toHist)
     except:
       let s = "Fel vid tolkning: " & getCurrentExceptionMsg()
       document.getElementById("isbt128out").innerHtml = s.cstring

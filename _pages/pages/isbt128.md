@@ -203,3 +203,5 @@ Tolka koder i [ISBT 128](https://www.isbt128.org/tech-spec)-format.
 
 <div id="isbt128out"></div>
 
+<h3>Sökhistorik</h3>
+<div id="isbt128history"></div>
