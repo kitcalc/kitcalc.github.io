@@ -73,6 +73,18 @@ proc parseDonationIdentificationNumber*(code: string): DonationIdentificationNum
   result.sequence = code[8..13]
   result.flagCharacters = code[14..15]
 
+type
+  FlagKind = enum
+    type00  = "Används ej"
+    type1 = "Typ 1, processkontroll som definierats av ICCBBA"
+    type2 = "Typ 2, processkontroll som definierats lokalt"
+    type3 = "Typ 3, checksumma"
+    unknown = "Okänd"
+  Flag = object
+    kind: FlagKind
+    meaningSwe: string
+    meaningEng: string
+
 
 func interpretFlagSwe(din: DonationIdentificationNumber): string =
   ## Parse the flag characters and return their meaning as text, according to
@@ -82,6 +94,7 @@ func interpretFlagSwe(din: DonationIdentificationNumber): string =
 
     # förslag till standard i Sverige för nummermarkörer (nm) avseende
     # påsarna i blodpåsesystemet, journaletiketter, omklistring av blodenheter
+
     of "01": "Påse 1, på tappningsetiketten vid tappning"
     of "02": "Påse 2, på tappningsetiketten vid tappning"
     of "03": "Påse 3, på tappningsetiketten vid tappning"
@@ -117,7 +130,7 @@ func interpretFlagSwe(din: DonationIdentificationNumber): string =
     else: "Ej definierad i Handbok för blodverksamhet"
 
 
-func interpretFlag(din: DonationIdentificationNumber): string =
+func interpretFlagEng(din: DonationIdentificationNumber): string =
   ## Parse the flag characters and return their meaning as text
 
   case din.flagCharacters
@@ -158,50 +171,43 @@ func interpretFlag(din: DonationIdentificationNumber): string =
       # A-N, P, R-Y
       result = "Reserved for future assignment"
 
-#[  # misc functions - untested
 
-func charToCheckValue(c: char): int =
-  ## Char to checksum value according to table 35
-  case c
-  of '0'..'9': result = c.int - '0'.int  # == -48
-  of 'A'..'Z': result = c.int - 55  # 'A'.ord == 65
-  of '*': result = 36
-  else: assert false
+func interpretFlag(din: DonationIdentificationNumber): Flag =
+  ## Interpret the flag chararacter.
+  result.meaningSwe = interpretFlagSwe(din)
+  result.meaningEng = interpretFlagEng(din)
+    try:
+    let numeric = din.flagCharacters.parseInt
+    result.kind = case numeric
+      of 0: type00
+      of 1..19: type1
+      of 20..59: type2
+      of 60..97: type3
+      else: unknown
+  except ValueError:
+    result.kind = unknown
 
-func checkValueToChar(i: int): char =
-  ## Checksum value to char according to table 35
-  const table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*"
-  static: assert table.len == 37
-  result = table[i]
-
-func iso7064mod37(s: string): int =
-  # The ISO 7064 Mod 37-2 algorithm for checksum calculation
-  assert s.len == 13  # only allowed for DIN
-  var
-    value = 0
-    positionRight = 13
-  for c in s:
-    let weighted = 2^positionRight * charToCheckValue(c)
-    inc value, weighted
-    dec positionRight
-  value = value mod 37
-  value = 38 - value
-  value = value mod 37
-  result = value
-
-func checkCharacter(din: DonationIdentificationNumber): char =
-  ## Calculate the keyboard entry check character K for `din`
-  let value = iso7064mod37(din.DIN)
-  result = checkValueToChar(value)
-
-func type3FlagCharacters(din: DonationIdentificationNumber): string =
-  ## Calculate type 3 flag characters for `din`
-  let value = iso7064mod37(din.DIN)
-  result = $(value + 60)
-]#
+func getCheckCharacter(din: DonationIdentificationNumber): char =
+  ## Returns check character for `din`
+  let dinStr = din.facilityIdentificationNumber & din.year & din.sequence
+  result = calcCheckCharacter(din)
 
 proc toHtml*(din: DonationIdentificationNumber): string =
   ## Show information about `din` as HTML
+  let flag = interpretFlag(din)
+  var type3Rows = ""
+  if flag.kind == type3:
+    if din.flagCharacters == type3FlagCharacters(din):
+      type3Rows = tr(
+        td("Checksumma för typ 3", style=commonstyle),
+        td("Korrekt checksumma i nummermarkör")
+      )
+    else:
+      type3Rows = tr(
+        td("Checksumma för typ 3", style=commonstyle),
+        td("Checksumma i nummermarkör matchar inte tappningsnummer!")
+      )
+
   let
     head = thead(
       tr(
@@ -227,13 +233,22 @@ proc toHtml*(din: DonationIdentificationNumber): string =
         td(din.flagCharacters)
       ),
       tr(
-        td("Svensk standard", style=commonstyle),
-        td(interpretFlagSwe(din))
+        td("Typ", style=commonstyle),
+        td(flag.kind)
+      ),
+      tr(
+        td("Svensk tolkning", style=commonstyle),
+        td(flag.messageSwe)
       ),
       tr(
         td("ISBT 128", style=commonstyle),
-        td(interpretFlag(din))
-      )
+        td(flag.messageEng)
+      ),
+      tr(
+        td("Kontrolltecken", style=commonstyle),
+        td(span(getCheckCharacter(din), style="border: solid; padding: 2px;"))  # boxed
+      ),
+      type3Rows
     )
 
   result.add table(head, body)

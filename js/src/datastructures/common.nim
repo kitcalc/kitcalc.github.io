@@ -1,5 +1,6 @@
 ## Procedures common to all datastructure
 import strutils  # parseInt
+import math  # `^`
 
 # Date and time handling
 
@@ -56,3 +57,45 @@ func toDateTime*(century, year, ordinal, hh, mm: string): string =
 
 # Style
 const commonstyle* = "padding-left: 2em;"
+
+
+# Procs related to checksums
+
+func charToCheckValue*(c: char): int =
+  ## Char to checksum value according to table 35
+  case c
+  of '0'..'9': result = c.int - '0'.int  # == -48
+  of 'A'..'Z': result = c.int - 55  # 'A'.ord == 65
+  of '*': result = 36
+  else: assert false
+
+func checkValueToChar*(i: int): char =
+  ## Checksum value to char according to table 35
+  const table = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ*"
+  static: assert table.len == 37
+  result = table[i]
+
+func iso7064mod37(s: string): int =
+  # The ISO 7064 Mod 37-2 algorithm for checksum calculation
+  assert s.len == 13  # only allowed for DIN
+  var
+    value = 0
+    positionRight = 13
+  for c in s:
+    let weighted = 2^positionRight * charToCheckValue(c)
+    inc value, weighted
+    dec positionRight
+  value = value mod 37
+  value = 38 - value
+  value = value mod 37
+  result = value
+
+func calcCheckCharacter*(din: string): char =
+  ## Calculate the keyboard entry check character K for `din`
+  let value = iso7064mod37(din)
+  result = checkValueToChar(value)
+
+func type3FlagCharacters*(din: string): string =
+  ## Calculate type 3 flag characters for `din`
+  let value = iso7064mod37(din)
+  result = $(value + 60)
