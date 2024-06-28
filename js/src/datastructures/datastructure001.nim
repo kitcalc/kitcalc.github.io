@@ -190,7 +190,7 @@ func interpretFlag(din: DonationIdentificationNumber): Flag =
 func getCheckCharacter(din: DonationIdentificationNumber): char =
   ## Returns check character for `din`
   let dinStr = din.facilityIdentificationNumber & din.year & din.sequence
-  result = calcCheckCharacter(din)
+  result = calcCheckCharacter(dinStr)
 
 proc toHtml*(din: DonationIdentificationNumber): string =
   ## Show information about `din` as HTML
