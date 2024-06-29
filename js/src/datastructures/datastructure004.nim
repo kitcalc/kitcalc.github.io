@@ -22,7 +22,7 @@ func verifyExpirationDate(code: string) =
   ## QC for Data Structure 004, "Expiration Date"
   if code.len != 8:
     raise newException(ValueError,
-      "Fel längd: längd 8 förväntades men endast " & $code.len &
+      "Fel längd: längd 8 förväntades men " & $code.len &
       " tecken fanns i koden")
 
 proc parseExpirationDate*(code: string): ExpirationDate =
@@ -38,13 +38,7 @@ proc toHtml*(date: ExpirationDate): string =
   ## Show information about `date` as HTML
 
   let
-    head = thead(
-      tr(
-        th("Element"),
-        th("Värde")
-      )
-    )
-    body = tbody(
+    body = `div`(
       tr(
         td("Sekel"),
         td(date.c)
@@ -63,4 +57,4 @@ proc toHtml*(date: ExpirationDate): string =
       ),
     )
 
-  result.add table(head, body)
+  result = toHtmlCommon(body, date.dataIdentifier)

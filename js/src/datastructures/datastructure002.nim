@@ -36,7 +36,7 @@ func verifyBloodGroupsABORhD(code: string) =
 
   if code.len != 6:
     raise newException(ValueError,
-      "Fel längd: längd 6 förväntades men endast " & $code.len &
+      "Fel längd: längd 6 förväntades men " & $code.len &
       " tecken fanns i koden")
 
 
@@ -331,13 +331,7 @@ proc toHtml*(bg: BloodGroupsABORhD): string =
     )
 
   let
-    head = thead(
-      tr(
-        th("Element"),
-        th("Värde")
-      )
-    )
-    body = tbody(
+    body = `div`(
       aboRows,
       phenoRows,
       tr(
@@ -346,4 +340,4 @@ proc toHtml*(bg: BloodGroupsABORhD): string =
       )
     )
 
-  result.add table(head, body)
+  result = toHtmlCommon(body, bg.dataIdentifier)

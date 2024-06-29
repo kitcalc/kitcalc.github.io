@@ -24,7 +24,7 @@ func verifyCollectionDate(code: string) =
   ## QC for Data Structure 006, "Collection Date"
   if code.len != 8:
     raise newException(ValueError,
-      "Fel längd: längd 8 förväntades men endast " & $code.len &
+      "Fel längd: längd 8 förväntades men " & $code.len &
       " tecken fanns i koden")
 
 proc parseCollectionDate*(code: string): CollectionDate =
@@ -40,13 +40,7 @@ proc toHtml*(date: CollectionDate): string =
   ## Show information about `date` as HTML
 
   let
-    head = thead(
-      tr(
-        th("Element"),
-        th("Värde")
-      )
-    )
-    body = tbody(
+    body = `div`(
       tr(
         td("Sekel"),
         td(date.c)
@@ -65,4 +59,4 @@ proc toHtml*(date: CollectionDate): string =
       ),
     )
 
-  result.add table(head, body)
+  result = toHtmlCommon(body, date.dataIdentifier)

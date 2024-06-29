@@ -19,7 +19,7 @@ func verifySpecialTestingGeneral(code: string) =
   ## QC for Data Structure 010, "Special Testing: General"
   if code.len != 7:
     raise newException(ValueError,
-      "Fel längd: längd 7 förväntades men endast " & $code.len &
+      "Fel längd: längd 7 förväntades men " & $code.len &
       " tecken fanns i koden")
 
 proc parseSpecialTestingGeneral*(code: string): SpecialTestingGeneral =
@@ -33,13 +33,7 @@ proc parseSpecialTestingGeneral*(code: string): SpecialTestingGeneral =
 proc toHtml*(code: SpecialTestingGeneral): string =
   ## Show information about `code` as HTML
   let
-    head = thead(
-      tr(
-        th("Element"),
-        th("Värde")
-      )
-    )
-    body = tbody(
+    body = `div`(
       tr(
         td("zzzzz"),
         td(code.zzzzz)
@@ -50,4 +44,4 @@ proc toHtml*(code: SpecialTestingGeneral): string =
       ),
     )
 
-  result.add table(head, body)
+  result = toHtmlCommon(body, code.dataIdentifier)

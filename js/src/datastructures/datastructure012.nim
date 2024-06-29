@@ -19,7 +19,7 @@ func verifySpecialTestingAntigensGeneral(code: string) =
   ## QC for Data Structure 012, "Special Testing: Red Blood Cell Antigens"
   if code.len != 20:
     raise newException(ValueError,
-      "Fel längd: längd 20 förväntades men endast " & $code.len &
+      "Fel längd: längd 20 förväntades men " & $code.len &
       " tecken fanns i koden")
 
 proc parseSpecialTestingAntigensGeneral*(code: string): SpecialTestingAntigensGeneral =
@@ -257,13 +257,7 @@ proc toHtml*(spec: SpecialTestingAntigensGeneral): string =
     )
 
   let
-    head = thead(
-      tr(
-        th("Element"),
-        th("Värde")
-      )
-    )
-    body = tbody(
+    body = `div`(
       tr(
         td("aaaaaaaaaaaaaaaa"),
         td(spec.aaaaaaaaaaaaaaaa)
@@ -279,4 +273,4 @@ proc toHtml*(spec: SpecialTestingAntigensGeneral): string =
       ),
     )
 
-  result.add table(head, body)
+  result = toHtmlCommon(body, spec.dataIdentifier)

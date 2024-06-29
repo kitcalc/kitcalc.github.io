@@ -57,7 +57,7 @@ func verifyDonationIdentificationNumber(din: string) =
 
   if din.len != 16:
     raise newException(ValueError,
-      "Fel längd: längd 16 förväntades men endast " & $din.len &
+      "Fel längd: längd 16 förväntades men " & $din.len &
       " tecken fanns i koden")
 
 
@@ -209,13 +209,7 @@ proc toHtml*(din: DonationIdentificationNumber): string =
       )
 
   let
-    head = thead(
-      tr(
-        th("Element"),
-        th("Värde")
-      )
-    )
-    body = tbody(
+    body = `div`(
       tr(
         td("Blodcentralskod (Facility Identification Number)"),
         td(din.facilityIdentificationNumber)
@@ -246,9 +240,9 @@ proc toHtml*(din: DonationIdentificationNumber): string =
       ),
       tr(
         td("Kontrolltecken", style=commonstyle),
-        td(span(getCheckCharacter(din), style="border: solid; padding: 2px;"))  # boxed
+        td(span(getCheckCharacter(din), style="border: solid 1px; padding: 2px;"))  # boxed
       ),
       type3Rows
     )
 
-  result.add table(head, body)
+  result = toHtmlCommon(body, din.dataIdentifier)

@@ -44,7 +44,7 @@ func verifyProductCode(code: string) =
 
   if code.len != 10:
     raise newException(ValueError,
-      "Fel längd: längd 10 förväntades men endast " & $code.len &
+      "Fel längd: längd 10 förväntades men " & $code.len &
       " tecken fanns i koden")
 
 proc parseProductCode*(code: string): ProductCode =
@@ -273,13 +273,7 @@ proc toHtml*(code: ProductCode): string =
       )
 
   let
-    head = thead(
-      tr(
-        th("Element"),
-        th("Värde")
-      )
-    )
-    body = tbody(
+    body = `div`(
       tr(
         td("Produktkod"),
         td(code.productDescriptionCode)
@@ -295,4 +289,4 @@ proc toHtml*(code: ProductCode): string =
       tdsRows
     )
 
-  result.add table(head, body)
+  result = toHtmlCommon(body, code.dataIdentifier)

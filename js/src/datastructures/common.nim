@@ -1,6 +1,7 @@
 ## Procedures common to all datastructure
 import strutils  # parseInt
 import math  # `^`
+import htmlgen
 
 # Date and time handling
 
@@ -58,6 +59,23 @@ func toDateTime*(century, year, ordinal, hh, mm: string): string =
 # Style
 const commonstyle* = "padding-left: 2em;"
 
+func toHtmlCommon*(body, dataIdentifier: string): string =
+  ## Format HTML output in a common format
+  const
+    header = h3("Streckkodens delar och tolkning")
+    head = thead(
+      tr(
+        th("Element"),
+        th("Värde")
+      )
+    )
+  let
+    bodyTop = tr(
+        td("Dataidentitetstecken"),
+        td(dataIdentifier)
+    )
+
+  result.add table(header, head, tbody(bodyTop, body))
 
 # Procs related to checksums
 
@@ -99,3 +117,5 @@ func type3FlagCharacters*(din: string): string =
   ## Calculate type 3 flag characters for `din`
   let value = iso7064mod37(din)
   result = $(value + 60)
+
+
