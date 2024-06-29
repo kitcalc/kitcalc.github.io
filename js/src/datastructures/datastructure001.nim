@@ -176,7 +176,7 @@ func interpretFlag(din: DonationIdentificationNumber): Flag =
   ## Interpret the flag chararacter.
   result.meaningSwe = interpretFlagSwe(din)
   result.meaningEng = interpretFlagEng(din)
-    try:
+  try:
     let numeric = din.flagCharacters.parseInt
     result.kind = case numeric
       of 0: type00
@@ -197,7 +197,7 @@ proc toHtml*(din: DonationIdentificationNumber): string =
   let flag = interpretFlag(din)
   var type3Rows = ""
   if flag.kind == type3:
-    if din.flagCharacters == type3FlagCharacters(din):
+    if din.flagCharacters == type3FlagCharacters(din.flagCharacters):
       type3Rows = tr(
         td("Checksumma för typ 3", style=commonstyle),
         td("Korrekt checksumma i nummermarkör")
@@ -234,15 +234,15 @@ proc toHtml*(din: DonationIdentificationNumber): string =
       ),
       tr(
         td("Typ", style=commonstyle),
-        td(flag.kind)
+        td($flag.kind)
       ),
       tr(
         td("Svensk tolkning", style=commonstyle),
-        td(flag.messageSwe)
+        td(flag.meaningSwe)
       ),
       tr(
         td("ISBT 128", style=commonstyle),
-        td(flag.messageEng)
+        td(flag.meaningEng)
       ),
       tr(
         td("Kontrolltecken", style=commonstyle),
