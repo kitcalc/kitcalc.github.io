@@ -86,6 +86,12 @@ abbr[title] {
     text-underline-position: under;
 }
 
+div.overflow-img {
+    width: auto;
+    overflow-x: auto;
+    white-space: nowrap;
+}
+
 /*
  *                 _ _
  *    ___ ___   __| (_)_ __   __ _
