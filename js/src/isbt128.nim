@@ -427,12 +427,15 @@ when defined(js):
     except:
       false
 
-  if not barcodeSupported:
-    console.log "Barcode Detection API not supported".cstring
-  else:
+  if barcodeSupported:
+    console.log "Barcode Detection API supported".cstring
+
     # show relevant fields
     document.getElementById("detectionFields").style.display = "block"
     document.getElementById("detectionInformation").style.display = "none"
+  else:
+    console.log "Barcode Detection API not supported".cstring
+
 
   proc interpretCode*() {.exportc.} =
     ## Interpret code and output results
