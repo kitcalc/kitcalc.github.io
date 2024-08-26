@@ -403,17 +403,46 @@ proc parseDataStructure(dataStructureType: DataStructure, code: string): string 
 
 
 when defined(js):
-  import dom
+  import dom, asyncjs
+  import std / jsconsole
+
+  type
+    BarcodeDetector = ref object of JsRoot
+    DetectBarcode = ref object of JsRoot
+      # also: boundingBox, cornerPoints but we ignore them
+      format: cstring
+      rawValue: cstring
+
+
+  proc newBarcodeDetector(): BarcodeDetector {.importjs: """new BarcodeDetector({formats: ["code_128", "data_matrix"]})""".}
+    ## we're only interested in code_128, data_matrix here
+
+  proc detect(bd: BarcodeDetector, f: Blob): Future[seq[DetectBarcode]] {.importjs: "#.$1(#)".}
+    ## https://developer.mozilla.org/en-US/docs/Web/API/BarcodeDetector/detect
+
+  # top level-code - hide barcode-related elements if not supported by browser
+  let barcodeSupported = try:
+      discard newBarcodeDetector()
+      true
+    except:
+      false
+
+  if not barcodeSupported:
+    console.log "Barcode Detection API not supported".cstring
+  else:
+    # show relevant fields
+    document.getElementById("detectionFields").style.display = "block"
+    document.getElementById("detectionInformation").style.display = "none"
 
   proc interpretCode*() {.exportc.} =
     ## Interpret code and output results
 
-    # clear output TODO: is there a cleaner way?
+    # clear output
     document.getElementById("isbt128out").innerHtml = ""
 
     try:
       let
-        code = $document.getElementById("code").value
+        code = $document.getElementById("code").value  # nim string, intentionally
         dataStructure = classifyDataStructure(code)
         html = parseDataStructure(dataStructure, code)
         # clean '<' as it causes problems with html
@@ -437,3 +466,25 @@ when defined(js):
     except:
       let s = "Fel vid tolkning: " & getCurrentExceptionMsg()
       document.getElementById("isbt128out").innerHtml = s.cstring
+
+
+  proc readBarcode() {.exportc, async.} =
+    ## Read barcode
+    var bd = newBarcodeDetector()
+    let
+      element = InputElement(document.getElementById("fileinput"))
+      file = element.files[0]
+    discard bd.detect(file).then(
+      proc(dbarr: seq[DetectBarcode]): Future[void] =
+        if dbarr.len > 0:
+          let first = dbarr[0]
+          document.getElementById("text").value = first.rawValue
+          interpretCode()
+    ).catch(proc(r: Error) =
+        var msg = r.name
+        msg.add ": ".cstring
+        msg.add r.message
+        console.error msg
+    )
+
+

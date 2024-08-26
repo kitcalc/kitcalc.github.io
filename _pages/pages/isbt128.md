@@ -7,7 +7,7 @@ summary: Tolka ISBT 128-koder
 Tolka koder i [ISBT 128](https://www.isbt128.org/tech-spec)-format.
 
 <details>
-    <summary>Visa alla dataidentitetstecken</summary>
+    <summary>Visa alla dataidentitetstecken i standarden</summary>
     <table>
         <thead>
             <tr>
@@ -193,12 +193,26 @@ Tolka koder i [ISBT 128](https://www.isbt128.org/tech-spec)-format.
 </details>
 
 <form id="codeinputform" action="javascript:interpretCode()">
-  <fieldset>
-      <!-- <legend>Inmatning</legend> -->
-      <label for="code">Ange kod</label>
-      <input type="text" id="code" autofocus>
-      <input type="submit" hidden />
+    <fieldset>
+        <label for="code">Ange kod</label>
+        <input type="text" id="code" autofocus>
+        <input type="submit" hidden />
     </fieldset>
+    <fieldset id="detectionFields" style="display: none;">
+        <label for="fileinput">Eller läs in bild 📷</label>
+        <input type="file" accept="image/*" id="fileinput" onchange="javascript:readBarcode()">
+    </fieldset>
+    <div id="detectionInformation">
+        <details>
+            <summary>Aktivera barcode-läsaren i iPhone (iOS 17) så här</summary>
+
+            &rarr; Inställningar <br>
+            &rarr; Safari <br>
+            &rarr; Avancerat <br>
+            &rarr; Funktionsflaggor <br>
+            &rarr; Shape Detection API <br>
+        </details>
+    </div>
 </form>
 
 <div id="isbt128out"></div>
