@@ -1,8 +1,9 @@
 title: ISBT 128
 created: 2024-06-25
-js: js/isbt128.js
 summary: Tolka ISBT 128-koder
 ---
+<!-- must be run last -->
+<script src="js/isbt128.js" defer></script>
 
 Tolka koder i [ISBT 128](https://www.isbt128.org/tech-spec)-format.
 
