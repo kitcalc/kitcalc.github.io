@@ -478,16 +478,12 @@ when defined(js):
       element = InputElement(document.getElementById("fileinput"))
       file = element.files[0]
 
-    document.getElementById("debug").innerHTML = "in function, file\n"
     discard bd.detect(file).then(
       proc(dbarr: seq[DetectBarcode]): Future[void] =
-        document.getElementById("debug").innerHTML &= "then\n"
         # ignore all but the first for now
         if dbarr.len > 0:
-          document.getElementById("debug").innerHTML &= "len\n"
           let first = dbarr[0]
-          document.getElementById("text").value = first.rawValue
-          document.getElementById("debug").innerHTML &= first.rawValue
+          document.getElementById("code").value = first.rawValue
           interpretCode()
     ).catch(proc(r: Error) =
         var msg = r.name

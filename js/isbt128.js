@@ -4029,12 +4029,9 @@ async function readBarcode() {
 function HEX3Aanonymous_570425783(dbarr_570425784) {
       var result_570425786 = null;
 
-        if (null != "then\n") { if (null == document.getElementById("debug").innerHTML) document.getElementById("debug").innerHTML = "then\n"; else document.getElementById("debug").innerHTML += "then\n"; };
         if ((0 < (dbarr_570425784).length)) {
-        if (null != "len\n") { if (null == document.getElementById("debug").innerHTML) document.getElementById("debug").innerHTML = "len\n"; else document.getElementById("debug").innerHTML += "len\n"; };
         var first_570425791 = dbarr_570425784[chckIndx(0, 0, (dbarr_570425784).length - 1)];
-        document.getElementById("text").value = first_570425791.rawValue;
-        if (null != first_570425791.rawValue) { if (null == document.getElementById("debug").innerHTML) document.getElementById("debug").innerHTML = first_570425791.rawValue; else document.getElementById("debug").innerHTML += first_570425791.rawValue; };
+        document.getElementById("code").value = first_570425791.rawValue;
         interpretCode();
         }
         
@@ -4059,7 +4056,6 @@ function HEX3Aanonymous_570425862(r_570425863) {
     var bd_570425779 = new BarcodeDetector({formats: ["code_128", "data_matrix"]});
     var element_570425780 = document.getElementById("fileinput");
     var file_570425781 = element_570425780.files[chckIndx(0, 0, (element_570425780.files).length - 1)];
-    document.getElementById("debug").innerHTML = "in function, file\n";
     var _ = catch_570425865(then_570425808(bd_570425779.detect(file_570425781), HEX3Aanonymous_570425783, null), HEX3Aanonymous_570425862);
     result_570425773 = undefined;
     break BeforeRet;
