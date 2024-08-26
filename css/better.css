@@ -17,11 +17,11 @@ html {
 
 header {
     text-align: center;
-    margin: 3rem 1rem;
+    margin: 1rem; 1rem;
 }
 
 body {
-    margin: 40px auto;
+    margin: auto;
     max-width: 660px;
     line-height: 1.5;
     font-family: Helvetica, Arial, serif;
@@ -59,15 +59,15 @@ p {
 
 h1, h2, h3 {
     line-height: 1.2;
-    margin-bottom: 1rem;
+    margin-bottom: .5rem;
 }
 
 h1, h2 {
-    margin-top: 2.5rem;
+    margin-top: 2rem;
 }
 
 h3 {
-    margin-top: 2rem;
+    margin-top: 1.5rem;
 }
 
 a {
