@@ -494,7 +494,7 @@ when defined(js):
         msg.add ": ".cstring
         msg.add r.message
         console.error msg
-        document.getElementById("debug").innerHTML &= "msg :-("
+        document.getElementById("debug").innerHTML &= msg
     )
 
 
