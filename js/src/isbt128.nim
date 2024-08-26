@@ -483,14 +483,14 @@ when defined(js):
         # ignore all but the first for now
         if dbarr.len > 0:
           let first = dbarr[0]
+          # clear input
+          document.getElementById("fileinput").value = "".cstring
+          # set input field to barcode value
           document.getElementById("code").value = first.rawValue
           interpretCode()
     ).catch(proc(r: Error) =
         var msg = r.name
         msg.add ": ".cstring
         msg.add r.message
-        console.error msg
-        document.getElementById("debug").innerHTML &= msg
+        console.error msg  # invisible in iOS, oh well
     )
-
-

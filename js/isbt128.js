@@ -4031,6 +4031,7 @@ function HEX3Aanonymous_570425783(dbarr_570425784) {
 
         if ((0 < (dbarr_570425784).length)) {
         var first_570425791 = dbarr_570425784[chckIndx(0, 0, (dbarr_570425784).length - 1)];
+        document.getElementById("fileinput").value = "";
         document.getElementById("code").value = first_570425791.rawValue;
         interpretCode();
         }
@@ -4045,7 +4046,6 @@ function HEX3Aanonymous_570425862(r_570425863) {
         if (null != ": ") { if (null == msg_570425864) msg_570425864 = ": "; else msg_570425864 += ": "; };
         if (null != r_570425863.message) { if (null == msg_570425864) msg_570425864 = r_570425863.message; else msg_570425864 += r_570425863.message; };
         console.error(msg_570425864);
-        if (null != msg_570425864) { if (null == document.getElementById("debug").innerHTML) document.getElementById("debug").innerHTML = msg_570425864; else document.getElementById("debug").innerHTML += msg_570425864; };
 
       
     }
