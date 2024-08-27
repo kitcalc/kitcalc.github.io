@@ -469,13 +469,16 @@ when defined(js):
 
   proc readInput() {.exportc.} =
     ## Reads a single code from input field and output its contents
+    let value = $document.getElementById("code").value  # nim string, intentionally
+    if value.len == 0:
+      return
     let
-      value = $document.getElementById("code").value  # nim string, intentionally
       output = try:
         interpretCode(value)
       except:
         # ValueError if unknown code
-        let msg = b("Fel vid tolkning av " & value & ": ") & getCurrentExceptionMsg()
+        let code = value.replace("<", "&lt;")
+        let msg = b("Fel vid tolkning av " & code & ": ") & getCurrentExceptionMsg()
         document.getElementById("isbt128out").innerHtml = msg.cstring
         return
 
@@ -521,9 +524,10 @@ when defined(js):
                   interpretCode(value)
                 except:
                   # ValueError if unknown code
-                    let msg = b("Fel vid tolkning av " & value & ": ") & getCurrentExceptionMsg()
-                    document.getElementById("isbt128out").innerHtml &= p(msg.cstring)
-                    continue
+                  let code = value.replace("<", "&lt;")
+                  let msg = b("Fel vid tolkning av " & code & ": ") & getCurrentExceptionMsg()
+                  document.getElementById("isbt128out").innerHtml &= p(msg.cstring)
+                  continue
 
             # add output to current
             document.getElementById("isbt128out").innerHtml &= output.formatSingleResult()
