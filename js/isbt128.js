@@ -3121,7 +3121,7 @@ function parseProductionDateAndTime_1291845645(code_1291845646) {
 function toHtml_1308622896(code_1308622897) {
   var result_1308622898 = [];
 
-    var body_1308622899 = ([60,100,105,118,62,60,116,114,62,60,116,100,62,122,122,122,122,122,60,47,116,100,62,60,116,100,62] || []).concat(code_1308622897.zzzzz || [],makeNimstrLit("</td></tr><tr><td style=\"padding-left: 2em;\">Tolkning</td><td>G\xC3\xA5r ej att tolka, ej \xC3\xB6ppen tillg\xC3\xA5ng till information</td></tr></div>") || []);
+    var body_1308622899 = ([60,100,105,118,62,60,116,114,62,60,116,100,62,122,122,122,122,122,60,47,116,100,62,60,116,100,62] || []).concat(code_1308622897.zzzzz || [],makeNimstrLit("</td></tr><tr><td style=\"padding-left: 2em;\">Tolkning</td><td>G\xC3\xA5r ej att tolka eftersom informationen inte \xC3\xA4r \xC3\xB6ppet tillg\xC3\xA4nglig fr\xC3\xA5n ICCBBA</td></tr></div>") || []);
     result_1308622898 = nimCopy(null, toHtmlCommon_1140850785(body_1308622899, code_1308622897.dataIdentifier), NTI33554449);
 
   return result_1308622898;
@@ -4074,7 +4074,7 @@ function HEX3Aanonymous_570425813(dbarr_570425814) {
 
         if ((0 < (dbarr_570425814).length)) {
         document.getElementById("fileinput").value = "";
-        document.getElementById("isbt128out").innerHTML = toJSStr(([60,112,62,68,101,116,32,102,105,110,110,115,32] || []).concat(HEX24_385875976((dbarr_570425814).length) || [],[32,98,97,114,99,111,100,101,115,32,105,32,98,105,108,100,101,110,46,60,47,112,62] || []));
+        document.getElementById("isbt128out").innerHTML = toJSStr(([60,112,62,68,101,116,32,102,105,110,110,115,32] || []).concat(HEX24_385875976((dbarr_570425814).length) || [],makeNimstrLit(" barcodes i <a href=\"https://en.wikipedia.org/wiki/Code_128\">Code 128</a>- eller <a href=\"https://en.wikipedia.org/wiki/Data_Matrix\">Data Matrix</a>-format i bilden.</p>") || []));
         Label1: {
           var code_570425845 = null;
           var i_570426141 = 0;

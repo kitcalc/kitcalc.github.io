@@ -508,7 +508,10 @@ when defined(js):
           document.getElementById("fileinput").value = "".cstring
 
           document.getElementById("isbt128out").innerHtml = p(
-            "Det finns " & $dbarr.len & " barcodes i bilden."
+            "Det finns " & $dbarr.len & " barcodes i " &
+            a(href="https://en.wikipedia.org/wiki/Code_128", "Code 128") &
+            "- eller " & a(href="https://en.wikipedia.org/wiki/Data_Matrix",
+            "Data Matrix") & "-format i bilden."
           ).cstring
 
           for code in dbarr:

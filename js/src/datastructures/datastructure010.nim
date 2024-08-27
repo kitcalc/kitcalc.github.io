@@ -40,7 +40,7 @@ proc toHtml*(code: SpecialTestingGeneral): string =
       ),
       tr(
         td("Tolkning", style=commonstyle),
-        td("Går ej att tolka, ej öppen tillgång till information")
+        td("Går ej att tolka eftersom informationen inte är öppet tillgänglig från ICCBBA")
       ),
     )
 

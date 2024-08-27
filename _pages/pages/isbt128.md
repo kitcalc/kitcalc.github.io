@@ -26,6 +26,10 @@ Tolka koder i [ISBT 128](https://www.isbt128.org/tech-spec)-format.
 <div id="isbt128history"></div>
 
 <h3>Hjälp</h3>
+
+Koderna tolkas mot version 6.2.2 av [den tekniska specifikationen av ISBT
+128](https://www.isbt128.org/tech-spec).
+
 <div id="detectionInformation">
     <details>
         <summary>Vill du läsa barcodes med iPhone?</summary>
