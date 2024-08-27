@@ -314,7 +314,7 @@ proc toHtml*(bg: BloodGroupsABORhD): string =
   case rhKellMi.kind
   of rhK:
     let phenoString = (" C" & $rhKellMi.rhC & " c" & $rhKellMi.rhsmallc &
-      " E" & $rhKellMi.rhE & " e" & $rhKellMi.rhsmalle & "K" & $rhKellMi.kell)
+      " E" & $rhKellMi.rhE & " e" & $rhKellMi.rhsmalle & " K" & $rhKellMi.kell)
     phenoRows.add tr(
       td("Fenotyp (Rh/K)", style=commonstyle),
       td(phenoString)
