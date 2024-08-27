@@ -526,7 +526,7 @@ when defined(js):
                   # ValueError if unknown code
                   let code = value.replace("<", "&lt;")
                   let msg = b("Fel vid tolkning av " & code & ": ") & getCurrentExceptionMsg()
-                  document.getElementById("isbt128out").innerHtml &= p(msg.cstring)
+                  document.getElementById("isbt128out").innerHtml &= p(msg).cstring
                   continue
 
             # add output to current
