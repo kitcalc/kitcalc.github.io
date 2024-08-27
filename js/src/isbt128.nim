@@ -413,6 +413,11 @@ when defined(js):
       format: cstring
       rawValue: cstring
 
+    Output = object
+      name: string
+      code: string
+      html: string
+
 
   proc newBarcodeDetector(): BarcodeDetector {.importjs: """new BarcodeDetector({formats: ["code_128", "data_matrix"]})""".}
     ## we're only interested in code_128, data_matrix here
@@ -437,42 +442,60 @@ when defined(js):
     console.log "Barcode Detection API not supported".cstring
 
 
-  proc interpretCode*() {.exportc.} =
-    ## Interpret code and output results
-
-    # clear output
-    document.getElementById("isbt128out").innerHtml = ""
-
-    try:
-      let
-        code = $document.getElementById("code").value  # nim string, intentionally
-        dataStructure = classifyDataStructure(code)
-        html = parseDataStructure(dataStructure, code)
-        # clean '<' as it causes problems with html
-        cleanCode = code.replace("<", "&lt;")
-        name = dataStructureNames[dataStructure]
-        contents = h2(name) & p(cleanCode) & html
-        # to save in history; input code and name as label, table shown when expanded
-        toHist = details(summary(cleanCode & " &ndash; " & name), html).cstring
+  proc asHistory(output: Output): cstring =
+    ## Format for history
+    # input code and name as label, table shown when expanded
+    let s = output.name & " " & output.code
+    result = details(summary(s), output.html).cstring
 
 
-      # set contents as active output
-      document.getElementById("isbt128out").innerHtml = contents.cstring
+  proc formatSingleResult(output: Output): cstring =
+    var s = h2("Typ: " & $output.name)
+    s &= p("Kodsträng: " & $output.code)
+    s &= $output.html
+    result = s.cstring
 
-      # save contents in history
-      # we prepend to previous results in div by using insertAdjacentHTML
-      document.getElementById("isbt128history").insertAdjacentHTML("afterbegin", toHist)
 
-      # reset the form, restore focus; to allow for sequential inputs
-      document.getElementById("code").value = "";
-      document.getElementById("code").focus()
-    except:
-      let s = "Fel vid tolkning: " & getCurrentExceptionMsg()
-      document.getElementById("isbt128out").innerHtml = s.cstring
+  proc interpretCode*(code: string): Output =
+    ## Interpret code, returns Output object for later formatting
+    let
+      dataStructure = classifyDataStructure(code)
+      html = parseDataStructure(dataStructure, code)
+    result.name = dataStructureNames[dataStructure]
+    # clean '<' as it causes problems with html
+    result.code = code.replace("<", "&lt;")
+    result.html = html # h2(name) & p(cleanCode) & html
+
+
+  proc readInput() {.exportc.} =
+    ## Reads a single code from input field and output its contents
+    let
+      value = $document.getElementById("code").value  # nim string, intentionally
+      output = try:
+        interpretCode(value)
+      except:
+        # ValueError if unknown code
+        let msg = "Fel vid tolkning av " & value & ": " & getCurrentExceptionMsg()
+        document.getElementById("isbt128out").innerHtml = msg.cstring
+        return
+
+    # set output to current
+    document.getElementById("isbt128out").innerHtml = output.formatSingleResult()
+
+    # save contents in history
+    # we prepend to previous results in div by using insertAdjacentHTML
+    document.getElementById("isbt128history").insertAdjacentHTML(
+      "afterbegin", asHistory(output)
+    )
+
+    # reset the form, restore focus; to allow for sequential inputs
+    document.getElementById("code").value = "";
+    document.getElementById("code").focus()
 
 
   proc readBarcode() {.exportc, async.} =
-    ## Read barcode
+    ## Read barcode. Barcoding reading can yield multiple results so we need a
+    ## separate proc
     var bd = newBarcodeDetector()
     let
       element = InputElement(document.getElementById("fileinput"))
@@ -480,14 +503,34 @@ when defined(js):
 
     discard bd.detect(file).then(
       proc(dbarr: seq[DetectBarcode]): Future[void] =
-        # ignore all but the first for now
         if dbarr.len > 0:
-          let first = dbarr[0]
-          # clear input
+          # clear input since we have a result
           document.getElementById("fileinput").value = "".cstring
-          # set input field to barcode value
-          document.getElementById("code").value = first.rawValue
-          interpretCode()
+
+          document.getElementById("isbt128out").innerHtml = p(
+            "Det finns " & $dbarr.len & " barcodes i bilden."
+          ).cstring
+
+          for code in dbarr:
+            let
+              value = $code.rawValue
+              output = try:
+                  interpretCode(value)
+                except:
+                  # ValueError if unknown code
+                    let msg = "Fel vid tolkning av " & value & ": " & getCurrentExceptionMsg()
+                    document.getElementById("isbt128out").innerHtml &= msg.cstring
+                    continue
+
+            # add output to current
+            document.getElementById("isbt128out").innerHtml &= output.formatSingleResult()
+
+            # save contents in history
+            # we prepend to previous results in div by using insertAdjacentHTML
+            document.getElementById("isbt128history").insertAdjacentHTML(
+              "afterbegin", asHistory(output)
+            )
+
     ).catch(proc(r: Error) =
         var msg = r.name
         msg.add ": ".cstring

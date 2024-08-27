@@ -7,6 +7,38 @@ summary: Tolka ISBT 128-koder
 
 Tolka koder i [ISBT 128](https://www.isbt128.org/tech-spec)-format.
 
+
+<form id="codeinputform" action="javascript:readInput()">
+    <fieldset>
+        <label for="code">Ange kod</label>
+        <input type="text" id="code" autofocus>
+        <input type="submit" hidden />
+    </fieldset>
+    <fieldset id="detectionFields" style="display: none;">
+        <label for="fileinput">Eller läs in bild 📷</label>
+        <input type="file" accept="image/*" id="fileinput" onchange="javascript:readBarcode()">
+    </fieldset>
+</form>
+
+<div id="isbt128out"></div>
+
+<h3>Sökhistorik</h3>
+<div id="isbt128history"></div>
+
+<h3>Hjälp</h3>
+<div id="detectionInformation">
+    <details>
+        <summary>Vill du läsa barcodes med iPhone?</summary>
+        Aktivera barcode-läsaren i iPhone (iOS 17) så här:<br>
+
+        &rarr; Inställningar <br>
+        &rarr; Safari <br>
+        &rarr; Avancerat <br>
+        &rarr; Funktionsflaggor <br>
+        &rarr; Shape Detection API <br>
+    </details>
+</div>
+
 <details>
     <summary>Visa alla dataidentitetstecken i standarden</summary>
     <table>
@@ -192,31 +224,3 @@ Tolka koder i [ISBT 128](https://www.isbt128.org/tech-spec)-format.
         </tbody>
     </table>
 </details>
-
-<form id="codeinputform" action="javascript:interpretCode()">
-    <fieldset>
-        <label for="code">Ange kod</label>
-        <input type="text" id="code" autofocus>
-        <input type="submit" hidden />
-    </fieldset>
-    <fieldset id="detectionFields" style="display: none;">
-        <label for="fileinput">Eller läs in bild 📷</label>
-        <input type="file" accept="image/*" id="fileinput" onchange="javascript:readBarcode()">
-    </fieldset>
-    <div id="detectionInformation">
-        <details>
-            <summary>Aktivera barcode-läsaren i iPhone (iOS 17) så här</summary>
-
-            &rarr; Inställningar <br>
-            &rarr; Safari <br>
-            &rarr; Avancerat <br>
-            &rarr; Funktionsflaggor <br>
-            &rarr; Shape Detection API <br>
-        </details>
-    </div>
-</form>
-
-<div id="isbt128out"></div>
-
-<h3>Sökhistorik</h3>
-<div id="isbt128history"></div>
