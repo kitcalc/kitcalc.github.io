@@ -4080,7 +4080,7 @@ function HEX3Aanonymous_570425814(dbarr_570425815) {
 
         if ((0 < (dbarr_570425815).length)) {
         document.getElementById("fileinput").value = "";
-        document.getElementById("isbt128out").innerHTML = toJSStr(([60,112,62,68,101,116,32,102,105,110,110,115,32] || []).concat(HEX24_385875976((dbarr_570425815).length) || [],makeNimstrLit(" barcodes i <a href=\"https://en.wikipedia.org/wiki/Code_128\">Code 128</a>- eller <a href=\"https://en.wikipedia.org/wiki/Data_Matrix\">Data Matrix</a>-format i bilden.</p>") || []));
+        document.getElementById("isbt128out").innerHTML = toJSStr(([60,112,62,68,101,116,32,102,105,110,110,115,32] || []).concat(HEX24_385875976((dbarr_570425815).length) || [],makeNimstrLit(" streckkod(er) i <a href=\"https://en.wikipedia.org/wiki/Code_128\">Code 128</a>- eller <a href=\"https://en.wikipedia.org/wiki/Data_Matrix\">Data Matrix</a>-format i bilden.</p>") || []));
         Label1: {
           var code_570425846 = null;
           var i_570426143 = 0;

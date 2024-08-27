@@ -32,8 +32,8 @@ Koderna tolkas mot version 6.2.2 av [den tekniska specifikationen av ISBT
 
 <div id="detectionInformation">
     <details>
-        <summary>Vill du läsa barcodes med iPhone?</summary>
-        Aktivera barcode-läsaren i iPhone (iOS 17) så här:<br>
+        <summary>Vill du läsa streckkoder med iPhone?</summary>
+        Aktivera streckkodsläsaren i iPhone (iOS 17) så här:<br>
 
         &rarr; Inställningar <br>
         &rarr; Safari <br>
