@@ -475,7 +475,7 @@ when defined(js):
         interpretCode(value)
       except:
         # ValueError if unknown code
-        let msg = "Fel vid tolkning av " & value & ": " & getCurrentExceptionMsg()
+        let msg = b("Fel vid tolkning av " & value & ": ") & getCurrentExceptionMsg()
         document.getElementById("isbt128out").innerHtml = msg.cstring
         return
 
@@ -521,8 +521,8 @@ when defined(js):
                   interpretCode(value)
                 except:
                   # ValueError if unknown code
-                    let msg = "Fel vid tolkning av " & value & ": " & getCurrentExceptionMsg()
-                    document.getElementById("isbt128out").innerHtml &= msg.cstring
+                    let msg = b("Fel vid tolkning av " & value & ": ") & getCurrentExceptionMsg()
+                    document.getElementById("isbt128out").innerHtml &= p(msg.cstring)
                     continue
 
             # add output to current
