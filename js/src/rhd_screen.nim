@@ -271,7 +271,7 @@ proc analyzeResults(samples: Table[string, RawSample]): seq[Sample] =
     result.add final
 
 
-const header = ["LID", "Resultat", "Svar", "Kommentar"]
+const header = ["Prov-ID", "Resultat", "Svar", "Kommentar"]
 
 proc toResultTable(samples: seq[Sample]): string =
   ## Convert results to text output format, tab-separated
