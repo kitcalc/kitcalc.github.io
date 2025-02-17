@@ -275,14 +275,8 @@ const header = ["LID", "Resultat", "Svar", "Kommentar"]
 
 proc toResultTable(samples: seq[Sample]): string =
   ## Convert results to text output format, tab-separated
-  result = header.join("\t")
-  result.add "\n"
   for sample in samples:
     result.add sample.sampleId
-    result.add "\t"
-    result.add sample.pattern
-    result.add "\t"
-    result.add $sample.status
     result.add "\t"
     result.add codes[sample.status]
     result.add "\n"
