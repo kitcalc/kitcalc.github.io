@@ -278,7 +278,7 @@ proc toResultTable(samples: seq[Sample]): string =
   for sample in samples:
     result.add sample.sampleId
     result.add "\t"
-    result.add codes[sample.status]
+    result.add $sample.status
     result.add "\n"
 
 
