@@ -300,10 +300,10 @@ proc toHtmlTable(samples: seq[Sample]): string =
     row = ""
   for field in header:
     row.add th(field)
-  body = tr(row)
+  let head = thead(tr(row))
   for sample in samples:
     body.add sampleHtml(sample)
-  result = table(body)
+  result = table(head, tbody(body))
 
 
 proc htmlResult(contents, file: string): cstring =
