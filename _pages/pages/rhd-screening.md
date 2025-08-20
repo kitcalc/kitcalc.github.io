@@ -1,18 +1,28 @@
-title: RHD screening
+title: RHD-screening
 created: 2023-11-14
 updated: 2025-08-18
 js: js/rhd_screen.js
-summary: Tolkning av <i>RHD</i>-screening
+summary: Tolkning av RHD-screening
 ---
+
 <style>
-label {
-    width: revert;
-    margin-right: 0.5em;
-    margin-left: 0.25em;
-}
-input[type="number"] {
-    width: 5em;
-}
+  /* override standard styles */
+  input[type="number"] {
+      width: 4em;
+      border: 1px;
+      padding: 5px;
+  }
+  table {
+    overflow-x: auto;
+  }
+  td, th {
+    border-color: #aaa;
+  }
+  select {
+    padding: 5px;
+    margin: 0;
+    border: 0;
+  }
 </style>
 
 ### Välj exporterad fil (.csv)
@@ -22,51 +32,48 @@ input[type="number"] {
 <!-- first table: static and calculated parameters-->
 
 <form onchange="onParameterChange()">
-<table>
-<thead>
-  <tr>
-    <th></th>
-    <th><i>GAPDH</i></th>
-    <th><i>RHD</i></th>
-  </tr>
-</thead>
-<tbody>
-  <tr>
-    <td><b>Positiv kontroll</b></td>
-    <td></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>medelvärde</td>
-    <td id="gapdhMean"></td>
-    <td id="rhdMean"></td>
-  </tr>
-  <tr>
-    <td>nedre gräns</td>
-    <td>
-      <input id="gapdhMinDiff" type="number" step="0.1" value="-1.5" class="number">
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>övre gräns</td>
-    <td>
-      <input id="gapdhMaxDiff" type="number" step="0.1" value="6.4" class="number">
-    </td>
-    <td></td>
-  </tr>
-  <tr>
-    <td>intervall</td>
-    <td id="gapdhInterval"></td>
-    <td></td>
-  </tr>
-  <tr>
-    <td><b>Negativ kontroll</b></td>
-    <td id="gapdhControl"></td>
-    <td id="rhdControl"></td>
-  </tr>
-</tbody>
-</table>
+  <table>
+    <thead>
+      <tr>
+        <th></th>
+        <th colspan="4">Positiv kontroll</th>
+        <th>Negativ kontroll</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td></td>
+        <td>medelvärde</td>
+        <td>nedre gräns</td>
+        <td>övre gräns</td>
+        <td>intervall</td>
+        <td></td>
+      </tr>
+      <tr>
+        <td>
+          <i><b>GAPDH</b></i>
+        </td>
+        <td id="gapdhMean">
+        </td>
+        <td>
+          <input id="gapdhMinDiff" type="number" step="0.1" value="-1.5">
+        </td>
+        <td>
+          <input id="gapdhMaxDiff" type="number" step="0.1" value="6.4">
+        </td>
+        <td id="gapdhInterval"></td>
+        <td id="gapdhControl"></td>
+      </tr>
+      <tr>
+        <td><i><b>RHD</b></i></td>
+        <td id="rhdMean"></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td id="rhdControl"></td>
+      </tr>
+    </tbody>
+  </table>
 </form>
 
 <form onchange="onInterpretationChange()">

@@ -1,4 +1,4 @@
-import strutils, base64, htmlgen, dom, times, algorithm, math, tables  # sequtils,
+import strutils, base64, htmlgen, dom, times, algorithm, math, tables
 
 
 # result field, was missing from dom module
@@ -33,8 +33,8 @@ const
   sRHD = "RHD"
   sGAPDH = "GAPDH"
 
-  # prefix for radio groups
-  radioPrefix = "radio"
+  # prefix for options
+  optionPrefix = "option"
 
 
 type
@@ -57,7 +57,15 @@ type
     IncDnaLow = "låg DNA konc",  ## inconclusive with low DNA conc
     IncDnaHigh = "hög DNA konc",  ## inconclusive with high DNA conc
     IncRhdHigh = "DNA konc RHD > GAPDH"  ## inconclusive with RHD > GAPDH
-    IncRhdWeak = "RHD-värde 45.1–49.9"  ## inconclusive with weak RHD amplification
+    IncRhdWeak = "RHD-värde >45.0"  ## inconclusive with weak RHD amplification
+
+  WellResult = enum  ## possible results for a well, based on RHD alone
+    wellPos = "+"
+    wellNeg = "–"  # en dash
+
+  Interpretation = object  ## object for sample interpretation output
+    interp: Result
+    wellResults: array[3, WellResult]  # exactly three results
 
 
 var
@@ -88,7 +96,8 @@ proc outputAndRaise(error: string) =
 
 proc parseExportFile(contents: string): seq[Sample] =
   ## Parse the export file
-  # File contains at least 4 comma/semicolon-separated fields per row, some fields are quoted
+  # File contains at least 4 comma/semicolon-separated fields per row, some
+  # fields are quoted
 
   # a temp table with sampleId as key, value is another Table with
   # position as key and "raw" wells as values.
@@ -186,62 +195,7 @@ proc parseExportFile(contents: string): seq[Sample] =
     # add sample to result
     result.add sample
 
-#[
 
-proc sampleHtml(sample: Sample): string =
-  ## Generate HTML row for sample
-  let pattern = sample.pattern.replace("-", "&minus;")
-  result = tr(
-    td(sample.sampleId),
-    td(pattern),
-    td($sample.status),
-    td(codes[sample.status])
-  )
-
-
-proc toHtmlTable(samples: seq[Sample]): string =
-  ## Convert results to HTML table
-  var
-    body = ""
-    row = ""
-  for field in header:
-    row.add th(field)
-  let head = thead(tr(row))
-  for sample in samples:
-    body.add sampleHtml(sample)
-  result = table(head, tbody(body))
-
-
-proc htmlResult(contents, file: string): cstring =
-  let
-
-    samples = analyzeResults(sampleTable)  # generate a run from collected samples
-
-    resultTable = toResultTable(samples)  # make a text results table
-    dataUrl = toDataUrl(resultTable)  # make a file link from data
-    linkText = linkFileName(file)  # linkname
-
-    htmlTable = toHtmlTable(samples)  # as HTML
-
-
-  # the HTML result string, conversion upon return from proc
-  var s: string
-
-  s.add p(
-    htmlTable
-  )
-
-  s.add h3("Länk till resultatfil")
-  s.add p(a(href=dataUrl, download=linkText, linkText))
-
-  s.add p(details(
-    summary("Visa filens innehåll"),
-    pre(code(resultTable))  # code or any html-like content will be rendered
-  ))
-
-
-  result = s.cstring
-]#
 func cmpSample(s1, s2: Sample): int =
   ## Comparison for sorting samples by sample. The sorting omits the first char.
   # TODO: check need to adapt to future sample id formats?
@@ -277,8 +231,8 @@ proc checkControlsPresent(samples: seq[Sample]) =
     outputAndRaise(pcExpected)
 
 
-proc checkNegativeControl(samples: seq[Sample]) =
-  ## Verify that the negative control is... negative
+proc checkAndOutputNegativeControl(samples: seq[Sample]) =
+  ## Verify that the negative control is... negative. Output to document
 
   for sample in samples:
     if sample.sampleId == sNTC:
@@ -288,6 +242,9 @@ proc checkNegativeControl(samples: seq[Sample]) =
         if not well.gapdh.isNaN:
           outputAndRaise("negativ GAPDH-kontroll är positiv " & $well.gapdh)
       break
+
+  document.getElementById(gaphdControlId).innerHTML = cstring("Negativ")
+  document.getElementById(rhdControlId).innerHTML = cstring("Negativ")
 
 
 proc checkTriplicates(samples: seq[Sample]) =
@@ -313,22 +270,22 @@ proc checkDataCompleteness(samples: seq[Sample]) =
   checkControlsPresent(samples)
 
   # check NTC
-  checkNegativeControl(samples)
+  checkAndOutputNegativeControl(samples)
 
   # check that all samples are complete
   checkTriplicates(samples)
 
 
-proc getGapdhMinDiff(): float =
+template getGapdhMinDiff(): float =
   ## Returns the min GAPDH difference from mean, typically -1.5
   # cast to access .value, returns a cstring that must be parsed
-  result = parseFloat $InputElement(document.getElementById(gapdhMinDiffId)).value
+  parseFloat $InputElement(document.getElementById(gapdhMinDiffId)).value
 
 
-proc getGapdhMaxDiff(): float =
+template getGapdhMaxDiff(): float =
   ## Returns the max GAPDH difference from mean, typically 6.4
   # cast to access .value, .value returns a cstring that must be parsed
-  result = parseFloat $InputElement(document.getElementById(gapdhMaxDiffId)).value
+  parseFloat $InputElement(document.getElementById(gapdhMaxDiffId)).value
 
 
 proc setGapdhInterval() =
@@ -342,21 +299,27 @@ proc setGapdhInterval() =
   gapdhMax = gapdhMean + gapdhMaxDiff
 
 
-proc interpretSample(sample: Sample): Result =
+proc interpretSample(sample: Sample): Interpretation =
   ## Interpret sample reactions according to SOP.
   var
     minRhdCt = NaN
     maxGapdhCt = NaN  # some extremes
     nweak, npos = 0  # number of weak or positive wells
 
-  for well in sample.wells:
+  for i, well in pairs(sample.wells):
     if well.rhd <= 45.0:
       # positive reaction
       inc npos
-    elif well.rhd > 45.0 and well.rhd < 50.0:
+      result.wellResults[i] = wellPos
+    elif well.rhd > 45.0:
       # not positive nor negative
       inc nweak
-    # else negative NaN or >= 50.0
+      # but "positive" in a sense
+      result.wellResults[i] = wellPos
+    else:
+      # negative NaN
+      result.wellResults[i] = wellNeg
+
 
     # save for pos samples
     minRhdCt = min(well.rhd, minRhdCt)
@@ -364,81 +327,78 @@ proc interpretSample(sample: Sample): Result =
 
   if npos == 2 or npos == 3:
     # putative positive sample, check DNA concentration
-    # RHDct > GAPDHct  == RHDconc < GAPDHconc
+    # RHDct < GAPDHct  == RHDconc > GAPDHconc
     if minRhdCt < maxGapdhCt:
       echo "IncRhdHigh: ", sample.sampleId, " minRhdCt ", minRhdCt, " maxGapdhCt ", maxGapdhCt
-      return IncRhdHigh
+      result.interp = IncRhdHigh
+      return
     else:
       # approved
-      return Pos
+      result.interp = Pos
+      return
   elif npos == 1:
     # early return for inconclusive pos
     echo "IncOnePositive: ", sample.sampleId
-    return IncOnePositive
+    result.interp = IncOnePositive
+    return
 
   # putative negative sample, check gapdh controls again
   for well in sample.wells:
     if well.gapdh > gapdhMax:
       echo "IncDnaLow: ", sample.sampleId, " well: ", well
-      return IncDnaLow
+      result.interp = IncDnaLow
+      return
     elif well.gapdh < gapdhMin:
       echo "IncDnaHigh: ", sample.sampleId, " well: ", well
-      return IncDnaHigh
+      result.interp = IncDnaHigh
+      return
 
   # finally check if there were weak signals present
   if nweak > 0:
     echo "IncRhdWeak: ", sample.sampleId, " wells: ", sample.wells
-    return IncRhdWeak
+    result.interp = IncRhdWeak
+    return
 
   # all controls passed - negative sample
-  result = Neg
+  result.interp = Neg
 
 
-template sampleRadioGroup(sample: Sample): string =
-  ## Returns the radio group name for sample
-  radioPrefix & sample.sampleId
+template sampleSelectGroup(sample: Sample): string =
+  ## Returns the select group name for sample
+  optionPrefix & sample.sampleId
 
 
 iterator getSampleInterpretations(samples: seq[Sample]): tuple[sampleId: string, value: string] =
   ## Returns the current selected interpretations for all samples listed in the
   ## results table. We accomplish this by iterating through the global list of
-  ## samples and fetching the selected interpretation from the input elements.
+  ## samples and fetching the selected interpretation from the input elements
   ## in the table.
-  ## Returns a seq of (sampleId, value) tuple, where value should be in
-  ## {P, I, N, ""} (where empty prevents import of unclear results).
+  ## Returns a seq of (sampleId, value) tuple, where value is in {P, I, N}
 
   for sample in samples:
-    # elements for this sample are in the same radio group, set with the
-    # name="radioGroupName" property
+    # elements for this sample are in the same option group, set with the
+    # name="optionGroupName" property
     let
-      radioGroup = sampleRadioGroup(sample).cstring
-      elements = document.getElementsByName(radioGroup)
+      selectGroup = sampleSelectGroup(sample).cstring
+      elements = document.getElementById(selectGroup)
 
     # controls have no elements
-    if elements.len == 0: continue
+    if elements.isNil:
+      continue
 
-    # iterate radio buttons
-    var value = ""  # default empty
-    for element in elements:
-      if element.checked:
-        # cast to access value
-        value = $InputElement(element).value
+    # iterate options
+    var value = ""  # default empty, in case of value error it will not import
+
+    for option in elements.options:
+      # cast to access selected and value
+      if option.selected:
+        value = $option.value
         break
 
     yield (sample.sampleId, value)
 
 
-func cellRadio(sample: Sample; code: string; selected=false): string =
-  let
-    radioGroup = sampleRadioGroup(sample)
-    id = sample.sampleId & "_" & code
-  if selected:
-    result = input(`type`="radio", name=radioGroup, id=id, value=code, checked="true")
-    result.add label(b(code), `for`=id)
-  else:
-    # unchecked, not bold label
-    result = input(`type`="radio", name=radioGroup, id=id, value=code)
-    result.add label(code, `for`=id)
+const header = ["Prov-ID", "1", "2", "3", "Anmärkning", "Svar", "Sign 1", "Sign 2"]
 
 
 proc sampleHtml(sample: Sample): string =
@@ -446,42 +406,31 @@ proc sampleHtml(sample: Sample): string =
   let sampleResult = interpretSample(sample)
   var row = ""
   row.add td(sample.sampleId)
-  for well in sample.wells:
-    row.add td(
-      small(
-        if well.rhd.isNaN: "&ndash;" else: well.rhd.formatFloat(ffDecimal, 1),
-        " / ",
-        well.gapdh.formatFloat(ffDecimal, 1)
-      )
-    )
-  row.add td($sampleResult)
+  for i, well in pairs(sample.wells):
+    row.add td($sampleResult.wellResults[i])  # '+' and '-' (en dash)
+  row.add td($sampleResult.interp)
 
-  var cell = ""
+  var optGroup = ""
 
   for code in ["P", "I", "N"]:
-    case code
-    of "P":
-      if sampleResult == Pos:
-        cell.add cellRadio(sample, code, true)
-      else:
-        cell.add cellRadio(sample, code)
-    of "I":
-      if sampleResult notin [Pos, Neg]:
-        cell.add cellRadio(sample, code, true)
-      else:
-        cell.add cellRadio(sample, code)
-    of "N":
-      if sampleResult == Neg:
-        cell.add cellRadio(sample, code, true)
-      else:
-        cell.add cellRadio(sample, code)
-    else: discard
+    if
+      code == "P" and sampleResult.interp == Pos or
+      code == "I" and sampleResult.interp notin [Pos, Neg] or
+      code == "N" and sampleResult.interp == Neg:
+      optGroup.add option(code, selected="true")
+    else:
+      optGroup.add option(code)
 
-  row.add td(cell)
+  # id selectGroup is important since we use it to generate file output later
+  let selectGroup = sampleSelectGroup(sample)
+  row.add td(select(optGroup, id=selectGroup))
 
+  # two signature cells
+  row.add td()
+  row.add td()
+
+  # end
   result = tr(row)
-
-const header = ["Prov-ID", "1", "2", "3", "Kommentar", "Svar"]
 
 
 proc toHtmlTable(samples: seq[Sample]): string =
@@ -499,36 +448,36 @@ proc toHtmlTable(samples: seq[Sample]): string =
     body.add sampleHtml(sample)
   result = table(head, tbody(body))
 
-  # a little helper
-  result.add p("Tolkning", br(), i(sRHD), " / ", i(sGAPDH))
-
 
 proc toFileOutputTable(samples: seq[Sample]): string =
   ## Convert results to text output format
   ## The output format is sample id and interpretation, separated by a tab
   ## character
   for sampleId, interpretation in getSampleInterpretations(samples):
+    # skip samples where an interpretation is absent
+    if interpretation == "":
+      continue
     result.add sampleId
     result.add "\t"
     result.add interpretation
     result.add "\n"
 
 
-func toDataUrl(contents: string): string =
+template toDataUrl(contents: string): string =
   ## Converts `contents` into a data URL
   # https://developer.mozilla.org/en-US/docs/web/http/basics_of_http/data_urls
   const prefix = "data:text/plain;base64,"
-  result = prefix & encode(contents)
+  prefix & encode(contents)
 
 
-proc linkFileName(name: string): string =
+template linkFileName(name: string): string =
   ## Generate link file name based on date and time
   # inplace trimming
   var trimmed = name
   trimmed.removeSuffix(".csv")
 
   let currTime = now().format("yyyyMMdd'_'HHmmss")
-  result = trimmed & "_" & currTime & ".txt"
+  trimmed & "_" & currTime & ".txt"
 
 
 proc outputHtmlTable(samples: seq[Sample]) =
@@ -540,7 +489,6 @@ proc outputHtmlTable(samples: seq[Sample]) =
 
 proc outputFile(samples: seq[Sample]) =
   ## Output file contents
-
   let
     fileOutputTable = toFileOutputTable(samples)  # make a file output results table
     dataUrl = toDataUrl(fileOutputTable)  # make a file link from data
@@ -552,7 +500,7 @@ proc outputFile(samples: seq[Sample]) =
   fileOutput.add p(a(href=dataUrl, download=linkText, linkText))
   fileOutput.add p(details(
     summary("Visa filens innehåll"),
-    pre(code(fileOutputTable))  # code or any html-like content will be rendered
+    pre(code(fileOutputTable))
   ))
 
   # set HTML
@@ -575,10 +523,10 @@ proc outputIntervalHtml() =
   document.getElementById(gapdhIntervalId).innerHTML = s.cstring
 
 
-proc outputControlsHtml(samples: seq[Sample]) =
-  ## Output values for control
+proc outputMeansHtml(samples: seq[Sample]) =
+  ## Output values for control to document
 
-  # first run: recalculate means
+  # first run: calculate means
   var
     gapdhSum = 0.0
     rhdSum = 0.0
@@ -603,14 +551,6 @@ proc outputControlsHtml(samples: seq[Sample]) =
 
   document.getElementById(gapdhMeanId).innerHTML = gapdhOut
   document.getElementById(rhdMeanId).innerHTML = rhdOut
-
-  # recalculate and output
-  setGapdhInterval()
-  outputIntervalHtml()
-
-  # negative since checked since before
-  document.getElementById(gaphdControlId).innerHTML = cstring("Negativ")
-  document.getElementById(rhdControlId).innerHTML = cstring("Negativ")
 
 
 proc onParameterChange*() {.exportc.} =
@@ -641,7 +581,7 @@ proc loadExportFile(contents, name: string) =
   # we want the list sorted for practical reasons. could be removed
   globalSamples.sort(cmpSample)
 
-  outputControlsHtml(globalSamples)
+  outputMeansHtml(globalSamples)
 
   # interpret and update output data
   onParameterChange()
