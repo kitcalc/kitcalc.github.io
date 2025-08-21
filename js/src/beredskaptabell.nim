@@ -241,7 +241,7 @@
   </tbody>
 </table>
 
-<h2>Summerat</h2>
+<h2>Summa</h2>
 
 <table>
   <tr>
