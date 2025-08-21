@@ -77,7 +77,7 @@ avvikelser pga. avrundningsfel kan förekomma.
         <input type="number" id="arbetadeMinStorhelg" value=0 min=0 title="Midsommar-, jul- och nyårsafton 07:00&ndash;dag efter aftonen 07:00">
 
         <li>
-        <input type="button" onclick="javascript:clearForm()" value="Nollställ">
+        <input value="Nollställ" type="reset">
         <input type="submit" value="Lägg till och beräkna">
         </ul>
     </fieldset>
