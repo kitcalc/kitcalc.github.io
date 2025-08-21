@@ -3,12 +3,9 @@ import beredskap, beredskaptabell
 
 var beredskaper = newSeq[Beredskap]()
 
-proc clearForm() {.importc.}
-
 template getValue(e: untyped): untyped =
   ## För att kunna modifiera input-element.
-  ## Se: https://irclogs.nim-lang.org/18-03-2017.html#20:40:38
-  cast[OptionElement](e).value
+  OptionElement(e).value
 
 proc fillBeredskapTable*() {.exportc.} =
   ## Lägg till tabell i HTML-dokument
@@ -35,4 +32,4 @@ proc addBeredskap*() {.exportc.} =
   beredskaper.add b
 
   fillBeredskapTable()
-  document.getElementbyId("calc").form.reset()  # clear form
+  FormElement(document.getElementbyId("calc")).reset()  # clear form
