@@ -35,4 +35,4 @@ proc addBeredskap*() {.exportc.} =
   beredskaper.add b
 
   fillBeredskapTable()
-  clearForm()
+  document.getElementbyId("calc").form.reset()  # clear form
