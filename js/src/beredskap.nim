@@ -60,8 +60,8 @@ const
     tidkvot = 0.7
     pengkvot = 1.0 - tidkvot
 
-    ersättningskvotAnnan: array[BeredskapsTyp, float] = [0.15, 0.1]
-    ersättningskvotHelg: array[BeredskapsTyp, float] = [0.25, 0.2]
+    ersättningskvotAnnan: array[BeredskapsTyp, float] = [0.17, 0.15]  ## updated 2025
+    ersättningskvotHelg: array[BeredskapsTyp, float] = [0.25, 0.23]  ## updated 2025
 
     ersättningKvBer: array[BeredskapsTyp, float] = [0.2, 0.15]
     ersättningArbeteKv = 1.5

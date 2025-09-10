@@ -1,18 +1,16 @@
 title: Beredskapsersättning
 created: 2018-02-02
+updated: 2025-08-19
 js: js/beredskapjs.js
     js/beredskapacc.js
 summary: Beräkning av beredskapsersättning
 ---
 
-Fyll i och lägg till ett beredskapstillfälle i taget. Använd punkt "." som
-decimal, ej komma (då blir det tusental). Lägg in beredskap i timmar och arbete
-under beredskap i minuter. Tänk på att allt arbete räknas per påbörjade
-halvtimme så kortast. Sammanställning visas nederst i tabellform summerat och per
-beredskapstillfälle.
+Lägg till ett beredskapstillfälle i taget, beredskap i timmar och arbete
+under beredskap i minuter. Använd punkt "." som decimaltecken. Smärre 
+avvikelser pga. avrundningsfel kan förekomma.
 
-Smärre avvikelse pga. avrundningsfel kan förekomma.
-
+*Uppdaterat för lokalt avtal 2025*
 
 ## Inmatning
 
@@ -79,14 +77,12 @@ Smärre avvikelse pga. avrundningsfel kan förekomma.
         <input type="number" id="arbetadeMinStorhelg" value=0 min=0 title="Midsommar-, jul- och nyårsafton 07:00&ndash;dag efter aftonen 07:00">
 
         <li>
-        <input type="button" onclick="javascript:clearForm()" value="Nollställ">
+        <input value="Nollställ" type="reset">
         <input type="submit" value="Lägg till och beräkna">
         </ul>
     </fieldset>
 
 </form>
-
-## Beredskaper
 
 <div id="tabell">
 Tabell kommer här.
