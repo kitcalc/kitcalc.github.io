@@ -1,5 +1,5 @@
 import dom
-import beredskap, beredskaptabell
+import beredskap, beredskaptabell, strutils
 
 var beredskaper = newSeq[Beredskap]()
 
@@ -9,25 +9,25 @@ template getValue(e: untyped): untyped =
 
 proc fillBeredskapTable*() {.exportc.} =
   ## Lägg till tabell i HTML-dokument
-  let manadslon = document.getElementById("manadslon").getValue.parseInt
+  let manadslon = parseInt $document.getElementById("manadslon").getValue
   let ers = initErsättning(manadslon, beredskaper)
   let table = createBeredskapTable(ers)
-  document.getElementById("tabell").innerHtml = table
+  document.getElementById("tabell").innerHtml = table.cstring
 
 proc addBeredskap*() {.exportc.} =
   ## Lägg till en ny beredskap
   let
-    beredskapTimmarAnnan = document.getElementById("beredskapTimmarAnnan").getValue.parseFloat
-    beredskapTimmarHelg = document.getElementById("beredskapTimmarHelg").getValue.parseFloat
+    beredskapTimmarAnnan = parseFloat $document.getElementById("beredskapTimmarAnnan").getValue
+    beredskapTimmarHelg = parseFloat $document.getElementById("beredskapTimmarHelg").getValue
     kind = if document.getElementById("beredskapsTypA").checked: berA else: berB
     kortVarsel = document.getElementById("kortVarsel").checked
   var b = initBeredskap(beredskapTimmarAnnan, beredskapTimmarHelg, kind, kortVarsel)
 
-  b.addArbeteAnnan document.getElementById("arbetadeMinAnnan").getValue.parseFloat / 60.0
-  b.addArbeteVardagkväll document.getElementById("arbetadeMinVardagkvall").getValue.parseFloat / 60.0
-  b.addArbeteNatt document.getElementById("arbetadeMinNatt").getValue.parseFloat / 60.0
-  b.addArbeteHelg document.getElementById("arbetadeMinHelg").getValue.parseFloat / 60.0
-  b.addArbeteStorhelg document.getElementById("arbetadeMinStorhelg").getValue.parseFloat / 60.0
+  b.addArbeteAnnan parseFloat($document.getElementById("arbetadeMinAnnan").getValue) / 60.0
+  b.addArbeteVardagkväll parseFloat($document.getElementById("arbetadeMinVardagkvall").getValue) / 60.0
+  b.addArbeteNatt parseFloat($document.getElementById("arbetadeMinNatt").getValue) / 60.0
+  b.addArbeteHelg parseFloat($document.getElementById("arbetadeMinHelg").getValue) / 60.0
+  b.addArbeteStorhelg parseFloat($document.getElementById("arbetadeMinStorhelg").getValue) / 60.0
 
   beredskaper.add b
 
