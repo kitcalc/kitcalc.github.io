@@ -24,12 +24,10 @@ Avvikelser pga. avrundningsfel eller buggar kan förekomma.
 ## Inmatning
 
 <!-- moved outside of form to avoid resetting -->
-<ul><li>
 <label for="manadslon">Månadslön</label>
-<input type="number" id="manadslon" min=0 required><br>
-</ul>
+<input type="number" id="manadslon" min=0 required onchange="updateTables()">
 
-<form id="calc" action="javascript:addBeredskap()">
+<form id="calc" action="javascript:addOnCall()">
 
     <fieldset>
         <legend>Beredskap</legend>
@@ -91,7 +89,7 @@ Avvikelser pga. avrundningsfel eller buggar kan förekomma.
         <input type="number" id="arbetadeMinStorhelg" value=0 min=0 title="Midsommar-, jul- och nyårsafton 07:00&ndash;dag efter aftonen 07:00">
 
         <li>
-        <input value="Nollställ" type="reset">
+        <input value="Rensa" type="reset">
         <input type="submit" value="Lägg till">
         </ul>
     </fieldset>

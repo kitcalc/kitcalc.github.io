@@ -1,3 +1,6 @@
+import htmlgen, strutils
+
+
 type
 
   Hours = range[0.0 .. float.high]  ## Like Natural but for float
@@ -9,33 +12,33 @@ type
     weekend,  ## helg
     holiday  ## storhelg
 
-  Work* = object  ## Ett störningstillfälle
-    kind*: WorkType  ## störningstyp
-    duration*: Natural  ## störningstid i minuter
+  Work = object  ## Ett störningstillfälle
+    kind: WorkType  ## störningstyp
+    duration: Natural  ## störningstid i minuter
 
   OnCallTimeType = enum  ## Tid för beredskap
     other,  ## annan tid
     weekend  ## helg
 
-  OnCallType* = enum ## Typ av beredskap, jour, A eller B
-    jour,
-    berA,
-    berB
+  OnCallType = enum ## Typ av beredskap, jour, A eller B
+    jour = "Jour",
+    berA = "Beredskap A",
+    berB = "Beredskap B"
 
-  OnCall* = object ## Ett beredskapstillfälle
+  OnCall = object ## Ett beredskapstillfälle
 
-    kind* = berA  ## Typ av beredskap, default A
-    shortNotice* = false  ## Indikerar kort varsel, default false
+    kind = berA  ## Typ av beredskap, default A
+    shortNotice = false  ## Indikerar kort varsel, default false
 
     hoursWaiting: array[OnCallTimeType, Hours]  ## Timmar i beredskap
 
     works: seq[Work]  ## störningar
 
-  WorkMonth* = object ##\
+  WorkMonth = object ##\
     ## En samlad ersättning för beredskaper, en kalendermånad
-    onCalls*: seq[OnCall]  ##Beredskaperna
+    onCalls: seq[OnCall]  ##Beredskaperna
 
-  Compensation* = object  ##\
+  Compensation = object  ##\
     ## Ersättning för arbete under ett beredskapstillfälle. Ej fördelat tid/pengar
     working: array[WorkType, float]
     waiting: array[OnCallType, float]
@@ -48,7 +51,7 @@ type
 
     # note: 1/330 not included here
 
-  PaymentType* = enum  ##\
+  PaymentType = enum  ##\
     ## Ersättningstyper för en kalendermånad
     berAtid = "Ber A tid",
     berApeng = "Ber A peng",
@@ -81,7 +84,7 @@ type
     apris = "Apris"
     belopp = "Belopp"
 
-  Payment* = array[PaymentType, array[Presentation, float]]  ##\
+  Payment = array[PaymentType, array[Presentation, float]]  ##\
     ## Ersättningar för en kalendermånad: antal, Apris, belopp
 
 
@@ -305,15 +308,154 @@ proc initOnCall(
   )
 
 # Shortcuts for the most common types
-template vardag*(): Oncall =
+template vardag(): Oncall =
   OnCall(
     kind: berA, shortNotice: false, hoursWaiting: [15.5, 0.0], works: @[]
   )
-template helg*(): OnCall =
+template helg(): OnCall =
   OnCall(
     kind: berA, shortNotice: false, hoursWaiting: [1.5, 62.0], works: @[]
   )
 
+const timeTypes = {
+  berAtid, berBtid, jourTid, arbtid10tid, arbtid15tid, arbtid20tid,
+  arbtid40tid, arbtid10kvtid, arbtid15kvtid, arbtid20kvtid
+}
+
+func salaryTableHtml(pay: Payment): string =
+  ## Pretty-print `pay` as HTML
+  const theader = thead(tr(th(), th($antal), th($apris), th($belopp)))
+  var rows = ""
+  for t in pay.low .. pay.high:
+    var row = ""
+    if pay[t][antal] == 0.0: continue
+    row.add td($t)
+    row.add td(pay[t][antal].formatFloat(ffDecimal, 2))
+    if t notin timeTypes:
+      row.add td(pay[t][apris].formatFloat(ffDecimal, 2))
+      row.add td(pay[t][belopp].formatFloat(ffDecimal, 2))
+    else:
+      row.add td()
+      row.add td()
+    rows.add tr(row)
+  result = table(theader, tbody(rows))
+
+
+func summaryTableHtml(pay: Payment): string =
+  ## Pretty-print a summary of `pay` as HTML
+  let summed = pay.getPaymentSummary
+  result = table(
+    thead(
+      tr(
+        th("Summa"),
+        th()
+      )
+    ),
+    tbody(
+      tr(
+        td("Tid (h)"),
+        td(summed[0].formatFloat(ffDecimal, 2))
+      ),
+      tr(
+        td("Peng (kr)"),
+        td(summed[1].formatFloat(ffDecimal, 2))
+      )
+    )
+  )
+
+
+# the js stuff
+
+when defined(js):
+  import dom
+
+  var month = WorkMonth()  # global month
+
+
+  template getValue(e: untyped): untyped =
+    ## Cast to get form element value
+    OptionElement(e).value
+
+
+  proc updateTables*() {.exportc.} =
+    ## Update tables on page
+    # don't update if no data
+    if month.onCalls.len == 0:
+      return
+
+    let
+      salary = parseInt $document.getElementById("manadslon").getValue
+      comp = month.getCompensation
+      pay = comp.getPayment(salary)
+      summed = pay.getPaymentSummary()
+
+    var contents = ""
+    contents.add h2("Ersättning månad")
+    contents.add pay.summaryTableHtml
+    contents.add pay.salaryTableHtml
+
+    var
+      details = summary("Detalj per beredskap")
+      i = 0
+
+    for call in month.onCalls:
+      # print every call in a separate table
+      let
+        callComp = call.getCompensation
+        callPay = callComp.getPayment(salary)
+      inc i
+      if call.shortNotice:
+        details.add h3($i & ". " & $call.kind & " &ndash; kort varsel")
+      else:
+        details.add h3($i & ". " & $call.kind)
+
+      details.add callPay.summaryTableHtml
+      details.add callPay.salaryTableHtml
+
+    contents.add details(details)
+    document.getElementById("tabell").innerHtml = contents.cstring
+
+
+  proc addOnCall*() {.exportc.} =
+    ## Entry point for adding data
+    let
+      hoursOther = parseFloat $document.getElementById("beredskapTimmarAnnan").getValue
+      hoursWeekend = parseFloat $document.getElementById("beredskapTimmarHelg").getValue
+      kind: OnCallType = if document.getElementById("beredskapsTypA").checked:
+        berA
+      elif document.getElementById("beredskapsTypB").checked:
+        berB
+      else:
+        jour
+      shortNotice = document.getElementById("kortVarsel").checked
+
+    var b = initOnCall(kind, hoursOther, hoursWeekend, shortNotice)
+
+    b.addWork(
+      other,
+      parseInt($document.getElementById("arbetadeMinAnnan").getValue)
+    )
+    b.addWork(
+      evening,
+      parseInt($document.getElementById("arbetadeMinVardagkvall").getValue)
+    )
+    b.addWork(
+      night,
+      parseInt($document.getElementById("arbetadeMinNatt").getValue)
+    )
+    b.addWork(
+      weekend,
+      parseInt($document.getElementById("arbetadeMinHelg").getValue)
+    )
+    b.addWork(
+      holiday,
+      parseInt($document.getElementById("arbetadeMinStorhelg").getValue)
+    )
+
+    month.addOnCall b
+
+    updateTables()
+    FormElement(document.getElementbyId("calc")).reset()  # clear form
 
 
 when isMainModule:
@@ -325,7 +467,7 @@ when isMainModule:
     s.add "\n"
     for t in pay.low .. pay.high:
       # skip where there is nothing to show
-      if not (pay[t][antal] > 0.0): continue
+      if pay[t][antal] == 0.0: continue
       if t in {berAtid, berBtid, jourTid, arbtid10tid, arbtid15tid, arbtid20tid, arbtid40tid, arbtid10kvtid, arbtid15kvtid, arbtid20kvtid}:
         s.add fmt"{t:20} {pay[t][antal]:>8.2f}"
       else:
@@ -376,11 +518,11 @@ proc test() =
 
   let
     comp = month.getCompensation
-    pay = comp.getPayment(92800)
+    pay = comp.getPayment(50000)
     summed = pay.getPaymentSummary()
   echo pay.salaryTable
   echo summed.summaryTable
 
 
-when isMainModule:
+when isMainModule and not defined(js):
   test()
