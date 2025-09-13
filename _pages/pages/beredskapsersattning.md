@@ -1,25 +1,35 @@
 title: Beredskapsersättning
 created: 2018-02-02
-updated: 2025-08-19
-js: js/beredskapjs.js
-    js/beredskapacc.js
+updated: 2025-09-12
+js: js/beredskap.js
 summary: Beräkning av beredskapsersättning
 ---
+<script>
+var fyllvardag = function() {
+    document.getElementById("beredskapTimmarAnnan").value = 15.5;
+    document.getElementById("beredskapTimmarHelg").value = 0.0;
+}
 
-Lägg till ett beredskapstillfälle i taget, beredskap i timmar och arbete
-under beredskap i minuter. Använd punkt "." som decimaltecken. Smärre 
-avvikelser pga. avrundningsfel kan förekomma.
+var fyllhelg = function() {
+    document.getElementById("beredskapTimmarAnnan").value = 1.5;
+    document.getElementById("beredskapTimmarHelg").value = 62;
+};
+</script>
 
 *Uppdaterat för lokalt avtal 2025*
 
+Avvikelser pga. avrundningsfel eller buggar kan förekomma.
+
+
 ## Inmatning
 
-<form id="calc" action="javascript:addBeredskap()">
+<!-- moved outside of form to avoid resetting -->
+<ul><li>
+<label for="manadslon">Månadslön</label>
+<input type="number" id="manadslon" min=0 required><br>
+</ul>
 
-    <ul><li>
-    <label for="manadslon">Månadslön</label>
-    <input type="number" id="manadslon" min=0 required><br>
-    </ul>
+<form id="calc" action="javascript:addBeredskap()">
 
     <fieldset>
         <legend>Beredskap</legend>
@@ -34,6 +44,10 @@ avvikelser pga. avrundningsfel kan förekomma.
         <input type="radio" name="beredskapsTyp" id="beredskapsTypB" value="berB">
 
         <li>
+        <label for="beredskapsTypJour">Jour</label>
+        <input type="radio" name="beredskapsTyp" id="beredskapsTypJour" value="Jour">
+
+        <li>
         <label for="kortVarsel">Kort varsel</label>
         <input type="checkbox" name="kortVarsel" id="kortVarsel" value="kv">
 
@@ -46,14 +60,14 @@ avvikelser pga. avrundningsfel kan förekomma.
         <input type="number" id="beredskapTimmarHelg" value=0 min=0 step=0.000001>
         </ul>
 
-        <p>Fyll i tid i timmar. Fördefinierade tider finns för
-        <a href="javascript:fyllvardag()">vardag</a> och
+        <p>
+        <a href="javascript:fyllvardag()">Vardag</a> och
         <a href="javascript:fyllhelg()">helg</a>.
         </p>
     </fieldset>
 
     <fieldset>
-        <legend>Arbete under beredskap i minuter</legend>
+        <legend>Arbetad tid</legend>
 
         <ul>
         <li>
@@ -78,12 +92,11 @@ avvikelser pga. avrundningsfel kan förekomma.
 
         <li>
         <input value="Nollställ" type="reset">
-        <input type="submit" value="Lägg till och beräkna">
+        <input type="submit" value="Lägg till">
         </ul>
     </fieldset>
 
 </form>
 
 <div id="tabell">
-Tabell kommer här.
 </div>
