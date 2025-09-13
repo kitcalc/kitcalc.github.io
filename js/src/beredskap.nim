@@ -1,541 +1,528 @@
-import strutils
+import htmlgen, strutils
 
-##[
-Beräkning av jour- och beredskapsersättning
-===========================================
-
-Exempel
-
-.. code-block:: nim
-
-    # definiera månad
-    var nov = initErsättning(10000)
-
-    # ny beredskap
-    var nov20 = initBeredskap(15.5, 0.0, berA, false)
-    nov20.addArbeteAnnan(0.5)
-
-    # lägg till beredskapen till månad
-    nov.addBeredskap(nov20)
-
-    # andra beredskap
-    var nov28 = initVardagsjour(berA)
-    nov28.addArbeteAnnan(0.5)
-
-    # lägg till beredskapen till månad
-    nov.addBeredskap(nov28)
-
-    # skriv ersättningstabell
-    echo nov
-
-]##
 
 type
-    Ersättning* = object ##\
-        ## En samlad ersättning för beredskaper, vanligen månad
-        månadslön*: Natural  ## Månadslön i kronor
-        beredskaper*: seq[Beredskap]  ## Beredskaperna
 
-    BeredskapsTyp* = enum ##\
-        ## Typ av beredskap, ``A`` eller ``B``
-        berA,
-        berB
+  Hours = range[0.0 .. float.high]  ## Like Natural but for float
 
-    Beredskap* = object ##\
-        ## Ett beredskapstillfälle
-        arbetadeTimmarAnnan*: float  ## Arbetade timmar annan tid
-        arbetadeTimmarVardagkväll*: float  ## Arbetade timmar vardag 21-24
-        arbetadeTimmarNatt*: float  ## Arbetade timmar vardag 00-07
-        arbetadeTimmarHelg*: float  ## Arbetade timmar helg
-        arbetadeTimmarStorhelg*: float  ## Arbetade timmar storhelg
+  WorkType = enum  ## Tid för störning
+    other,  ## annan tid
+    evening,  ## vardag 21-24
+    night,  ## vardag 00-07; separate from weekend to calculate weekday waiting time
+    weekend,  ## helg
+    holiday  ## storhelg
 
-        beredskapTimmarAnnan*: float  ## Timmar i beredskap annan tid
-        beredskapTimmarHelg*: float  ## Timmar i beredskap helg
+  Work = object  ## Ett störningstillfälle
+    kind: WorkType  ## störningstyp
+    duration: Natural  ## störningstid i minuter
 
-        kind*: BeredskapsTyp  ## Typ av beredskap
-        kortVarsel*: bool  ## Indikerar kort varsel
+  OnCallTimeType = enum  ## Tid för beredskap
+    other,  ## annan tid
+    weekend  ## helg
+
+  OnCallType = enum ## Typ av beredskap, jour, A eller B
+    jour = "Jour",
+    berA = "Beredskap A",
+    berB = "Beredskap B"
+
+  OnCall = object ## Ett beredskapstillfälle
+
+    kind = berA  ## Typ av beredskap, default A
+    shortNotice = false  ## Indikerar kort varsel, default false
+
+    hoursWaiting: array[OnCallTimeType, Hours]  ## Timmar i beredskap
+
+    works: seq[Work]  ## störningar
+
+  WorkMonth = object ##\
+    ## En samlad ersättning för beredskaper, en kalendermånad
+    onCalls: seq[OnCall]  ##Beredskaperna
+
+  Compensation = object  ##\
+    ## Ersättning för arbete under ett beredskapstillfälle. Ej fördelat tid/pengar
+    working: array[WorkType, float]
+    waiting: array[OnCallType, float]
+
+    # time, not compensation, spent waiting. saved for 1/330
+    waitingTime: array[OnCallType, float]
+
+    # separate because of how it is presented
+    workingShortNotice: array[WorkType, float]  # note - not for holiday!
+
+    # note: 1/330 not included here
+
+  PaymentType = enum  ##\
+    ## Ersättningstyper för en kalendermånad
+    berAtid = "Ber A tid",
+    berApeng = "Ber A peng",
+    berA440 = "Ber A 1/440",
+    berBtid = "Ber B tid",
+    berBpeng = "Ber B peng",
+    berB440 = "Ber B 1/440",
+    ber330 = "Ber 1/330",  # unsure about the name, shared between berA/berB
+    jourTid = "Jour tid",
+    jourPeng = "Jour peng",
+    jour330 = "Jour 1/330",
+    jour440 = "Jour 1/440",
+    arbtid10tid = "Arbtid 1.0 tid",
+    arbtid10peng = "Arbtid 1.0 peng",
+    arbtid15tid = "Arbtid 1.5 tid",
+    arbtid15peng = "Arbtid 1.5 peng",
+    arbtid20tid = "Arbtid 2.0 tid",
+    arbtid20peng = "Arbtid 2.0 peng",
+    arbtid40tid = "Arbtid 4.0 tid",
+    arbtid40peng = "Arbtid 4.0 peng",
+    arbtid10kvtid = "Arbtid 1.0 kv tid",
+    arbtid10kvpeng = "Arbtid 1.0 kv peng",
+    arbtid15kvtid = "Arbtid 1.5 kv tid",
+    arbtid15kvpeng = "Arbtid 1.5 kv peng",
+    arbtid20kvtid = "Arbtid 2.0 kv tid",
+    arbtid20kvpeng = "Arbtid 2.0 kv peng"
+
+  Presentation = enum
+    antal = "Antal"
+    apris = "Apris"
+    belopp = "Belopp"
+
+  Payment = array[PaymentType, array[Presentation, float]]  ##\
+    ## Ersättningar för en kalendermånad: antal, Apris, belopp
+
+
+# ersättningar enligt avtal 2025
+const
+  timeQuota = 0.7  ## ersättning i tid
+  moneyQuota = 1.0 - timeQuota  ## ersättning i pengar
+
+  paymentWaiting: array[OnCallTimeType, array[OnCallType, float]] = [
+
+    # ersättning beredskap övrig tid, per beredskapstyp (jour, A, B)
+    [0.25, 0.17, 0.15],
+
+    # ersättning beredskap helg, per beredskapstyp
+    [0.5, 0.25, 0.23]
+  ]
+
+
+  paymentWork: array[WorkType, float] = [1.0, 1.5, 2.0, 2.0, 4.0]  ##\
+    ## ersättning för arbetad tid per tid: annan tid, vardagkväll, natt, helg
+    ## samt storhelg
+
+  extraPaymentShortNotice: array[OnCallType, float] = [0.5, 0.2, 0.15]  ##\
+    ## extra ersättning beredskap med kort varsel, per beredskapstyp (jour, A, B)
+
+  extraPaymentWorkShortNotice = 1.5  ## extra ersättning för arbete med kort varsel
+
+
+proc addWork(call: var OnCall, worktype: WorkType; duration: Natural) =
+  ## Add work to `call`
+  call.works.add Work(kind: worktype, duration: duration)
+
+
+proc addOnCall(month: var WorkMonth; call: OnCall) =
+  ## Add `call` to `month`
+  month.onCalls.add call
+
+
+func merge(c1, c2: Compensation): Compensation =
+  ## Add fields of c1 and c2
+  for i in c1.working.low .. c1.working.high:
+    result.working[i] = c1.working[i] + c2.working[i]
+
+  for i in c1.waiting.low .. c1.waiting.high:
+    result.waiting[i] = c1.waiting[i] + c2.waiting[i]
+
+  for i in c1.waitingTime.low .. c1.waitingTime.high:
+    result.waitingTime[i] = c1.waitingTime[i] + c2.waitingTime[i]
+
+  for i in c1.workingShortNotice.low .. c1.workingShortNotice.high:
+    result.workingShortNotice[i] = c1.workingShortNotice[i] + c2.workingShortNotice[i]
+
+
+template inHours(minutes: Natural): float =
+  ## Minutes to hours
+  minutes.float / 60.0
+
+
+proc getCompensation(call: OnCall): Compensation =
+  ## Get compensation for this on call, in hours
+  var waiting = call.hoursWaiting
+  for work in call.works:
+    let hours = work.duration.inHours
+
+    # extra pay unless holiday
+    if call.shortNotice and work.kind != holiday:
+      result.workingShortNotice[work.kind] += hours * paymentWork[work.kind]
+      result.workingShortNotice[work.kind] += hours * extraPaymentWorkShortNotice
+    else:
+      # regular pay
+      result.working[work.kind] += hours * paymentWork[work.kind]
+
+    # decrease waiting time by the length of work
+    case work.kind
+    of other, evening, night:
+      waiting[OnCallTimeType.other] -= hours
+    of weekend, holiday:
+      waiting[OnCallTimeType.weekend] -= hours
+
+  # now compensation for waiting time
+  for kind in waiting.low .. waiting.high:
+    result.waiting[call.kind] += paymentWaiting[kind][call.kind] * waiting[kind]
+
+    if call.shortNotice:
+      # short notice extra for waiting
+
+      # no extra payment for short notice on holidays is not taken into account!!!
+      result.waiting[call.kind] += extraPaymentShortNotice[call.kind] * waiting[kind]
+
+    # save raw waiting time
+    result.waitingTime[call.kind] += waiting[kind]
+
+
+proc getCompensation(month: WorkMonth): Compensation =
+  ## Get compensation for this month, in hours
+
+  for call in month.oncalls:
+    let comp = getCompensation(call)
+    result = result.merge(comp)
 
 
 const
-    tidkvot = 0.7
-    pengkvot = 1.0 - tidkvot
-
-    ersättningskvotAnnan: array[BeredskapsTyp, float] = [0.17, 0.15]  ## updated 2025
-    ersättningskvotHelg: array[BeredskapsTyp, float] = [0.25, 0.23]  ## updated 2025
-
-    ersättningKvBer: array[BeredskapsTyp, float] = [0.2, 0.15]
-    ersättningArbeteKv = 1.5
-
-
-proc initBeredskap*(beredskapTimmarAnnan, beredskapTimmarHelg: float,
-                    kind: BeredskapsTyp, kortVarsel = false): Beredskap =
-    ## Nytt beredskaptillfälle. Vanlig vardag beredskap A definieras som
-    ##
-    ## .. code-block:: nim
-    ##
-    ##   initBeredskap(15.5, 0.0, berA, false)
-    result = Beredskap(beredskapTimmarAnnan: beredskapTimmarAnnan,
-                       beredskapTimmarHelg: beredskapTimmarHelg,
-                       kind: kind,
-                       kortVarsel: kortVarsel)
-
-template initVardagsjour*(kind: BeredskapsTyp): Beredskap =
-    ## Mall för vanlig beredskap vardag.
-    initBeredskap(15.5, 0.0, kind, false)
-
-template initHelgjour*(kind: BeredskapsTyp): Beredskap =
-    ## Mall för vanlig beredskap helg över fredag-måndag.
-    initBeredskap(1.5, 62.0, kind, false)
-
-proc arbetadTid*(ber: Beredskap): float =
-    ## Total arbetad tid för ``ber``
-    result =
-        ber.arbetadeTimmarAnnan + ber.arbetadeTimmarVardagkväll +
-        ber.arbetadeTimmarNatt + ber.arbetadeTimmarHelg +
-        ber.arbetadeTimmarStorhelg
-
-proc addArbeteAnnan*(ber: var Beredskap, timmar: float) =
-    ## Lägger till arbetad tid till ``ber`` under annan tid.
-    ber.arbetadeTimmarAnnan += timmar
-    ber.beredskapTimmarAnnan -= timmar
-
-proc addArbeteVardagkväll*(ber: var Beredskap, timmar: float) =
-    ## Lägger till arbetad tid till ``ber`` under vardagskväll.
-    ber.arbetadeTimmarVardagkväll += timmar
-    ber.beredskapTimmarAnnan -= timmar
-
-proc addArbeteNatt*(ber: var Beredskap, timmar: float) =
-    ## Lägger till arbetad tid till ``ber`` under natt.
-    ber.arbetadeTimmarNatt += timmar
-    ber.beredskapTimmarAnnan -= timmar
-
-proc addArbeteHelg*(ber: var Beredskap, timmar: float) =
-    ## Lägger till arbetad tid till ``ber`` under helg.
-    ber.arbetadeTimmarHelg += timmar
-    ber.beredskapTimmarHelg -= timmar
-
-proc addArbeteStorhelg*(ber: var Beredskap, timmar: float) =
-    ## Lägger till arbetad tid till ``ber`` under storhelg.
-    ber.arbetadeTimmarStorhelg += timmar
-    ber.beredskapTimmarHelg -= timmar
-
-proc beredskapsTidA(ber: Beredskap): float =
-    ## Beredskapstid berA totalt, i timmar
-    if ber.kind == berA:
-        result = ber.beredskapTimmarAnnan + ber.beredskapTimmarHelg
-
-proc beredskapsTidB(ber: Beredskap): float =
-    ## Beredskapstid berB totalt, i timmar
-    if ber.kind == berB:
-        result = ber.beredskapTimmarAnnan + ber.beredskapTimmarHelg
-
-proc ersattBeredskapstidAnnan(ber: Beredskap): float =
-    ## Ersatt beredskapstid under annan tid, i timmar.
-    result = ber.beredskapTimmarAnnan * ersättningskvotAnnan[ber.kind]
-    if ber.kortVarsel:
-        result += ber.beredskapTimmarAnnan * ersättningKvBer[ber.kind]
-
-proc ersattBeredskapstidHelg(ber: Beredskap): float =
-    ## Ersatt beredskapstid under helgtid, i timmar.
-    result = ber.beredskapTimmarHelg * ersättningskvotHelg[ber.kind]
-    if ber.kortVarsel:
-        result += ber.beredskapTimmarHelg * ersättningKvBer[ber.kind]
-
-proc ersattBeredskapstidA(ber: Beredskap): float =
-    ## Ersatt beredskapstid A, totalt, i timmar.
-    if ber.kind == berA:
-        result = ber.ersattBeredskapstidAnnan + ber.ersattBeredskapstidHelg
-
-proc ersattBeredskapstidB(ber: Beredskap): float =
-    ## Ersatt beredskapstid B, totalt, i timmar.
-    if ber.kind == berB:
-        result = ber.ersattBeredskapstidAnnan + ber.ersattBeredskapstidHelg
-
-
-# Nedanstående hamnar på lönespecen
-
-proc ersBerAtid*(ber: Beredskap): float =
-    ## Ersättning "Ber A tid" i antal timmar.
-    result = ber.ersattBeredskapstidA * tidkvot
-
-proc ersBerApengAntal*(ber: Beredskap): float =
-    ## Ersättning "Ber A peng" i antal timmar.
-    result = ber.ersattBeredskapstidA * pengkvot
-
-proc ersBerBtid*(ber: Beredskap): float =
-    ## Ersättning "Ber B tid" i antal timmar.
-    result = ber.ersattBeredskapstidB * tidkvot
-
-proc ersBerBpengAntal*(ber: Beredskap): float =
-    ## Ersättning "Ber B peng" i antal timmar.
-    result = ber.ersattBeredskapstidB * pengkvot
-
-proc ersBerA440*(ber: Beredskap): float =
-    ## Ersättning "Ber A 1/440" i antal timmar.
-    result = ber.ersattBeredskapstidA
-
-proc ersBerB440*(ber: Beredskap): float =
-    ## Ersättning "Ber B 1/440" i antal timmar.
-    result = ber.ersattBeredskapstidB
-
-proc ersArbtid10tidAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 1.0 tid" i antal timmar.
-    if not ber.kortVarsel:
-        result = ber.arbetadeTimmarAnnan * tidkvot
-
-proc ersArbtid10pengAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 1.0 peng" i antal timmar.
-    if not ber.kortVarsel:
-        result = ber.arbetadeTimmarAnnan * pengkvot
-
-proc ersArbtid15tidAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 1.5 tid" i antal timmar.
-    if not ber.kortVarsel:
-        result = ber.arbetadeTimmarVardagkväll * tidkvot * 1.5
-
-proc ersArbtid15pengAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 1.5 peng" i antal timmar.
-    if not ber.kortVarsel:
-        result = ber.arbetadeTimmarVardagkväll * pengkvot * 1.5
-
-proc ersArbtid20tidAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 2.0 tid" i antal timmar.
-    if not ber.kortVarsel:
-        let tid = ber.arbetadeTimmarNatt + ber.arbetadeTimmarHelg
-        result = tid * tidkvot * 2.0
-
-proc ersArbtid20pengAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 2.0 peng" i antal timmar.
-    if not ber.kortVarsel:
-        let tid = ber.arbetadeTimmarNatt + ber.arbetadeTimmarHelg
-        result = tid * pengkvot * 2.0
-
-proc ersArbtid40tidAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 4.0 tid" i antal timmar.
-    result = ber.arbetadeTimmarStorhelg * tidkvot * 4.0
-
-proc ersArbtid40pengAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 4.0 peng" i antal timmar.
-    result = ber.arbetadeTimmarStorhelg * pengkvot * 4.0
-
-# Kort varsel
-
-proc ersArbtid10KvTidAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 1.0 tid kv" i antal timmar.
-    if ber.kortVarsel:
-        let tid = ber.arbetadeTimmarVardagkväll * tidkvot
-        result = tid + tid * ersättningArbeteKv
-
-proc ersArbtid10KvPengAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 1.0 peng kv" i antal timmar.
-    if ber.kortVarsel:
-        let tid = ber.arbetadeTimmarAnnan * pengkvot
-        result = tid + tid * ersättningArbeteKv
-
-proc ersArbtid15KvTidAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 1.5 tid kv" i antal timmar.
-    if ber.kortVarsel:
-        let tid = ber.arbetadeTimmarVardagkväll * tidkvot
-        result = tid * 1.5 + tid * ersättningArbeteKv
-
-proc ersArbtid15KvPengAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 1.5 peng kv" i antal timmar.
-    if ber.kortVarsel:
-        let tid = ber.arbetadeTimmarVardagkväll * pengkvot
-        result = tid * 1.5 + tid * ersättningArbeteKv
-
-proc ersArbtid20KvTidAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 2.0 tid kv" i antal timmar.
-    if ber.kortVarsel:
-        let tid = (ber.arbetadeTimmarNatt + ber.arbetadeTimmarHelg) * tidKvot
-        result = tid * 2.0 + tid * ersättningArbeteKv
-
-proc ersArbtid20KvPengAntal*(ber: Beredskap): float =
-    ## Ersättning "Arbtid 2.0 peng kv" i antal timmar.
-    if ber.kortVarsel:
-        let tid = (ber.arbetadeTimmarNatt + ber.arbetadeTimmarHelg) * pengKvot
-        result = tid * 2.0 + tid * ersättningArbeteKv
-
-# Ersättning för en hel månad
-
-proc initErsättning*(månadslön: int, beredskaper: seq[Beredskap] = @[]): Ersättning =
-    ## Ny ersättning för en månads jour och beredskap.
-    result = Ersättning(månadslön: månadslön, beredskaper: beredskaper)
-
-proc arbetadTid*(ers: Ersättning): float =
-    ## Total arbetstid för ``ers``
-    for ber in ers.beredskaper:
-        result += ber.arbetadTid
-
-proc beredskapsTidA*(ers: Ersättning): float =
-    ## Total beredskapstid berA för ``ers``
-    for ber in ers.beredskaper:
-        result += ber.beredskapsTidA
-
-proc beredskapsTidB*(ers: Ersättning): float =
-    ## Total beredskapstid berB för ``ers``
-    for ber in ers.beredskaper:
-        result += ber.beredskapsTidB
-
-proc månadslön137*(ers: Ersättning): float =
-    ## Månadslön 1/137
-    result = ers.månadslön / 137
-
-proc månadslön440*(ers: Ersättning): float =
-    ## Månadslön 1/440
-    result = ers.månadslön / 440
-
-proc addBeredskap*(ers: var Ersättning, ber: Beredskap) =
-    ## Lägg till beredskap till denna månads ersättning
-    ers.beredskaper.add ber
-
-# Nedanstående hamnar på lönespecen
-
-# Beredskap A
-
-proc ersBerAtid*(ers: Ersättning): float =
-    ## Ersättning "Ber A tid" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersBerAtid
-
-proc ersBerApengAntal*(ers: Ersättning): float =
-    ## Ersättning "Ber A peng" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersBerApengAntal
-
-proc ersBerApengKronor*(ers: Ersättning): float =
-    ## Ersättning "Ber A peng" i kronor
-    result = ers.ersBerApengAntal * ers.månadslön137
-
-proc ersBerA440antal*(ers: Ersättning): float =
-    ## Ersättning "Ber A 1/440" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersBerA440
-
-proc ersBerA440peng*(ers: Ersättning): float =
-    ## Ersättning "Ber A 1/440" i kronor
-    result = ers.ersBerA440antal * ers.månadslön440
-
-# Beredskap B
-
-proc ersBerBtid*(ers: Ersättning): float =
-    ## Ersättning "Ber B tid" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersBerBtid
-
-proc ersBerBpengAntal*(ers: Ersättning): float =
-    ## Ersättning "Ber B peng" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersBerBpengAntal
-
-proc ersBerBpengKronor*(ers: Ersättning): float =
-    ## Ersättning "Ber B peng" i kronor
-    result = ers.ersBerBpengAntal * ers.månadslön137
-
-proc ersBerB440antal*(ers: Ersättning): float =
-    ## Ersättning "Ber B 1/440" i kronor
-    for ber in ers.beredskaper:
-        result += ber.ersBerB440
-
-proc ersBerB440peng*(ers: Ersättning): float =
-    ## Ersättning "Ber A 1/440" i kronor
-    result = ers.ersBerB440antal * ers.månadslön440
-
-# Arbete
-
-proc ersArbtid10tidAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 1.0 tid" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid10tidAntal
-
-proc ersArbtid10pengAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 1.0 peng" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid10pengAntal
-
-proc ersArbtid10pengKronor*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 1.0 peng" i kronor
-    result = ers.ersArbtid10pengAntal * ers.månadslön137
-
-proc ersArbtid15tidAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 1.5 tid" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid15tidAntal
-
-proc ersArbtid15pengAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 1.5 peng" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid15pengAntal
-
-proc ersArbtid15pengKronor*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 1.5 peng" i kronor
-    result = ers.ersArbtid15pengAntal * ers.månadslön137
-
-proc ersArbtid20tidAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 2.0 tid" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid20tidAntal
-
-proc ersArbtid20pengAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 2.0 peng" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid20pengAntal
-
-proc ersArbtid20pengKronor*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 2.0 peng" i kronor
-    result = ers.ersArbtid20pengAntal * ers.månadslön137
-
-proc ersArbtid40tidAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 4.0 tid" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid40tidAntal
-
-proc ersArbtid40pengAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 4.0 peng" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid40pengAntal
-
-proc ersArbtid40pengKronor*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 4.0 peng" i kronor
-    result = ers.ersArbtid40pengAntal * ers.månadslön137
-
-# Kort varsel
-
-proc ersArbtid10KvTidAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 1.0 tid kv" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid10KvTidAntal
-
-proc ersArbtid10KvPengAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 1.0 peng kv" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid10KvPengAntal
-
-proc ersArbtid10KvPengKronor*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 1.0 peng kv" i kronor
-    result = ers.ersArbtid10KvPengAntal * ers.månadslön137
-
-proc ersArbtid15KvTidAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 1.5 tid kv" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid15KvTidAntal
-
-proc ersArbtid15KvPengAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 1.5 peng kv" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid15KvPengAntal
-
-proc ersArbtid15KvPengKronor*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 1.5 peng kv" i kronor
-    result = ers.ersArbtid15KvPengAntal * ers.månadslön137
-
-proc ersArbtid20KvTidAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 2.0 tid kv" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid20KvTidAntal
-
-proc ersArbtid20KvPengAntal*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 2.0 peng kv" i antal timmar
-    for ber in ers.beredskaper:
-        result += ber.ersArbtid20KvPengAntal
-
-proc ersArbtid20KvPengKronor*(ers: Ersättning): float =
-    ## Ersättning "Arbtid 2.0 peng kv" i kronor
-    result = ers.ersArbtid20KvPengAntal * ers.månadslön137
-
-
-proc `$`*(ers: Ersättning): string =
-    ## Returnerar en tabell med ersättningar.
-
-    const colwidth = 12
-
-    template ff(f: float): string = formatFloat(f, ffDecimal, 2).align(colwidth)
-
-    let summaTid =
-        ers.ersBerAtid + ers.ersBerBtid +
-        ers.ersArbtid10tidAntal + ers.ersArbtid15tidAntal +
-        ers.ersArbtid20tidAntal + ers.ersArbtid40tidAntal +
-        ers.ersArbtid10KvTidAntal + ers.ersArbtid15KvTidAntal +
-        ers.ersArbtid20KvTidAntal
-
-
-    let summaBelopp =
-        ers.ersBerApengKronor + ers.ersBerA440peng +
-        ers.ersBerBpengKronor + ers.ersBerB440peng +
-        ers.ersArbtid10pengKronor + ers.ersArbtid15pengKronor +
-        ers.ersArbtid20pengKronor + ers.ersArbtid40pengKronor +
-        ers.ersArbtid10KvPengKronor + ers.ersArbtid15KvPengKronor +
-        ers.ersArbtid20KvPengKronor
-
-
-    result = """
-Månadslön:           $#
-Fördelning tid/peng: $# / $#
-
-                    $#$#$#
-Ber A tid           $#
-Ber A peng          $#$#$#
-Ber A 1/440         $#$#$#
-
-Ber B tid           $#
-Ber B peng          $#$#$#
-Ber B 1/440         $#$#$#
-
-Arbtid 1.0 tid      $#
-Arbtid 1.0 peng     $#$#$#
-Arbtid 1.0 tid kv   $#
-Arbtid 1.0 peng kv  $#$#$#
-
-Arbtid 1.5 tid      $#
-Arbtid 1.5 peng     $#$#$#
-Arbtid 1.5 tid kv   $#
-Arbtid 1.5 peng kv  $#$#$#
-
-Arbtid 2.0 tid      $#
-Arbtid 2.0 peng     $#$#$#
-Arbtid 2.0 tid kv   $#
-Arbtid 2.0 peng kv  $#$#$#
-
-Arbtid 4.0 tid      $#
-Arbtid 4.0 peng     $#$#$#
---------------------------
-Summa tid (h) $#
-Summa kronor  $#
-"""
-
-    result = result.format(
-        ers.månadslön,
-        tidkvot, pengkvot,
-
-        "Antal".align(colwidth), "Apris".align(colwidth), "Belopp".align(colwidth),
-
-        ers.ersBerAtid.ff,
-        ers.ersBerApengAntal.ff, ers.månadslön137.ff, ers.ersBerApengKronor.ff,
-        ers.ersBerA440antal.ff, ers.månadslön440.ff, ers.ersBerA440peng.ff,
-
-        ers.ersBerBtid.ff,
-        ers.ersBerBpengAntal.ff, ers.månadslön137.ff, ers.ersBerBpengKronor.ff,
-        ers.ersBerB440antal.ff, ers.månadslön440.ff, ers.ersBerB440peng.ff,
-
-        ers.ersArbtid10tidAntal.ff,
-        ers.ersArbtid10pengAntal.ff, ers.månadslön137.ff, ers.ersArbtid10pengKronor.ff,
-        ers.ersArbtid10KvTidAntal.ff,
-        ers.ersArbtid10KvPengAntal.ff, ers.månadslön137.ff, ers.ersArbtid10KvPengKronor.ff,
-
-        ers.ersArbtid15tidAntal.ff,
-        ers.ersArbtid15pengAntal.ff, ers.månadslön137.ff, ers.ersArbtid15pengKronor.ff,
-        ers.ersArbtid15KvTidAntal.ff,
-        ers.ersArbtid15KvPengAntal.ff, ers.månadslön137.ff, ers.ersArbtid15KvPengKronor.ff,
-
-        ers.ersArbtid20tidAntal.ff,
-        ers.ersArbtid20pengAntal.ff, ers.månadslön137.ff, ers.ersArbtid20pengKronor.ff,
-        ers.ersArbtid20KvTidAntal.ff,
-        ers.ersArbtid20KvPengAntal.ff, ers.månadslön137.ff, ers.ersArbtid20KvPengKronor.ff,
-
-        ers.ersArbtid40tidAntal.ff,
-        ers.ersArbtid40pengAntal.ff, ers.månadslön137.ff, ers.ersArbtid40pengKronor.ff,
-
-        summaTid.ff,
-        summaBelopp.ff
+  ## Return matching payment fields for work types
+  payFieldsWork: array[WorkType, (PaymentType, PaymentType)] = [
+    (arbtid10tid, arbtid10peng),
+    (arbtid15tid, arbtid15peng),
+    (arbtid20tid, arbtid20peng),
+    (arbtid20tid, arbtid20peng),
+    (arbtid40tid, arbtid40peng)
+  ]
+
+  # short notice work
+  payFieldsWorkShortNotice: array[WorkType, (PaymentType, PaymentType)] = [
+    (arbtid10kvtid, arbtid10kvpeng),
+    (arbtid15kvtid, arbtid15kvpeng),
+    (arbtid20kvtid, arbtid20kvpeng),
+    (arbtid20kvtid, arbtid20kvpeng),
+    (arbtid40tid, arbtid40peng)
+  ]
+
+  payFieldsWait: array[OnCallType, (PaymentType, PaymentType)] = [
+    (jourTid, jourPeng),
+    (berAtid, berApeng),
+    (berBtid, berBpeng)
+  ]
+
+  pay440Fields: array[OnCallType, PaymentType] = [
+    jour440, berA440, berB440
+  ]
+
+
+proc getPayment(comp: Compensation, salary: Natural): Payment =
+  ## Calculate how much is payed from numbers in compensation, given salary
+  let
+    pay137 = salary.float / 137.0
+    pay440 = salary.float / 440.0
+    pay330 = salary.float / 330.0
+
+  # regular work pay
+  for worktype in comp.working.low .. comp.working.high:
+    let
+      (time, money) = payFieldsWork[worktype]
+      work = comp.working[worktype]
+
+    # Why are arrays unrolled to use +=?
+    # This is since 2.0 pay fields are used twice and will otherwise be blanked in
+    # the later iteration for weekend
+
+    result[time][antal] += work * timeQuota
+    # rest of result[time] fields (apris, belopp are always 0.0 for time
+
+    result[money][antal] += work * moneyQuota
+    result[money][apris] = pay137
+    result[money][belopp] += work * moneyQuota * pay137
+
+  # short notice work pay
+  for kvworktype in comp.workingShortNotice.low .. comp.workingShortNotice.high:
+    let
+      (time, money) = payFieldsWorkShortNotice[kvworktype]
+      work = comp.workingShortNotice[kvworktype]
+
+    # same as above for the unrolling of arrays
+
+    result[time][antal] += work * timeQuota
+    # remaining result[time] fields (apris, belopp) are always 0.0 for time
+
+    result[money][antal] += work * moneyQuota
+    result[money][apris] = pay137
+    result[money][belopp] += work * moneyQuota * pay137
+
+  # waiting pay
+  for waittype in comp.waiting.low .. comp.waiting.high:
+    let
+      (time, money) = payFieldsWait[waittype]
+      wait = comp.waiting[waittype]
+
+    # waiting, 440 and 330 fields are not reused, assign array
+
+    result[time] = [wait * timeQuota, 0.0, 0.0]
+
+    result[money] = [wait * moneyQuota, pay137, wait * moneyQuota * pay137]
+
+    # 1/440
+    result[pay440Fields[waittype]] = [wait, pay440, wait * pay440]
+
+  # 330 only in certain cases, >50 jour and >150 berA+B (raw time)
+  let
+    jourTotal = comp.waitingTime[jour]
+    berTotal = comp.waitingTime[berA] + comp.waitingTime[berB]
+
+  if jourTotal > 50.0:
+    result[jour330] = [jourTotal - 50.0, pay330, (jourTotal - 50.0) * pay330]
+  else:
+    # for presentation purposes
+    result[jour330] = [0.0, pay330, 0.0]
+
+  if berTotal > 150.0:
+    result[ber330] = [berTotal - 150.0, pay330, (berTotal - 150.0) * pay330]
+  else:
+    # for presentation purposes
+    result[ber330] = [0.0, pay330, 0.0]
+
+
+proc getPaymentSummary(pay: Payment): (float, float) =
+  ## Returns total time, money counts for pay
+  for t in pay.low .. pay.high:
+    case t
+    of berAtid, berBtid, jourTid, arbtid10tid, arbtid15tid, arbtid20tid, arbtid40tid, arbtid10kvtid, arbtid15kvtid, arbtid20kvtid:
+      result[0] += pay[t][antal]
+    else:
+      result[1] += pay[t][belopp]
+
+
+proc initOnCall(
+    kind: OnCallType; hoursOther, hoursWeekend: Hours; shortNotice = false
+  ): OnCall =
+  ## Init an on call
+  OnCall(
+    kind: kind, shortNotice: shortNotice,
+    hoursWaiting: [hoursOther, hoursWeekend], works: @[]
+  )
+
+# Shortcuts for the most common types
+template vardag(): Oncall =
+  OnCall(
+    kind: berA, shortNotice: false, hoursWaiting: [15.5, 0.0], works: @[]
+  )
+template helg(): OnCall =
+  OnCall(
+    kind: berA, shortNotice: false, hoursWaiting: [1.5, 62.0], works: @[]
+  )
+
+const timeTypes = {
+  berAtid, berBtid, jourTid, arbtid10tid, arbtid15tid, arbtid20tid,
+  arbtid40tid, arbtid10kvtid, arbtid15kvtid, arbtid20kvtid
+}
+
+func salaryTableHtml(pay: Payment): string =
+  ## Pretty-print `pay` as HTML
+  const theader = thead(tr(th(), th($antal), th($apris), th($belopp)))
+  var rows = ""
+  for t in pay.low .. pay.high:
+    var row = ""
+    if pay[t][antal] == 0.0: continue
+    row.add td($t)
+    row.add td(pay[t][antal].formatFloat(ffDecimal, 2))
+    if t notin timeTypes:
+      row.add td(pay[t][apris].formatFloat(ffDecimal, 2))
+      row.add td(pay[t][belopp].formatFloat(ffDecimal, 2))
+    else:
+      row.add td()
+      row.add td()
+    rows.add tr(row)
+  result = table(theader, tbody(rows))
+
+
+func summaryTableHtml(pay: Payment): string =
+  ## Pretty-print a summary of `pay` as HTML
+  let summed = pay.getPaymentSummary
+  result = table(
+    thead(
+      tr(
+        th("Summa"),
+        th()
+      )
+    ),
+    tbody(
+      tr(
+        td("Tid (h)"),
+        td(summed[0].formatFloat(ffDecimal, 2))
+      ),
+      tr(
+        td("Peng (kr)"),
+        td(summed[1].formatFloat(ffDecimal, 2))
+      )
+    )
+  )
+
+
+# the js stuff
+
+when defined(js):
+  import dom
+
+  var month = WorkMonth()  # global month
+
+
+  template getValue(e: untyped): untyped =
+    ## Cast to get form element value
+    OptionElement(e).value
+
+
+  proc updateTables*() {.exportc.} =
+    ## Update tables on page
+    # don't update if no data
+    if month.onCalls.len == 0:
+      return
+
+    let
+      salary = parseInt $document.getElementById("manadslon").getValue
+      comp = month.getCompensation
+      pay = comp.getPayment(salary)
+      summed = pay.getPaymentSummary()
+
+    var contents = ""
+    contents.add h2("Ersättning månad")
+    contents.add pay.summaryTableHtml
+    contents.add pay.salaryTableHtml
+
+    var
+      details = summary("Detalj per beredskap")
+      i = 0
+
+    for call in month.onCalls:
+      # print every call in a separate table
+      let
+        callComp = call.getCompensation
+        callPay = callComp.getPayment(salary)
+      inc i
+      if call.shortNotice:
+        details.add h3($i & ". " & $call.kind & " &ndash; kort varsel")
+      else:
+        details.add h3($i & ". " & $call.kind)
+
+      details.add callPay.summaryTableHtml
+      details.add callPay.salaryTableHtml
+
+    contents.add details(details)
+    document.getElementById("tabell").innerHtml = contents.cstring
+
+
+  proc addOnCall*() {.exportc.} =
+    ## Entry point for adding data
+    let
+      hoursOther = parseFloat $document.getElementById("beredskapTimmarAnnan").getValue
+      hoursWeekend = parseFloat $document.getElementById("beredskapTimmarHelg").getValue
+      kind: OnCallType = if document.getElementById("beredskapsTypA").checked:
+        berA
+      elif document.getElementById("beredskapsTypB").checked:
+        berB
+      else:
+        jour
+      shortNotice = document.getElementById("kortVarsel").checked
+
+    var b = initOnCall(kind, hoursOther, hoursWeekend, shortNotice)
+
+    b.addWork(
+      other,
+      parseInt($document.getElementById("arbetadeMinAnnan").getValue)
+    )
+    b.addWork(
+      evening,
+      parseInt($document.getElementById("arbetadeMinVardagkvall").getValue)
+    )
+    b.addWork(
+      night,
+      parseInt($document.getElementById("arbetadeMinNatt").getValue)
+    )
+    b.addWork(
+      weekend,
+      parseInt($document.getElementById("arbetadeMinHelg").getValue)
+    )
+    b.addWork(
+      holiday,
+      parseInt($document.getElementById("arbetadeMinStorhelg").getValue)
     )
 
+    month.addOnCall b
+
+    updateTables()
+    FormElement(document.getElementbyId("calc")).reset()  # clear form
+
+
+when isMainModule:
+  import strformat
+
+  func salaryTable(pay: Payment): string =
+    ## Pretty-print salary
+    var s = fmt"""{"":20} {"Antal":>8} {"Apris":>8} {"Belopp":>8}"""
+    s.add "\n"
+    for t in pay.low .. pay.high:
+      # skip where there is nothing to show
+      if pay[t][antal] == 0.0: continue
+      if t in {berAtid, berBtid, jourTid, arbtid10tid, arbtid15tid, arbtid20tid, arbtid40tid, arbtid10kvtid, arbtid15kvtid, arbtid20kvtid}:
+        s.add fmt"{t:20} {pay[t][antal]:>8.2f}"
+      else:
+        s.add fmt"{t:20} {pay[t][antal]:>8.2f} {pay[t][apris]:>8.2f} {pay[t][belopp]:>8.2f}"
+      s.add "\n"
+
+    result = s
+
+  func summaryTable(summed: (float, float)): string =
+    ## Pretty-print summary table
+    var s = "-----------\n"
+    s.add fmt"Tid     {summed[0]:>8.2f} h"
+    s.add "\n"
+    s.add fmt"Pengar  {summed[1]:>8.2f} kr"
+    s.add "\n"
+    result = s
+
+
+proc test() =
+  var
+    month: WorkMonth
+    call = vardag()
+    call2 = helg()
+    call3 = helg()
+    call4 = helg()  # will surpass 330 limit here
+    call5 = initOnCall(berB, 15.5, 2.0)
+    call6 = initOnCall(jour, 65.5, 2.0)
+
+  call.addWork(other, 30)
+  call.addWork(evening, 60)
+  call.addWork(night, 45)
+  #month.addOnCall call
+
+  call2.addWork(weekend, 20)
+  # month.addOnCall call2
+
+  call3.addWork(holiday, 70)
+  # month.addOnCall call3
+
+  # month.addOnCall call4
+
+  call5.addWork(other, 30)
+  call5.addWork(evening, 20)
+  call5.addWork(night, 45)
+  month.addOnCall call5
+
+  month.addOnCall call6
+
+  let
+    comp = month.getCompensation
+    pay = comp.getPayment(50000)
+    summed = pay.getPaymentSummary()
+  echo pay.salaryTable
+  echo summed.summaryTable
+
+
+when isMainModule and not defined(js):
+  test()
