@@ -25,7 +25,7 @@ Avvikelser pga. avrundningsfel eller buggar kan förekomma.
 
 <!-- moved outside of form to avoid resetting -->
 <label for="manadslon">Månadslön</label>
-<input type="number" inputmode="numeric" id="manadslon" min=0 required onchange="updateTables()">
+<input type="number" inputmode="numeric" id="manadslon" value=0 min=0 required onchange="updateTables()">
 
 <form id="calc" action="javascript:addOnCall()">
 
@@ -51,11 +51,11 @@ Avvikelser pga. avrundningsfel eller buggar kan förekomma.
 
         <li>
         <label for="beredskapTimmarAnnan">Beredskap annan (h)</label>
-        <input type="number" inputmode="decimal" id="beredskapTimmarAnnan" value=0 min=0 step=0.1>
+        <input type="number" id="beredskapTimmarAnnan" value=0 min=0 step=0.1>
 
         <li>
         <label for="beredskapTimmarHelg">Beredskap helg (h)</label>
-        <input type="number" inputmode="decimal" id="beredskapTimmarHelg" value=0 min=0 step=0.000001>
+        <input type="number" id="beredskapTimmarHelg" value=0 min=0 step=0.1>
         </ul>
 
         <p>
