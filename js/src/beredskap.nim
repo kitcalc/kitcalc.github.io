@@ -384,7 +384,7 @@ when defined(js):
       return
 
     let
-      salary = parseInt $document.getElementById("manadslon").getValue
+      salary = parseInt $getElementById("manadslon").getValue
       comp = month.getCompensation
       pay = comp.getPayment(salary)
       summed = pay.getPaymentSummary()
@@ -413,21 +413,27 @@ when defined(js):
       details.add callPay.salaryTableHtml
 
     contents.add details(details)
-    document.getElementById("tabell").innerHtml = contents.cstring
+    getElementById("tabell").innerHtml = contents.cstring
 
 
   proc addOnCall*() {.exportc.} =
     ## Entry point for adding data
+
     let
-      hoursOther = parseFloat ($(document.getElementById("beredskapTimmarAnnan").getValue)).replace(",", ".")
-      hoursWeekend = parseFloat ($(document.getElementById("beredskapTimmarHelg").getValue)).replace(",", ".")
-      kind: OnCallType = if document.getElementById("beredskapsTypA").checked:
+      # allow empty input
+      hoursOtherInput = getElementById("beredskapTimmarAnnan").getValue
+      hoursOther = if hoursOtherInput != "".cstring: parseFloat ($hoursOtherInput).replace(",", ".") else: 0.0
+
+      hoursWeekendInput = getElementById("beredskapTimmarHelg").getValue
+      hoursWeekend = if hoursWeekendInput != "".cstring: parseFloat ($hoursWeekendInput).replace(",", ".") else: 0.0
+
+      kind: OnCallType = if getElementById("beredskapsTypA").checked:
         berA
-      elif document.getElementById("beredskapsTypB").checked:
+      elif getElementById("beredskapsTypB").checked:
         berB
       else:
         jour
-      shortNotice = document.getElementById("kortVarsel").checked
+      shortNotice = getElementById("kortVarsel").checked
 
     # skip empty inputs
     if hoursOther == 0.0 and hoursWeekend == 0.0:
@@ -437,29 +443,29 @@ when defined(js):
 
     b.addWork(
       other,
-      parseInt($document.getElementById("arbetadeMinAnnan").getValue)
+      parseInt($getElementById("arbetadeMinAnnan").getValue)
     )
     b.addWork(
       evening,
-      parseInt($document.getElementById("arbetadeMinVardagkvall").getValue)
+      parseInt($getElementById("arbetadeMinVardagkvall").getValue)
     )
     b.addWork(
       night,
-      parseInt($document.getElementById("arbetadeMinNatt").getValue)
+      parseInt($getElementById("arbetadeMinNatt").getValue)
     )
     b.addWork(
       weekend,
-      parseInt($document.getElementById("arbetadeMinHelg").getValue)
+      parseInt($getElementById("arbetadeMinHelg").getValue)
     )
     b.addWork(
       holiday,
-      parseInt($document.getElementById("arbetadeMinStorhelg").getValue)
+      parseInt($getElementById("arbetadeMinStorhelg").getValue)
     )
 
     month.addOnCall b
 
     updateTables()
-    FormElement(document.getElementbyId("calc")).reset()  # clear form
+    FormElement(getElementbyId("calc")).reset()  # clear form
 
 
 when isMainModule:
