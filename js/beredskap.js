@@ -1720,6 +1720,7 @@ function addOnCall_570425476(month_570425477, call_570425478) {
 function addOnCall() {
     var Temporary1;
 
+  BeforeRet: {
     var hoursOther_570426231 = nsuParseFloat(nsuReplaceStr(cstrToNimstr(document.getElementById("beredskapTimmarAnnan").value), [44], [46]));
     var hoursWeekend_570426232 = nsuParseFloat(nsuReplaceStr(cstrToNimstr(document.getElementById("beredskapTimmarHelg").value), [44], [46]));
     if (document.getElementById("beredskapsTypA").checked) {
@@ -1735,6 +1736,10 @@ function addOnCall() {
     }
     var kind_570426233 = Temporary1;
     var shortNotice_570426234 = document.getElementById("kortVarsel").checked;
+    if (((hoursOther_570426231 == 0.0) && (hoursWeekend_570426232 == 0.0))) {
+    break BeforeRet;
+    }
+    
     var b_570426235 = [initOnCall_570426017(kind_570426233, chckRange(hoursOther_570426231, 0.0, Infinity), chckRange(hoursWeekend_570426232, 0.0, Infinity), shortNotice_570426234)];
     addWork_570425435(b_570426235[0], 0, chckRange(nsuParseInt(cstrToNimstr(document.getElementById("arbetadeMinAnnan").value)), 0, 2147483647));
     addWork_570425435(b_570426235[0], 1, chckRange(nsuParseInt(cstrToNimstr(document.getElementById("arbetadeMinVardagkvall").value)), 0, 2147483647));
@@ -1744,6 +1749,7 @@ function addOnCall() {
     addOnCall_570425476(month_570426151[0], b_570426235[0]);
     updateTables();
     document.getElementById("calc").reset();
+  };
 
   
 }

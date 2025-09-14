@@ -429,6 +429,10 @@ when defined(js):
         jour
       shortNotice = document.getElementById("kortVarsel").checked
 
+    # skip empty inputs
+    if hoursOther == 0.0 and hoursWeekend == 0.0:
+      return
+
     var b = initOnCall(kind, hoursOther, hoursWeekend, shortNotice)
 
     b.addWork(
