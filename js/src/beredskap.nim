@@ -419,8 +419,8 @@ when defined(js):
   proc addOnCall*() {.exportc.} =
     ## Entry point for adding data
     let
-      hoursOther = parseFloat $document.getElementById("beredskapTimmarAnnan").getValue
-      hoursWeekend = parseFloat $document.getElementById("beredskapTimmarHelg").getValue
+      hoursOther = parseFloat ($(document.getElementById("beredskapTimmarAnnan").getValue)).replace(",", ".")
+      hoursWeekend = parseFloat ($(document.getElementById("beredskapTimmarHelg").getValue)).replace(",", ".")
       kind: OnCallType = if document.getElementById("beredskapsTypA").checked:
         berA
       elif document.getElementById("beredskapsTypB").checked:
