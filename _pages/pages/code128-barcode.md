@@ -1,10 +1,10 @@
-title: Code128 barcode
+title: Code 128 barcode
 created: 2023-01-30
 js: js/code128.js
 summary: Generera en barcode i Code128-format
 ---
 
-Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format.
+Barcode i [Code 128](https://en.wikipedia.org/wiki/Code_128)-format.
 
 <form id="barcodeform" onchange="javascript:genBarcode()">
     <fieldset>
