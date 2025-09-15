@@ -420,8 +420,8 @@ proc sampleHtml(sample: Sample, barcode=false): string =
         barHeight="60%", showFrame=false, showText=true, debug=false
       )
 
-      # make cell more compact
-      row.add td(svg, style="padding: 0; line-height: 1.0;")
+    # make cell more compact inline
+    row.add td(svg, style="padding: 0; line-height: 1.0;")
   else:
     row.add td(sample.sampleId)
 
