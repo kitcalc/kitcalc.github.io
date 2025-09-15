@@ -39,14 +39,14 @@ Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format.
             <li>
             <label for="textsize">Textstorlek</label>
             <input type="text" id="textsize" value="12">
-            
-            <li>
-            <label for="barheight">Streckhöjd</label>
-            <input type="text" id="barheight" placeholder="75% / 90%">
-            
+
             <li>
             <label for="fontfamily">Teckensnitt</label>
             <input type="text" id="fontfamily" value="sans-serif">
+
+            <li>
+            <label for="barheight">Streckhöjd</label>
+            <input type="text" id="barheight" placeholder="75% / 90%">
 
             <li>
             <label for="debugmode">Debug-läge</label>
