@@ -8,13 +8,14 @@ summary: Tolkning av RHD-screening
 <style>
   /* override standard styles */
 
-  input[type="number"] {
-      width: 4em;
-      border: 1px;
-      padding: 5px;
+  input[type="file"] {
+    text-align: revert;
+    width: 100%;
   }
-  table {
-    overflow-x: auto;
+  input[type="number"] {
+    width: 4em;
+    border: 1px;
+    padding: 5px;
   }
   select {
     padding: 5px;
@@ -85,6 +86,8 @@ summary: Tolkning av RHD-screening
       </tr>
     </tbody>
   </table>
+  <input type="checkbox" id="checkBarcode" name="checkBarcode">
+  <label for="checkBarcode">Använd streckkod</label>
 </form>
 
 <form onchange="onInterpretationChange()">
