@@ -1,4 +1,5 @@
 import strutils, base64, htmlgen, dom, times, algorithm, math, tables
+import code128  # for barcode
 
 
 # result field, was missing from dom module
@@ -20,6 +21,8 @@ const
 
   gaphdControlId = "gapdhControl"  ## if of GAPDH negative control element
   rhdControlId = "rhdControl"  ## if of RHD negative control element
+
+  barcodeId = "checkBarcode"  ## id of barcode checkbox
 
   sampleOutputId = "sampleOutput"  ## id of div element for samples output(/input)
 
@@ -402,11 +405,26 @@ iterator getSampleInterpretations(samples: seq[Sample]): tuple[sampleId: string,
 const header = ["Prov-ID", "1", "2", "3", "Anmärkning", "Svar", "Sign 1", "Sign 2"]
 
 
-proc sampleHtml(sample: Sample): string =
+proc sampleHtml(sample: Sample, barcode=false): string =
   ## Generate HTML row for sample
   let sampleResult = interpretSample(sample)
+
   var row = ""
-  row.add td(sample.sampleId)
+
+  if barcode:
+    let
+      encoded = sample.sampleId.toCode128
+      # parameters by trial and error
+      svg = encoded.toSvg(
+        height="1.5cm", width="width=3.5cm", textSize=11, fontFamily="sans-serif",
+        showFrame=false, showText=true, debug=false
+      )
+
+      # make cell more compact
+      row.add td(svg, style="padding: 0; line-height: 1.0;")
+  else:
+    row.add td(sample.sampleId)
+
   for i, well in pairs(sample.wells):
     row.add td($sampleResult.wellResults[i])  # '+' and '-' (en dash)
   row.add td($sampleResult.interp)
@@ -434,11 +452,20 @@ proc sampleHtml(sample: Sample): string =
   result = tr(row)
 
 
+proc useBarcode(): bool =
+  ## Check whether or not bar code should be used in table
+  let elem = getElementById(barcodeId)
+
+  # check so that we don't crash if element is removed for some reason
+  result = if elem.isNil: false else: elem.checked
+
+
 proc toHtmlTable(samples: seq[Sample]): string =
   ## Convert results to HTML table
   var
     body = ""
     row = ""
+  let barcode = useBarcode()
   for field in header:
     row.add th(field)
   let head = thead(tr(row))
@@ -446,7 +473,7 @@ proc toHtmlTable(samples: seq[Sample]): string =
     # skip controls
     if sample.sampleId in [sNTC, sPC]: continue
 
-    body.add sampleHtml(sample)
+    body.add sampleHtml(sample, barcode=barcode)
   result = table(head, tbody(body))
 
 
