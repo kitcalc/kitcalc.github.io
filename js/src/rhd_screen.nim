@@ -416,7 +416,7 @@ proc sampleHtml(sample: Sample, barcode=false): string =
       encoded = sample.sampleId.toCode128
       # parameters by trial and error
       svg = encoded.toSvg(
-        height="1.5cm", width="width=120", textSize="11", fontFamily="sans-serif",
+        height="58", width="width=120", textSize="11", fontFamily="sans-serif",
         showFrame=false, showText=true, debug=false
       )
 
