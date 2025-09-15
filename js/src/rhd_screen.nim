@@ -258,6 +258,7 @@ proc checkTriplicates(samples: seq[Sample]) =
     # skip controls
     if sample.sampleId == sNTC or sample.sampleId == sPC:
       echo sample.sampleId, ", n = ", sample.wells.len
+      continue
 
     const minLen = 3
     if sample.wells.len != minLen:
@@ -416,7 +417,7 @@ proc sampleHtml(sample: Sample, barcode=false): string =
       encoded = sample.sampleId.toCode128
       # parameters by trial and error
       svg = encoded.toSvg(
-        height="50", width="width=120", textSize="11", fontFamily="sans-serif",
+        height="50", width="120", textSize="12", fontFamily="sans-serif",
         barHeight="65%", showFrame=false, showText=true, debug=false
       )
 

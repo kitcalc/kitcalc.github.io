@@ -4368,7 +4368,7 @@ function sampleHtml_570429871(sample_570429872, barcode_570429873) {
     var row_570429876 = [];
     if (barcode_570429873) {
     var encoded_570429877 = toCode128(sample_570429872.sampleId);
-    var svg_570429878 = toSvg(encoded_570429877, [53,48], [119,105,100,116,104,61,49,50,48], [49,49], [115,97,110,115,45,115,101,114,105,102], [54,53,37], false, true, false);
+    var svg_570429878 = toSvg(encoded_570429877, [53,48], [49,50,48], [49,50], [115,97,110,115,45,115,101,114,105,102], [54,53,37], false, true, false);
     row_570429876.push.apply(row_570429876, ([60,116,100,32,115,116,121,108,101,61,34,112,97,100,100,105,110,103,58,32,48,59,32,108,105,110,101,45,104,101,105,103,104,116,58,32,49,46,48,59,34,62] || []).concat(svg_570429878 || [],[60,47,116,100,62] || []));;
     }
     else {
@@ -5429,22 +5429,25 @@ function checkAndOutputNegativeControl_570429381(samples_570429382) {
 function checkTriplicates_570429433(samples_570429434) {
     Label1: {
       var sample_570429438 = ({sampleId: [], wells: []});
-      var i_570430743 = 0;
-      var L_570430744 = (samples_570429434).length;
+      var i_570430744 = 0;
+      var L_570430745 = (samples_570429434).length;
       Label2: {
           Label3: while (true) {
-          if (!(i_570430743 < L_570430744)) break Label3;
-            sample_570429438 = samples_570429434[chckIndx(i_570430743, 0, (samples_570429434).length - 1)];
-            if ((eqStrings(sample_570429438.sampleId, [78,84,67]) || eqStrings(sample_570429438.sampleId, [80,67]))) {
-            rawEcho(sample_570429438.sampleId, [44,32,110,32,61,32], HEX24_385875976((sample_570429438.wells).length));
-            }
-            
-            if (!(((sample_570429438.wells).length == 3))) {
-            outputAndRaise_570425406(([112,114,111,118,32] || []).concat(sample_570429438.sampleId || [],[32,104,97,100,101,32,98,97,114,97,32] || [],HEX24_385875976((sample_570429438.wells).length) || [],[32,118,195,164,114,100,101,110,32,109,101,110,32,109,105,110,115,116,97,32,97,110,116,97,108,32,195,164,114,32,51] || []));
-            }
-            
-            i_570430743 += 1;
-            if (!(((samples_570429434).length == L_570430744))) {
+          if (!(i_570430744 < L_570430745)) break Label3;
+            sample_570429438 = samples_570429434[chckIndx(i_570430744, 0, (samples_570429434).length - 1)];
+            Label4: {
+              if ((eqStrings(sample_570429438.sampleId, [78,84,67]) || eqStrings(sample_570429438.sampleId, [80,67]))) {
+              rawEcho(sample_570429438.sampleId, [44,32,110,32,61,32], HEX24_385875976((sample_570429438.wells).length));
+              break Label4;
+              }
+              
+              if (!(((sample_570429438.wells).length == 3))) {
+              outputAndRaise_570425406(([112,114,111,118,32] || []).concat(sample_570429438.sampleId || [],[32,104,97,100,101,32,98,97,114,97,32] || [],HEX24_385875976((sample_570429438.wells).length) || [],[32,118,195,164,114,100,101,110,32,109,101,110,32,109,105,110,115,116,97,32,97,110,116,97,108,32,195,164,114,32,51] || []));
+              }
+              
+            };
+            i_570430744 += 1;
+            if (!(((samples_570429434).length == L_570430745))) {
             failedAssertImpl_268435541(makeNimstrLit("iterators.nim(254, 11) `len(a) == L` the length of the seq changed while iterating over it"));
             }
             
@@ -5640,25 +5643,25 @@ function outputMeansHtml_570430311(samples_570430312) {
     var rhdMean_570430315 = 0.0;
     Label1: {
       var sample_570430319 = ({sampleId: [], wells: []});
-      var i_570430756 = 0;
-      var L_570430757 = (samples_570430312).length;
+      var i_570430757 = 0;
+      var L_570430758 = (samples_570430312).length;
       Label2: {
           Label3: while (true) {
-          if (!(i_570430756 < L_570430757)) break Label3;
-            sample_570430319 = samples_570430312[chckIndx(i_570430756, 0, (samples_570430312).length - 1)];
+          if (!(i_570430757 < L_570430758)) break Label3;
+            sample_570430319 = samples_570430312[chckIndx(i_570430757, 0, (samples_570430312).length - 1)];
             if (eqStrings(sample_570430319.sampleId, [80,67])) {
             Label4: {
               var well_570430323 = ({rhd: 0.0, gapdh: 0.0});
-              var i_570430753 = 0;
-              var L_570430754 = (sample_570430319.wells).length;
+              var i_570430754 = 0;
+              var L_570430755 = (sample_570430319.wells).length;
               Label5: {
                   Label6: while (true) {
-                  if (!(i_570430753 < L_570430754)) break Label6;
-                    well_570430323 = sample_570430319.wells[chckIndx(i_570430753, 0, (sample_570430319.wells).length - 1)];
+                  if (!(i_570430754 < L_570430755)) break Label6;
+                    well_570430323 = sample_570430319.wells[chckIndx(i_570430754, 0, (sample_570430319.wells).length - 1)];
                     HEX2BHEX3D_704645412(gapdhSum_570430313, 0, well_570430323.gapdh);
                     HEX2BHEX3D_704645412(rhdSum_570430314, 0, well_570430323.rhd);
-                    i_570430753 += 1;
-                    if (!(((sample_570430319.wells).length == L_570430754))) {
+                    i_570430754 += 1;
+                    if (!(((sample_570430319.wells).length == L_570430755))) {
                     failedAssertImpl_268435541(makeNimstrLit("iterators.nim(254, 11) `len(a) == L` the length of the seq changed while iterating over it"));
                     }
                     
@@ -5670,8 +5673,8 @@ function outputMeansHtml_570430311(samples_570430312) {
             break Label1;
             }
             
-            i_570430756 += 1;
-            if (!(((samples_570430312).length == L_570430757))) {
+            i_570430757 += 1;
+            if (!(((samples_570430312).length == L_570430758))) {
             failedAssertImpl_268435541(makeNimstrLit("iterators.nim(254, 11) `len(a) == L` the length of the seq changed while iterating over it"));
             }
             
