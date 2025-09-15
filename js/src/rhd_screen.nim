@@ -90,7 +90,7 @@ var
 proc outputAndRaise(error: string) =
   ## Helpet to output an error message and raise
   const prefix = b("Fel vid inläsning av filen: ")
-  document.getElementById(sampleOutputId).innerHTML = cstring(prefix & error)
+  getElementById(sampleOutputId).innerHTML = cstring(prefix & error)
   raise newException(ValueError, error)
 
 
@@ -243,19 +243,20 @@ proc checkAndOutputNegativeControl(samples: seq[Sample]) =
           outputAndRaise("negativ GAPDH-kontroll är positiv " & $well.gapdh)
       break
 
-  document.getElementById(gaphdControlId).innerHTML = cstring("Negativ")
-  document.getElementById(rhdControlId).innerHTML = cstring("Negativ")
+  const negativeResult = cstring("negativ")
+  getElementById(gaphdControlId).innerHTML = negativeResult
+  getElementById(rhdControlId).innerHTML = negativeResult
 
 
 proc checkTriplicates(samples: seq[Sample]) =
   ## Assert that all samples are triplicates
   for sample in samples:
 
-    # controls have fewer values
-    let minLen = if sample.sampleId == sNTC: 1
-      elif sample.sampleId == sPC: 2
-      else: 3
+    # skip controls
+    if sample.sampleId == sNTC or sample.sampleId == sPC:
+      continue
 
+    const minLen = 3
     if sample.wells.len != minLen:
       outputAndRaise(
         "prov " & sample.sampleId & " hade bara " & $sample.wells.len &
@@ -279,13 +280,13 @@ proc checkDataCompleteness(samples: seq[Sample]) =
 template getGapdhMinDiff(): float =
   ## Returns the min GAPDH difference from mean, typically -1.5
   # cast to access .value, returns a cstring that must be parsed
-  parseFloat $InputElement(document.getElementById(gapdhMinDiffId)).value
+  parseFloat $InputElement(getElementById(gapdhMinDiffId)).value
 
 
 template getGapdhMaxDiff(): float =
   ## Returns the max GAPDH difference from mean, typically 6.4
   # cast to access .value, .value returns a cstring that must be parsed
-  parseFloat $InputElement(document.getElementById(gapdhMaxDiffId)).value
+  parseFloat $InputElement(getElementById(gapdhMaxDiffId)).value
 
 
 proc setGapdhInterval() =
@@ -311,7 +312,7 @@ proc interpretSample(sample: Sample): Interpretation =
       # positive reaction
       inc npos
       result.wellResults[i] = wellPos
-    elif well.rhd > 45.0:
+    elif well.rhd > 45.0 and well.rhd < 50.0:
       # not positive nor negative
       inc nweak
       # but "positive" in a sense
@@ -380,7 +381,7 @@ iterator getSampleInterpretations(samples: seq[Sample]): tuple[sampleId: string,
     # name="optionGroupName" property
     let
       selectGroup = sampleSelectGroup(sample).cstring
-      elements = document.getElementById(selectGroup)
+      elements = getElementById(selectGroup)
 
     # controls have no elements
     if elements.isNil:
@@ -484,7 +485,7 @@ proc outputHtmlTable(samples: seq[Sample]) =
   ## Output samples as HTML table
   let htmlTable = toHtmlTable(samples)
   # set HTML
-  document.getElementById(sampleOutputId).innerHTML = htmlTable.cstring
+  getElementById(sampleOutputId).innerHTML = htmlTable.cstring
 
 
 proc outputFile(samples: seq[Sample]) =
@@ -496,15 +497,15 @@ proc outputFile(samples: seq[Sample]) =
 
   var fileOutput = ""
 
-  fileOutput.add h3("Länk till resultatfil")
+  fileOutput.add h3("Resultatfil")
   fileOutput.add p(a(href=dataUrl, download=linkText, linkText))
   fileOutput.add p(details(
-    summary("Visa filens innehåll"),
+    summary("Visa innehåll"),
     pre(code(fileOutputTable))
   ))
 
   # set HTML
-  document.getElementById(fileOutputId).innerHTML = fileOutput.cstring
+  getElementById(fileOutputId).innerHTML = fileOutput.cstring
 
 
 proc onInterpretationChange*() {.exportc.} =
@@ -520,7 +521,7 @@ proc outputIntervalHtml() =
     minFormat = gapdhMin.formatFloat(ffDecimal, 1)
     maxFormat = gapdhMax.formatFloat(ffDecimal, 1)
     s = minFormat & " &ndash; " & maxFormat
-  document.getElementById(gapdhIntervalId).innerHTML = s.cstring
+  getElementById(gapdhIntervalId).innerHTML = s.cstring
 
 
 proc outputMeansHtml(samples: seq[Sample]) =
@@ -543,14 +544,15 @@ proc outputMeansHtml(samples: seq[Sample]) =
 
       # local var
       rhdMean = round(rhdSum / sample.wells.len.float, 1)
+
       break
 
   let
     gapdhOut = gapdhMean.formatFloat(ffDecimal, 1).cstring
     rhdOut = rhdMean.formatFloat(ffDecimal, 1).cstring
 
-  document.getElementById(gapdhMeanId).innerHTML = gapdhOut
-  document.getElementById(rhdMeanId).innerHTML = rhdOut
+  getElementById(gapdhMeanId).innerHTML = gapdhOut
+  getElementById(rhdMeanId).innerHTML = rhdOut
 
 
 proc onParameterChange*() {.exportc.} =
@@ -594,7 +596,7 @@ proc fileLoaded*() {.exportc.} =
   ##   <input type="file" onchange="fileLoaded()" id="fileInput" accept=".csv" />
 
   # cast to InputElement to access fields
-  let fileInput = InputElement(document.getElementById(inputId))
+  let fileInput = InputElement(getElementById(inputId))
 
   # no file
   if fileInput.files.len == 0:
