@@ -17,6 +17,9 @@ summary: Tolkning av RHD-screening
     border: 1px;
     padding: 5px;
   }
+  table {
+    overflow-x: auto;
+  }
   select {
     padding: 5px;
     margin: 0;
