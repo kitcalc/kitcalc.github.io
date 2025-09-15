@@ -254,7 +254,7 @@ proc checkTriplicates(samples: seq[Sample]) =
 
     # skip controls
     if sample.sampleId == sNTC or sample.sampleId == sPC:
-      continue
+      echo sample.sampleId, ", n = ", sample.wells.len
 
     const minLen = 3
     if sample.wells.len != minLen:
