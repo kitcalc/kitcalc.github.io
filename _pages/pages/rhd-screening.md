@@ -1,12 +1,13 @@
 title: RHD-screening
 created: 2023-11-14
-updated: 2025-08-18
+updated: 2025-09-15
 js: js/rhd_screen.js
 summary: Tolkning av RHD-screening
 ---
 
 <style>
   /* override standard styles */
+
   input[type="number"] {
       width: 4em;
       border: 1px;
@@ -15,19 +16,29 @@ summary: Tolkning av RHD-screening
   table {
     overflow-x: auto;
   }
-  td, th {
-    border-color: #aaa;
-  }
   select {
     padding: 5px;
     margin: 0;
     border: 0;
   }
+  @media print {
+    /* print styles */
+    /* stronger color */
+    td, th {
+      border-color: #aaa;
+    }
+    /* hide elements from output */
+    header,
+    footer,
+    #fileOutput {
+      display: none !important;
+    }
+  }
 </style>
 
 ### Välj exporterad fil (.csv)
 
-<input type="file" onchange="fileLoaded()" id="fileInput" accept=".csv" />
+<input type="file" onchange="fileLoaded()" id="fileInput" accept=".csv">
 
 <!-- first table: static and calculated parameters-->
 
@@ -77,7 +88,7 @@ summary: Tolkning av RHD-screening
 </form>
 
 <form onchange="onInterpretationChange()">
-<div id="sampleOutput">Resultat visas här när konvertering är klar</div>
+<div id="sampleOutput"></div>
 </form>
 
-<div id="fileOutput">
+<div id="fileOutput"></div>
