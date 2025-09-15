@@ -417,11 +417,11 @@ proc sampleHtml(sample: Sample, barcode=false): string =
       # parameters by trial and error
       svg = encoded.toSvg(
         height="50", width="width=120", textSize="11", fontFamily="sans-serif",
-        barHeight="60%", showFrame=false, showText=true, debug=false
+        barHeight="65%", showFrame=false, showText=true, debug=false
       )
 
-      # make cell more compact
-      row.add td(svg, style="padding: 0; line-height: 1.0;")
+    # make cell more compact inline
+    row.add td(svg, style="padding: 0; line-height: 1.0;")
   else:
     row.add td(sample.sampleId)
 
