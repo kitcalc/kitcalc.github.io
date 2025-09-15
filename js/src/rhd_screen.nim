@@ -416,8 +416,8 @@ proc sampleHtml(sample: Sample, barcode=false): string =
       encoded = sample.sampleId.toCode128
       # parameters by trial and error
       svg = encoded.toSvg(
-        height="58", width="width=120", textSize="11", fontFamily="sans-serif",
-        showFrame=false, showText=true, debug=false
+        height="50", width="width=120", textSize="11", fontFamily="sans-serif",
+        barHeight="60%", showFrame=false, showText=true, debug=false
       )
 
       # make cell more compact
