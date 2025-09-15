@@ -399,8 +399,8 @@ when defined(js):
       showframe = document.getElementById("showframe").checked
       showtext = document.getElementById("showtext").checked
       textsize = $document.getElementById("textsize").value
-      barheight = $document.getElementById("barheight").value
       fontfamily = $document.getElementById("fontfamily").value
+      barheight = $document.getElementById("barheight").value
       debugmode = document.getElementById("debugmode").checked
       rawmode = document.getElementById("rawmode").checked
 
