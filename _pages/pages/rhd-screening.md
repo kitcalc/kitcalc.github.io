@@ -1,33 +1,48 @@
 title: RHD-screening
 created: 2023-11-14
-updated: 2025-08-18
+updated: 2025-09-15
 js: js/rhd_screen.js
 summary: Tolkning av RHD-screening
 ---
 
 <style>
   /* override standard styles */
+
+  input[type="file"] {
+    text-align: revert;
+    width: 100%;
+  }
   input[type="number"] {
-      width: 4em;
-      border: 1px;
-      padding: 5px;
+    width: 4em;
+    border: 1px;
+    padding: 5px;
   }
   table {
     overflow-x: auto;
-  }
-  td, th {
-    border-color: #aaa;
   }
   select {
     padding: 5px;
     margin: 0;
     border: 0;
   }
+  @media print {
+    /* print styles */
+    /* stronger color */
+    td, th {
+      border-color: #aaa;
+    }
+    /* hide elements from output */
+    header,
+    footer,
+    #fileOutput {
+      display: none !important;
+    }
+  }
 </style>
 
 ### Välj exporterad fil (.csv)
 
-<input type="file" onchange="fileLoaded()" id="fileInput" accept=".csv" />
+<input type="file" onchange="fileLoaded()" id="fileInput" accept=".csv">
 
 <!-- first table: static and calculated parameters-->
 
@@ -74,10 +89,12 @@ summary: Tolkning av RHD-screening
       </tr>
     </tbody>
   </table>
+  <input type="checkbox" id="checkBarcode" name="checkBarcode">
+  <label for="checkBarcode">Använd streckkod</label>
 </form>
 
 <form onchange="onInterpretationChange()">
-<div id="sampleOutput">Resultat visas här när konvertering är klar</div>
+<div id="sampleOutput"></div>
 </form>
 
-<div id="fileOutput">
+<div id="fileOutput"></div>

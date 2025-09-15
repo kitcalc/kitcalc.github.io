@@ -284,12 +284,12 @@ func toCode128*(s: string): Code128 {.exportc.} =
 const
   defaulty = "5%"
   defaultHeight = "90%"
-  textHeight = "75%"
+  defaultHeightText = "75%"
   texty = "95%"
   quiet = 10
 
 
-func necessaryWidth(code: Code128): int =
+func necessaryWidth*(code: Code128): int =
   ## Calculate necessary width for code
   # 11 units per value in bar, 2 for stop and quiet padding beginning and end
   result = code.bar.len * 11 + 2 + 2 * quiet
@@ -347,11 +347,16 @@ func getText(code: Code128, textSize, fontFamily: string): string =
 """
 
 func toSvg*(code: Code128, height, width, textSize, fontFamily: string,
-  showFrame=true, showText=true, debug=false): string {.exportc.} =
+  barHeight="", showFrame=true, showText=true, debug=false): string {.exportc.} =
   ## Retrieves `code` as a SVG bar code
   let
     barcodeWidth = $necessaryWidth(code)
-    barHeight = if showText: textHeight else: defaultHeight
+    barHeight = if barHeight != "":
+        barHeight
+      elif showText:
+        defaultHeightText
+      else:
+        defaultHeight
 
   result = getSvgHeader(code, width, barcodeWidth, height, showFrame)
   var x = quiet
@@ -395,6 +400,7 @@ when defined(js):
       showtext = document.getElementById("showtext").checked
       textsize = $document.getElementById("textsize").value
       fontfamily = $document.getElementById("fontfamily").value
+      barheight = $document.getElementById("barheight").value
       debugmode = document.getElementById("debugmode").checked
       rawmode = document.getElementById("rawmode").checked
 
@@ -407,7 +413,7 @@ when defined(js):
       let
         final = if rawmode: line.unescapeInput else: line
         code = toCode128(final)
-        svg = code.toSvg(height, width, textsize, fontfamily, showframe, showtext, debugmode)
+        svg = code.toSvg(height, width, textsize, fontfamily, barheight, showframe, showtext, debugmode)
         source = svg.replace("<", "&lt;")
 
       document.getElementById("barcodeout").innerHtml &= svg.cstring

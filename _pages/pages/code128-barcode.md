@@ -45,6 +45,10 @@ Barcode i [Code128](https://en.wikipedia.org/wiki/Code_128)-format.
             <input type="text" id="fontfamily" value="sans-serif">
 
             <li>
+            <label for="barheight">Streckhöjd</label>
+            <input type="text" id="barheight" placeholder="75% / 90%">
+
+            <li>
             <label for="debugmode">Debug-läge</label>
             <input type="checkbox" id="debugmode">
 
