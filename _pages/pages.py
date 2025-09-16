@@ -34,7 +34,7 @@ class Html:
 
     @staticmethod
     def p(text):
-        return "<p>" + text + "</p>\n\n"
+        return "<p>" + text + "</p>\n"
 
     @staticmethod
     def i(text):
@@ -269,7 +269,7 @@ class PostsPage(IndexPage):
         if page.updated:
             s += Html.i(f' ({page.str_updated()})')
         s += "\n"
-        return Html.p(s)
+        return s
 
     def html(self, header, footer, pages):
         """Returns the full web page with header and footer and links to
