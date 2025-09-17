@@ -73,11 +73,11 @@ Avvikelser pga. avrundningsfel eller buggar kan förekomma.
         <input type="number" inputmode="numeric" id="arbetadeMinAnnan" value=0 min=0 title="All annan arbetad tid (t.ex. vardag 16:30&ndash;21:00 och 07:00&ndash;08:00)">
 
         <li>
-        <label for="arbetadeMinVardagkvall">Vardag 21:00&ndash;24:00 (min)</label>
+        <label for="arbetadeMinVardagkvall">Vardag 21&ndash;24 (min)</label>
         <input type="number" inputmode="numeric" id="arbetadeMinVardagkvall" value=0 min=0 title="Vardag 21:00&ndash;24:00">
 
         <li>
-        <label for="arbetadeMinNatt">Vardagnatt (min)</label>
+        <label for="arbetadeMinNatt">Vardag 00&ndash;07 (min)</label>
         <input type="number" inputmode="numeric" id="arbetadeMinNatt" value=0 min=0 title="Vardag 00:00&ndash;07:00">
 
         <li>
