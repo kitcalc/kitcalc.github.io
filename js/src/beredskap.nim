@@ -6,19 +6,19 @@ type
   Hours = range[0.0 .. float.high]  ## Like Natural but for float
 
   WorkType = enum  ## Tid för störning
-    other,  ## annan tid
-    evening,  ## vardag 21-24
-    night,  ## vardag 00-07; separate from weekend to calculate weekday waiting time
-    weekend,  ## helg
-    holiday  ## storhelg
+    other = "Annan tid",  ## annan tid
+    evening = "Vardag 21–24",  ## vardag 21-24
+    night = "Vardag 00–07",  ## vardag 00-07; separate from weekend to calculate weekday waiting time
+    weekend = "Helg",  ## helg
+    holiday = "Storhelg" ## storhelg
 
   Work = object  ## Ett störningstillfälle
     kind: WorkType  ## störningstyp
     duration: Natural  ## störningstid i minuter
 
   OnCallTimeType = enum  ## Tid för beredskap
-    other,  ## annan tid
-    weekend  ## helg
+    other = "Annan tid",  ## annan tid
+    weekend = "Helg" ## helg
 
   OnCallType = enum ## Typ av beredskap, jour, A eller B
     jour = "Jour",
@@ -322,6 +322,46 @@ const timeTypes = {
   arbtid40tid, arbtid10kvtid, arbtid15kvtid, arbtid20kvtid
 }
 
+func timeTableHtml(comp: Compensation): string =
+  ## Pretty-print compensated time
+
+  # waiting
+  let theader = thead(
+    tr(th("Bundenhet (h)"), th("Ersättning"), th("Total"))
+  )
+
+  var rows = ""
+  for t in OnCallType.low .. OnCallType.high:
+    rows.add tr(
+      td(t),
+      comp.waiting[t].formatFloat(ffDecimal, 2),
+      comp.waitingTime[t].formatFloat(ffDecimal, 2)
+    )
+
+  result.add table(theader, rows)
+
+  # working
+  rows = ""
+  let wheader = thead(
+    tr(
+      th("Arbete (h)"),
+      th("Ersatt"),
+      th("Kort varsel")
+    )
+  )
+  for t in WorkType.low .. WorkType.high:
+    rows.add tr(
+      td(t),
+      td(comp.working[t].formatFloat(ffDecimal, 2),
+      if t != holiday:
+        td(comp.workingShortNotice[t].formatFloat(ffDecimal, 2))
+      else:
+        td("–")
+    )
+
+  result.add table(wheader, rows)
+
+
 func salaryTableHtml(pay: Payment): string =
   ## Pretty-print `pay` as HTML
   const theader = thead(tr(th(), th($antal), th($apris), th($belopp)))
@@ -347,8 +387,8 @@ func summaryTableHtml(pay: Payment): string =
   result = table(
     thead(
       tr(
-        th("Summa"),
-        th()
+        th(),
+        th("Summa ersättning")
       )
     ),
     tbody(
@@ -392,6 +432,7 @@ when defined(js):
     var contents = ""
     contents.add h2("Ersättning månad")
     contents.add pay.summaryTableHtml
+    contents.add comp.timeTableHtml
     contents.add pay.salaryTableHtml
 
     var
@@ -410,6 +451,7 @@ when defined(js):
         details.add h3($i & ". " & $call.kind)
 
       details.add callPay.summaryTableHtml
+      details.add callComp.timeTableHtml
       details.add callPay.salaryTableHtml
 
     contents.add details(details)
