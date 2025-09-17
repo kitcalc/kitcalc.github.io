@@ -360,6 +360,9 @@ func workingTableHtml(work: OnCallTimeWorking): string =
     )
   )
   for t in WorkType.low .. WorkType.high:
+    # skip empty
+    if work.working[t] == 0.0 and work.workingShortNotice[t] == 0.0:
+      continue
     var row = td($t)
     row.add td(work.working[t].formatFloat(ffDecimal, 2))
     if t != holiday:
@@ -375,9 +378,9 @@ func timeTableHtml(call: OnCall): string =
   ## Pretty-print time spent working/waiting
 
   # waiting
-  var theader = th("Bundenhet (h)")
+  var theader = th()
   for t in call.hoursWaiting.low .. call.hoursWaiting.high:
-    theader.add th($t)
+    theader.add th($t & " (h)")
 
   var row = td($call.kind)
   for t in call.hoursWaiting.low .. call.hoursWaiting.high:
@@ -444,7 +447,7 @@ func summaryTableHtml(pay: Payment): string =
     thead(
       tr(
         th(),
-        th("Summa ersättning")
+        th("Ersättning")
       )
     ),
     tbody(
