@@ -322,44 +322,100 @@ const timeTypes = {
   arbtid40tid, arbtid10kvtid, arbtid15kvtid, arbtid20kvtid
 }
 
-func timeTableHtml(comp: Compensation): string =
-  ## Pretty-print compensated time
+
+type
+  OnCallTimeWorking = tuple
+    working: array[WorkType, float]
+    workingShortNotice: array[WorkType, float]
+
+
+func getWorkDurations(call: OnCall): OnCallTimeWorking =
+  ## Get work duration per type for `call`
+  for work in call.works:
+    let hours = work.duration.inHours
+    if not call.shortNotice:
+      result.working[work.kind] += hours
+    else:
+      result.workingShortNotice[work.kind] += hours
+
+
+func getWorkDurations(month: WorkMonth): OnCallTimeWorking =
+  ## Get work duration per type for `month`
+  for call in month.onCalls:
+    let duration = call.getWorkDurations
+    for t in WorkType.low .. WorkType.high:
+      result.working[t] += duration.working[t]
+      result.workingShortNotice[t] += duration.workingShortNotice[t]
+
+
+func workingTableHtml(work: OnCallTimeWorking): string =
+  ## Pretty-print time spent working/waiting in a month
+
+  var rows = ""
+  const theader = thead(
+    tr(
+      th(),
+      th("Arbete (h)"),
+      th("Arbete kort varsel (h)")
+    )
+  )
+  for t in WorkType.low .. WorkType.high:
+    var row = td($t)
+    row.add td(work.working[t].formatFloat(ffDecimal, 2))
+    if t != holiday:
+      row.add td(work.workingShortNotice[t].formatFloat(ffDecimal, 2))
+    else:
+      row.add td("–")
+    rows.add tr(row)
+
+  result = table(theader, tbody(rows))
+
+
+func timeTableHtml(call: OnCall): string =
+  ## Pretty-print time spent working/waiting
 
   # waiting
-  let theader = thead(
-    tr(th("Bundenhet (h)"), th("Ersättning"), th("Total"))
+  const theader = thead(
+    tr(th(), th("Bundenhet (h)"))
   )
 
   var rows = ""
-  for t in OnCallType.low .. OnCallType.high:
+  for t in OnCallTimeType.low .. OnCallTimeType.high:
     rows.add tr(
-      td(t),
-      comp.waiting[t].formatFloat(ffDecimal, 2),
-      comp.waitingTime[t].formatFloat(ffDecimal, 2)
+      td($t),
+      call.hoursWaiting[t].formatFloat(ffDecimal, 2),
     )
 
   result.add table(theader, rows)
 
-  # working
-  rows = ""
-  let wheader = thead(
-    tr(
-      th("Arbete (h)"),
-      th("Ersatt"),
-      th("Kort varsel")
-    )
+  let work = call.getWorkDurations
+  result.add work.workingTableHtml
+
+
+func timeTableHtml(month: WorkMonth): string =
+  ## Pretty-print time spent working/waiting in a month
+
+  # waiting
+  const theader = thead(
+    tr(th(), th("Bundenhet (h)"))
   )
-  for t in WorkType.low .. WorkType.high:
+  var
+    waiting: array[OnCallTimeType, float]
+    rows = ""
+  for call in month.onCalls:
+    for t in waiting.low .. waiting.high:
+      waiting[t] += call.hoursWaiting[t]
+
+  for t in waiting.low .. waiting.high:
     rows.add tr(
-      td(t),
-      td(comp.working[t].formatFloat(ffDecimal, 2),
-      if t != holiday:
-        td(comp.workingShortNotice[t].formatFloat(ffDecimal, 2))
-      else:
-        td("–")
+      td($t),
+      waiting[t].formatFloat(ffDecimal, 2),
     )
 
-  result.add table(wheader, rows)
+  result.add table(theader, rows)
+
+  let work = month.getWorkDurations
+  result.add work.workingTableHtml
 
 
 func salaryTableHtml(pay: Payment): string =
@@ -432,7 +488,7 @@ when defined(js):
     var contents = ""
     contents.add h2("Ersättning månad")
     contents.add pay.summaryTableHtml
-    contents.add comp.timeTableHtml
+    contents.add month.timeTableHtml
     contents.add pay.salaryTableHtml
 
     var
@@ -451,7 +507,7 @@ when defined(js):
         details.add h3($i & ". " & $call.kind)
 
       details.add callPay.summaryTableHtml
-      details.add callComp.timeTableHtml
+      details.add call.timeTableHtml
       details.add callPay.salaryTableHtml
 
     contents.add details(details)
