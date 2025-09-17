@@ -1326,7 +1326,7 @@ function summaryTableHtml_570426320(pay_570426321) {
   var result_570426322 = [];
 
     var summed_570426323 = getPaymentSummary_570425986(pay_570426321);
-    result_570426322 = nimCopy(null, (makeNimstrLit("<table><thead><tr><th></th><th>Summa ers\xC3\xA4ttning</th></tr></thead><tbody><tr><td>Tid (h)</td><td>") || []).concat(nsuformatFloat(summed_570426323["Field0"], 1, 2, 46) || [],[60,47,116,100,62,60,47,116,114,62,60,116,114,62,60,116,100,62,80,101,110,103,32,40,107,114,41,60,47,116,100,62,60,116,100,62] || [],nsuformatFloat(summed_570426323["Field1"], 1, 2, 46) || [],[60,47,116,100,62,60,47,116,114,62,60,47,116,98,111,100,121,62,60,47,116,97,98,108,101,62] || []), NTI33554449);
+    result_570426322 = nimCopy(null, (makeNimstrLit("<table><thead><tr><th></th><th>Ers\xC3\xA4ttning</th></tr></thead><tbody><tr><td>Tid (h)</td><td>") || []).concat(nsuformatFloat(summed_570426323["Field0"], 1, 2, 46) || [],[60,47,116,100,62,60,47,116,114,62,60,116,114,62,60,116,100,62,80,101,110,103,32,40,107,114,41,60,47,116,100,62,60,116,100,62] || [],nsuformatFloat(summed_570426323["Field1"], 1, 2, 46) || [],[60,47,116,100,62,60,47,116,114,62,60,47,116,98,111,100,121,62,60,47,116,97,98,108,101,62] || []), NTI33554449);
 
   return result_570426322;
 
@@ -1448,22 +1448,28 @@ function workingTableHtml_570426129(work_570426130) {
     var rows_570426132 = [];
     Label1: {
       var t_570426177 = 0;
-      var res_570426858 = 0;
+      var res_570426859 = 0;
       Label2: {
           Label3: while (true) {
-          if (!(res_570426858 <= 4)) break Label3;
-            t_570426177 = res_570426858;
-            var row_570426181 = ([60,116,100,62] || []).concat(reprEnum(t_570426177, NTI570425348) || [],[60,47,116,100,62] || []);
-            row_570426181.push.apply(row_570426181, ([60,116,100,62] || []).concat(nsuformatFloat(work_570426130.Field0[chckIndx(t_570426177, 0, (work_570426130.Field0).length - 1)], 1, 2, 46) || [],[60,47,116,100,62] || []));;
-            if (!((t_570426177 == 4))) {
-            row_570426181.push.apply(row_570426181, ([60,116,100,62] || []).concat(nsuformatFloat(work_570426130.Field1[chckIndx(t_570426177, 0, (work_570426130.Field1).length - 1)], 1, 2, 46) || [],[60,47,116,100,62] || []));;
-            }
-            else {
-            row_570426181.push.apply(row_570426181, [60,116,100,62,226,128,147,60,47,116,100,62]);;
-            }
-            
-            rows_570426132.push.apply(rows_570426132, ([60,116,114,62] || []).concat(row_570426181 || [],[60,47,116,114,62] || []));;
-            res_570426858 = addInt(res_570426858, 1);
+          if (!(res_570426859 <= 4)) break Label3;
+            t_570426177 = res_570426859;
+            Label4: {
+              if (((work_570426130.Field0[chckIndx(t_570426177, 0, (work_570426130.Field0).length - 1)] == 0.0) && (work_570426130.Field1[chckIndx(t_570426177, 0, (work_570426130.Field1).length - 1)] == 0.0))) {
+              break Label4;
+              }
+              
+              var row_570426181 = ([60,116,100,62] || []).concat(reprEnum(t_570426177, NTI570425348) || [],[60,47,116,100,62] || []);
+              row_570426181.push.apply(row_570426181, ([60,116,100,62] || []).concat(nsuformatFloat(work_570426130.Field0[chckIndx(t_570426177, 0, (work_570426130.Field0).length - 1)], 1, 2, 46) || [],[60,47,116,100,62] || []));;
+              if (!((t_570426177 == 4))) {
+              row_570426181.push.apply(row_570426181, ([60,116,100,62] || []).concat(nsuformatFloat(work_570426130.Field1[chckIndx(t_570426177, 0, (work_570426130.Field1).length - 1)], 1, 2, 46) || [],[60,47,116,100,62] || []));;
+              }
+              else {
+              row_570426181.push.apply(row_570426181, [60,116,100,62,226,128,147,60,47,116,100,62]);;
+              }
+              
+              rows_570426132.push.apply(rows_570426132, ([60,116,114,62] || []).concat(row_570426181 || [],[60,47,116,114,62] || []));;
+            };
+            res_570426859 = addInt(res_570426859, 1);
           }
       };
     };
@@ -1529,29 +1535,29 @@ function timeTableHtml_570426224(month_570426225) {
 function timeTableHtml_570426186(call_570426187) {
   var result_570426188 = [];
 
-    var theader_570426189 = [60,116,104,62,66,117,110,100,101,110,104,101,116,32,40,104,41,60,47,116,104,62];
+    var theader_570426189 = [60,116,104,62,60,47,116,104,62];
     Label1: {
       var t_570426202 = 0;
-      var res_570426861 = 0;
+      var res_570426862 = 0;
       Label2: {
           Label3: while (true) {
-          if (!(res_570426861 <= 1)) break Label3;
-            t_570426202 = res_570426861;
-            theader_570426189.push.apply(theader_570426189, ([60,116,104,62] || []).concat(reprEnum(t_570426202, NTI570425350) || [],[60,47,116,104,62] || []));;
-            res_570426861 = addInt(res_570426861, 1);
+          if (!(res_570426862 <= 1)) break Label3;
+            t_570426202 = res_570426862;
+            theader_570426189.push.apply(theader_570426189, ([60,116,104,62] || []).concat(reprEnum(t_570426202, NTI570425350) || [],[32,40,104,41,60,47,116,104,62] || []));;
+            res_570426862 = addInt(res_570426862, 1);
           }
       };
     };
     var row_570426209 = ([60,116,100,62] || []).concat(reprEnum(call_570426187.kind, NTI570425351) || [],[60,47,116,100,62] || []);
     Label4: {
       var t_570426222 = 0;
-      var res_570426864 = 0;
+      var res_570426865 = 0;
       Label5: {
           Label6: while (true) {
-          if (!(res_570426864 <= 1)) break Label6;
-            t_570426222 = res_570426864;
+          if (!(res_570426865 <= 1)) break Label6;
+            t_570426222 = res_570426865;
             row_570426209.push.apply(row_570426209, ([60,116,100,62] || []).concat(nsuformatFloat(call_570426187.hoursWaiting[chckIndx(t_570426222, 0, (call_570426187.hoursWaiting).length - 1)], 1, 2, 46) || [],[60,47,116,100,62] || []));;
-            res_570426864 = addInt(res_570426864, 1);
+            res_570426865 = addInt(res_570426865, 1);
           }
       };
     };
@@ -1622,13 +1628,13 @@ function parseFloatNative_33557428(a_33557429) {
     var str_33557431 = [];
     Label1: {
       var x_33557445 = 0;
-      var i_570426874 = 0;
+      var i_570426875 = 0;
       Label2: {
           Label3: while (true) {
-          if (!(i_570426874 < (a_33557429).length)) break Label3;
-            x_33557445 = a_33557429[i_570426874];
+          if (!(i_570426875 < (a_33557429).length)) break Label3;
+            x_33557445 = a_33557429[i_570426875];
             addChar(str_33557431, x_33557445);;
-            i_570426874 += 1;
+            i_570426875 += 1;
           }
       };
     };
@@ -1694,19 +1700,19 @@ function nsuFindChar(s_721421987, sub_721421988, start_721421989, last_721421990
     var last_721421992 = Temporary1;
     Label2: {
       var iHEX60gensym176_721422006 = 0;
-      var colontmp__570426883 = 0;
-      colontmp__570426883 = start_721421989;
-      var res_570426884 = colontmp__570426883;
+      var colontmp__570426884 = 0;
+      colontmp__570426884 = start_721421989;
+      var res_570426885 = colontmp__570426884;
       Label3: {
           Label4: while (true) {
-          if (!(res_570426884 <= last_721421992)) break Label4;
-            iHEX60gensym176_721422006 = res_570426884;
+          if (!(res_570426885 <= last_721421992)) break Label4;
+            iHEX60gensym176_721422006 = res_570426885;
             if ((s_721421987[chckIndx(iHEX60gensym176_721422006, 0, (s_721421987).length - 1)] == sub_721421988)) {
             result_721421991 = iHEX60gensym176_721422006;
             break BeforeRet;
             }
             
-            res_570426884 = addInt(res_570426884, 1);
+            res_570426885 = addInt(res_570426885, 1);
           }
       };
     };
@@ -1768,15 +1774,15 @@ function nsuInitSkipTable(a_721421907, sub_721421908) {
     fill_721421910(a_721421907, m_721421909);
     Label1: {
       var i_721421929 = 0;
-      var colontmp__570426887 = 0;
-      colontmp__570426887 = subInt(m_721421909, 1);
-      var i_570426888 = 0;
+      var colontmp__570426888 = 0;
+      colontmp__570426888 = subInt(m_721421909, 1);
+      var i_570426889 = 0;
       Label2: {
           Label3: while (true) {
-          if (!(i_570426888 < colontmp__570426887)) break Label3;
-            i_721421929 = i_570426888;
+          if (!(i_570426889 < colontmp__570426888)) break Label3;
+            i_721421929 = i_570426889;
             a_721421907[chckIndx(sub_721421908[chckIndx(i_721421929, 0, (sub_721421908).length - 1)], 0, (a_721421907).length - 1)] = subInt(subInt(m_721421909, 1), i_721421929);
-            i_570426888 = addInt(i_570426888, 1);
+            i_570426889 = addInt(i_570426889, 1);
           }
       };
     };
