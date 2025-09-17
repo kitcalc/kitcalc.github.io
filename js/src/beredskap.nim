@@ -375,18 +375,18 @@ func timeTableHtml(call: OnCall): string =
   ## Pretty-print time spent working/waiting
 
   # waiting
-  const theader = thead(
-    tr(th(), th("Bundenhet (h)"))
+  var theader = th("Bundenhet (h)")
+  for t in call.hoursWaiting.low .. call.hoursWaiting.high:
+    theader.add th($t)
+
+  var row = td($call.kind)
+  for t in call.hoursWaiting.low .. call.hoursWaiting.high:
+    row.add td(call.hoursWaiting[t].formatFloat(ffDecimal, 2))
+
+  result.add table(
+    thead(tr(theader)),
+    tbody(row)
   )
-
-  var rows = ""
-  for t in OnCallTimeType.low .. OnCallTimeType.high:
-    rows.add tr(
-      td($t),
-      call.hoursWaiting[t].formatFloat(ffDecimal, 2),
-    )
-
-  result.add table(theader, rows)
 
   let work = call.getWorkDurations
   result.add work.workingTableHtml
@@ -409,7 +409,7 @@ func timeTableHtml(month: WorkMonth): string =
   for t in waiting.low .. waiting.high:
     rows.add tr(
       td($t),
-      waiting[t].formatFloat(ffDecimal, 2),
+      td(waiting[t].formatFloat(ffDecimal, 2))
     )
 
   result.add table(theader, rows)
@@ -486,10 +486,10 @@ when defined(js):
       summed = pay.getPaymentSummary()
 
     var contents = ""
-    contents.add h2("Ersättning månad")
+    contents.add h2("Månad")
     contents.add pay.summaryTableHtml
-    contents.add month.timeTableHtml
     contents.add pay.salaryTableHtml
+    contents.add month.timeTableHtml
 
     var
       details = summary("Detalj per beredskap")
@@ -507,8 +507,8 @@ when defined(js):
         details.add h3($i & ". " & $call.kind)
 
       details.add callPay.summaryTableHtml
-      details.add call.timeTableHtml
       details.add callPay.salaryTableHtml
+      details.add call.timeTableHtml
 
     contents.add details(details)
     getElementById("tabell").innerHtml = contents.cstring
