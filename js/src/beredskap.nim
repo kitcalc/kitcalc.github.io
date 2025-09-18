@@ -149,8 +149,8 @@ proc getCompensation(call: OnCall): Compensation =
   for work in call.works:
     let hours = work.duration.inHours
 
-    # extra pay unless holiday
     if call.shortNotice and work.kind != holiday:
+      # extra pay, unless there is holiday
       result.workingShortNotice[work.kind] += hours * paymentWork[work.kind]
       result.workingShortNotice[work.kind] += hours * extraPaymentWorkShortNotice
     else:
@@ -169,9 +169,7 @@ proc getCompensation(call: OnCall): Compensation =
     result.waiting[call.kind] += paymentWaiting[kind][call.kind] * waiting[kind]
 
     if call.shortNotice:
-      # short notice extra for waiting
-
-      # no extra payment for short notice on holidays is not taken into account!!!
+      # short notice extra for waiting, also on holiday
       result.waiting[call.kind] += extraPaymentShortNotice[call.kind] * waiting[kind]
 
     # save raw waiting time
@@ -327,7 +325,6 @@ type
   OnCallTimeWorking = tuple
     working: array[WorkType, Hours]
     workingShortNotice: array[WorkType, Hours]
-  OnCallTimeWaiting = array[OnCallType, array[OnCallTimeType, Hours]]  # indexedby[berA][other]
 
 
 func getWorkDurations(call: OnCall): OnCallTimeWorking =
@@ -349,20 +346,20 @@ func getWorkDurations(month: WorkMonth): OnCallTimeWorking =
       result.workingShortNotice[t] += duration.workingShortNotice[t]
 
 
-func getWaitingDurations(call: OnCall): OnCallTimeWaiting =
+func getWaitingDurations(call: OnCall): array[OnCallType, array[OnCallTimeType, Hours]] =
   ## Get waiting time duration sum for `call`
   for t in call.hoursWaiting.low .. call.hoursWaiting.high:
     result[call.kind][t] += call.hoursWaiting[t]
 
 
-func getWaitingDurations(month: WorkMonth): OnCallTimeWaiting =
+func getWaitingDurations(month: WorkMonth): array[OnCallType, array[OnCallTimeType, Hours]] =
   ## Get waiting time duration sum for month
   # indexedby[berA][other]
   for call in month.onCalls:
     let duration = call.getWaitingDurations
     # only one kind so merge only that array
     for t in duration[call.kind].low .. duration[call.kind].high:
-      result[call.kind][t] += duration[t]
+      result[call.kind][t] += duration[call.kind][t]
 
 
 func workingTableHtml(work: OnCallTimeWorking): string =
@@ -371,11 +368,7 @@ func workingTableHtml(work: OnCallTimeWorking): string =
   var rows = ""
   const theader = thead(
     tr(
-      th(),
-      th("Arbetad tid", colspan=2)
-    ),
-    tr(
-      th(),
+      th("Arbetad tid"),
       th("(h)"),
       th("Kort varsel (h)")
     )
@@ -386,32 +379,30 @@ func workingTableHtml(work: OnCallTimeWorking): string =
       continue
     var row = td($t)
     row.add td(work.working[t].formatFloat(ffDecimal, 2))
-    if t != holiday:
-      row.add td(work.workingShortNotice[t].formatFloat(ffDecimal, 2))
-    else:
-      row.add td("–")
+
+    # while short notice is not payed extra on holidays, we still present the
+    # hours for work performed during that period
+    row.add td(work.workingShortNotice[t].formatFloat(ffDecimal, 2))
+
     rows.add tr(row)
 
   result = table(theader, tbody(rows))
 
 
-func waitingTableHtml(waiting: OnCallTimeWaiting): string =
+func waitingTableHtml(waiting: array[OnCallType, array[OnCallTimeType, Hours]]): string =
   ## Pretty-print time spent waiting
 
-  let rowOne = tr(th(), th("Bundenhet", colspan=OnCallTimeType.len))
-  var rowTwo = th()
+  var row = th("Bundenhet")
   for t in OnCallTimeType.low .. OnCallTimeType.high:
-    theader.add th($t & " (h)")
+    row.add th($t & " (h)")
 
-  let theader = thead(
-    rowOne, tr(rowTwo)
-  )
+  let theader = thead(tr(row))
 
   var rows = ""
   for t in waiting.low .. waiting.high:
     # skip waiting types with no time
     var hasData = false
-    for hour in waiting[t];
+    for hour in waiting[t]:
       if hour > 0.0:
         hasData = true
         break
