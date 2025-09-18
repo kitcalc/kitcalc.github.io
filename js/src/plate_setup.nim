@@ -1,4 +1,4 @@
-import strutils, base64, htmlgen, dom, times
+import strutils, base64, htmlgen, dom, times, sequtils
 
 const
   inputId = "fileInput"
@@ -26,29 +26,30 @@ proc outputAndRaise(error: string) =
 
 proc parseRackFile(contents: string): Plate =
   ## Parse the csv-RackFile
-  # File contains 13 ';'-separated fields per row
 
   for (i, line) in pairs(splitLines(contents)):
     if line.len == 0:
       continue
 
-    let fields = line.split(';')
-
-    # rough check for errors
-    if fields.len != 13:
-      outputAndRaise("fel antal fält på rad " & $i & ": (" & $fields.len & ")")
+    let
+      rawfields = line.split(';')
+      fields = rawfields.mapIt(it.strip(chars={'"'}))
 
     # handling content on specific rows
     case i
     of 0:
       # check first row
-      if fields[0] != "FileType":
-        outputAndRaise("\"FileType\" förväntades som första fält på första raden")
+      if fields[0] != "FileType" and fields[1] != "RackFile" and fields[2] != "2":
+        outputAndRaise("""okänt filformat: första raden förväntas vara "FileType";"RackFile";"2"""")
     of 1..7:
       # skip metadata rows
       discard
     else:
       # data rows
+      # File contains 13 ';'-separated fields per data row, rough check for errors
+      if fields.len != 13:
+        outputAndRaise("fel antal fält på rad " & $i & ": (" & $fields.len & ")")
+
       let
         sampleId = fields[0]
         position = fields[2].split(":")
