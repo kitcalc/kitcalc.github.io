@@ -395,7 +395,7 @@ func workingTableHtml(work: OnCallTimeWorking): string =
   result = table(theader, tbody(rows))
 
 
-func waitingTimeHtml(waiting: OnCallTimeWaiting): string =
+func waitingTableHtml(waiting: OnCallTimeWaiting): string =
   ## Pretty-print time spent waiting
 
   let rowOne = tr(th(), th("Bundenhet", colspan=OnCallTimeType.len))
@@ -430,7 +430,7 @@ func timeTableHtml(call: OnCall): string =
 
   # waiting
   let waiting = call.getWaitingDurations
-  result = waiting.waitingTimeHtml
+  result = waiting.waitingTableHtml
 
   # working
   let work = call.getWorkDurations
@@ -442,7 +442,7 @@ func timeTableHtml(month: WorkMonth): string =
 
   # waiting
   let waiting = month.getWaitingDurations
-  result = waiting.waitingTimeHtml
+  result = waiting.waitingTableHtml
 
   # work
   let work = month.getWorkDurations
