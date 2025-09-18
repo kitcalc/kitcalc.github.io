@@ -325,8 +325,9 @@ const timeTypes = {
 
 type
   OnCallTimeWorking = tuple
-    working: array[WorkType, float]
-    workingShortNotice: array[WorkType, float]
+    working: array[WorkType, Hours]
+    workingShortNotice: array[WorkType, Hours]
+  OnCallTimeWaiting = array[OnCallType, array[OnCallTimeType, Hours]]  # indexedby[berA][other]
 
 
 func getWorkDurations(call: OnCall): OnCallTimeWorking =
@@ -343,20 +344,40 @@ func getWorkDurations(month: WorkMonth): OnCallTimeWorking =
   ## Get work duration per type for `month`
   for call in month.onCalls:
     let duration = call.getWorkDurations
-    for t in WorkType.low .. WorkType.high:
+    for t in result.working.low .. result.working.high:
       result.working[t] += duration.working[t]
       result.workingShortNotice[t] += duration.workingShortNotice[t]
 
 
+func getWaitingDurations(call: OnCall): OnCallTimeWaiting =
+  ## Get waiting time duration sum for `call`
+  for t in call.hoursWaiting.low .. call.hoursWaiting.high:
+    result[call.kind][t] += call.hoursWaiting[t]
+
+
+func getWaitingDurations(month: WorkMonth): OnCallTimeWaiting =
+  ## Get waiting time duration sum for month
+  # indexedby[berA][other]
+  for call in month.onCalls:
+    let duration = call.getWaitingDurations
+    # only one kind so merge only that array
+    for t in duration[call.kind].low .. duration[call.kind].high:
+      result[call.kind][t] += duration[t]
+
+
 func workingTableHtml(work: OnCallTimeWorking): string =
-  ## Pretty-print time spent working/waiting in a month
+  ## Pretty-print time spent working in a month
 
   var rows = ""
   const theader = thead(
     tr(
       th(),
-      th("Arbete (h)"),
-      th("Arbete kort varsel (h)")
+      th("Arbete", colspan=2)
+    ),
+    tr(
+      th(),
+      th("(h)"),
+      th("Kort varsel (h)")
     )
   )
   for t in WorkType.low .. WorkType.high:
@@ -374,23 +395,44 @@ func workingTableHtml(work: OnCallTimeWorking): string =
   result = table(theader, tbody(rows))
 
 
+func waitingTimeHtml(waiting: OnCallTimeWaiting): string =
+  ## Pretty-print time spent waiting
+
+  let rowOne = tr(th(), th("Bundenhet", colspan=OnCallTimeType.len))
+  var rowTwo = th()
+  for t in OnCallTimeType.low .. OnCallTimeType.high:
+    theader.add th($t & " (h)")
+
+  let theader = thead(
+    rowOne, tr(rowTwo)
+  )
+
+  var rows = ""
+  for t in waiting.low .. waiting.high:
+    # skip waiting types with no time
+    var hasData = false
+    for hour in waiting[t];
+      if hour > 0.0:
+        hasData = true
+        break
+
+    if hasData:
+      var row = td($t)
+      for kind in waiting[t].low .. waiting[t].high:
+        row.add td(waiting[t][kind].formatFloat(ffDecimal, 2))
+      rows.add tr(row)
+
+  result = table(theader, tbody(rows))
+
+
 func timeTableHtml(call: OnCall): string =
   ## Pretty-print time spent working/waiting
 
   # waiting
-  var theader = th()
-  for t in call.hoursWaiting.low .. call.hoursWaiting.high:
-    theader.add th($t & " (h)")
+  let waiting = call.getWaitingDurations
+  result = waiting.waitingTimeHtml
 
-  var row = td($call.kind)
-  for t in call.hoursWaiting.low .. call.hoursWaiting.high:
-    row.add td(call.hoursWaiting[t].formatFloat(ffDecimal, 2))
-
-  result.add table(
-    thead(tr(theader)),
-    tbody(row)
-  )
-
+  # working
   let work = call.getWorkDurations
   result.add work.workingTableHtml
 
@@ -399,24 +441,10 @@ func timeTableHtml(month: WorkMonth): string =
   ## Pretty-print time spent working/waiting in a month
 
   # waiting
-  const theader = thead(
-    tr(th(), th("Bundenhet (h)"))
-  )
-  var
-    waiting: array[OnCallTimeType, float]
-    rows = ""
-  for call in month.onCalls:
-    for t in waiting.low .. waiting.high:
-      waiting[t] += call.hoursWaiting[t]
+  let waiting = month.getWaitingDurations
+  result = waiting.waitingTimeHtml
 
-  for t in waiting.low .. waiting.high:
-    rows.add tr(
-      td($t),
-      td(waiting[t].formatFloat(ffDecimal, 2))
-    )
-
-  result.add table(theader, rows)
-
+  # work
   let work = month.getWorkDurations
   result.add work.workingTableHtml
 
