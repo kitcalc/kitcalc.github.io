@@ -1,4 +1,4 @@
-import strutils, base64, htmlgen, dom, times
+import strutils, base64, htmlgen, dom, times, sequtils
 
 const
   inputId = "fileInput"
@@ -31,7 +31,9 @@ proc parseRackFile(contents: string): Plate =
     if line.len == 0:
       continue
 
-    let fields = line.split(';')
+    let
+      rawfields = line.split(';')
+      fields = rawfields.mapIt(it.strip(chars={'"'}))
 
     # handling content on specific rows
     case i
