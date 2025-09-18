@@ -6,19 +6,19 @@ type
   Hours = range[0.0 .. float.high]  ## Like Natural but for float
 
   WorkType = enum  ## Tid för störning
-    other,  ## annan tid
-    evening,  ## vardag 21-24
-    night,  ## vardag 00-07; separate from weekend to calculate weekday waiting time
-    weekend,  ## helg
-    holiday  ## storhelg
+    other = "Annan tid",  ## annan tid
+    evening = "Vardag 21–24",  ## vardag 21-24
+    night = "Vardag 00–07",  ## vardag 00-07; separate from weekend to calculate weekday waiting time
+    weekend = "Helg",  ## helg
+    holiday = "Storhelg" ## storhelg
 
   Work = object  ## Ett störningstillfälle
     kind: WorkType  ## störningstyp
     duration: Natural  ## störningstid i minuter
 
   OnCallTimeType = enum  ## Tid för beredskap
-    other,  ## annan tid
-    weekend  ## helg
+    other = "Annan tid",  ## annan tid
+    weekend = "Helg" ## helg
 
   OnCallType = enum ## Typ av beredskap, jour, A eller B
     jour = "Jour",
@@ -149,8 +149,8 @@ proc getCompensation(call: OnCall): Compensation =
   for work in call.works:
     let hours = work.duration.inHours
 
-    # extra pay unless holiday
     if call.shortNotice and work.kind != holiday:
+      # extra pay, unless there is holiday
       result.workingShortNotice[work.kind] += hours * paymentWork[work.kind]
       result.workingShortNotice[work.kind] += hours * extraPaymentWorkShortNotice
     else:
@@ -169,9 +169,7 @@ proc getCompensation(call: OnCall): Compensation =
     result.waiting[call.kind] += paymentWaiting[kind][call.kind] * waiting[kind]
 
     if call.shortNotice:
-      # short notice extra for waiting
-
-      # no extra payment for short notice on holidays is not taken into account!!!
+      # short notice extra for waiting, also on holiday
       result.waiting[call.kind] += extraPaymentShortNotice[call.kind] * waiting[kind]
 
     # save raw waiting time
@@ -322,6 +320,126 @@ const timeTypes = {
   arbtid40tid, arbtid10kvtid, arbtid15kvtid, arbtid20kvtid
 }
 
+
+type
+  OnCallTimeWorking = tuple
+    working: array[WorkType, Hours]
+    workingShortNotice: array[WorkType, Hours]
+
+
+func getWorkDurations(call: OnCall): OnCallTimeWorking =
+  ## Get work duration per type for `call`
+  for work in call.works:
+    let hours = work.duration.inHours
+    if not call.shortNotice:
+      result.working[work.kind] += hours
+    else:
+      result.workingShortNotice[work.kind] += hours
+
+
+func getWorkDurations(month: WorkMonth): OnCallTimeWorking =
+  ## Get work duration per type for `month`
+  for call in month.onCalls:
+    let duration = call.getWorkDurations
+    for t in result.working.low .. result.working.high:
+      result.working[t] += duration.working[t]
+      result.workingShortNotice[t] += duration.workingShortNotice[t]
+
+
+func getWaitingDurations(call: OnCall): array[OnCallType, array[OnCallTimeType, Hours]] =
+  ## Get waiting time duration sum for `call`
+  for t in call.hoursWaiting.low .. call.hoursWaiting.high:
+    result[call.kind][t] += call.hoursWaiting[t]
+
+
+func getWaitingDurations(month: WorkMonth): array[OnCallType, array[OnCallTimeType, Hours]] =
+  ## Get waiting time duration sum for month
+  # indexedby[berA][other]
+  for call in month.onCalls:
+    let duration = call.getWaitingDurations
+    # only one kind so merge only that array
+    for t in duration[call.kind].low .. duration[call.kind].high:
+      result[call.kind][t] += duration[call.kind][t]
+
+
+func workingTableHtml(work: OnCallTimeWorking): string =
+  ## Pretty-print time spent working in a month
+
+  var rows = ""
+  const theader = thead(
+    tr(
+      th("Arbetad tid"),
+      th("(h)"),
+      th("Kort varsel (h)")
+    )
+  )
+  for t in WorkType.low .. WorkType.high:
+    # skip empty
+    if work.working[t] == 0.0 and work.workingShortNotice[t] == 0.0:
+      continue
+    var row = td($t)
+    row.add td(work.working[t].formatFloat(ffDecimal, 2))
+
+    # while short notice is not payed extra on holidays, we still present the
+    # hours for work performed during that period
+    row.add td(work.workingShortNotice[t].formatFloat(ffDecimal, 2))
+
+    rows.add tr(row)
+
+  result = table(theader, tbody(rows))
+
+
+func waitingTableHtml(waiting: array[OnCallType, array[OnCallTimeType, Hours]]): string =
+  ## Pretty-print time spent waiting
+
+  var row = th("Bundenhet")
+  for t in OnCallTimeType.low .. OnCallTimeType.high:
+    row.add th($t & " (h)")
+
+  let theader = thead(tr(row))
+
+  var rows = ""
+  for t in waiting.low .. waiting.high:
+    # skip waiting types with no time
+    var hasData = false
+    for hour in waiting[t]:
+      if hour > 0.0:
+        hasData = true
+        break
+
+    if hasData:
+      var row = td($t)
+      for kind in waiting[t].low .. waiting[t].high:
+        row.add td(waiting[t][kind].formatFloat(ffDecimal, 2))
+      rows.add tr(row)
+
+  result = table(theader, tbody(rows))
+
+
+func timeTableHtml(call: OnCall): string =
+  ## Pretty-print time spent working/waiting
+
+  # waiting
+  let waiting = call.getWaitingDurations
+  result = waiting.waitingTableHtml
+
+  # working
+  let work = call.getWorkDurations
+  result.add work.workingTableHtml
+
+
+func timeTableHtml(month: WorkMonth): string =
+  ## Pretty-print time spent working/waiting in a month
+
+  # waiting
+  let waiting = month.getWaitingDurations
+  result = waiting.waitingTableHtml
+
+  # work
+  let work = month.getWorkDurations
+  result.add work.workingTableHtml
+
+
 func salaryTableHtml(pay: Payment): string =
   ## Pretty-print `pay` as HTML
   const theader = thead(tr(th(), th($antal), th($apris), th($belopp)))
@@ -347,8 +465,8 @@ func summaryTableHtml(pay: Payment): string =
   result = table(
     thead(
       tr(
-        th("Summa"),
-        th()
+        th(),
+        th("Ersättning")
       )
     ),
     tbody(
@@ -390,9 +508,10 @@ when defined(js):
       summed = pay.getPaymentSummary()
 
     var contents = ""
-    contents.add h2("Ersättning månad")
+    contents.add h2("Månad")
     contents.add pay.summaryTableHtml
     contents.add pay.salaryTableHtml
+    contents.add month.timeTableHtml
 
     var
       details = summary("Detalj per beredskap")
@@ -411,6 +530,7 @@ when defined(js):
 
       details.add callPay.summaryTableHtml
       details.add callPay.salaryTableHtml
+      details.add call.timeTableHtml
 
     contents.add details(details)
     getElementById("tabell").innerHtml = contents.cstring

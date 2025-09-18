@@ -30,7 +30,7 @@ Avvikelser pga. avrundningsfel eller buggar kan förekomma.
 <form id="calc" action="javascript:addOnCall()">
 
     <fieldset>
-        <legend>Beredskap</legend>
+        <legend>Bundenhet</legend>
 
         <ul>
         <li>
@@ -50,11 +50,11 @@ Avvikelser pga. avrundningsfel eller buggar kan förekomma.
         <input type="checkbox" name="kortVarsel" id="kortVarsel" value="kv">
 
         <li>
-        <label for="beredskapTimmarAnnan">Beredskap annan (h)</label>
+        <label for="beredskapTimmarAnnan">Annan tid (h)</label>
         <input type="number" id="beredskapTimmarAnnan" value=0 min=0 step=0.1>
 
         <li>
-        <label for="beredskapTimmarHelg">Beredskap helg (h)</label>
+        <label for="beredskapTimmarHelg">Helg (h)</label>
         <input type="number" id="beredskapTimmarHelg" value=0 min=0 step=0.1>
         </ul>
 
@@ -69,23 +69,23 @@ Avvikelser pga. avrundningsfel eller buggar kan förekomma.
 
         <ul>
         <li>
-        <label for="arbetadeMinAnnan">Arbetad tid annan (min)</label>
+        <label for="arbetadeMinAnnan">Annan tid (min)</label>
         <input type="number" inputmode="numeric" id="arbetadeMinAnnan" value=0 min=0 title="All annan arbetad tid (t.ex. vardag 16:30&ndash;21:00 och 07:00&ndash;08:00)">
 
         <li>
-        <label for="arbetadeMinVardagkvall">Arbetad tid vardag 21:00&ndash;24:00 (min)</label>
+        <label for="arbetadeMinVardagkvall">Vardag 21&ndash;24 (min)</label>
         <input type="number" inputmode="numeric" id="arbetadeMinVardagkvall" value=0 min=0 title="Vardag 21:00&ndash;24:00">
 
         <li>
-        <label for="arbetadeMinNatt">Arbetad tid vardagnatt (min)</label>
+        <label for="arbetadeMinNatt">Vardag 00&ndash;07 (min)</label>
         <input type="number" inputmode="numeric" id="arbetadeMinNatt" value=0 min=0 title="Vardag 00:00&ndash;07:00">
 
         <li>
-        <label for="arbetadeMinHelg">Arbetad tid helg (min)</label>
+        <label for="arbetadeMinHelg">Helg (min)</label>
         <input type="number" inputmode="numeric" id="arbetadeMinHelg" value=0 min=0 title="17:00 fredag eller vardag före helgdag&ndash;07:00 vardag efter sön- eller helgdag">
 
         <li>
-        <label for="arbetadeMinStorhelg">Arbetad tid storhelg (min)</label>
+        <label for="arbetadeMinStorhelg">Storhelg (min)</label>
         <input type="number" inputmode="numeric" id="arbetadeMinStorhelg" value=0 min=0 title="Midsommar-, jul- och nyårsafton 07:00&ndash;dag efter aftonen 07:00">
 
         <li>
