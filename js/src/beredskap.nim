@@ -372,7 +372,7 @@ func workingTableHtml(work: OnCallTimeWorking): string =
   const theader = thead(
     tr(
       th(),
-      th("Arbete", colspan=2)
+      th("Arbetad tid", colspan=2)
     ),
     tr(
       th(),
