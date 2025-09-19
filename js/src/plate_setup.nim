@@ -1,4 +1,4 @@
-import strutils, base64, htmlgen, dom, times, sequtils
+import strutils, base64, htmlgen, dom, times, streams, parsecsv
 
 const
   inputId = "fileInput"
@@ -24,39 +24,45 @@ proc outputAndRaise(error: string) =
   raise newException(ValueError, error)
 
 
-proc parseRackFile(contents: string): Plate =
+proc parseRackFile(contents, filename: string): Plate =
   ## Parse the csv-RackFile
 
-  for (i, line) in pairs(splitLines(contents)):
-    if line.len == 0:
-      continue
+  var
+    stream = newStringStream(text)
+    parser: CsvParser
 
-    let
-      rawfields = line.split(';')
-      fields = rawfields.mapIt(it.strip(chars={'"'}))
+  parser.open(stream, filename, separator=";", quote='"')
+  defer: parser.close()
 
-    # handling content on specific rows
-    case i
-    of 0:
-      # check first row
-      if fields[0] != "FileType" and fields[1] != "RackFile" and fields[2] != "2":
+  while parser.readRow():
+    case parser.processedRows()
+    of 1:
+      # check that file is in the expected format
+      const expectedFormat = @["FileType", "RackFile", "2"]
+      if not parser.row[0 .. 2] == expectedFormat:
         outputAndRaise("""okänt filformat: första raden förväntas vara "FileType";"RackFile";"2"""")
-    of 1..7:
-      # skip metadata rows
-      discard
+    of 2 .. 8:
+      continue  # skip metadata
     else:
       # data rows
-      # File contains 13 ';'-separated fields per data row, rough check for errors
-      if fields.len != 13:
+
+      # 13 ';'-separated fields per data row, some trailing lines are blank
+      if parser.row.len == 0:
+        continue
+      elif parser.row.len != 13:
         outputAndRaise("fel antal fält på rad " & $i & ": (" & $fields.len & ")")
 
-      let
-        sampleId = fields[0]
-        position = fields[2].split(":")
-        row: Row = position[0][0]  # char
-        col: Column = position[1].parseInt  # int
+      let sampleId = parser.row[0]
+
+      # unused wells are still in the file, skip these
       if sampleId.len == 0:
         continue
+
+      let
+        position = parser.row[2].split(":")
+        row: Row = position[0][0]  # char
+        col: Column = position[1].parseInt  # int
+
       result[row][col] = sampleId
 
 
@@ -90,7 +96,7 @@ const
 Well	Sample Name	Sample Color	Biogroup Name	Biogroup Color	Target Name	Target Color	Task	Reporter	Quencher	Quantity	Comments
 """
 
-proc plateSample(sample: string, position: string, color: string): string =
+proc plateSample(sample, position, color: string): string =
   ## Generate text for sample, two lines including control
   const
     vicRgb = "\"RGB(208,243,98)\""
@@ -170,10 +176,10 @@ proc plateToTable(plate: Plate): string =
   result = table(rows)
 
 
-proc htmlResult(contents, file: string): cstring =
+proc htmlResult(contents, filename: string): cstring =
   let
-    linkText = linkFileName(file)
-    plate = parseRackFile(contents)
+    linkText = linkFileName(filename)
+    plate = parseRackFile(contents, filename)
 
     # file must have windows newlines!!!
     plateSetup = toPlateSetup(plate).replace("\n", "\c\n")
@@ -181,9 +187,8 @@ proc htmlResult(contents, file: string): cstring =
     dataUrl = toDataUrl(plateSetup)
 
   # the HTML result string, explicit conversion upon return from proc
-  var s: string
+  var s = h3("Länk till konverterad fil")
 
-  s = h3("Länk till konverterad fil")
   s.add p(a(href=dataUrl, download=linkText, linkText))
 
   s.add p(details(
