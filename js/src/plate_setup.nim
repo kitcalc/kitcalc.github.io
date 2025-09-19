@@ -1,4 +1,4 @@
-import strutils, base64, htmlgen, dom, times, streams, parsecsv
+import strutils, base64, htmlgen, dom, jscore, streams, parsecsv
 
 const
   inputId = "fileInput"
@@ -79,8 +79,18 @@ proc linkFileName(file: string): string =
   var trimmed = file
   trimmed.removeSuffix(".csv")
 
-  let currTime = now().format("yyyyMMdd'_'HHmmss")
-  result = trimmed & "_" & currTime & ".txt"
+  let
+    # compensate for time being in UTC
+    dateUtc = newDate()
+    offset = date.getTimezoneOffset()
+    dateObj = newDate(dateUtc.getTime() - (offset*60*1000))
+
+    dateStr = dateObj.toISOString() # 2011-10-05T14:48:00.000Z
+    dateSplit = dateStr.split('T')
+    date = dateSplit[0]
+    time = dateSplit[1].split('.')[0]
+
+  result = trimmed & "_" & date & "_" & time & ".txt"
 
 
 const
