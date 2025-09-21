@@ -96,8 +96,10 @@ proc linkFileName(file: string): string =
 
     dateStr = $dateObj.toISOString() # 2011-10-05T14:48:00.000Z
     dateSplit = dateStr.split('T')
-    date = dateSplit[0]
-    time = dateSplit[1].split('.')[0]
+    rawDate = dateSplit[0]
+    date = rawDate.split('-').join()
+    rawTime = dateSplit[1].split('.')[0]
+    time = rawTime.split(':').join()
 
   result = trimmed & "_" & date & "_" & time & ".txt"
 
