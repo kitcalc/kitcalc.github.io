@@ -1,4 +1,4 @@
-import strutils, base64, htmlgen, dom, times, sequtils
+import strutils, base64, htmlgen, dom, jscore, streams, parsecsv
 
 const
   inputId = "fileInput"
@@ -24,39 +24,48 @@ proc outputAndRaise(error: string) =
   raise newException(ValueError, error)
 
 
-proc parseRackFile(contents: string): Plate =
+proc parseRackFile(contents, filename: string): Plate =
   ## Parse the csv-RackFile
 
-  for (i, line) in pairs(splitLines(contents)):
-    if line.len == 0:
-      continue
+  # The rack files are standardized and should be easy to parse with
+  # a simple split(';')/trim('"') but using a proper csv-parser feels right
 
-    let
-      rawfields = line.split(';')
-      fields = rawfields.mapIt(it.strip(chars={'"'}))
+  var
+    stream = newStringStream(contents)
+    parser: CsvParser
 
-    # handling content on specific rows
-    case i
-    of 0:
-      # check first row
-      if fields[0] != "FileType" and fields[1] != "RackFile" and fields[2] != "2":
+  parser.open(stream, filename, separator=';', quote='"')
+  defer: parser.close()
+
+  while parser.readRow():
+    case parser.processedRows()
+    of 1:
+      # check that file is in the expected format
+      const expectedFormat = @["FileType", "RackFile", "2"]
+      if parser.row[0 .. 2] != expectedFormat:
         outputAndRaise("""okänt filformat: första raden förväntas vara "FileType";"RackFile";"2"""")
-    of 1..7:
-      # skip metadata rows
-      discard
+    of 2 .. 8:
+      continue  # skip metadata
     else:
       # data rows
-      # File contains 13 ';'-separated fields per data row, rough check for errors
-      if fields.len != 13:
-        outputAndRaise("fel antal fält på rad " & $i & ": (" & $fields.len & ")")
 
-      let
-        sampleId = fields[0]
-        position = fields[2].split(":")
-        row: Row = position[0][0]  # char
-        col: Column = position[1].parseInt  # int
+      # 13 ';'-separated fields per data row, blank lines (trailing) are skipped
+      if parser.row.len != 13:
+        outputAndRaise(
+          "fel antal fält på rad " & $parser.row  & ": " & $parser.row.len
+        )
+
+      let sampleId = parser.row[0]
+
+      # unused wells are still in the file, skip these
       if sampleId.len == 0:
         continue
+
+      let
+        position = parser.row[2].split(":")
+        row: Row = position[0][0]  # char
+        col: Column = position[1].parseInt  # int
+
       result[row][col] = sampleId
 
 
@@ -73,8 +82,24 @@ proc linkFileName(file: string): string =
   var trimmed = file
   trimmed.removeSuffix(".csv")
 
-  let currTime = now().format("yyyyMMdd'_'HHmmss")
-  result = trimmed & "_" & currTime & ".txt"
+  # jscore Date is used since times adds ~40 kb; original was
+  #   import times
+  #   let currTime = now().format("yyyyMMdd'_'HHmmss")
+  #   result = trimmed & "_" & currTime & ".txt"
+
+  let
+    # compensate for time being in UTC
+    dateUtc = newDate()
+    offset = dateUtc.getTimezoneOffset()
+    # cast to int64 or overflow
+    dateObj = newDate(dateUtc.getTime().int64 - offset * 60 * 1000)
+
+    dateStr = $dateObj.toISOString() # 2011-10-05T14:48:00.000Z
+    dateSplit = dateStr.split('T')
+    date = dateSplit[0]
+    time = dateSplit[1].split('.')[0]
+
+  result = trimmed & "_" & date & "_" & time & ".txt"
 
 
 const
@@ -90,7 +115,7 @@ const
 Well	Sample Name	Sample Color	Biogroup Name	Biogroup Color	Target Name	Target Color	Task	Reporter	Quencher	Quantity	Comments
 """
 
-proc plateSample(sample: string, position: string, color: string): string =
+proc plateSample(sample, position, color: string): string =
   ## Generate text for sample, two lines including control
   const
     vicRgb = "\"RGB(208,243,98)\""
@@ -170,10 +195,10 @@ proc plateToTable(plate: Plate): string =
   result = table(rows)
 
 
-proc htmlResult(contents, file: string): cstring =
+proc htmlResult(contents, filename: string): cstring =
   let
-    linkText = linkFileName(file)
-    plate = parseRackFile(contents)
+    linkText = linkFileName(filename)
+    plate = parseRackFile(contents, filename)
 
     # file must have windows newlines!!!
     plateSetup = toPlateSetup(plate).replace("\n", "\c\n")
@@ -181,9 +206,8 @@ proc htmlResult(contents, file: string): cstring =
     dataUrl = toDataUrl(plateSetup)
 
   # the HTML result string, explicit conversion upon return from proc
-  var s: string
+  var s = h3("Länk till konverterad fil")
 
-  s = h3("Länk till konverterad fil")
   s.add p(a(href=dataUrl, download=linkText, linkText))
 
   s.add p(details(
