@@ -27,11 +27,14 @@ proc outputAndRaise(error: string) =
 proc parseRackFile(contents, filename: string): Plate =
   ## Parse the csv-RackFile
 
+  # The rack files are standardized and should be easy to parse with
+  # a simple split(';')/trim('"') but using a proper csv-parser feels right
+
   var
-    stream = newStringStream(text)
+    stream = newStringStream(contents)
     parser: CsvParser
 
-  parser.open(stream, filename, separator=";", quote='"')
+  parser.open(stream, filename, separator=';', quote='"')
   defer: parser.close()
 
   while parser.readRow():
@@ -39,18 +42,18 @@ proc parseRackFile(contents, filename: string): Plate =
     of 1:
       # check that file is in the expected format
       const expectedFormat = @["FileType", "RackFile", "2"]
-      if not parser.row[0 .. 2] == expectedFormat:
+      if parser.row[0 .. 2] != expectedFormat:
         outputAndRaise("""okänt filformat: första raden förväntas vara "FileType";"RackFile";"2"""")
     of 2 .. 8:
       continue  # skip metadata
     else:
       # data rows
 
-      # 13 ';'-separated fields per data row, some trailing lines are blank
-      if parser.row.len == 0:
-        continue
-      elif parser.row.len != 13:
-        outputAndRaise("fel antal fält på rad " & $i & ": (" & $fields.len & ")")
+      # 13 ';'-separated fields per data row, blank lines (trailing) are skipped
+      if parser.row.len != 13:
+        outputAndRaise(
+          "fel antal fält på rad " & $parser.row  & ": " & $parser.row.len
+        )
 
       let sampleId = parser.row[0]
 
@@ -79,13 +82,19 @@ proc linkFileName(file: string): string =
   var trimmed = file
   trimmed.removeSuffix(".csv")
 
+  # jscore Date is used since times adds ~40 kb; original was
+  #   import times
+  #   let currTime = now().format("yyyyMMdd'_'HHmmss")
+  #   result = trimmed & "_" & currTime & ".txt"
+
   let
     # compensate for time being in UTC
     dateUtc = newDate()
-    offset = date.getTimezoneOffset()
-    dateObj = newDate(dateUtc.getTime() - (offset*60*1000))
+    offset = dateUtc.getTimezoneOffset()
+    # cast to int64 or overflow
+    dateObj = newDate(dateUtc.getTime().int64 - offset * 60 * 1000)
 
-    dateStr = dateObj.toISOString() # 2011-10-05T14:48:00.000Z
+    dateStr = $dateObj.toISOString() # 2011-10-05T14:48:00.000Z
     dateSplit = dateStr.split('T')
     date = dateSplit[0]
     time = dateSplit[1].split('.')[0]
