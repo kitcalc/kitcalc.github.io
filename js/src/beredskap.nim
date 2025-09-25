@@ -505,7 +505,6 @@ when defined(js):
       salary = parseInt $getElementById("manadslon").getValue
       comp = month.getCompensation
       pay = comp.getPayment(salary)
-      summed = pay.getPaymentSummary()
 
     var contents = ""
     contents.add h2("Månad")
@@ -536,6 +535,29 @@ when defined(js):
     getElementById("tabell").innerHtml = contents.cstring
 
 
+  proc addWorkFromElement(b: var OnCall, kind: WorkType, elem: string) =
+    ## Get, validate and add work to `b`
+    let s = ($getElementById(elem).getValue).strip
+    if s.len == 0:
+      return
+
+    # save values before adding them all, in case of invalid values
+    var values: seq[Natural]
+    for strValue in s.split:
+      try:
+        let value = strValue.parseInt
+        values.add value
+      except:
+        # no valid int value: set focus on erratic element and raise to stop
+        # addition of OnCall
+        echo "value ", strValue, " is not a valid integer"
+        getElementById(elem).focus
+        raise
+
+    # all ok, add work
+    for value in values:
+      b.addWork(kind, value)
+
   proc addOnCall*() {.exportc.} =
     ## Entry point for adding data
 
@@ -561,26 +583,11 @@ when defined(js):
 
     var b = initOnCall(kind, hoursOther, hoursWeekend, shortNotice)
 
-    b.addWork(
-      other,
-      parseInt($getElementById("arbetadeMinAnnan").getValue)
-    )
-    b.addWork(
-      evening,
-      parseInt($getElementById("arbetadeMinVardagkvall").getValue)
-    )
-    b.addWork(
-      night,
-      parseInt($getElementById("arbetadeMinNatt").getValue)
-    )
-    b.addWork(
-      weekend,
-      parseInt($getElementById("arbetadeMinHelg").getValue)
-    )
-    b.addWork(
-      holiday,
-      parseInt($getElementById("arbetadeMinStorhelg").getValue)
-    )
+    b.addWorkFromElement(other, "arbetadeMinAnnan")
+    b.addWorkFromElement(evening, "arbetadeMinVardagkvall")
+    b.addWorkFromElement(night, "arbetadeMinNatt")
+    b.addWorkFromElement(weekend, "arbetadeMinHelg")
+    b.addWorkFromElement(holiday, "arbetadeMinStorhelg")
 
     month.addOnCall b
 
