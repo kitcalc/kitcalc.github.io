@@ -505,7 +505,6 @@ when defined(js):
       salary = parseInt $getElementById("manadslon").getValue
       comp = month.getCompensation
       pay = comp.getPayment(salary)
-      summed = pay.getPaymentSummary()
 
     var contents = ""
     contents.add h2("Månad")
@@ -536,9 +535,9 @@ when defined(js):
     getElementById("tabell").innerHtml = contents.cstring
 
 
-  proc addWorkFromElement(b: OnCall, kind: WorkType, elem: string) =
+  proc addWorkFromElement(b: var OnCall, kind: WorkType, elem: string) =
     ## Get, validate and add work to `b`
-    let s = $getElementById(elem).getValue.strip
+    let s = ($getElementById(elem).getValue).strip
     if s.len == 0:
       return
 
@@ -546,11 +545,12 @@ when defined(js):
     var values: seq[Natural]
     for strValue in s.split:
       try:
-        let value = value.parseInt
+        let value = strValue.parseInt
         values.add value
       except:
         # no valid int value: set focus on erratic element and raise to stop
         # addition of OnCall
+        echo "value ", strValue, " is not a valid integer"
         getElementById(elem).focus
         raise
 
