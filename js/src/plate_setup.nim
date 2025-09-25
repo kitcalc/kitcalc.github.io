@@ -42,7 +42,7 @@ proc parseRackFile(contents, filename: string): Plate =
     of 1:
       # check that file is in the expected format
       const expectedFormat = @["FileType", "RackFile", "2"]
-      if parser.row[0 .. 2] != expectedFormat:
+      if parser.row.len > 2 and parser.row[0 .. 2] != expectedFormat:
         outputAndRaise("""okänt filformat: första raden förväntas vara "FileType";"RackFile";"2"""")
     of 2 .. 8:
       continue  # skip metadata
