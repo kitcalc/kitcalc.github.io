@@ -3,6 +3,9 @@ import strutils, base64, htmlgen, dom, jscore, streams, parsecsv
 const
   inputId = "fileInput"
   outputId = "showcontent"
+  commit = staticExec("git rev-parse HEAD")
+
+echo "Generated from git commit ", commit, " compiled ", CompileDate
 
 type
   # Limits of plate, but only 10 columns are used
