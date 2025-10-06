@@ -50,7 +50,7 @@ proc parseRackFile(contents, filename: string): Plate =
         if parser.row[0] == "SampleID":
           # rows that follow are data rows
           dataRows = true
-        
+
         # ignore metadata
         continue
 
