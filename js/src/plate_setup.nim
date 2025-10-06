@@ -32,6 +32,7 @@ proc parseRackFile(contents, filename: string): Plate =
 
   var
     stream = newStringStream(contents)
+    dataRows = false
     parser: CsvParser
 
   parser.open(stream, filename, separator=';', quote='"')
@@ -44,10 +45,14 @@ proc parseRackFile(contents, filename: string): Plate =
       const expectedFormat = @["FileType", "RackFile", "2"]
       if parser.row.len > 2 and parser.row[0 .. 2] != expectedFormat:
         outputAndRaise("""okänt filformat: första raden förväntas vara "FileType";"RackFile";"2"""")
-    of 2 .. 8:
-      continue  # skip metadata
     else:
-      # data rows
+      if not dataRows:
+        if parser.row[0] == "SampleID":
+          # rows that follow are data rows
+          dataRows = true
+        
+        # ignore metadata
+        continue
 
       # 13 ';'-separated fields per data row, blank lines (trailing) are skipped
       if parser.row.len != 13:
