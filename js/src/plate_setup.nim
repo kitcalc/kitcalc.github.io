@@ -4,8 +4,16 @@ const
   inputId = "fileInput"
   outputId = "showcontent"
   commit = staticExec("git rev-parse HEAD")
+  changesSinceCommit = gorgeEx("git diff --exit-code")[1] != 0
 
-echo "Generated from git commit ", commit, " compiled ", CompileDate
+
+if changesSinceCommit:
+  echo(
+    "Based on git commit ", commit, " compiled ", CompileDate, 
+    " but `git diff --exit-code` returned > 0"
+  )
+else:
+  echo "Generated from git commit ", commit, " compiled ", CompileDate
 
 type
   # Limits of plate, but only 10 columns are used
