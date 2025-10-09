@@ -4,12 +4,12 @@ const
   inputId = "fileInput"
   outputId = "showcontent"
   commit = staticExec("git rev-parse HEAD")
-  changesSinceCommit = gorgeEx("git diff --exit-code")[1] != 0
+  changesSinceCommit = gorgeEx("git diff --name-only --exit-code")[1] != 0
 
 
-if changesSinceCommit:
+when changesSinceCommit:
   echo(
-    "Based on git commit ", commit, " compiled ", CompileDate, 
+    "Based on git commit ", commit, " compiled ", CompileDate,
     " but `git diff --exit-code` returned > 0"
   )
 else:
