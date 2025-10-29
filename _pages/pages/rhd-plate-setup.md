@@ -1,5 +1,6 @@
 title: RHD plate setup
 created: 2023-05-13
+updated: 2025-10-30
 js: js/plate_setup.js
 summary: Plate setup för <i>RHD</i>-screening
 ---
@@ -8,4 +9,4 @@ summary: Plate setup för <i>RHD</i>-screening
 
 <input type="file" onchange="fileLoaded()" id="fileInput" accept=".csv" />
 
-<div id="showcontent">Resultat visas här när konvertering är klar</div>
+<div id="showcontent"></div>
