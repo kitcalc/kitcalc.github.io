@@ -102,10 +102,12 @@ proc parseExportFile(contents: string): seq[Sample] =
   # File contains at least 4 comma/semicolon-separated fields per row, some
   # fields are quoted
 
-  # a temp table with sampleId as key, value is another Table with
+  # A temp table with sampleId as key, value is another Table with
   # position as key and "raw" wells as values.
-  # Tricky, maybe ugly but should work
-  var sampleWells: Table[string, Table[string, seq[RawWell]]]
+  # Since we want samples to be output ordered as they are layed out, 
+  # an ordered table is used: data is pre-ordered and the first well (A1)
+  # will contain the first sample
+  var sampleWells: OrderedTable[string, Table[string, seq[RawWell]]]
 
   for i, line in pairs(splitLines(contents)):
     if line.len == 0:
