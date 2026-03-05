@@ -199,18 +199,6 @@ proc parseExportFile(contents: string): seq[Sample] =
     result.add sample
 
 
-func cmpSample(s1, s2: Sample): int =
-  ## Comparison for sorting samples by sample. The sorting omits the first char.
-  # TODO: check need to adapt to future sample id formats?
-  let
-    s1start = max(s1.sampleId.len - 11, 0)
-    s2start = max(s2.sampleId.len - 11, 0)
-  cmp(
-    s1.sampleId[s1start ..< s1.sampleId.len],
-    s2.sampleId[s2start ..< s2.sampleId.len]
-  )
-
-
 proc checkControlsPresent(samples: seq[Sample]) =
   ## Assert that controls are always present
 
@@ -607,9 +595,6 @@ proc loadExportFile(contents, name: string) =
   # parse the file and load the global samples seq
   globalSamples = parseExportFile(contents)
   checkDataCompleteness(globalSamples)
-
-  # we want the list sorted for practical reasons. could be removed
-  globalSamples.sort(cmpSample)
 
   outputMeansHtml(globalSamples)
 
